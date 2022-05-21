@@ -454,7 +454,7 @@ class shellCommandExecutioner:
                  for r in self.extractionRules.library:
                        
                      # should we apply this rule to this URL?
-                     print('\tChecking if rule ', r.ruleName,'should be applied...', end='')
+                     print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
                      if not matchesAny(r.ruleURLActivationCondition, nextUrl):
                         print('no')   
                         continue
