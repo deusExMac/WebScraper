@@ -36,7 +36,7 @@ import pandas as pd
 import webbrowser
 
 import json, requests, datetime
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urlparse, urljoin, unquote
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 
@@ -466,20 +466,26 @@ class shellCommandExecutioner:
 
                  # Save to file if so required
                  if args['mirror']:
-                    destinationUrl = urlparse(nextUrl)
-                    print('\t', destinationUrl.netloc)
-                    print('\t', destinationUrl.path)
-                    print('\t', os.path.basename(destinationUrl.path))
+                    destinationUrl = urlparse(unquote(nextUrl))
+                    #print('\t', destinationUrl.netloc)
+                    #print('\t', destinationUrl.path)
+                    #print('\t', os.path.basename(destinationUrl.path))
 
                     try:
                        mRoot = self.configuration.get('Crawler', 'mirrorRoot', fallback='')
-                       print(mRoot)
+                       #print(mRoot)
                        Path(mRoot + destinationUrl.netloc + destinationUrl.path).mkdir(parents=True, exist_ok=True)
                        fileName = os.path.basename(destinationUrl.path)
                        if os.path.basename(destinationUrl.path) == '':
                           fileName = 'index.html'
 
-                       
+                       if os.path.splitext(fileName)[-1].lower() == '':
+                          qry = destinationUrl.query   
+                          if qry != '':
+                             qry = qry.replace('&', 'X').replace('!', 'X').replace('@','X')
+                             
+                          fileName = fileName + qry + '.html'   
+                             
                        print('\tSaving to ', mRoot + destinationUrl.netloc + destinationUrl.path + '/' + fileName)   
                        with open(mRoot + destinationUrl.netloc + destinationUrl.path + '/' + fileName, 'w') as f:
                           f.write( response.text )
