@@ -18,7 +18,7 @@ class extractionRule:
     # How to get/scrap the data (in regex or css selector form)
     ruleCSSSelector: str = ''
     ruleTargetAttribute: str = ''
-    ruleRegularExpression: str = ''
+    #ruleRegularExpression: str = ''
     # Regular expression that the extracted rule content must match
     # to be considered valid
     ruleContentCondition: str = ''

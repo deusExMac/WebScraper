@@ -526,6 +526,21 @@ class shellCommandExecutioner:
 
           return(False)
 
+
+
+      def addRule(self, a):
+          newExtractionRule = xRules.extractionRule()  
+          newExtractionRule.ruleName = input('Rule name? ')
+          newExtractionRule.ruleURLActivationCondition = input('Rule URL activation condition? ')
+          newExtractionRule.ruleDescription = input('Rule description? ')
+          newExtractionRule.ruleCSSSelector = input('Rule css selector? ')
+          newExtractionRule.ruleTargetAttribute = input('Rule target attribute? ')
+          newExtractionRule.ruleContentCondition = input('Rule content condition? ')
+
+          self.extractionRules.library.append( newExtractionRule )
+          return(False)
+          
+
 '''
 #
 # Class to execute commands given
