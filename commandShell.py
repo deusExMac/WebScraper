@@ -398,13 +398,22 @@ class shellCommandExecutioner:
 
       def crawl(self, a):
 
-          def processPage(pgUrl, pgSource, linkQ):
-              pass
+          def matchesAny(regexpList, txt):
+              if len(regexpList) == 0:
+                 return(True)
+            
+              for regExp in regexpList:
+                  if re.search( regExp, txt) is not None:
+                     return(True)
+
+              return(False)
+
+
 
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
-             cmdArgs.add_argument('-n', '--numpages', type=int, default=-1 )
+             cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
              #cmdArgs.add_argument('-s', '--savetofile',  nargs='?' )
              #cmdArgs.add_argument('-E',  '--showerrors', action='store_true')
              args = vars( cmdArgs.parse_args(a) )
@@ -413,10 +422,13 @@ class shellCommandExecutioner:
                 print( str(gEx) )
                 return(False)    
                 
-
+          if args.get('numpages') is not None:
+             self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
+             
           linkQueue = []
           fetchedQueue = []
           linkQueue.append( args['url'][0] )
+          numFetched = 0
 
           while (True):
                  try:
@@ -439,6 +451,14 @@ class shellCommandExecutioner:
                     continue
                   
                  for r in self.extractionRules.library:
+                       
+                     # should we apply this rule to this URL?
+                     print('\tChecking if rule ', r.ruleName,'should be applied...', end='')
+                     if not matchesAny(r.ruleURLActivationCondition, nextUrl):
+                        print('no')   
+                        continue
+                  
+                     print('yes')
                      res = response.html.find(r.ruleCSSSelector, first=False)
                      if r.ruleName == 'getLinks':
                         for lnk in res:   
@@ -452,23 +472,32 @@ class shellCommandExecutioner:
                             if re.search( r.ruleRegularExpression, canonicalLink) is not None:  
                                linkQueue.append( canonicalLink )
                            
+                 numFetched += 1
+                 if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
+                    if numFetched >= self.configuration.getint('Crawler', 'maxPages', fallback=-1):
+                       print('Terminating. Reached page limit ', self.configuration.getint('Crawler', 'maxPages', fallback=-1) ) 
+                       break   
 
 
 
 
 
+      def library(self, a):
+          print('Library description:', self.extractionRules.libraryDescription, sep='')
+          print('Library rules:')
+          self.rules(a)
 
-
-
+          
+          
       def rules(self, a):
-          print('Total of ', self.extractionRules.numberOfRules(), ' rules', sep='')
+          print('\tTotal of ', self.extractionRules.numberOfRules(), ' rules', sep='')
           i = 1
           for r in self.extractionRules.library:
-              print(10*"+", i, 10*'+')
-              print( "Name:", r.ruleName   )
-              print( "Description:", r.ruleDescription   )
-              print( "Activation:", r.ruleURLActivationCondition   )
-              print( "CSS selector:", r.ruleCSSSelector   )
+              print('\t', 10*"+", i, 10*'+')
+              print( "\tName:", r.ruleName   )
+              print( "\tDescription:", r.ruleDescription   )
+              print( "\tActivation:", r.ruleURLActivationCondition   )
+              print( "\tCSS selector:", r.ruleCSSSelector   )
               i+=1
 
           return(False)

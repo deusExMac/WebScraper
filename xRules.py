@@ -63,7 +63,8 @@ class extractionRule:
 
 @dataclass
 class ruleLibrary:
-      library: List[extractionRule]
+      libraryDescription: str = ''
+      library: List[extractionRule] = field(default_factory=lambda:[])
 
       def get(self, ruleName) -> extractionRule:
           for r in self.library:
