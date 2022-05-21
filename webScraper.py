@@ -88,8 +88,6 @@ def main():
    config.set('Rules', 'ruleFile', args['rules'] )
 
 
-
-
    ruleLibrary = None
    print("Loading extraction rule library [", args['rules'], "]...", sep='', end='')
    try:
