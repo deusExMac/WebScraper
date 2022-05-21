@@ -465,6 +465,7 @@ class shellCommandExecutioner:
                     continue
 
                  # Save to file if so required
+                 # TODO: Refactor this. This is awfull....
                  if args['mirror']:
                     destinationUrl = urlparse(unquote(nextUrl))
                     #print('\t', destinationUrl.netloc)
@@ -482,7 +483,9 @@ class shellCommandExecutioner:
                        if os.path.splitext(fileName)[-1].lower() == '':
                           qry = destinationUrl.query   
                           if qry != '':
+                             print('/tBefore:', qry)   
                              qry = qry.replace('&', 'X').replace('!', 'X').replace('@','X')
+                             print('/tAfter:', qry)  
                              
                           fileName = fileName + qry + '.html'   
                              
