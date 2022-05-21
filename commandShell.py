@@ -430,7 +430,8 @@ class shellCommandExecutioner:
           linkQueue.append( args['url'][0] )
           numFetched = 0
 
-          while (True):
+          try:
+            while (True):
                  try:
                   if len(linkQueue) == 0:
                      print('Empty Queue')      
@@ -477,7 +478,10 @@ class shellCommandExecutioner:
                     if numFetched >= self.configuration.getint('Crawler', 'maxPages', fallback=-1):
                        print('Terminating. Reached page limit ', self.configuration.getint('Crawler', 'maxPages', fallback=-1) ) 
                        break   
-
+          except KeyboardInterrupt:
+                 print('Control-C seen. Terminating. Fetched ', numFetched)
+                 return(False)
+                 
 
 
 
