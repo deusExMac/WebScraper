@@ -16,10 +16,13 @@ class extractionRule:
     ruleURLActivationCondition: List[str] = field(default_factory=lambda:[]) 
 
     # How to get/scrap the data (in regex or css selector form)
-    ruleRegularExpression: str = ''
     ruleCSSSelector: str = ''
-    
     ruleTargetAttribute: str = ''
+    ruleRegularExpression: str = ''
+    # Regular expression that the extracted rule content must match
+    # to be considered valid
+    ruleContentCondition: str = ''
+    
     ruleReturnsMore: bool  = False
     ruleReturnedMatchPos: int  = 0
     ruleReturningMoreIsError: bool  = False

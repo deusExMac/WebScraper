@@ -25,6 +25,7 @@ import configparser
 import datetime
 import dateutil.parser
 from datetime import datetime, timedelta
+import time
 import re
 
 
@@ -428,7 +429,9 @@ class shellCommandExecutioner:
           linkQueue = []
           fetchedQueue = []
           linkQueue.append( args['url'][0] )
-          numFetched = 0
+          numProcessed = 0
+          numprocessingErrors = 0
+          numHTTPErrors = 0
 
           try:
             while (True):
@@ -447,39 +450,56 @@ class shellCommandExecutioner:
                  session = HTMLSession()
                  response = session.get(nextUrl)
                  fetchedQueue.append( nextUrl )
+                 
+                 if response.status_code != 200:
+                    numHTTPErrors += 1   
+                    continue
+                  
                  if 'html' not in response.headers.get('Content-Type', ''):
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
                     continue
-                  
+
+                 
+                 
                  for r in self.extractionRules.library:
                        
-                     # should we apply this rule to this URL?
+                     # should we apply this rule to the URL?
                      print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
                      if not matchesAny(r.ruleURLActivationCondition, nextUrl):
                         print('no')   
                         continue
                   
                      print('yes')
+                     # Select part of the html specified by rule
                      res = response.html.find(r.ruleCSSSelector, first=False)
                      if r.ruleName == 'getLinks':
                         for lnk in res:   
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
                             
                             if (canonicalLink in linkQueue) or (canonicalLink in fetchedQueue):
-                               #print('\tSKIPPING [', canonicalLink, ']')   
+                               #print('\t\tSKIPPING [', canonicalLink, ']')   
                                continue
                             #print('\tAdding [', canonicalLink, ']')
 
-                            if re.search( r.ruleRegularExpression, canonicalLink) is not None:  
+                            # Does acquired content match content rule?
+                            if re.search( r.ruleContentCondition, canonicalLink) is not None:  
                                linkQueue.append( canonicalLink )
+                            #else:
+                            #    print('\t\tSKIPPING (non matching) [', canonicalLink, ']')   
                            
-                 numFetched += 1
+                 numProcessed += 1
                  if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numFetched >= self.configuration.getint('Crawler', 'maxPages', fallback=-1):
                        print('Terminating. Reached page limit ', self.configuration.getint('Crawler', 'maxPages', fallback=-1) ) 
-                       break   
+                       break
+                  
+                 # lastUrl = nextUrl
+                 # TODO: Implement the requirement to sleep only if next url is hitting
+                 # the same server.
+                 time.sleep( self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3) ) 
+                   
           except KeyboardInterrupt:
-                 print('Control-C seen. Terminating. Fetched ', numFetched)
+                 print('Control-C seen. Terminating. Processed ', numProcessed)
                  return(False)
                  
 
