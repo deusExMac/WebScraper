@@ -400,6 +400,18 @@ class shellCommandExecutioner:
 
       def crawl(self, a):
 
+
+          def isText(contentType):             
+              textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml']
+              #print("\tChecking", contentType)
+              for ct in textCT:
+                  if ct in contentType.lower():  
+                     return(True)
+              
+              return(False)
+
+
+               
           def matchesAny(regexpList, txt):
               if len(regexpList) == 0:
                  return(True)
@@ -459,13 +471,12 @@ class shellCommandExecutioner:
                  if response.status_code != 200:
                     numHTTPErrors += 1   
                     continue
-                  
-                 if 'html' not in response.headers.get('Content-Type', ''):
-                    print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
-                    continue
 
+                 
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
+                 # TODO: has a bug when saving files with extension e.g.:https://www.econ.upatras.gr/sites/default/files/attachments/tmima_politiki_poiotitas_toe_v3.pdf
+                 #       does not 
                  if args['mirror']:
                        
                     destinationUrl = urlparse(unquote(nextUrl))
@@ -500,14 +511,30 @@ class shellCommandExecutioner:
                        if not storagePath.endswith('/'):
                           storagePath = storagePath + '/'
                           
-                       print('\tSaving to ', storagePath +  fileName)   
-                       with open(storagePath +  fileName, 'w') as f:
-                          f.write( response.text )
+                       print('\tSaving to ', storagePath +  fileName)
+                       if isText( response.headers.get('Content-Type', '') ):
+                          print('Writing text')   
+                          with open(storagePath +  fileName, 'w') as f:
+                               f.write( response.text )
+                       else:
+                          print('Writing binary')     
+                          with open(storagePath +  fileName, 'wb') as f:
+                               f.write( response.content )   
                          
                     except Exception as pcEx:
                        print('\tERROR creating directories or creating file ', storagePath +  fileName, str(pcEx))
 
                     
+
+
+
+                  
+                 if 'html' not in response.headers.get('Content-Type', ''):
+                    print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
+                    continue
+                 
+
+
                  
                  for r in self.extractionRules.library:
                        
