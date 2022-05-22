@@ -467,6 +467,7 @@ class shellCommandExecutioner:
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
                  if args['mirror']:
+                       
                     destinationUrl = urlparse(unquote(nextUrl))
                     #print('\t', destinationUrl.netloc)
                     #print('\t', destinationUrl.path)
@@ -474,8 +475,11 @@ class shellCommandExecutioner:
 
                     try:
                        mRoot = self.configuration.get('Crawler', 'mirrorRoot', fallback='')
+                       storagePath = mRoot + destinationUrl.netloc + destinationUrl.path
                        #print(mRoot)
-                       Path(mRoot + destinationUrl.netloc + destinationUrl.path).mkdir(parents=True, exist_ok=True)
+                       #Path(mRoot + destinationUrl.netloc + destinationUrl.path).mkdir(parents=True, exist_ok=True)
+                       Path(storagePath).mkdir(parents=True, exist_ok=True)
+                       
                        fileName = os.path.basename(destinationUrl.path)
                        if os.path.basename(destinationUrl.path) == '':
                           fileName = 'index.html'
@@ -489,8 +493,8 @@ class shellCommandExecutioner:
                              
                           fileName = fileName + qry + '.html'   
                              
-                       print('\tSaving to ', mRoot + destinationUrl.netloc + destinationUrl.path + '/' + fileName)   
-                       with open(mRoot + destinationUrl.netloc + destinationUrl.path + '/' + fileName, 'w') as f:
+                       print('\tSaving to ', storagePath + '/' + fileName)   
+                       with open(storagePath + '/' + fileName, 'w') as f:
                           f.write( response.text )
                          
                     except Exception as pcEx:
