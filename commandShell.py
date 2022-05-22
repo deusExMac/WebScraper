@@ -469,9 +469,9 @@ class shellCommandExecutioner:
                  if args['mirror']:
                        
                     destinationUrl = urlparse(unquote(nextUrl))
-                    #print('\t', destinationUrl.netloc)
-                    #print('\t', destinationUrl.path)
-                    #print('\t', os.path.basename(destinationUrl.path))
+                    print('\tNetloc:', destinationUrl.netloc)
+                    print('\tPath:', destinationUrl.path)
+                    print('\tBasename:', os.path.basename(destinationUrl.path))
 
                     try:
                        mRoot = self.configuration.get('Crawler', 'mirrorRoot', fallback='')
@@ -484,21 +484,28 @@ class shellCommandExecutioner:
                        if os.path.basename(destinationUrl.path) == '':
                           fileName = 'index.html'
 
+                       
                        if os.path.splitext(fileName)[-1].lower() == '':
                           qry = destinationUrl.query   
                           if qry != '':
                              print('/tBefore:', qry)   
                              qry = qry.replace('&', 'X').replace('!', 'X').replace('@','X')
                              print('/tAfter:', qry)  
-                             
-                          fileName = fileName + qry + '.html'   
-                             
-                       print('\tSaving to ', storagePath + '/' + fileName)   
-                       with open(storagePath + '/' + fileName, 'w') as f:
+                             fileName = fileName + 'X' + qry + '.html'
+                          else:    
+                               if destinationUrl.path.endswith( '/' + os.path.basename(destinationUrl.path) ):
+                                  fileName = 'index.html'   
+                        
+
+                       if not storagePath.endswith('/'):
+                          storagePath = storagePath + '/'
+                          
+                       print('\tSaving to ', storagePath +  fileName)   
+                       with open(storagePath +  fileName, 'w') as f:
                           f.write( response.text )
                          
                     except Exception as pcEx:
-                       print('\tERROR creating directories or creating file ', mRoot + destinationUrl.netloc + destinationUrl.path + '/' + fileName)
+                       print('\tERROR creating directories or creating file ', storagePath +  fileName, str(pcEx))
 
                     
                  
