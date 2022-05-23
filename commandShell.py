@@ -424,6 +424,29 @@ class shellCommandExecutioner:
 
 
 
+
+          def urlToFilename( root, u ):
+                
+            parsedUrl = urlparse(unquote(u))
+            prefix = root + '/' + parsedUrl.netloc
+            if os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() != '':
+               print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
+               return(prefix + parsedUrl.path)
+            else:
+               qParams =  parsedUrl.query.replace('&', 'X').replace('!', 'X').replace('@','X') 
+               if parsedUrl.path.endswith('/'):
+                  if qParams == '':
+                     return(prefix + parsedUrl.path + 'index.html' )
+                  else:
+                     return(prefix + parsedUrl.path + 'X' + qParams+'-index.html' )
+               else:
+                  if qParams == '':
+                     return(prefix + parsedUrl.path + '/index.html' )
+                  else:
+                     return(prefix + parsedUrl.path + 'X' + qParams+'-index.html' ) 
+
+
+
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
@@ -478,7 +501,7 @@ class shellCommandExecutioner:
                  # TODO: has a bug when saving files with extension e.g.:https://www.econ.upatras.gr/sites/default/files/attachments/tmima_politiki_poiotitas_toe_v3.pdf
                  #       does not 
                  if args['mirror']:
-                       
+                    '''   
                     destinationUrl = urlparse(unquote(nextUrl))
                     print('\tNetloc:', destinationUrl.netloc)
                     print('\tPath:', destinationUrl.path)
@@ -514,19 +537,25 @@ class shellCommandExecutioner:
                        targetName = storagePath +  fileName
                        if os.path.splitext(os.path.basename(storagePath))[-1].lower()  != '':
                           targetName = storagePath
-                          
+
+
+                       '''
+                    try:
+                       targetName = urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), nextUrl)
                        print('\tSaving to ', targetName)
+                       targetDir = os.path.dirname(targetName)
+                       Path(targetDir).mkdir(parents=True, exist_ok=True)
                        if isText( response.headers.get('Content-Type', '') ):
-                          print('Writing text')   
+                          print('*** Writing text')   
                           with open(targetName, 'w') as f:
                                f.write( response.text )
                        else:
-                          print('Writing binary')     
+                          print('*** Writing binary')     
                           with open(targetName, 'wb') as f:
                                f.write( response.content )   
                          
                     except Exception as pcEx:
-                       print('\tERROR creating directories or creating file ', storagePath +  fileName, str(pcEx))
+                       print('\tERROR creating directories or creating file ', targetName, str(pcEx))
 
                     
 
