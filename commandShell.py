@@ -41,7 +41,7 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 
 from pathlib import Path
-
+import hashlib
 
 # We define constants in this file
 import appConstants
@@ -446,6 +446,21 @@ class shellCommandExecutioner:
                      return(prefix + parsedUrl.path + 'X' + qParams+'-index.html' ) 
 
 
+          # Calculates sha256 checksum for page content.
+          # Cuts it in sizes of 4K and calculates sha256
+          # TODO: Not yet used.           
+          def pageContentHash( pageContent, chnunkSize=4096 ):
+        
+              chunks = [pageContent[i:i+chnunkSize] for i in range(0, len(pageContent), chnunkSize)]
+              sha256Hash = hashlib.sha256()
+              for c in chunks:
+                  sha256Hash.update( str.encode(c) )
+
+              return(sha256Hash.hexdigest()) 
+
+
+
+
 
           try:  
              cmdArgs = ThrowingArgumentParser()
@@ -501,53 +516,17 @@ class shellCommandExecutioner:
                  # TODO: has a bug when saving files with extension e.g.:https://www.econ.upatras.gr/sites/default/files/attachments/tmima_politiki_poiotitas_toe_v3.pdf
                  #       does not 
                  if args['mirror']:
-                    '''   
-                    destinationUrl = urlparse(unquote(nextUrl))
-                    print('\tNetloc:', destinationUrl.netloc)
-                    print('\tPath:', destinationUrl.path)
-                    print('\tBasename:', os.path.basename(destinationUrl.path))
-
-                    try:
-                       mRoot = self.configuration.get('Crawler', 'mirrorRoot', fallback='')
-                       storagePath = mRoot + destinationUrl.netloc + destinationUrl.path
-                       #print(mRoot)
-                       #Path(mRoot + destinationUrl.netloc + destinationUrl.path).mkdir(parents=True, exist_ok=True)
-                       Path(storagePath).mkdir(parents=True, exist_ok=True)
-                       
-                       fileName = os.path.basename(destinationUrl.path)
-                       if os.path.basename(destinationUrl.path) == '':
-                          fileName = 'index.html'
-
-                       
-                       if os.path.splitext(fileName)[-1].lower() == '':
-                          qry = destinationUrl.query   
-                          if qry != '':
-                             print('/tBefore:', qry)   
-                             qry = qry.replace('&', 'X').replace('!', 'X').replace('@','X')
-                             print('/tAfter:', qry)  
-                             fileName = fileName + 'X' + qry + '.html'
-                          else:    
-                               if destinationUrl.path.endswith( '/' + os.path.basename(destinationUrl.path) ):
-                                  fileName = 'index.html'   
-                        
-
-                       if not storagePath.endswith('/'):
-                          storagePath = storagePath + '/'
-
-                       targetName = storagePath +  fileName
-                       if os.path.splitext(os.path.basename(storagePath))[-1].lower()  != '':
-                          targetName = storagePath
-
-
-                       '''
+                                        
                     try:
                        targetName = urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), nextUrl)
                        print('\tSaving to ', targetName)
+                       targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
                        targetDir = os.path.dirname(targetName)
                        Path(targetDir).mkdir(parents=True, exist_ok=True)
                        if isText( response.headers.get('Content-Type', '') ):
-                          print('*** Writing text')   
-                          with open(targetName, 'w') as f:
+                          print('*** Writing text')
+                          # TODO: What about encoding?
+                          with open(targetName, 'w', errors='ignore') as f:
                                f.write( response.text )
                        else:
                           print('*** Writing binary')     
@@ -583,6 +562,7 @@ class shellCommandExecutioner:
                      if r.ruleName == 'getLinks':
                         for lnk in res:   
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
+                            #print('\t\t\tLink:[', canonicalLink, ']')
                             
                             if (canonicalLink in linkQueue) or (canonicalLink in fetchedQueue):
                                #print('\t\tSKIPPING [', canonicalLink, ']')   
@@ -593,8 +573,11 @@ class shellCommandExecutioner:
                             if re.search( r.ruleContentCondition, canonicalLink) is not None:  
                                linkQueue.append( canonicalLink )
                             #else:
-                            #    print('\t\tSKIPPING (non matching) [', canonicalLink, ']')   
-                           
+                            #    print('\t\t\tSKIPPING (non matching) [', canonicalLink, ']')   
+                     else:
+                           if r.ruleTargetAttribute == "text":
+                              print('>>>>> Got professor name [', res[0].text, ']', sep='' )
+                              
                  numProcessed += 1
                  if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numProcessed >= self.configuration.getint('Crawler', 'maxPages', fallback=-1):
