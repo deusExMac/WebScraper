@@ -510,15 +510,19 @@ class shellCommandExecutioner:
 
                        if not storagePath.endswith('/'):
                           storagePath = storagePath + '/'
+
+                       targetName = storagePath +  fileName
+                       if os.path.splitext(os.path.basename(storagePath))[-1].lower()  != '':
+                          targetName = storagePath
                           
-                       print('\tSaving to ', storagePath +  fileName)
+                       print('\tSaving to ', targetName)
                        if isText( response.headers.get('Content-Type', '') ):
                           print('Writing text')   
-                          with open(storagePath +  fileName, 'w') as f:
+                          with open(targetName, 'w') as f:
                                f.write( response.text )
                        else:
                           print('Writing binary')     
-                          with open(storagePath +  fileName, 'wb') as f:
+                          with open(targetName, 'wb') as f:
                                f.write( response.content )   
                          
                     except Exception as pcEx:
