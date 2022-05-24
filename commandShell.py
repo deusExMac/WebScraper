@@ -38,7 +38,7 @@ import webbrowser
 import json, requests, datetime
 from urllib.parse import urlparse, urljoin, unquote
 from bs4 import BeautifulSoup
-from requests_html import HTMLSession
+from requests_html import HTMLSession, HTML
 
 from pathlib import Path
 import hashlib
@@ -48,6 +48,7 @@ import appConstants
 from commandHistory import commandHistory
 import xRules
 
+import utils
 
 
 
@@ -339,7 +340,22 @@ class shellCommandExecutioner:
       
 
 
-      def extractFromUrl(self, a):
+      def extract(self, a):
+
+
+          def loadResource( resource ):
+              if os.path.exists(resource):
+                 with open(resource,mode='r') as f:
+                      fcnt = f.read()
+
+                 h = HTML(html=fcnt) 
+                 return(None, h)
+
+              s = HTMLSession()
+              rsp = s.get(resource)
+              return( rsp, rsp.html )
+
+
 
           def matchesAny( regexpList, txt):
               if len(regexpList) == 0:
@@ -361,6 +377,7 @@ class shellCommandExecutioner:
              cmdArgs = ThrowingArgumentParser()          
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-s', '--savetofile',  nargs='?' )
+             cmdArgs.add_argument('-r', '--rules',  nargs='?' )
              #cmdArgs.add_argument('-E',  '--showerrors', action='store_true')
              args = vars( cmdArgs.parse_args(a) )
 
@@ -368,28 +385,91 @@ class shellCommandExecutioner:
                 print( str(gEx) )
                 return(False)  
 
+          if args.get('rules') is None:
+             exRules = self.extractionRules
+          else:
+                print('Loading extraction rules from [', args['rules'], ']...', sep='', end='')
+                with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
+                     exRules = xRules.loadLibrary(f.read())
+                     print('ok.')
+
+
           try:
-            reqResponse = requests.get(args['url'][0])
-            if reqResponse.status_code != 200:
-               print('ERROR. Got status code:', reqResponse.status_code )
+            '''    
+            session = HTMLSession()    
+            print('Fetching url [', args['url'][0], ']...', sep='', end='' )    
+            rresponse = session.get(args['url'][0])
+            print( rresponse.headers.get('Content-Type', '') )
+            print('ok')
+            if rresponse.status_code != 200:
+               print('ERROR. Got status code:', rresponse.status_code )
                return(False)
-               
+
+
+            '''
+            rresponse, html = loadResource( args['url'][0] )
+            if rresponse is not None:
+               if rresponse.status_code != 200:
+                  print('ERROR. Got status code:', rresponse.status_code )
+                  return(False)
+                  
             if args.get('savetofile') is not None:
                with open(args['savetofile'], 'w') as f:
-                  f.write(reqResponse.text)
+                  f.write(rresponse.text)
+                  
           except Exception as fetchEx:
                  print('ERROR.', str(fetchEx) )
                  return(False)
                 
           print('ok. done')
 
+          # Extracted data is stored here
+          exTractedData = {}
+          
           # Check which extraction rules should be activated 
-          for r in self.extractionRules.library:
-              if matchesAny( r.ruleURLActivationCondition, args['url'][0]) :
-                 print("APPLYING Rule: ", r.ruleName)
+          for r in exRules.library:
+              if not matchesAny( r.ruleURLActivationCondition, args['url'][0]) :
+                 print("IGNORING Rule: ", r.ruleName)
+                 continue
               else:
-                 print("IGNORING Rule: ", r.ruleName)   
+                 print("APPLYING Rule: ", r.ruleName)
+                 res = html.find(r.ruleCSSSelector, first=False)
+                 
+                 if r.ruleTargetAttribute == "text":
+                       
+                       if r.ruleContentCondition != '': 
+                          res = [m for m in res if re.search(r.ruleContentCondition, m) is not None ]
 
+                       print('Total of ', len(res))
+                       if len(res) > 0:
+
+                          xVal = res[r.ruleReturnedMatchPos].text   
+
+                          # Replace characters
+                          for c in r.ruleRemoveChars:
+                              xVal = xVal.replace(c, '')  
+                                
+                          #print('\n>>>>> Got MATCH [', res[r.ruleReturnedMatchPos].text, ']\n', sep='' )
+                          print('\n>>>>> Got MATCH [', xVal, ']\n', sep='' )
+                          exTractedData[r.ruleName] = xVal
+                       else:
+                          print('\tNothing exrtracted.')   
+                 else:
+                      
+                      if r.ruleContentCondition != '': 
+                         res = [m for m in res if re.search(r.ruleContentCondition, m.attrs.get(r.ruleTargetAttribute)) is not None ]
+                    
+                      if r.ruleReturnedMatchPos >= 0:
+                         print('>>>>> Got  [', res[r.ruleReturnedMatchPos].attrs.get(r.ruleTargetAttribute), ']', sep='' )
+                         #numExtracted += 1
+                      else:
+                          print(len(res), ' matches found')
+                          #numExtracted += len(res)
+
+
+          print('\n\nExtracted data:', exTractedData )
+          return(False)
+        
 
 
 
@@ -400,16 +480,17 @@ class shellCommandExecutioner:
 
       def crawl(self, a):
 
-
+          '''
+          # TODO: change this.
           def isText(contentType):             
-              textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml']
+              textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml', 'application/rss+xml']
               #print("\tChecking", contentType)
               for ct in textCT:
                   if ct in contentType.lower():  
                      return(True)
               
               return(False)
-
+          ''' 
 
                
           def matchesAny(regexpList, txt):
@@ -423,41 +504,8 @@ class shellCommandExecutioner:
               return(False)
 
 
-
-
-          def urlToFilename( root, u ):
-                
-            parsedUrl = urlparse(unquote(u))
-            prefix = root + '/' + parsedUrl.netloc
-            if os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() != '':
-               print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
-               return(prefix + parsedUrl.path)
-            else:
-               qParams =  parsedUrl.query.replace('&', 'X').replace('!', 'X').replace('@','X') 
-               if parsedUrl.path.endswith('/'):
-                  if qParams == '':
-                     return(prefix + parsedUrl.path + 'index.html' )
-                  else:
-                     return(prefix + parsedUrl.path + 'X' + qParams+'-index.html' )
-               else:
-                  if qParams == '':
-                     return(prefix + parsedUrl.path + '/index.html' )
-                  else:
-                     return(prefix + parsedUrl.path + 'X' + qParams+'-index.html' ) 
-
-
-          # Calculates sha256 checksum for page content.
-          # Cuts it in sizes of 4K and calculates sha256
-          # TODO: Not yet used.           
-          def pageContentHash( pageContent, chnunkSize=4096 ):
         
-              chunks = [pageContent[i:i+chnunkSize] for i in range(0, len(pageContent), chnunkSize)]
-              sha256Hash = hashlib.sha256()
-              for c in chunks:
-                  sha256Hash.update( str.encode(c) )
-
-              return(sha256Hash.hexdigest()) 
-
+         
 
 
 
@@ -479,11 +527,13 @@ class shellCommandExecutioner:
              self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
              
           linkQueue = []
-          fetchedQueue = []
+          visitedQueue = []
           linkQueue.append( args['url'][0] )
           numProcessed = 0
           numprocessingErrors = 0
           numHTTPErrors = 0
+
+          numExtracted = 0 # Number of matches found/extracted
 
           try:
             while (True):
@@ -499,12 +549,12 @@ class shellCommandExecutioner:
                    print('Error:', str(popEx))   
                    break    
 
-                 print( (numProcessed + 1), ') >>> Doing [', nextUrl, '] Queue:', len(linkQueue), ' Fetched:', len(fetchedQueue),  sep='')
+                 print( (numProcessed + 1), ') >>> Doing [', nextUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
                  
                  
                  session = HTMLSession()
                  response = session.get(nextUrl)
-                 fetchedQueue.append( nextUrl )
+                 visitedQueue.append( nextUrl )
                  
                  if response.status_code != 200:
                     numHTTPErrors += 1   
@@ -518,12 +568,12 @@ class shellCommandExecutioner:
                  if args['mirror']:
                                         
                     try:
-                       targetName = urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), nextUrl)
+                       targetName = utils.urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), nextUrl)
                        print('\tSaving to ', targetName)
                        targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
                        targetDir = os.path.dirname(targetName)
                        Path(targetDir).mkdir(parents=True, exist_ok=True)
-                       if isText( response.headers.get('Content-Type', '') ):
+                       if utils.isText( response.headers.get('Content-Type', '') ):
                           print('*** Writing text')
                           # TODO: What about encoding?
                           with open(targetName, 'w', errors='ignore') as f:
@@ -564,7 +614,7 @@ class shellCommandExecutioner:
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
                             #print('\t\t\tLink:[', canonicalLink, ']')
                             
-                            if (canonicalLink in linkQueue) or (canonicalLink in fetchedQueue):
+                            if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):
                                #print('\t\tSKIPPING [', canonicalLink, ']')   
                                continue
                             #print('\tAdding [', canonicalLink, ']')
@@ -576,7 +626,23 @@ class shellCommandExecutioner:
                             #    print('\t\t\tSKIPPING (non matching) [', canonicalLink, ']')   
                      else:
                            if r.ruleTargetAttribute == "text":
-                              print('>>>>> Got professor name [', res[0].text, ']', sep='' )
+                              # Keep only those that match content condition 
+                              if r.ruleContentCondition != '': 
+                                 res = [m for m in res if re.search(r.ruleContentCondition, m) is not None ]
+                                 
+                              print('\n>>>>> Got MATCH [', res[0].text, ']\n', sep='' )
+                           else:
+                                if r.ruleContentCondition != '': 
+                                   res = [m for m in res if re.search(r.ruleContentCondition, m.attrs.get(r.ruleTargetAttribute)) is not None ]
+                         
+                                if r.ruleReturnedMatchPos >= 0:
+                                   print('>>>>> Got  [', res[r.ruleReturnedMatchPos].attrs.get(r.ruleTargetAttribute), ']', sep='' )
+                                   numExtracted += 1
+                                else:
+                                    print(len(res), ' matches found')
+                                    numExtracted += len(res)
+
+
                               
                  numProcessed += 1
                  if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
@@ -598,7 +664,7 @@ class shellCommandExecutioner:
 
 
       def library(self, a):
-          print('Library description:', self.extractionRules.libraryDescription, sep='')
+          print('Library description: ', self.extractionRules.libraryDescription, sep='')
           print('Library rules:')
           self.rules(a)
 
