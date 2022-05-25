@@ -9,7 +9,7 @@ import hashlib
 # Calculates sha256 checksum for textual data.
 # Cuts it in sizes of 4K and calculates sha256
 # TODO: Not yet used.           
-def pageContentHash( txt, chnunkSize=4096 ):
+def txtHash( txt, chnunkSize=4096 ):
         
        chunks = [txt[i:i+chnunkSize] for i in range(0, len(txt), chnunkSize)]
        sha256Hash = hashlib.sha256()
@@ -17,6 +17,20 @@ def pageContentHash( txt, chnunkSize=4096 ):
            sha256Hash.update( str.encode(c) )
 
        return(sha256Hash.hexdigest()) 
+
+
+# Calculates sha256 checksum for binary data.
+# Cuts it in sizes of 4K and calculates sha256
+# TODO: Not yet used.           
+def byteHash(byteArray, chnunkSize=4096):
+       chunks = [byteArray[i:i+chnunkSize] for i in range(0, len(byteArray), chnunkSize)]
+       sha256Hash = hashlib.sha256()
+       for c in chunks:
+           sha256Hash.update( c )
+
+       return(sha256Hash.hexdigest()) 
+
+
 
 
 

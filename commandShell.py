@@ -478,6 +478,8 @@ class shellCommandExecutioner:
 
 
 
+      # TODO: Refactor me! 
+
       def crawl(self, a):
 
           '''
@@ -505,17 +507,12 @@ class shellCommandExecutioner:
 
 
         
-         
-
-
-
-
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
-             #cmdArgs.add_argument('-s', '--savetofile',  nargs='?' )
+             cmdArgs.add_argument('-r', '--rules',  nargs='?' )
              #cmdArgs.add_argument('-E',  '--showerrors', action='store_true')
              args = vars( cmdArgs.parse_args(a) )
 
@@ -525,13 +522,30 @@ class shellCommandExecutioner:
                 
           if args.get('numpages') is not None:
              self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
+
+
+          if args.get('rules') is None:
+             exRules = self.extractionRules
+          else:
+                print('Loading extraction rules from [', args['rules'], ']...', sep='', end='')
+                try:
+                  with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
+                     exRules = xRules.loadLibrary(f.read())
+                     print('ok.')
+                except Exception as flEx:
+                       print(str(flEx) )
+                       return(False)
+                     
              
           linkQueue = []
-          visitedQueue = []
           linkQueue.append( args['url'][0] )
+          visitedQueue = []
+          visitedPageHashes = []
+          
           numProcessed = 0
           numprocessingErrors = 0
           numHTTPErrors = 0
+          numNetErrors = 0
 
           numExtracted = 0 # Number of matches found/extracted
 
@@ -551,15 +565,37 @@ class shellCommandExecutioner:
 
                  print( (numProcessed + 1), ') >>> Doing [', nextUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
                  
-                 
-                 session = HTMLSession()
-                 response = session.get(nextUrl)
-                 visitedQueue.append( nextUrl )
-                 
+                 try:
+                    session = HTMLSession()
+                    response = session.get(nextUrl)
+                    visitedQueue.append( nextUrl )
+                 except Exception as netEx:
+                        print('Network error:', str(netEx) )
+                        numNetErrors += 1
+                        if numNetErrors >= 3:
+                           print('Too many errors. Stopping.')   
+                           break   
+
+                        
                  if response.status_code != 200:
                     numHTTPErrors += 1   
                     continue
 
+
+                 if utils.isText( response.headers.get('Content-Type', '')  ):
+                    pHash = utils.txtHash( response.text )
+                 else:
+                    pHash = utils.byteHash( response.content )
+
+                 print('\t[DEBUG] Hash:', pHash )
+                 # Have we seen this content? If so, discard it; move to next
+                 if pHash in visitedPageHashes:
+                    print('\tSame hash [', pHash, '] seen. Url:', nextUrl, sep='')   
+                    continue
+                 else: 
+                    visitedPageHashes.append(pHash)
+
+                 
                  
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
@@ -597,8 +633,9 @@ class shellCommandExecutioner:
                  
 
 
+                 exTractedData = {}
                  
-                 for r in self.extractionRules.library:
+                 for r in exRules.library: #self.extractionRules.library:
                        
                      # should we apply this rule to the URL?
                      print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
@@ -626,11 +663,32 @@ class shellCommandExecutioner:
                             #    print('\t\t\tSKIPPING (non matching) [', canonicalLink, ']')   
                      else:
                            if r.ruleTargetAttribute == "text":
-                              # Keep only those that match content condition 
+                              # Keep only those that match content condition
+                             if not r.ruleReturnsMore: 
                               if r.ruleContentCondition != '': 
                                  res = [m for m in res if re.search(r.ruleContentCondition, m) is not None ]
-                                 
-                              print('\n>>>>> Got MATCH [', res[0].text, ']\n', sep='' )
+                               
+                              if len(res) <= 0:
+                                  print("Empty. No match present")
+                                  exTractedData[r.ruleName] = ''
+                              else:    
+                                  xVal = res[r.ruleReturnedMatchPos].text  
+                                  
+                                  # Replace characters
+                                  for c in r.ruleRemoveChars:
+                                      xVal = xVal.replace(c, '')
+
+                                  print('\n\t!!!>>>>> Got MATCH [', xVal, ']\n', sep='' )
+                                  exTractedData[r.ruleName] = xVal
+                                  
+                             else:
+                                   if r.ruleContentCondition != '': 
+                                      res = [m for m in res if re.search(r.ruleContentCondition, m.text) is not None ]
+
+                                   for e, name in zip(res, r.ruleReturnedValueNames):
+                                       exTractedData[name] = e.text
+                                         
+                                   
                            else:
                                 if r.ruleContentCondition != '': 
                                    res = [m for m in res if re.search(r.ruleContentCondition, m.attrs.get(r.ruleTargetAttribute)) is not None ]
@@ -642,7 +700,7 @@ class shellCommandExecutioner:
                                     print(len(res), ' matches found')
                                     numExtracted += len(res)
 
-
+                 print('\n\n\tExtracted data:', exTractedData )
                               
                  numProcessed += 1
                  if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
