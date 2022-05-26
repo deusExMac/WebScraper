@@ -298,8 +298,13 @@ class shellCommandExecutioner:
 
       ###############################################################################
       #
-      # Implementation of commands start here!
-      # 
+      # This next section contains the implementation of ths supported shell
+      # commands. All methods below are application specific as they implement the
+      # behavior of various commands. I.e. the config method implements the
+      # behavior of the config command given at the shell prompt.
+      #
+      # TODO: The methods below should be put in a different class based
+      # on some behavioral (command???, strategy???) design pattern???
       # 
       ###############################################################################  
 
@@ -482,46 +487,34 @@ class shellCommandExecutioner:
 
       def crawl(self, a):
 
-          '''
-          # TODO: change this.
-          def isText(contentType):             
-              textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml', 'application/rss+xml']
-              #print("\tChecking", contentType)
-              for ct in textCT:
-                  if ct in contentType.lower():  
-                     return(True)
-              
-              return(False)
-          ''' 
-
-               
-          def matchesAny(regexpList, txt):
-              if len(regexpList) == 0:
-                 return(True)
-            
-              for regExp in regexpList:
-                  if re.search( regExp, txt) is not None:
-                     return(True)
-
-              return(False)
-
-
         
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
+             cmdArgs.add_argument('-t', '--sleeptime', type=float, nargs='?' )
+             
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
-             #cmdArgs.add_argument('-E',  '--showerrors', action='store_true')
+             cmdArgs.add_argument('-D', '--debugmode', action='store_true' )
              args = vars( cmdArgs.parse_args(a) )
 
           except Exception as gEx:
                 print( str(gEx) )
                 return(False)    
+
+          # TODO: Clone configuaration before changing settings.
                 
           if args.get('numpages') is not None:
              self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
+
+
+          # TODO: Fix next lines. Has bugs. 
+          '''
+          if args.get('sleeptime') is not None:
+             print( args.get('sleeptime'), type(args.get('sleeptime')) )   
+             self.configuration.set('Crawler', 'sleepTime', float(args.get('sleepTime')) )   
+          '''      
 
 
           if args.get('rules') is None:
@@ -541,6 +534,8 @@ class shellCommandExecutioner:
           linkQueue.append( args['url'][0] )
           visitedQueue = []
           visitedPageHashes = []
+
+          previousHost = ''
           
           numProcessed = 0
           numprocessingErrors = 0
@@ -556,25 +551,27 @@ class shellCommandExecutioner:
                      print('Empty Queue')      
                      break
                   
-                  nextUrl = linkQueue.pop(0)
-                  
+                  currentUrl = linkQueue.pop(0)
                   
                  except Exception as popEx:
                    print('Error:', str(popEx))   
                    break    
 
-                 print( (numProcessed + 1), ') >>> Doing [', nextUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
-                 
-                 try:
+                 print( (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
+
+                 while (True):
+                  try:
+                    pUrl = urlparse( unquote(currentUrl) )    
                     session = HTMLSession()
-                    response = session.get(nextUrl)
-                    visitedQueue.append( nextUrl )
-                 except Exception as netEx:
-                        print('Network error:', str(netEx) )
+                    response = session.get(currentUrl)
+                    visitedQueue.append( currentUrl )
+                    break
+                  except Exception as netEx:
+                        print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
                         if numNetErrors >= 3:
-                           print('Too many errors. Stopping.')   
-                           break   
+                           print('[DEBUG] Too many errors. Stopping.')   
+                           return(False)   
 
                         
                  if response.status_code != 200:
@@ -590,7 +587,7 @@ class shellCommandExecutioner:
                  print('\t[DEBUG] Hash:', pHash )
                  # Have we seen this content? If so, discard it; move to next
                  if pHash in visitedPageHashes:
-                    print('\tSame hash [', pHash, '] seen. Url:', nextUrl, sep='')   
+                    print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')   
                     continue
                  else: 
                     visitedPageHashes.append(pHash)
@@ -604,18 +601,19 @@ class shellCommandExecutioner:
                  if args['mirror']:
                                         
                     try:
-                       targetName = utils.urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), nextUrl)
-                       print('\tSaving to ', targetName)
+                       targetName = utils.urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), currentUrl)
+                       print('\t[DEBUG] [mirror] Saving to ', targetName)
                        targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
                        targetDir = os.path.dirname(targetName)
                        Path(targetDir).mkdir(parents=True, exist_ok=True)
+                       print('\t[DEBUG] Content-type:', response.headers.get('Content-Type', '') )
                        if utils.isText( response.headers.get('Content-Type', '') ):
-                          print('*** Writing text')
+                          print('\t[DEBUG] Writing text')
                           # TODO: What about encoding?
                           with open(targetName, 'w', errors='ignore') as f:
                                f.write( response.text )
                        else:
-                          print('*** Writing binary')     
+                          print('\t[DEBUG] Writing binary')     
                           with open(targetName, 'wb') as f:
                                f.write( response.content )   
                          
@@ -623,9 +621,6 @@ class shellCommandExecutioner:
                        print('\tERROR creating directories or creating file ', targetName, str(pcEx))
 
                     
-
-
-
                   
                  if 'html' not in response.headers.get('Content-Type', ''):
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
@@ -634,73 +629,37 @@ class shellCommandExecutioner:
 
 
                  exTractedData = {}
-                 
+                 pageData = {}
                  for r in exRules.library: #self.extractionRules.library:
                        
                      # should we apply this rule to the URL?
                      print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
-                     if not matchesAny(r.ruleURLActivationCondition, nextUrl):
-                        print('no')   
+                     if not r.ruleMatches(currentUrl):
+                        print('No.')
                         continue
                   
                      print('yes')
+
                      # Select part of the html specified by rule
                      res = response.html.find(r.ruleCSSSelector, first=False)
                      if r.ruleName == 'getLinks':
                         for lnk in res:   
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
-                            #print('\t\t\tLink:[', canonicalLink, ']')
-                            
-                            if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):
-                               #print('\t\tSKIPPING [', canonicalLink, ']')   
+                                                        
+                            if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
                                continue
-                            #print('\tAdding [', canonicalLink, ']')
-
+                            
                             # Does acquired content match content rule?
                             if re.search( r.ruleContentCondition, canonicalLink) is not None:  
                                linkQueue.append( canonicalLink )
-                            #else:
-                            #    print('\t\t\tSKIPPING (non matching) [', canonicalLink, ']')   
+                             
                      else:
-                           if r.ruleTargetAttribute == "text":
-                              # Keep only those that match content condition
-                             if not r.ruleReturnsMore: 
-                              if r.ruleContentCondition != '': 
-                                 res = [m for m in res if re.search(r.ruleContentCondition, m) is not None ]
-                               
-                              if len(res) <= 0:
-                                  print("Empty. No match present")
-                                  exTractedData[r.ruleName] = ''
-                              else:    
-                                  xVal = res[r.ruleReturnedMatchPos].text  
-                                  
-                                  # Replace characters
-                                  for c in r.ruleRemoveChars:
-                                      xVal = xVal.replace(c, '')
+                           xData = r.apply( response.html )
+                           pageData.update(xData)
+                           
 
-                                  print('\n\t!!!>>>>> Got MATCH [', xVal, ']\n', sep='' )
-                                  exTractedData[r.ruleName] = xVal
-                                  
-                             else:
-                                   if r.ruleContentCondition != '': 
-                                      res = [m for m in res if re.search(r.ruleContentCondition, m.text) is not None ]
-
-                                   for e, name in zip(res, r.ruleReturnedValueNames):
-                                       exTractedData[name] = e.text
-                                         
-                                   
-                           else:
-                                if r.ruleContentCondition != '': 
-                                   res = [m for m in res if re.search(r.ruleContentCondition, m.attrs.get(r.ruleTargetAttribute)) is not None ]
-                         
-                                if r.ruleReturnedMatchPos >= 0:
-                                   print('>>>>> Got  [', res[r.ruleReturnedMatchPos].attrs.get(r.ruleTargetAttribute), ']', sep='' )
-                                   numExtracted += 1
-                                else:
-                                    print(len(res), ' matches found')
-                                    numExtracted += len(res)
-
-                 print('\n\n\tExtracted data:', exTractedData )
+                        
+                 print('\n\tPage data:', pageData )
                               
                  numProcessed += 1
                  if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
@@ -708,15 +667,25 @@ class shellCommandExecutioner:
                        print('Terminating. Reached page limit ', self.configuration.getint('Crawler', 'maxPages', fallback=-1) ) 
                        break
                   
-                 # lastUrl = nextUrl
-                 # TODO: Implement the requirement to sleep only if next url is hitting
-                 # the same server.
-                 time.sleep( self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3) ) 
+                 # Sleep only if previous request was on the same server
+                 if previousHost == pUrl.netloc:
+                    print('[DEBUG] Sleeping for ', self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3), 'seconds', sep='')   
+                    time.sleep( self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3) )
+
+                 previousHost = pUrl.netloc
+                 
                    
           except KeyboardInterrupt:
                  print('Control-C seen. Terminating. Processed ', numProcessed)
                  return(False)
                  
+
+
+
+
+
+
+
 
 
 

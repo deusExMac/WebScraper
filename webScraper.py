@@ -124,65 +124,7 @@ def main():
 
    
 
-      '''   
-       if rL.ruleTargetProperty == 'text':
-          print("::: [", item.contents[0], ']')
-       else:
-           print("::: [", urljoin(urlBase, item.get(rL.ruleTargetProperty) ), ']')
-       '''    
-      
-'''
-   if args.get('url') is not None:
-      print('Downloading ', args['url'], '...')
-      reqResponse = requests.get(args['url'])
-      #print( htmlContent.text )
-      with open('page.html', 'w') as f:
-        f.write(reqResponse.text)
-
-      htmlContent = reqResponse.text  
-   
-   else:
-    print('Reading from file')
-    with open('page.html',  encoding='utf-8', errors='ignore', mode='r') as f:
-          htmlContent = f.read()
-
-
-   print("Loading rules...")
-   with open('ruleExample.conf',  encoding='utf-8', errors='ignore', mode='r') as f:
-          rSpec = f.read()
-          rule = xRules.loadRule(rSpec)
-
-
-   soup = BeautifulSoup(htmlContent, features="html.parser")
-
-   rL = ruleLibrary.get('efficiencyPerDay')
-   if rL is not None:
-      print(">>> applying ", rL.ruleCSSSelector) 
-      res = soup.select( rL.ruleCSSSelector )
-      for item in res:
-       if rL.ruleTargetProperty == 'text':
-          print("::: [", item.contents[0], ']')
-       else:
-           print("::: [", item.get(rL.ruleTargetProperty), ']')
-
-
-   urlBase = 'https://www.asicminervalue.com/'
-   rL = ruleLibrary.get('getLinks')
-   if rL is not None:
-    print(">>> applying ", rL.ruleCSSSelector)
-    res = soup.select( rL.ruleCSSSelector )
-    for item in res:
-       if rL.ruleTargetProperty == 'text':
-          print("::: [", item.contents[0], ']')
-       else:
-           print("::: [", urljoin(urlBase, item.get(rL.ruleTargetProperty) ), ']') 
-
-'''     
-
-
-
-#config.getint('Default', 'maxArticlesXXX', fallback=80)
-
+  
 
 if __name__ == '__main__':
    main() 

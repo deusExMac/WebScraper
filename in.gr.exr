@@ -1,0 +1,47 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl in.gr site",
+"library": [
+
+{
+ "ruleName": "articleTitle"
+ "ruleDescription": "Extracting title of article found on www.in.gr"
+ "ruleURLActivationCondition": ["in.gr/"]
+ "ruleCSSSelector": "header > h1.headine"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+ 
+ # other parameters needed
+},
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["in.gr/"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "^(https|http)://.*\.in\.gr.*$"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+
+
+]
+
+
+}

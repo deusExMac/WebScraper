@@ -1,9 +1,11 @@
-import re
+
 
 from dataclasses import dataclass, field
 from typing import List
 import dataconf 
 
+import re
+import requests_html
 
 
 
@@ -33,6 +35,23 @@ class extractionRule:
     ruleRemoveChars: List[str] = field(default_factory=lambda:[' ', '$'])
     ruleAux1: str = ''
     ruleAux2: str = ''
+
+
+     
+    # Check if this rule should be activated for this url
+    def ruleMatches(self, url) -> bool:
+        # No condition means apply it
+        if len(self.ruleURLActivationCondition) == 0:
+           return(True)
+            
+        for regExp in self.ruleURLActivationCondition:
+            if re.search( regExp, url) is not None:
+               return(True)
+
+        return(False)
+
+
+
     
 
     # TODO: Do we need this?
@@ -66,7 +85,67 @@ class extractionRule:
            return( matches[pos] )
         else:
            return('') 
+
+
     
+    # htmlContent must be html object from requests_html
+    # TODO: Check this thoroughly. Also, refactor this
+    def apply( self, htmlContent ) -> dict:
+
+        exTractedData = {}
+        
+        res = htmlContent.find(self.ruleCSSSelector, first=False)
+        if self.ruleTargetAttribute == "text":
+           if not self.ruleReturnsMore: 
+              if self.ruleContentCondition != '': 
+                   res = [m for m in res if re.search(self.ruleContentCondition, m) is not None ]
+              if len(res) <= 0:
+                 print("\t[DEBUG] Empty. No match present")
+                 exTractedData[self.ruleName] = ''
+                 return(exTractedData)
+              else:    
+                 xVal = res[self.ruleReturnedMatchPos].text
+
+                 # Replace characters
+                 for c in self.ruleRemoveChars:
+                     xVal = xVal.replace(c, '')
+                     
+                 exTractedData[self.ruleName] = xVal
+                 return(exTractedData)
+
+           else:
+              if self.ruleContentCondition != '': 
+                 res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
+
+              for e, name in zip(res, self.ruleReturnedValueNames):
+                  exTractedData[name] = e.text
+
+              return(exTractedData)
+            
+        else:
+            
+         numExtracted = 0   
+         if self.ruleContentCondition != '': 
+            res = [m for m in res if re.search(self.ruleContentCondition, m.attrs.get(self.ruleTargetAttribute)) is not None ]
+                         
+         if self.ruleReturnedMatchPos >= 0:
+            print('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']', sep='' )
+            exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
+            numExtracted += 1
+         else:
+            print(len(res), ' matches found')
+            lst = []
+            for item in res:
+                lst.append( item.text )
+
+            exTractedData[self.ruleName] = lst    
+            numExtracted += len(res)
+
+         return(exTractedData)    
+
+
+
+
 
 
 

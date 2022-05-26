@@ -25,17 +25,16 @@
 },
 
 {
- "ruleName": "RULE2"
+ "ruleName": "articleTitle"
  "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": []
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
+ "ruleCSSSelector": "#content h1.firstHeading"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- 
- # other parameters needed
+ "ruleRemoveChars": []
 },
 
 {
