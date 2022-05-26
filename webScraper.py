@@ -47,7 +47,7 @@ def main():
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-u', '--url')
-   cmdArgParser.add_argument('-r', '--rules', default="./lib.conf")
+   cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    #cmdArgParser.add_argument('-I', '--interactive', action='store_true')

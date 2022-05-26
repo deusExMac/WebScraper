@@ -722,6 +722,11 @@ class shellCommandExecutioner:
 
 
       def library(self, a):
+
+          if  self.extractionRules is None:
+              print('No library loaded.')
+              return
+              
           print('Library description: ', self.extractionRules.libraryDescription, sep='')
           print('Library rules:')
           self.rules(a)
