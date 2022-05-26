@@ -50,13 +50,16 @@ def main():
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
+   cmdArgParser.add_argument('-M', '--mirror', action='store_true')
    #cmdArgParser.add_argument('-I', '--interactive', action='store_true')
 
    args = vars( cmdArgParser.parse_args() )
 
+
+
+
    # Config file that will be used
    configFile = args['config']
-
 
     
    # Initialize some important parameters.
@@ -101,10 +104,6 @@ def main():
 
 
 
-   
-
-
-
    if not args.get('batch', False):
       print("Starting interactive mode\n") 
       iShell = commandShell.commandShell( config, ruleLibrary )
@@ -113,6 +112,7 @@ def main():
    else:
       print('Entering Batch mode.')
       if args.get('url') is not None:
+         # TODO: Fix this.
          session = HTMLSession()
          r = session.get(args['url'])
          rL = ruleLibrary.get('getLinks')
