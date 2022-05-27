@@ -27,7 +27,7 @@ import dateutil.parser
 from datetime import datetime, timedelta
 import time
 import re
-
+import statistics
 
 import argparse
 import copy
@@ -558,6 +558,7 @@ class commandImpl:
           linkQueue.append( args['url'][0] )
           visitedQueue = []
           visitedPageHashes = []
+          pageHandlingTimes = []
 
           previousHost = ''
           
@@ -583,14 +584,17 @@ class commandImpl:
 
                  print( (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
 
+                 tmStart = time.perf_counter() # start counting time
+                 
                  while (True):
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
                     session = HTMLSession()
-                    #print( '\t[DEBUG] ', session.headers['user-agent'])
+                    #print( '\t[DEBUG] ', session.headers['user-agent'])                    
                     response = session.get(currentUrl)
                     visitedQueue.append( currentUrl )
                     break
+                  
                   except Exception as netEx:
                         print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
@@ -692,7 +696,12 @@ class commandImpl:
                     if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):
                        print('Terminating. Reached page limit ', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) ) 
                        break
-                  
+
+
+                 tmEnd = time.perf_counter()
+                 pageHandlingTimes.append( tmEnd - tmStart )
+                 print('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds', sep='' )
+                 
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:
                     if cmdConfigSettings.get('Crawler', 'delayModel', fallback='c') == 'h':
