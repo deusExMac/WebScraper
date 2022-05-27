@@ -117,6 +117,13 @@ class extractionRule:
               if self.ruleContentCondition != '': 
                  res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
 
+              # TODO: Here, remove specified characters
+              # something like this:
+              #for i in range(len(res)):
+              #     for c in self.ruleRemoveChars:                    
+	      #         res[i] = res[i].replace(c, '')
+	      # OR BETTER, USE maketrans!
+	
               for e, name in zip(res, self.ruleReturnedValueNames):
                   exTractedData[name] = e.text
 

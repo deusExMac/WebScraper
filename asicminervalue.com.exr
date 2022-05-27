@@ -190,10 +190,10 @@
 {
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"]
+ "ruleURLActivationCondition": ["www\.asicminervalue\.com.*$"]
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.econ\.upatras\.gr/\.*(?!announcements).*$"
+ "ruleContentCondition": "^(https|http)://.*\.asicminervalue\.com.*$"
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False

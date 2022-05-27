@@ -25,17 +25,16 @@
 },
 
 {
- "ruleName": "RULE2"
- "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": []
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleName": "articleTitle"
+ "ruleDescription": "Gets the title from articles"
+ "ruleURLActivationCondition": ["el\.wikipedia\.org/wiki"]
+ "ruleCSSSelector": "#content h1.firstHeading"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- 
- # other parameters needed
+ "ruleRemoveChars": []
 },
 
 {
@@ -44,7 +43,7 @@
  "ruleURLActivationCondition": ["el\.wikipedia\.org.*$"]
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.upatras\.gr/.*$"
+ "ruleContentCondition": "el\.wikipedia\.org/.*$"
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False

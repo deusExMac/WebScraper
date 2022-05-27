@@ -31,7 +31,7 @@ def main():
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
    cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
-   cmdArgParser.add_argument('-t', '--sleeptime', type=float, nargs='?' )
+   cmdArgParser.add_argument('-t', '--sleeptime',  nargs='?' )
    cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
@@ -60,16 +60,16 @@ def main():
    if cFile.exists():
     try:
       config.read(configFile)
-      config.add_section('Runtime')
-      config.set('Runtime', '__configurationFile', configFile)
+      config.add_section('__Runtime')
+      config.set('__Runtime', '__configSource', configFile)
       print('ok.')
     except Exception as cfgEx:
            print("Error reading config file." + str(cfgEx))
    else:
     print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")
     #sys.exit("Cannot continue")
-    config.add_section('Runtime')
-    config.set('Runtime', '__configurationFile', "")
+    config.add_section('__Runtime')
+    config.set('__Runtime', '__configSource', "")
 
 
 
@@ -120,7 +120,7 @@ def main():
          argumentList.append(args.get('url')[0])
 
          #print(argumentList)
-         executioner = commandShell.shellCommandExecutioner(config, ruleLibrary)
+         executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
 
          

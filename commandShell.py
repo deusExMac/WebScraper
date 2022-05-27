@@ -43,6 +43,9 @@ from requests_html import HTMLSession, HTML
 from pathlib import Path
 import hashlib
 
+import numpy as np
+
+
 # We define constants in this file
 import appConstants
 from commandHistory import commandHistory
@@ -88,7 +91,7 @@ class commandShell:
              print('Error.', str(readEx))
           '''
           
-          self.cmdExecutioner = shellCommandExecutioner(cfg, xRls)
+          self.cmdExecutioner = commandImpl(cfg, xRls)
           self.cmdHistory = commandHistory(cfg.getint('Shell', 'historySize', fallback=10), True)
 
           
@@ -244,7 +247,11 @@ class commandShell:
           return
 
 
-class shellCommandExecutioner:
+
+
+
+# Was previously shellCommandExecutioner
+class commandImpl:
 
       def __init__(self, cfg, rules = None):
           self.configuration = cfg
@@ -488,7 +495,8 @@ class shellCommandExecutioner:
       # TODO: Refactor me! 
 
       def crawl(self, a):
-          
+
+                    
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
@@ -497,6 +505,7 @@ class shellCommandExecutioner:
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
+             cmdArgs.add_argument('-H', '--humandelay', action='store_true' )
              cmdArgs.add_argument('-D', '--debugmode', action='store_true' )
              args = vars( cmdArgs.parse_args(a) )
 
@@ -505,17 +514,23 @@ class shellCommandExecutioner:
                 return(False)    
 
           # TODO: Clone configuaration before changing settings.
-                
+
+
+          # Override settings with shell arguments
           if args.get('numpages') is not None:
              self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
 
 
-          # TODO: Fix next lines. Has bugs. 
-          '''
-          if args.get('sleeptime') is not None:
-             print( args.get('sleeptime'), type(args.get('sleeptime')) )   
-             self.configuration.set('Crawler', 'sleepTime', float(args.get('sleepTime')) )   
-          '''      
+          if args.get('sleeptime') is not None:             
+             self.configuration.set('Crawler', 'sleepTime', args.get('sleeptime') )
+             self.configuration.set('Crawler', 'delayModel', 'c' )   
+
+                          
+          if args.get('humandelay'):
+             self.configuration.set('Crawler', 'delayModel', 'h' )
+          else:
+             self.configuration.set('Crawler', 'delayModel', 'c' )   
+                
 
 
           if args.get('rules') is None:
@@ -566,6 +581,7 @@ class shellCommandExecutioner:
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
                     session = HTMLSession()
+                    #print( '\t[DEBUG] ', session.headers['user-agent'])
                     response = session.get(currentUrl)
                     visitedQueue.append( currentUrl )
                     break
@@ -604,7 +620,7 @@ class shellCommandExecutioner:
                  if args['mirror']:
                                         
                     try:
-                       targetName = utils.urlToFilename(self.configuration.get('Crawler', 'mirrorRoot', fallback=''), currentUrl)
+                       targetName = utils.urlToFilename(self.configuration.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
                        print('\t[DEBUG] [mirror] Saving to ', targetName)
                        targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
                        targetDir = os.path.dirname(targetName)
@@ -673,8 +689,13 @@ class shellCommandExecutioner:
                   
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:
-                    print('\t[DEBUG] Sleeping for ', self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3), 'seconds', sep='')   
-                    time.sleep( self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3) )
+                    if self.configuration.get('Crawler', 'delayModel', fallback='c') == 'h':
+                       delayValue = abs( float( np.random.normal(self.configuration.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), self.configuration.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
+                    else:
+                       delayValue = self.configuration.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
+                       
+                    print('\t[DEBUG] Sleeping for ', delayValue, ' seconds', sep='')   
+                    time.sleep( delayValue )
 
                  previousHost = pUrl.netloc
                  
@@ -732,6 +753,49 @@ class shellCommandExecutioner:
 
           self.extractionRules.library.append( newExtractionRule )
           return(False)
+
+
+      def reload(self, a):
+            
+        shellParser = ThrowingArgumentParser()         
+        try:
+           shellParser.add_argument('-c', '--config',   nargs='?', default='')
+           shellArgs = vars( shellParser.parse_args( a ) )
+        except Exception as ex:
+             print("Invalid argument. Usage: reload [-c config_file]")
+             return(False)
+
+
+        if shellArgs['config'] is None:
+            print("Invalid argument. Usage: reload [-c config_file]")
+            return(False)  
+                      
+        if  shellArgs['config'] == '':
+            configFile = self.configuration['__Runtime']['__configSource']
+        else:
+            configFile = shellArgs['config']
+             
+         
+        if configFile == '':
+          print('No configuration file. No configuration loaded.')   
+          return(False)
+
+        if not os.path.exists(configFile):
+          print('Configuration file [', configFile ,'] not found', sep='')
+          print('No configuration file loaded.')
+          return(False)
+
+        print('Loading configuration file: [', configFile, ']', sep="")
+        self.configuration = configparser.RawConfigParser(allow_no_value=True)
+        self.configuration.read(configFile)
+        self.configuration.add_section('__Runtime')
+        self.configuration['__Runtime']['__configSource'] = configFile
+        print("Configuration file [", configFile, "] successfully loaded.", sep="")
+        return(False)
+      
+        # Make sure that the target and bearer agree
+        # setTargetArchive(self.configuration, self.configuration.get('TwitterAPI', 'targetArchive', fallback="recent") )
+
           
 
 '''
