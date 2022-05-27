@@ -2,28 +2,10 @@
 import configparser
 import argparse
 
-import sys, getopt
+#import sys, getopt
 import os
 import os.path
 from pathlib import Path
-import dateutil.parser
-
-
-import json, requests, datetime
-from urllib.parse import urlparse, urljoin
-from bs4 import BeautifulSoup
-#from urllib  import  urljoin
-
-from requests_html import HTMLSession
-
-import pandas as pd
-from collections import Counter
-import matplotlib.pyplot as plt
-import math
-from random import seed
-from random import randint
-
-
 
 
 import xRules
@@ -46,7 +28,6 @@ def main():
 
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
-   cmdArgParser.add_argument('-u', '--url')
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
    cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
@@ -54,6 +35,7 @@ def main():
    cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
+   cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    #cmdArgParser.add_argument('-M', '--mirror', action='store_true')
    #cmdArgParser.add_argument('-I', '--interactive', action='store_true')
 
@@ -119,7 +101,7 @@ def main():
 
    else:
       print('Entering Batch mode.')
-      if args.get('url') is not None:
+      if len(args.get('url')) > 0:
          argumentList = []
          
 
@@ -135,7 +117,7 @@ def main():
             argumentList.append('-t')
             argumentList.append( str(args.get('sleeptime')))
             
-         argumentList.append(args.get('url'))
+         argumentList.append(args.get('url')[0])
 
          #print(argumentList)
          executioner = commandShell.shellCommandExecutioner(config, ruleLibrary)
