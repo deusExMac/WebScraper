@@ -513,23 +513,29 @@ class commandImpl:
                 print( str(gEx) )
                 return(False)    
 
-          # TODO: Clone configuaration before changing settings.
+          
+
+          # We copy the existing configuration file in order to not
+          # modify original settings with arguments given by the shell
+          cmdConfigSettings = copy.deepcopy( self.configuration )
+
+
 
 
           # Override settings with shell arguments
           if args.get('numpages') is not None:
-             self.configuration.set('Crawler', 'maxpages', args.get('numpages'))
+             cmdConfigSettings.set('Crawler', 'maxpages', args.get('numpages'))
 
 
           if args.get('sleeptime') is not None:             
-             self.configuration.set('Crawler', 'sleepTime', args.get('sleeptime') )
-             self.configuration.set('Crawler', 'delayModel', 'c' )   
+             cmdConfigSettings.set('Crawler', 'sleepTime', args.get('sleeptime') )
+             cmdConfigSettings.set('Crawler', 'delayModel', 'c' )   
 
                           
           if args.get('humandelay'):
-             self.configuration.set('Crawler', 'delayModel', 'h' )
+             cmdConfigSettings.set('Crawler', 'delayModel', 'h' )
           else:
-             self.configuration.set('Crawler', 'delayModel', 'c' )   
+             cmdConfigSettings.set('Crawler', 'delayModel', 'c' )   
                 
 
 
@@ -620,7 +626,7 @@ class commandImpl:
                  if args['mirror']:
                                         
                     try:
-                       targetName = utils.urlToFilename(self.configuration.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
+                       targetName = utils.urlToFilename(cmdConfigSettings.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
                        print('\t[DEBUG] [mirror] Saving to ', targetName)
                        targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
                        targetDir = os.path.dirname(targetName)
@@ -682,17 +688,17 @@ class commandImpl:
                  print('\n\tPage data:', pageData )
                               
                  numProcessed += 1
-                 if self.configuration.getint('Crawler', 'maxPages', fallback=-1) > 0:
-                    if numProcessed >= self.configuration.getint('Crawler', 'maxPages', fallback=-1):
-                       print('Terminating. Reached page limit ', self.configuration.getint('Crawler', 'maxPages', fallback=-1) ) 
+                 if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
+                    if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):
+                       print('Terminating. Reached page limit ', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) ) 
                        break
                   
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:
-                    if self.configuration.get('Crawler', 'delayModel', fallback='c') == 'h':
-                       delayValue = abs( float( np.random.normal(self.configuration.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), self.configuration.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
+                    if cmdConfigSettings.get('Crawler', 'delayModel', fallback='c') == 'h':
+                       delayValue = abs( float( np.random.normal(cmdConfigSettings.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), cmdConfigSettings.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
                     else:
-                       delayValue = self.configuration.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
+                       delayValue = scmdConfigSettings.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
                        
                     print('\t[DEBUG] Sleeping for ', delayValue, ' seconds', sep='')   
                     time.sleep( delayValue )
@@ -742,6 +748,9 @@ class commandImpl:
 
 
 
+
+
+
       def addRule(self, a):
           newExtractionRule = xRules.extractionRule()  
           newExtractionRule.ruleName = input('Rule name? ')
@@ -753,6 +762,10 @@ class commandImpl:
 
           self.extractionRules.library.append( newExtractionRule )
           return(False)
+
+
+
+
 
 
       def reload(self, a):

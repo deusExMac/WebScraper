@@ -36,12 +36,11 @@ def main():
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
-   #cmdArgParser.add_argument('-M', '--mirror', action='store_true')
-   #cmdArgParser.add_argument('-I', '--interactive', action='store_true')
+   
 
-   #print(cmdArgParser.parse_args())
+   
    args = vars( cmdArgParser.parse_args() )
-   #print(args)
+   
 
 
 
@@ -58,26 +57,29 @@ def main():
    # Check if config file exists
    cFile = Path(configFile)
    if cFile.exists():
-    try:
-      config.read(configFile)
-      config.add_section('__Runtime')
-      config.set('__Runtime', '__configSource', configFile)
-      print('ok.')
-    except Exception as cfgEx:
-           print("Error reading config file." + str(cfgEx))
+      try:
+         config.read(configFile)
+         config.add_section('__Runtime')
+         config.set('__Runtime', '__configSource', configFile)
+         print('ok.')
+      except Exception as cfgEx:
+             print("Error reading config file." + str(cfgEx))
    else:
-    print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")
-    #sys.exit("Cannot continue")
+    print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")    
     config.add_section('__Runtime')
     config.set('__Runtime', '__configSource', "")
 
 
 
+
+
+
+
    # Here, override any config parameter given via command line
-   
+
+
+   # Load rules file.
    config.set('Rules', 'ruleFile', args['rules'] )
-
-
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
@@ -91,14 +93,12 @@ def main():
 
 
 
-   # Check how to start
-
+   # Check how to start: Interactive or batch mode
 
    if not args.get('batch', False):
       print("Starting interactive mode\n") 
       iShell = commandShell.commandShell( config, ruleLibrary )
       iShell.startShell()
-
    else:
       print('Entering Batch mode.')
       if len(args.get('url')) > 0:
@@ -119,7 +119,7 @@ def main():
             
          argumentList.append(args.get('url')[0])
 
-         #print(argumentList)
+         
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
 
