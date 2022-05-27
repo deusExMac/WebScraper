@@ -49,12 +49,17 @@ def main():
    cmdArgParser.add_argument('-u', '--url')
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
+   cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
+   cmdArgParser.add_argument('-t', '--sleeptime', type=float, nargs='?' )
+   cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
+
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
-   cmdArgParser.add_argument('-M', '--mirror', action='store_true')
+   #cmdArgParser.add_argument('-M', '--mirror', action='store_true')
    #cmdArgParser.add_argument('-I', '--interactive', action='store_true')
 
+   #print(cmdArgParser.parse_args())
    args = vars( cmdArgParser.parse_args() )
-
+   #print(args)
 
 
 
@@ -92,7 +97,7 @@ def main():
 
 
    ruleLibrary = None
-   print("Loading extraction rule library [", args['rules'], "]...", sep='', end='')
+   print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
      with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
           ruleLibrary = xRules.loadLibrary(f.read())
@@ -104,6 +109,9 @@ def main():
 
 
 
+   # Check how to start
+
+
    if not args.get('batch', False):
       print("Starting interactive mode\n") 
       iShell = commandShell.commandShell( config, ruleLibrary )
@@ -112,15 +120,28 @@ def main():
    else:
       print('Entering Batch mode.')
       if args.get('url') is not None:
-         # TODO: Fix this.
-         session = HTMLSession()
-         r = session.get(args['url'])
-         rL = ruleLibrary.get('getLinks')
-         #res = soup.select( rL.ruleCSSSelector )
-         res = r.html.find(rL.ruleCSSSelector, first=False)
-         for l in res:
-            print(l.attrs.get('href'))
-      
+         argumentList = []
+         
+
+         if args.get('mirror', False):
+            argumentList.append('-M')
+
+         if args.get('numpages') is not None :
+            argumentList.append('-n')
+            argumentList.append( str(args.get('numpages')))
+
+                  
+         if args.get('sleeptime') is not None :
+            argumentList.append('-t')
+            argumentList.append( str(args.get('sleeptime')))
+            
+         argumentList.append(args.get('url'))
+
+         #print(argumentList)
+         executioner = commandShell.shellCommandExecutioner(config, ruleLibrary)
+         executioner.crawl( argumentList )
+
+         
 
    
 

@@ -7,7 +7,7 @@
 
 
 {
-"libraryDescription": "Library to extract data from econ.upatras.gr pages",
+"libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
 "library": [
 
 {

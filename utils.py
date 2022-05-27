@@ -33,7 +33,7 @@ def byteHash(byteArray, chnunkSize=4096):
 
 
 
-
+# TODO: Replace characters and create directories
 def urlToFilename( root, u ):
                 
             parsedUrl = urlparse(unquote(u))

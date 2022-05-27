@@ -136,6 +136,8 @@ class commandShell:
           return(cmd)  
 
 
+
+
       def displayCommandHistory(self, n, fromBegin=False):
           
           if n > len(self.cmdHistory.commandHistory):
@@ -486,8 +488,7 @@ class shellCommandExecutioner:
       # TODO: Refactor me! 
 
       def crawl(self, a):
-
-        
+          
           try:  
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
@@ -520,15 +521,17 @@ class shellCommandExecutioner:
           if args.get('rules') is None:
              exRules = self.extractionRules
           else:
-                print('Loading extraction rules from [', args['rules'], ']...', sep='', end='')
+                print('\t[DEBUG] Loading extraction rules from [', args['rules'], ']...', sep='', end='')
                 try:
                   with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
                      exRules = xRules.loadLibrary(f.read())
                      print('ok.')
+                     
                 except Exception as flEx:
                        print(str(flEx) )
                        return(False)
-                     
+
+          print('\t[DEBUG] Using extraction library: ', exRules.libraryDescription)            
              
           linkQueue = []
           linkQueue.append( args['url'][0] )
@@ -548,7 +551,7 @@ class shellCommandExecutioner:
             while (True):
                  try:
                   if len(linkQueue) == 0:
-                     print('Empty Queue')      
+                     print('\t[DEBUG] Empty Queue')      
                      break
                   
                   currentUrl = linkQueue.pop(0)
@@ -626,7 +629,8 @@ class shellCommandExecutioner:
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
                     continue
                  
-
+                 if exRules.library is None:
+                    continue   
 
                  exTractedData = {}
                  pageData = {}
@@ -669,7 +673,7 @@ class shellCommandExecutioner:
                   
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:
-                    print('[DEBUG] Sleeping for ', self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3), 'seconds', sep='')   
+                    print('\t[DEBUG] Sleeping for ', self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3), 'seconds', sep='')   
                     time.sleep( self.configuration.getfloat('Crawler', 'sleepTime', fallback=0.3) )
 
                  previousHost = pUrl.netloc
