@@ -26,6 +26,7 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
+ "ruleReturnedValueNames": []
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
  "ruleRemoveChars": ["$"]
