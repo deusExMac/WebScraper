@@ -82,7 +82,7 @@ def main():
      
    # Here, override any config parameter given in the command line
 
-   # Update the rules file given in the command line
+   # Update the rules file in the configuration, given in the command line
    config.set('Rules', 'ruleFile', args['rules'] )
 
 

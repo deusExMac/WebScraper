@@ -1,0 +1,45 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl greek reddit",
+"library": [
+{
+ "ruleName": "postTitlesFirstPAge"
+ "ruleDescription": "Extracting post titles on first page of the  greek reddit page"
+ "ruleURLActivationCondition": ["reddit.com/r/greece$"]
+ "ruleCSSSelector": "._eYtD2XCVieq6emjKBH3m"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnedValueNames": []
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+},
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["reddit.com/r/greece"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "reddit.com/r/greece"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+]
+
+
+}

@@ -552,8 +552,13 @@ class commandImpl:
                        print(str(flEx) )
                        return(False)
 
-          print('\t[DEBUG] Using extraction library: ', exRules.libraryDescription)            
-             
+          '''
+          if exRules is None or exRules.library is None:
+             print('[WARNING] Not extraction library found.')
+          else:    
+             print('\t[DEBUG] Using extraction library: ', exRules.libraryDescription)            
+
+          '''   
           linkQueue = []
           linkQueue.append( args['url'][0] )
           visitedQueue = []
@@ -655,8 +660,11 @@ class commandImpl:
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
                     continue
                  
-                 if exRules.library is None:
-                    continue   
+                 if exRules is None or exRules.library is None:
+                    print('\t[DEBUG] No library present. Skipping extraction.')   
+                    continue
+                 else:
+                      print('\t[DEBUG] Extracting using library: ', exRules.libraryDescription)  
 
                  exTractedData = {}
                  pageData = {}
@@ -689,7 +697,7 @@ class commandImpl:
                            
 
                         
-                 print('\n\tPage data:', pageData )
+                 print('\n\tExtracted page data:', pageData, '\n' )
                               
                  numProcessed += 1
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:

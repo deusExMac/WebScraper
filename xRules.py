@@ -123,10 +123,18 @@ class extractionRule:
               #     for c in self.ruleRemoveChars:                    
 	      #         res[i] = res[i].replace(c, '')
 	      # OR BETTER, USE maketrans!
-	
-              for e, name in zip(res, self.ruleReturnedValueNames):
-                  exTractedData[name] = e.text
 
+              if len(self.ruleReturnedValueNames) > 0:
+                  for e, name in zip(res, self.ruleReturnedValueNames):
+                      exTractedData[name] = e.text
+              else:
+                      # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
+                      rList = []
+                      for m in res:
+                          rList.append( m.text )
+
+                      exTractedData[self.ruleName] = rList
+                      
               return(exTractedData)
             
         else:
