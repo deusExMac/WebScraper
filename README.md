@@ -43,8 +43,6 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- 
- # other parameters needed
 }
 
 ]
