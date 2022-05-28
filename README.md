@@ -1,6 +1,44 @@
 # WebScraper
  
-A simple python program
+A simple python program for scraping speficied data from web pages. Specifications for scraped data is stored in .exr files.
+
+
+
+# exr files
+
+{
+"libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
+"library": [
+
+{
+ "ruleName": "efficiencyPerDay"
+ "ruleDescription": "A simple example of a rule"
+ "ruleURLActivationCondition": ["/miners/"]
+ 
+ "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": ["$"]
+},
+
+{
+ "ruleName": "costPerDay"
+ "ruleDescription": "2nd rule"
+ "ruleURLActivationCondition": []
+ "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+},
+
+
 
 
 # Related projects
