@@ -20,8 +20,7 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 {
  "ruleName": "efficiencyPerDay"
  "ruleDescription": "A simple example of a rule"
- "ruleURLActivationCondition": ["/miners/"]
- 
+ "ruleURLActivationCondition": ["econ.upatras.gr"]
  "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
@@ -30,6 +29,8 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
  "ruleRemoveChars": ["$"]
+ "ruleAux1": ''
+ "ruleAux2": ''
 },
 
 {
