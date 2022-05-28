@@ -4,9 +4,13 @@ A simple python program for scraping speficied data from web pages. Specificatio
 
 
 
-# exr files
+# Specifying what data to extract using .exr files
 
-exr files are files in json format specifying what data to extract, on which pages and how to return them.
+.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. 
+
+Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
+
+## Example .exr file
 
 ```
 {
