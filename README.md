@@ -6,6 +6,9 @@ A simple python program for scraping speficied data from web pages. Specificatio
 
 # exr files
 
+exr files are files in json format specifying what data to extract, on which pages and how to return them.
+
+```
 {
 "libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
 "library": [
@@ -36,8 +39,14 @@ A simple python program for scraping speficied data from web pages. Specificatio
  "ruleReturningMoreIsError": False
  
  # other parameters needed
-},
+}
 
+]
+}
+
+
+
+```
 
 
 
