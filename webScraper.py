@@ -12,7 +12,15 @@ import xRules
 import commandShell
 
 
-
+# Generate an empty configuration setting, with only the sections.
+# Used when no valid configuration file is given or found.
+def generateDefaultConfiguration():
+    cS = configparser.RawConfigParser(allow_no_value=True)
+    cS.add_section('Rules')
+    cS.add_section('Crawler')
+    cS.add_section('Storage')
+    cS.add_section('Shell')
+    return(cS)
 
 
 def main():
@@ -20,66 +28,65 @@ def main():
 
 
    #
-   # TODO: Fix the config and arg stuff. Or at least use a consistent model.
-   # MODEL:
+   # The steps are as follows:
    #    1) Load config file
    #    2) Command line arguments override loaded config settings
    #
 
+   # Prepare command line arguments
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
 
    cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
-   cmdArgParser.add_argument('-t', '--sleeptime',  nargs='?' )
+   cmdArgParser.add_argument('-s', '--sleeptime',  nargs='?' )
    cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    
-
-   
    args = vars( cmdArgParser.parse_args() )
    
 
-
-
-   # Config file that will be used
+   # Config file that will be used.
+   # NOTE: This will at least have the default value
    configFile = args['config']
 
     
-   # Initialize some important parameters.
-   # NOTE: command line arguments can override them
+   
 
-   config = configparser.RawConfigParser(allow_no_value=True)
-
-   print("\n\nLoading config settings from [", configFile, "]....", end='')
+   print("\n\nLoading configuration settings from [", configFile, "]....", end='')
    # Check if config file exists
    cFile = Path(configFile)
-   if cFile.exists():
+   if not cFile.exists():
+      # No, does not exists. Continue with default values
+
+      # Generate an empty configuration file, only withe the sections   
+      config = generateDefaultConfiguration() 
+      print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")    
+      config.add_section('__Runtime')
+      config.set('__Runtime', '__configSource', "")
+   else:   
       try:
+         # Read configuration file
+         config = configparser.RawConfigParser(allow_no_value=True)
          config.read(configFile)
+         # Add special section to indicate which file was loaded.
+         # Used to support reloading the same configuration file
          config.add_section('__Runtime')
          config.set('__Runtime', '__configSource', configFile)
          print('ok.')
       except Exception as cfgEx:
              print("Error reading config file." + str(cfgEx))
-   else:
-    print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")    
-    config.add_section('__Runtime')
-    config.set('__Runtime', '__configSource', "")
+   
+     
+   # Here, override any config parameter given in the command line
 
-
-
-
-
-
-
-   # Here, override any config parameter given via command line
-
-
-   # Load rules file.
+   # Update the rules file given in the command line
    config.set('Rules', 'ruleFile', args['rules'] )
+
+
+   # Load extraction rules
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
@@ -104,7 +111,6 @@ def main():
       if len(args.get('url')) > 0:
          argumentList = []
          
-
          if args.get('mirror', False):
             argumentList.append('-M')
 

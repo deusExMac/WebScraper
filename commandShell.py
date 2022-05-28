@@ -501,7 +501,7 @@ class commandImpl:
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
-             cmdArgs.add_argument('-t', '--sleeptime', type=float, nargs='?' )
+             cmdArgs.add_argument('-s', '--sleeptime', type=float, nargs='?' )
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
@@ -707,7 +707,7 @@ class commandImpl:
                     if cmdConfigSettings.get('Crawler', 'delayModel', fallback='c') == 'h':
                        delayValue = abs( float( np.random.normal(cmdConfigSettings.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), cmdConfigSettings.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
                     else:
-                       delayValue = scmdConfigSettings.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
+                       delayValue = cmdConfigSettings.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
                        
                     print('\t[DEBUG] Sleeping for ', delayValue, ' seconds', sep='')   
                     time.sleep( delayValue )
