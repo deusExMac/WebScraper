@@ -89,7 +89,7 @@ class extractionRule:
 
     
     # htmlContent must be html object from requests_html
-    # TODO: Check this thoroughly. Also, refactor this
+    # TODO: Check this thoroughly. Also, refactor this...
     def apply( self, htmlContent ) -> dict:
 
         exTractedData = {}
@@ -114,6 +114,8 @@ class extractionRule:
                  return(exTractedData)
 
            else:
+              # text, but more than one result is returned
+              
               if self.ruleContentCondition != '': 
                  res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
 
@@ -138,7 +140,7 @@ class extractionRule:
               return(exTractedData)
             
         else:
-            
+         # no text   
          numExtracted = 0   
          if self.ruleContentCondition != '': 
             res = [m for m in res if re.search(self.ruleContentCondition, m.attrs.get(self.ruleTargetAttribute)) is not None ]
