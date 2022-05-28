@@ -637,7 +637,7 @@ class commandImpl:
                     try:
                        targetName = utils.urlToFilename(cmdConfigSettings.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
                        print('\t[DEBUG] [mirror] Saving to ', targetName)
-                       targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '')
+                       targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '').replace('"', '').replace("'", '')
                        targetDir = os.path.dirname(targetName)
                        Path(targetDir).mkdir(parents=True, exist_ok=True)
                        print('\t[DEBUG] Content-type:', response.headers.get('Content-Type', '') )
@@ -698,7 +698,10 @@ class commandImpl:
 
                         
                  print('\n\tExtracted page data:', pageData, '\n' )
-                              
+                 
+                 ln = exRules.toCSVLine(pageData, ';')
+                 print('\t[DEBUG] csv line:', ln)
+                 
                  numProcessed += 1
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):

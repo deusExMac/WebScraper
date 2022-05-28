@@ -8,17 +8,20 @@
 
 {
 "libraryDescription": "Library to crawl greek reddit",
+
+"csvLineFormat": ["postTitle", "postUserName", "postDate"],
+
 "library": [
 {
- "ruleName": "postTitlesFirstPAge"
- "ruleDescription": "Extracting post titles on first page of the  greek reddit page"
- "ruleURLActivationCondition": ["reddit.com/r/greece$"]
- "ruleCSSSelector": "._eYtD2XCVieq6emjKBH3m"
+ "ruleName": "postTitle"
+ "ruleDescription": "Get title of page"
+ "ruleURLActivationCondition": ["old.reddit.com/r/greece/comments"]
+ "ruleCSSSelector": ".title.may-blank"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnedValueNames": []
- "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
  
  # other parameters needed
@@ -26,17 +29,45 @@
 
 
 {
- "ruleName": "getLinks"
- "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["reddit.com/r/greece"]
- "ruleCSSSelector": "a[href]"
- "ruleTargetAttribute": "href"
- "ruleContentCondition": "reddit.com/r/greece"
- "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
+ "ruleName": "postDate"
+ "ruleDescription": "Get date of submission"
+ "ruleURLActivationCondition": ["old.reddit.com/r/greece/comments"]
+ "ruleCSSSelector": "#thing_t3_uzpoth .live-timestamp"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnedValueNames": []
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
  
  # other parameters needed
+},
+
+{
+ "ruleName": "postUserName"
+ "ruleDescription": "Get username of submission"
+ "ruleURLActivationCondition": ["old.reddit.com/r/greece/comments/"]
+ "ruleCSSSelector": ".id-t2_doomf, .id-t2_1voge41u"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnedValueNames": []
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False  
+},
+
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["old.reddit.com/r/greece"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "old.reddit.com/r/greece"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
 }
 
 ]

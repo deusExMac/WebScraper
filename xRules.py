@@ -32,7 +32,7 @@ class extractionRule:
     ruleReturnedMatchPos: int  = 0    
     ruleReturningMoreIsError: bool  = False
     
-    ruleRemoveChars: List[str] = field(default_factory=lambda:[' ', '$'])
+    ruleRemoveChars: List[str] = field(default_factory=lambda:[])
     ruleAux1: str = ''
     ruleAux2: str = ''
 
@@ -95,49 +95,53 @@ class extractionRule:
         exTractedData = {}
         
         res = htmlContent.find(self.ruleCSSSelector, first=False)
+        
         if self.ruleTargetAttribute == "text":
-           if not self.ruleReturnsMore: 
-              if self.ruleContentCondition != '': 
-                   res = [m for m in res if re.search(self.ruleContentCondition, m) is not None ]
-              if len(res) <= 0:
-                 print("\t\t[DEBUG] Empty. No match present")
-                 exTractedData[self.ruleName] = ''
-                 return(exTractedData)
-              else:    
-                 xVal = res[self.ruleReturnedMatchPos].text
+            
+             if not self.ruleReturnsMore: 
+                 if self.ruleContentCondition != '': 
+                    res = [m for m in res if re.search(self.ruleContentCondition, m) is not None ]
+                 if len(res) <= 0:
+                    print("\t\t[DEBUG] Empty. No match present")
+                    exTractedData[self.ruleName] = ''
+                    return(exTractedData)
+                 else:    
+                    xVal = res[self.ruleReturnedMatchPos].text
 
-                 # Replace characters
-                 for c in self.ruleRemoveChars:
-                     xVal = xVal.replace(c, '')
+                    # Replace characters
+                    for c in self.ruleRemoveChars:
+                        xVal = xVal.replace(c, '')
                      
-                 exTractedData[self.ruleName] = xVal
-                 return(exTractedData)
+                    exTractedData[self.ruleName] = xVal
+                    return(exTractedData)
 
-           else:
-              # text, but more than one result is returned
+             else:
+                 # text, but more than one result is returned
               
-              if self.ruleContentCondition != '': 
-                 res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
+                 if self.ruleContentCondition != '': 
+                    res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
 
-              # TODO: Here, remove specified characters
-              # something like this:
-              #for i in range(len(res)):
-              #     for c in self.ruleRemoveChars:                    
-	      #         res[i] = res[i].replace(c, '')
-	      # OR BETTER, USE maketrans!
+                 # TODO: Here, remove specified characters
+                 # something like this:
+                 #for i in range(len(res)):
+                 #     for c in self.ruleRemoveChars:                    
+	         #         res[i] = res[i].replace(c, '')
+	         # OR BETTER, USE maketrans!
+                 #for i in range( len(res) ):
+                 #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars}) 
 
-              if len(self.ruleReturnedValueNames) > 0:
-                  for e, name in zip(res, self.ruleReturnedValueNames):
-                      exTractedData[name] = e.text
-              else:
+                 if len(self.ruleReturnedValueNames) > 0:
+                     for e, name in zip(res, self.ruleReturnedValueNames):
+                         exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})
+                 else:
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []
                       for m in res:
-                          rList.append( m.text )
+                          rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
 
                       exTractedData[self.ruleName] = rList
                       
-              return(exTractedData)
+                 return(exTractedData)
             
         else:
          # no text   
@@ -171,6 +175,10 @@ class ruleLibrary:
       libraryDescription: str = ''
       library: List[extractionRule] = field(default_factory=lambda:[])
 
+      # A list of ruleNames specifying the way the extracted data should
+      # be formatted as a line in csv format
+      csvLineFormat: List[str] = field( default_factory=lambda:[] )
+
       def get(self, ruleName) -> extractionRule:
           for r in self.library:
               if r.ruleName == ruleName:
@@ -178,7 +186,7 @@ class ruleLibrary:
 
           return(None)      
 
-      def numberOfRules(self):
+      def numberOfRules(self) -> int:
           return( len(self.library) )
 
       def getPos(self, pos) -> extractionRule:
@@ -188,6 +196,23 @@ class ruleLibrary:
               return( self.library[pos] )
 
 
+      def toCSVLine(self, xD, sep=',') -> str:
+          csvLine = ''
+          for nm in self.csvLineFormat:
+              # If one is not found, return nothing.
+              # TODO: Change this
+              if xD.get(nm) is None:
+                 return('')
+                
+              if type(xD[nm]) == str:
+                 if csvLine == '':
+                    csvLine =  xD[nm]
+                 else:   
+                    csvLine = csvLine + sep + xD[nm]
+
+          return(csvLine)             
+              
+              
 
 
 # Test!

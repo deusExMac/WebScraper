@@ -8,6 +8,7 @@
 
 {
 "libraryDescription": "Library to extract data from www.asicminervalue.com/miners/ pages",
+"csvLineFormat": ["manufacturer", "model", "alsoKnownAs", "releaseDate", "power", "incomePDay", "electricityPDay"]
 "library": [
 
 {
