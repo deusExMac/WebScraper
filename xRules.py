@@ -10,6 +10,13 @@ import requests_html
 
 @dataclass
 class extractionCondition:
+      """
+         This is used to place preconditions on the content of the html page.
+         Preconditions have a css selector and regular expression the text of the
+         selected element needs to match.
+         Currently, only the FIRST of the potential many elements is checked.
+         TODO: Error checking
+      """
       # Currently this places conditions (regular expressions) only on the extracted text of elements.
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
