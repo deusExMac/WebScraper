@@ -86,7 +86,9 @@ def main():
    config.set('Rules', 'ruleFile', args['rules'] )
 
 
-   # Load extraction rules
+   # Load the extraction rules from a library file.
+   # If no library file is specified, load the default
+   # library file.
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
