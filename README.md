@@ -12,6 +12,8 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 ## Example .exr file
 
+TODO: library extraction files have been  updated with new properties.
+
 ```
 {
 "libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
