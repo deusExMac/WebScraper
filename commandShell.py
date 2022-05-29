@@ -743,13 +743,41 @@ class commandImpl:
 
       def library(self, a):
 
-          if  self.extractionRules is None:
+          cmdArgs = ThrowingArgumentParser()          
+          cmdArgs.add_argument('exrfile', nargs=argparse.REMAINDER, default=[] )
+          args = vars( cmdArgs.parse_args(a) )
+          
+          #print('file:', args.get('exrfile'))
+          if len(args['exrfile']) > 0:
+           print('Showing library in file ', args['exrfile'][0], sep='')     
+           #print('Rule file given:', args['exrfile'][0])     
+           try:     
+             with open(args['exrfile'][0],  encoding='utf-8', errors='ignore', mode='r') as f:          
+                  xLib = xRules.loadLibrary(f.read())
+           except Exception as rFile:
+                  print('Error reading rule file', args['exrfile'])
+                  return(False)
+          else:
+                  print('Showing loaded library')
+                  xLib =  self.extractionRules
+ 
+          if  xLib is None:
               print('No library loaded.')
               return
               
-          print('Library description: ', self.extractionRules.libraryDescription, sep='')
-          print('Library rules:')
-          self.rules(a)
+          print('Library description: ', xLib.libraryDescription, sep='')
+          print('Total of ', len(xLib.library), ' rules', sep='')
+          i = 1
+          for r in xLib.library:
+              print('\t', 10*"+", i, 10*'+')
+              print( "\tName:", r.ruleName   )
+              print( "\tDescription:", r.ruleDescription   )
+              print( "\tActivation:", r.ruleURLActivationCondition   )
+              print( "\tCSS selector:", r.ruleCSSSelector   )
+              print( "\tNumber of preconditions:", len(r.rulePreconditions)   )
+              i+=1
+
+          return(False)
 
           
           

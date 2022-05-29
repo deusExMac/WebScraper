@@ -8,6 +8,20 @@ import re
 import requests_html
 
 
+@dataclass
+class extractionCondition:
+      # Currently this places conditions (regular expressions) only on the extracted text of elements.
+      ecCSSSelector: str = ''
+      ecTextCondition: str = ''  # Regular expression
+
+      def conditionHolds(self, htmlContent) -> bool:
+          res = htmlContent.find(self.ecCSSSelector, first=False)
+          if re.search(self.ecTextCondition, res[0].text) is None:
+             return(False)
+          else:
+             return(True) 
+
+
 
 @dataclass
 class extractionRule:
@@ -24,6 +38,9 @@ class extractionRule:
     # Regular expression that the extracted rule content must match
     # to be considered valid
     ruleContentCondition: str = ''
+    # Preconditions that (all) must be met by the html content in order to apply the rule
+    rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
+
     
     ruleReturnsMore: bool  = False
     # If more than one value is returned, the next field tells us under what
@@ -92,8 +109,18 @@ class extractionRule:
     # TODO: Check this thoroughly. Also, refactor this...
     def apply( self, htmlContent ) -> dict:
 
+        # Check if there are preconditions and they are met.
+        # If not, rule is not applied.
+        for pc in self.rulePreconditions:
+            print('\t\t[DEBUG] Applying precodition rule [', pc.ecCSSSelector, ']')
+            if not pc.conditionHolds(htmlContent):
+               print('\t\t[DEBUG] precondition [', pc.ecCSSSelector, '] is NOT MET. Stopping') 
+               return({}) 
+
+
+
+        print('\t\t[DEBUG] All precoditions hold')        
         exTractedData = {}
-        
         res = htmlContent.find(self.ruleCSSSelector, first=False)
         
         if self.ruleTargetAttribute == "text":

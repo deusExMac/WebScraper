@@ -47,7 +47,7 @@
  "ruleName": "postUserName"
  "ruleDescription": "Get username of submission"
  "ruleURLActivationCondition": ["old.reddit.com/r/greece/comments/"]
- "ruleCSSSelector": ".id-t2_doomf, .id-t2_1voge41u"
+ "ruleCSSSelector": "a.author"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnedValueNames": []

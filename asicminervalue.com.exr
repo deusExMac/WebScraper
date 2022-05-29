@@ -67,6 +67,13 @@
  "ruleName": "power"
  "ruleDescription": "Power consumption"
  "ruleURLActivationCondition": ["/miners/", "testPages"] 
+ "rulePreconditions" : [ 
+                         {
+                           "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(9) th" 
+                           "ecTextCondition" : "Power"
+                          }
+                       ]
+ 
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(9) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
