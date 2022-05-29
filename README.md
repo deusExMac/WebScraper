@@ -12,7 +12,7 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 ## Example .exr file
 
-TODO: library extraction files have been  updated with new properties.
+TODO: library extraction files have been  updated with new properties. Make changes here!
 
 ```
 {
