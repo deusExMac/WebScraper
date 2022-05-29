@@ -765,8 +765,8 @@ class commandImpl:
               print('No library loaded.')
               return
               
-          print('Library description: ', xLib.libraryDescription, sep='')
-          print('Total of ', len(xLib.library), ' rules', sep='')
+          print('Description: ', xLib.libraryDescription, sep='')
+          print('Total of ', len(xLib.library), ' extraction rules in library', sep='')
           i = 1
           for r in xLib.library:
               print('\t', 10*"+", i, 10*'+')
