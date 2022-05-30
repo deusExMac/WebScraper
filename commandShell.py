@@ -52,6 +52,7 @@ from commandHistory import commandHistory
 import xRules
 
 import utils
+import urlQueue
 
 
 
@@ -582,7 +583,9 @@ class commandImpl:
           xDataDF = None
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= exRules.csvLineFormat )  
-          
+
+
+           
           try:
             while (True):
                  try:
