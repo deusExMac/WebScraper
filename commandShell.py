@@ -492,7 +492,7 @@ class commandImpl:
 
 
 
-      # TODO: Refactor me! 
+      # TODO: IT's so ugly. Refactor me! 
 
       def crawl(self, a):
 
@@ -558,7 +558,12 @@ class commandImpl:
           else:    
              print('\t[DEBUG] Using extraction library: ', exRules.libraryDescription)            
 
-          '''   
+          '''
+
+          if exRules is None or exRules.library is None:
+             print('[WARNING] Not extraction library found.')
+             
+          
           linkQueue = []
           linkQueue.append( args['url'][0] )
           visitedQueue = []
@@ -574,6 +579,10 @@ class commandImpl:
 
           numExtracted = 0 # Number of matches found/extracted
 
+          xDataDF = None
+          if exRules is not None and len( exRules.csvLineFormat ) > 0: 
+             xDataDF =  pd.DataFrame(columns= exRules.csvLineFormat )  
+          
           try:
             while (True):
                  try:
@@ -699,8 +708,15 @@ class commandImpl:
                         
                  print('\n\tExtracted page data:', pageData, '\n' )
                  
-                 ln = exRules.toCSVLine(pageData, ';')
-                 print('\t[DEBUG] csv line:', ln)
+                 #ln = exRules.toCSVLine(pageData, ';')
+                 #print('\t[DEBUG] csv line:', ln)
+
+
+                 # Store extracted data
+                 xdt = exRules.toDict(pageData)
+                 if xdt:
+                    xDataDF = xDataDF.append( xdt, ignore_index = True )
+                    print(xDataDF)
                  
                  numProcessed += 1
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
@@ -779,6 +795,10 @@ class commandImpl:
 
           return(False)
 
+
+
+
+
           
           
       def rules(self, a):
@@ -856,6 +876,31 @@ class commandImpl:
       
         # Make sure that the target and bearer agree
         # setTargetArchive(self.configuration, self.configuration.get('TwitterAPI', 'targetArchive', fallback="recent") )
+
+
+
+
+
+
+      def cdf(self, a):
+          cmdArgs = ThrowingArgumentParser()          
+          cmdArgs.add_argument('exrfile', nargs=argparse.REMAINDER, default=[] )
+          args = vars( cmdArgs.parse_args(a) )
+
+          try:     
+             with open(args['exrfile'][0],  encoding='utf-8', errors='ignore', mode='r') as f:          
+                  exl = xRules.loadLibrary(f.read())
+          except Exception as rFile:
+                  print('Error reading rule file', args['exrfile'])
+                  return(False)
+
+          print(exl.libraryDescription)
+
+          xDF = pd.DataFrame(columns= exl.csvLineFormat )
+          print(xDF)
+
+          
+            
 
           
 

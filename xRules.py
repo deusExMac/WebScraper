@@ -116,18 +116,21 @@ class extractionRule:
     # TODO: Check this thoroughly. Also, refactor this...
     def apply( self, htmlContent ) -> dict:
 
+        exTractedData = {}
+
         # Check if there are preconditions and they are met.
         # If not, rule is not applied.
         for pc in self.rulePreconditions:
             print('\t\t[DEBUG] Applying precodition rule [', pc.ecCSSSelector, ']')
             if not pc.conditionHolds(htmlContent):
+               exTractedData[self.ruleName] = ''   
                print('\t\t[DEBUG] precondition [', pc.ecCSSSelector, '] is NOT MET. Stopping') 
-               return({}) 
+               return(exTractedData) 
 
 
 
         print('\t\t[DEBUG] All precoditions hold')        
-        exTractedData = {}
+        
         res = htmlContent.find(self.ruleCSSSelector, first=False)
         
         if self.ruleTargetAttribute == "text":
@@ -246,7 +249,16 @@ class ruleLibrary:
 
           return(csvLine)             
               
-              
+      def toDict(self, xD) -> dict:
+          dct = {}
+          for nm in self.csvLineFormat:
+              if xD.get(nm) is None:
+                 continue
+            
+              dct[ nm ] = xD[nm]
+
+          return(dct)    
+            
 
 
 # Test!
