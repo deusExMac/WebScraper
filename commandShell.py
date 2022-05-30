@@ -44,7 +44,7 @@ from pathlib import Path
 import hashlib
 
 import numpy as np
-
+import csv
 
 # We define constants in this file
 import appConstants
@@ -508,6 +508,7 @@ class commandImpl:
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
              cmdArgs.add_argument('-H', '--humandelay', action='store_true' )
              cmdArgs.add_argument('-D', '--debugmode', action='store_true' )
+             cmdArgs.add_argument('-C', '--continue', action='store_true' )
              args = vars( cmdArgs.parse_args(a) )
 
           except Exception as gEx:
@@ -584,22 +585,29 @@ class commandImpl:
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= exRules.csvLineFormat )  
 
-
-           
+          uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], sQ=True ) 
+          uQ.add( args['url'][0] )
+          
           try:
             while (True):
                  try:
-                  if len(linkQueue) == 0:
-                     print('\t[DEBUG] Empty Queue')      
-                     break
+                       
+                  #if len(linkQueue) == 0:
+                  #   print('\t[DEBUG] Empty Queue')      
+                  #   break
                   
-                  currentUrl = linkQueue.pop(0)
+                  #currentUrl = linkQueue.pop(0)
+                  
+                  currentUrl = uQ.getNext()
+                  if currentUrl is None:
+                     print('\t[DEBUG] Empty Queue')
+                     break
                   
                  except Exception as popEx:
                    print('Error:', str(popEx))   
                    break    
 
-                 print( (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', len(linkQueue), ' Fetched:', len(visitedQueue), ' Extracted:', numExtracted,  sep='')
+                 print( (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted,  sep='')
 
                  tmStart = time.perf_counter() # start counting time
                  
@@ -619,7 +627,8 @@ class commandImpl:
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 
-                        
+                 uQ.updateStatus( currentUrl, response.status_code )
+                 uQ.updateContentType( currentUrl, response.headers.get('Content-Type', '') )
                  if response.status_code != 200:
                     numHTTPErrors += 1   
                     continue
@@ -632,12 +641,13 @@ class commandImpl:
 
                  print('\t[DEBUG] Hash:', pHash )
                  # Have we seen this content? If so, discard it; move to next
-                 if pHash in visitedPageHashes:
-                    print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')   
+                 if uQ.hInQueue(pHash):
+                    print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')
                     continue
-                 else: 
-                    visitedPageHashes.append(pHash)
 
+                 uQ.updatePageHash( currentUrl, pHash )
+                 uQ.updateLastModified( currentUrl, response.headers.get('Last-Modified', '') )
+                 
                  
                  
                  # Save to file if so required
@@ -695,13 +705,14 @@ class commandImpl:
                      if r.ruleName == 'getLinks':
                         for lnk in res:   
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
-                                                        
-                            if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
-                               continue
+
+                            #if canonicalLink                            
+                            #if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
+                            #   continue
                             
                             # Does acquired content match content rule?
                             if re.search( r.ruleContentCondition, canonicalLink) is not None:  
-                               linkQueue.append( canonicalLink )
+                               uQ.add( canonicalLink )
                              
                      else:
                            xData = r.apply( response.html )
@@ -747,9 +758,15 @@ class commandImpl:
                    
           except KeyboardInterrupt:
                  print('Control-C seen. Terminating. Processed ', numProcessed)
-                 return(False)
-                 
-
+                 #return(False)
+                 #break
+            
+          if uQ.qSave: 
+             print('[DEBUG] Saving queue...', end='')       
+             uQ.saveQ()
+             print('done.')
+             
+          return(False)
 
 
 
@@ -901,9 +918,27 @@ class commandImpl:
 
           xDF = pd.DataFrame(columns= exl.csvLineFormat )
           print(xDF)
+          return(False)
 
           
-            
+
+
+      # Load a queue csv file.
+      # TODO:  Has bugs
+      def loadq(self, a):
+          cmdArgs = ThrowingArgumentParser()          
+          cmdArgs.add_argument('queuefile', nargs=argparse.REMAINDER, default=['.queue'] )
+          args = vars( cmdArgs.parse_args(a) )
+
+          try:
+             print('Loading queue file [', args['queuefile'][0], ']')   
+             qD = pd.read_csv(args['queuefile'][0], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )   
+             print(qD) 
+          except Exception as rFile:
+                  print('Error reading queue file', args['queuefile'], str(rFile))
+                  return(False)
+
+          return(False)    
 
           
 

@@ -7,36 +7,8 @@
 
 
 {
-"libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
+"libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages. Just for testing",
 "library": [
-
-{
- "ruleName": "efficiencyPerDay"
- "ruleDescription": "A simple example of a rule"
- "ruleURLActivationCondition": ["/miners/"]
- 
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
-},
-
-{
- "ruleName": "costPerDay"
- "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": []
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- 
- # other parameters needed
-},
 
 {
  "ruleName": "getLinks"

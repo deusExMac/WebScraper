@@ -8,10 +8,11 @@ import csv
 
 class urlQueue:
 
-      def __init__(self, qS=1000, startNewSession=True, qF='.queue',  csvSep=';'  ):
+      def __init__(self, qSz=1000, startNewSession=True, qF='.queue',  csvSep=';', sQ=False  ):
           
-          self.qSize = qS
+          self.qSize = qSz
           self.qFile = qF
+          self.qSave = sQ
 
           self.queue = pd.DataFrame({'url': pd.Series(dtype='str'),
                                           'fetched': pd.Series(dtype='str'),
@@ -24,9 +25,10 @@ class urlQueue:
           if not startNewSession:
               # We do it this way so that even if an error occurs, an empty data frame exists.
               # Also, we rely on the Python gb to do its job.
-              print('[DEBUG] loading queue from [', self.qFile, ']')
+              print('[DEBUG] loading queue from [', self.qFile, '].....', end='')
               try:
                  self.queue = pd.read_csv(self.qFile, header=0, sep=csvSep, quoting=csv.QUOTE_NONNUMERIC)
+                 print('ok.')
               except Exception as rEx:
                  print('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.', sep='') 
               
@@ -45,8 +47,8 @@ class urlQueue:
 
 
 
-      def hInQueueH(self, h):
-          if self.queue.loc[ self.queue['hash'] == u ].shape[0] == 0:
+      def hInQueue(self, h):
+          if self.queue.loc[ self.queue['hash'] == h ].shape[0] == 0:
              return(False)
 
           return(True)
@@ -57,7 +59,7 @@ class urlQueue:
       def add(self, u, f=np.nan, s=-1, c=np.nan, l=np.nan, h=np.nan):
 
           if self.uInQueue(u):
-             print('[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
+             #print('[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
              return(False)
 
 
@@ -98,6 +100,8 @@ class urlQueue:
       def pendingUrlsCount(self):
           return( self.queue.loc[ self.queue['status'] == -1].shape[0] )
 
+      def fetchedUrlsCount(self):
+          return( self.queue.loc[ self.queue['status'] != -1].shape[0] )
 
       def errorUrlsCount(self):
           return( self.queue[ (self.queue['status'] < 0 ) & (self.queue['status'] != -1) ].shape[0] )
@@ -127,7 +131,12 @@ class urlQueue:
       
           
       def saveQ(self, csvsep=';'):
+          if not self.qSave:
+             return(False)
+            
           try:
              self.queue.to_csv( self.qFile, index=False, sep=csvsep, quoting=csv.QUOTE_NONNUMERIC )
+             return(True)
           except Exception as svEx:
-             print('[ERROR] Error saving queue to csv file [', self.qFile, '] ', str(svEx), sep='') 
+             print('[ERROR] Error saving queue to csv file [', self.qFile, '] ', str(svEx), sep='')
+             return(False)
