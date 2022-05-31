@@ -11,16 +11,16 @@
 "library": [
 
 {
- "ruleName": "died"
- "ruleDescription": "Get death date from infoboxes"
+ "ruleName": "teamFullName"
+ "ruleDescription": "Get full name of clubs from infoboxes"
  "ruleURLActivationCondition": ["en\.wikipedia\.org"]
  "rulePreconditions" : [ 
                          {
-                           "ecCSSSelector" : "tr:nth-child(16) .infobox-label" 
-                           "ecTextCondition" : "Died"
+                           "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
+                           "ecTextCondition" : "Full name"
                           }
                        ]
- "ruleCSSSelector": "tr:nth-child(16) .infobox-data"
+ "ruleCSSSelector": "tr:nth-child(2) .infobox-data"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
