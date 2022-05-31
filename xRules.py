@@ -20,6 +20,7 @@ class extractionCondition:
       # Currently this places conditions (regular expressions) only on the extracted text of elements.
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
+      ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
 
       def conditionHolds(self, htmlContent) -> bool:
           res = htmlContent.find(self.ecCSSSelector, first=False)
@@ -30,6 +31,25 @@ class extractionCondition:
              return(False)
           else:
              return(True) 
+
+
+
+
+
+
+
+@dataclass
+class ruleConditionList:
+      conditionType: str = ''
+      conditionList: List[extractionCondition] = field(default_factory=lambda:[])
+
+
+
+def makeRuleConditionList()->ruleConditionList:
+    return ruleConditionList( conditionType= '', conditionList=[] )
+      
+
+
 
 
 
@@ -49,8 +69,12 @@ class extractionRule:
     # to be considered valid
     ruleContentCondition: str = ''
     # Preconditions that (all) must be met by the html content in order to apply the rule
-    rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
 
+    #rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
+    #rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList)
+    rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList )
+
+    
     
     ruleReturnsMore: bool  = False
     # If more than one value is returned, the next field tells us under what
@@ -122,13 +146,49 @@ class extractionRule:
            return('') 
 
 
+
+
+    def evalPreconditions(self, htmlContent) -> dict:
+          
+        if self.rulePreconditions.conditionType.lower() == 'all':
+           # This means all conditions must hold to apply rule
+           for pc in self.rulePreconditions.conditionList:
+               print('\t\t[DEBUG] [Mode ALL] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
+               if not pc.conditionHolds(htmlContent):
+                  print('NO')                  
+                  self.rulePreconditionFailedCount += 1
+                  return( {'status': False, 'cssselector':''} )
+
+               print('YES')
+               
+           return( {'status': True, 'cssselector':''} ) 
+
+        if self.rulePreconditions.conditionType.lower() == 'any':
+           for pc in self.rulePreconditions.conditionList:
+               print('\t\t[DEBUG] [Mode ANY] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
+               if pc.conditionHolds(htmlContent):
+                  print('YES')
+                  if pc.ecRuleCSSSelector != '':
+                     return( {'status': True, 'cssselector': pc.ecRuleCSSSelector})
+                  else:
+                      return( {'status': True, 'cssselector': ''} )
+               print('NO')
+                              
+           return( {'status': False, 'cssselector':''} )                   
+                        
+        print('\t\t[DEBUG] [Mode', self.rulePreconditions.conditionType, '] Unknown mode')              
+        return( {'status': False, 'cssselector':''} )
+
+
+
+
     
     # htmlContent must be html object from requests_html
     # TODO: Check this thoroughly. Also, refactor this...
     def apply( self, htmlContent ) -> dict:
 
         exTractedData = {}
-
+        '''
         # Check if there are preconditions and they are met.
         # If not, rule is not applied.
         for pc in self.rulePreconditions:
@@ -142,12 +202,23 @@ class extractionRule:
 
             print('YES') 
 
+        '''
 
+        preconStatus = self.evalPreconditions(htmlContent)
+        if not preconStatus['status']:
+           exTractedData[self.ruleName] = ''
+           return(exTractedData)
+
+              
         self.ruleAppliedCount += 1
         
-        print('\t\t[DEBUG] All precoditions hold')        
-        
-        res = htmlContent.find(self.ruleCSSSelector, first=False)
+        print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')        
+        if preconStatus['cssselector'] == '':
+           res = htmlContent.find(self.ruleCSSSelector, first=False)
+        else:   
+            res = htmlContent.find(preconStatus['cssselector'], first=False)
+
+            
         
         if self.ruleTargetAttribute == "text":
             

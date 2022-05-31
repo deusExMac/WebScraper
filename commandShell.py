@@ -817,7 +817,7 @@ class commandImpl:
               print( "\tDescription:", r.ruleDescription   )
               print( "\tActivation:", r.ruleURLActivationCondition   )
               print( "\tCSS selector:", r.ruleCSSSelector   )
-              print( "\tNumber of preconditions:", len(r.rulePreconditions)   )
+              print( "\tNumber of preconditions:", len(r.rulePreconditions.conditionList)   )
               print("\tUsage stats:")
               print( "\t\tApplied count:", r.ruleAppliedCount   )
               print( "\t\tMatch count:", r.ruleMatchCount   )
