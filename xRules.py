@@ -63,16 +63,24 @@ class extractionRule:
     ruleAux1: str = ''
     ruleAux2: str = ''
 
+    # Usage statistics
+    ruleMatchedUrlsCount: int = 0
+    rulePreconditionFailedCount: int = 0
+    ruleAppliedCount: int = 0
+    ruleMatchCount: int = 0
 
      
     # Check if this rule should be activated for this url
     def ruleMatches(self, url) -> bool:
+          
         # No condition means apply it
         if len(self.ruleURLActivationCondition) == 0:
+           self.ruleMatchedUrlsCount += 1
            return(True)
             
         for regExp in self.ruleURLActivationCondition:
             if re.search( regExp, url) is not None:
+               self.ruleMatchedUrlsCount += 1   
                return(True)
 
         return(False)
@@ -124,28 +132,35 @@ class extractionRule:
         # Check if there are preconditions and they are met.
         # If not, rule is not applied.
         for pc in self.rulePreconditions:
-            print('\t\t[DEBUG] Checking if precodition rule [', pc.ecCSSSelector, '] holds...')
-            if not pc.conditionHolds(htmlContent):   
+            print('\t\t[DEBUG] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
+            if not pc.conditionHolds(htmlContent):
+               print('NO')   
                exTractedData[self.ruleName] = ''   
-               print('\t\t[DEBUG] precondition [', pc.ecCSSSelector, '] is NOT MET. Stopping') 
+               print('\t\t[DEBUG] precondition [', pc.ecCSSSelector, '] is NOT MET. Stopping')
+               self.rulePreconditionFailedCount += 1
                return(exTractedData) 
 
+            print('YES') 
 
 
+        self.ruleAppliedCount += 1
+        
         print('\t\t[DEBUG] All precoditions hold')        
         
         res = htmlContent.find(self.ruleCSSSelector, first=False)
         
         if self.ruleTargetAttribute == "text":
             
-             if not self.ruleReturnsMore: 
+             if not self.ruleReturnsMore:
+                   
                  if self.ruleContentCondition != '': 
                     res = [m for m in res if re.search(self.ruleContentCondition, m) is not None ]
                  if len(res) <= 0:
                     print("\t\t[DEBUG] Empty. No match present")
                     exTractedData[self.ruleName] = ''
                     return(exTractedData)
-                 else:    
+                 else:
+                    self.ruleMatchCount += 1   
                     xVal = res[self.ruleReturnedMatchPos].text
 
                     # Replace characters
@@ -169,10 +184,12 @@ class extractionRule:
 	         # OR BETTER, USE maketrans!
                  #for i in range( len(res) ):
                  #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars}) 
-
+                 nM = 0 
                  if len(self.ruleReturnedValueNames) > 0:
                      for e, name in zip(res, self.ruleReturnedValueNames):
                          exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})
+
+                     nM = len(self.ruleReturnedValueNames)    
                  else:
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []
@@ -180,7 +197,9 @@ class extractionRule:
                           rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
 
                       exTractedData[self.ruleName] = rList
-                      
+                      nM = len(rList)
+
+                 self.ruleMatchCount += nM     
                  return(exTractedData)
             
         else:
@@ -251,6 +270,9 @@ class ruleLibrary:
                     csvLine = csvLine + sep + xD[nm]
 
           return(csvLine)             
+
+
+
               
       def toDict(self, xD) -> dict:
           dct = {}
@@ -261,7 +283,19 @@ class ruleLibrary:
               dct[ nm ] = xD[nm]
 
           return(dct)    
-            
+
+
+
+      def libStats(self) -> bool:
+
+          for xr in self.library:
+              print('Rule:', xr.ruleName)
+              print('\tMatched URLs count:', xr.ruleMatchedUrlsCount)
+              print('\tFailed precondition count:', xr.rulePreconditionFailedCount)
+              print('\tApplied count:', xr.ruleAppliedCount)
+              print('\tMatch count:', xr.ruleMatchCount)
+
+          return(False)    
 
 
 # Test!

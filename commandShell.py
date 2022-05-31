@@ -768,7 +768,11 @@ class commandImpl:
              print('[DEBUG] Saving queue...', end='')       
              uQ.saveQ()
              print('done.')
-             
+
+
+          # Display some statistics 
+          exRules.libStats()
+          
           return(False)
 
 
@@ -814,6 +818,9 @@ class commandImpl:
               print( "\tActivation:", r.ruleURLActivationCondition   )
               print( "\tCSS selector:", r.ruleCSSSelector   )
               print( "\tNumber of preconditions:", len(r.rulePreconditions)   )
+              print("\tUsage stats:")
+              print( "\t\tApplied count:", r.ruleAppliedCount   )
+              print( "\t\tMatch count:", r.ruleMatchCount   )
               i+=1
 
           return(False)
