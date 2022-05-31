@@ -624,6 +624,8 @@ class commandImpl:
                         print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
                         if numNetErrors >= 3:
+                           # TODO: a break here would be more appropriate...   
+                           uQ.saveQ()   
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 
