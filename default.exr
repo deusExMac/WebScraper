@@ -3,6 +3,15 @@
 # 
 # version 0.01@18/05/2022
 #
+# TODO: Very important!
+#       The version committed 32/05/2022 due to the change to the json structure 
+#       MUST specify a default rulePreconditions property in all rules in all .exr files like this:
+#  "rulePreconditions" : { 
+#                            "conditionType": ""
+#                           "conditionList": []
+#                       }
+#
+# if rulePreconditions is missing, rule libraries cannot be loaded properly
 #
 
 
@@ -14,6 +23,10 @@
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"]
+ "rulePreconditions" : { 
+                             "conditionType": ""
+                            "conditionList": []
+                       }
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
  "ruleContentCondition": "www\.econ\.upatras\.gr/\.*(?!announcements).*$"
