@@ -68,7 +68,8 @@ class urlQueue:
                 return(False) 
           try:
             d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'lastmodified':l, 'hash':h}
-            self.queue = self.queue.append(d, ignore_index = True)
+            #self.queue = self.queue.append(d, ignore_index = True)
+            self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])])
             return(True)
           except Exception as ex:
              return(False) 

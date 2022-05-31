@@ -11,17 +11,22 @@
 "library": [
 
 {
- "ruleName": "RULE1"
- "ruleDescription": "A simple example of a rule"
- "ruleURLActivationCondition": ["/miners/"]
- 
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleName": "died"
+ "ruleDescription": "Get death date from infoboxes"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org"]
+ "rulePreconditions" : [ 
+                         {
+                           "ecCSSSelector" : "tr:nth-child(16) .infobox-label" 
+                           "ecTextCondition" : "Died"
+                          }
+                       ]
+ "ruleCSSSelector": "tr:nth-child(16) .infobox-data"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": []
 },
 
 {

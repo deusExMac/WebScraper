@@ -732,6 +732,7 @@ class commandImpl:
                  xdt = exRules.toDict(pageData)
                  if xdt:
                     xDataDF = xDataDF.append( xdt, ignore_index = True )
+                    #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
                     print(xDataDF)
                  
                  numProcessed += 1

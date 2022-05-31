@@ -23,6 +23,9 @@ class extractionCondition:
 
       def conditionHolds(self, htmlContent) -> bool:
           res = htmlContent.find(self.ecCSSSelector, first=False)
+          if len(res) <= 0:
+             return(False)
+            
           if re.search(self.ecTextCondition, res[0].text) is None:
              return(False)
           else:
@@ -121,8 +124,8 @@ class extractionRule:
         # Check if there are preconditions and they are met.
         # If not, rule is not applied.
         for pc in self.rulePreconditions:
-            print('\t\t[DEBUG] Applying precodition rule [', pc.ecCSSSelector, ']')
-            if not pc.conditionHolds(htmlContent):
+            print('\t\t[DEBUG] Checking if precodition rule [', pc.ecCSSSelector, '] holds...')
+            if not pc.conditionHolds(htmlContent):   
                exTractedData[self.ruleName] = ''   
                print('\t\t[DEBUG] precondition [', pc.ecCSSSelector, '] is NOT MET. Stopping') 
                return(exTractedData) 
