@@ -503,6 +503,7 @@ class commandImpl:
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
              cmdArgs.add_argument('-s', '--sleeptime', type=float, nargs='?' )
+             cmdArgs.add_argument('-o', '--outputcsvfile', type=str, nargs='?', default='extracted' + datetime.datetime.now().strftime("%d-%m-%Y@%H-%M-%S") + '.csv' )
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
@@ -583,7 +584,7 @@ class commandImpl:
 
           xDataDF = None
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
-             xDataDF =  pd.DataFrame(columns= exRules.csvLineFormat )  
+             xDataDF =  pd.DataFrame(columns= (['url'] + exRules.csvLineFormat) )  
 
           uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], sQ=True ) 
           uQ.add( args['url'][0] )
@@ -731,9 +732,11 @@ class commandImpl:
                  # Store extracted data
                  xdt = exRules.toDict(pageData)
                  if xdt:
+                    xdt['url'] = currentUrl
+                    print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
                     xDataDF = xDataDF.append( xdt, ignore_index = True )
                     #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
-                    print(xDataDF)
+                    #print(xDataDF)
                  
                  numProcessed += 1
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
@@ -763,7 +766,16 @@ class commandImpl:
                  print('Control-C seen. Terminating. Processed ', numProcessed)
                  #return(False)
                  #break
-            
+
+
+          print('[DEBUG] Saving extracted data to [', args['outputcsvfile'], ']...', end='')
+          if xDataDF is not None:
+            try:    
+             xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+             print('ok')
+            except Exception as scsvEx:
+                  print('Error.', str(scsvEx))
+          
           if uQ.qSave: 
              print('[DEBUG] Saving queue...', end='')       
              uQ.saveQ()
@@ -817,7 +829,8 @@ class commandImpl:
               print( "\tDescription:", r.ruleDescription   )
               print( "\tActivation:", r.ruleURLActivationCondition   )
               print( "\tCSS selector:", r.ruleCSSSelector   )
-              print( "\tNumber of preconditions:", len(r.rulePreconditions.conditionList)   )
+              print( "\tPrecondition type:", r.rulePreconditionType  )
+              print( "\tNumber of preconditions:", len(r.rulePreconditions)   )
               print("\tUsage stats:")
               print( "\t\tApplied count:", r.ruleAppliedCount   )
               print( "\t\tMatch count:", r.ruleMatchCount   )

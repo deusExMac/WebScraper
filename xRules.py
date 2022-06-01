@@ -48,7 +48,7 @@ class ruleConditionList:
 
       
 
-def makeRuleConditionList():
+def makeRuleConditionList() -> ruleConditionList or None:
     return ruleConditionList()
 
 
@@ -56,23 +56,24 @@ def makeRuleConditionList():
 @dataclass
 class extractionRule:
     """Class for represeing a simple extraction rule."""
-    ruleName: str = ''
-    ruleDescription: str = ''
+    ruleName: str = field(default = '')
+    ruleDescription: str  = field(default = '')
     # regular expression the URL has to match to make this rule fire
     ruleURLActivationCondition: List[str] = field(default_factory=lambda:[]) 
 
     # How to get/scrap the data (in regex or css selector form)
-    ruleCSSSelector: str = ''
-    ruleTargetAttribute: str = ''
+    ruleCSSSelector: str  = field(default = '')
+    ruleTargetAttribute: str  = field(default = '')
     #ruleRegularExpression: str = ''
     # Regular expression that the extracted rule content must match
     # to be considered valid
-    ruleContentCondition: str = ''
+    ruleContentCondition: str = field(default = '') #''
     # Preconditions that (all) must be met by the html content in order to apply the rule
 
     #rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
     #rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList)
-    rulePreconditions: ruleConditionList = None #=field(default_factory=makeRuleConditionList )
+    rulePreconditionType: str = 'ANY'
+    rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
     
     
@@ -94,11 +95,11 @@ class extractionRule:
     ruleMatchCount: int = 0
 
 
-
+    
     def __post_init__(self):  
         if self.rulePreconditions is None:
            self.rulePreconditions = ruleConditionList(conditionType='', conditionList=[])   
-
+    
 
           
     #@staticmethod
@@ -161,9 +162,9 @@ class extractionRule:
 
     def evalPreconditions(self, htmlContent) -> dict:
           
-        if self.rulePreconditions.conditionType.lower() == 'all':
+        if self.rulePreconditionType.lower() == 'all':
            # This means all conditions must hold to apply rule
-           for pc in self.rulePreconditions.conditionList:
+           for pc in self.rulePreconditions:
                print('\t\t[DEBUG] [Mode ALL] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
                if not pc.conditionHolds(htmlContent):
                   print('NO')                  
@@ -174,8 +175,8 @@ class extractionRule:
                
            return( {'status': True, 'cssselector':''} ) 
 
-        if self.rulePreconditions.conditionType.lower() == 'any':
-           for pc in self.rulePreconditions.conditionList:
+        if self.rulePreconditionType.lower() == 'any':
+           for pc in self.rulePreconditions:
                print('\t\t[DEBUG] [Mode ANY] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
                if pc.conditionHolds(htmlContent):
                   print('YES')
@@ -184,10 +185,12 @@ class extractionRule:
                   else:
                       return( {'status': True, 'cssselector': ''} )
                print('NO')
-                              
+
+           self.rulePreconditionFailedCount += 1                   
            return( {'status': False, 'cssselector':''} )                   
+
                         
-        print('\t\t[DEBUG] [Mode', self.rulePreconditions.conditionType, '] Unknown mode')              
+        print('\t\t[DEBUG] Unknown mode [', self.rulePreconditionType, ']')              
         return( {'status': False, 'cssselector':''} )
 
 
@@ -358,12 +361,19 @@ class ruleLibrary:
               
       def toDict(self, xD) -> dict:
           dct = {}
+          nonEmpty = 0
           for nm in self.csvLineFormat:
               if xD.get(nm) is None:
                  continue
             
-              dct[ nm ] = xD[nm]
+              dct[nm] = xD[nm]
+              if xD[nm] != '':
+                 nonEmpty += 1   
 
+          if nonEmpty == 0:
+             print('\t\t\t[DEBUG] Not adding', dct)   
+             return( {} )
+            
           return(dct)    
 
 
