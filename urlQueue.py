@@ -3,17 +3,17 @@ import pandas as pd
 import numpy as np
 import csv
 
-
+import datetime
 
 
 class urlQueue:
 
-      def __init__(self, qSz=1000, startNewSession=True, qF='.queue',  csvSep=';', sQ=False  ):
+      def __init__(self, qSz=1000, startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
           
           self.qSize = qSz
           self.qFile = qF
           self.qSave = sQ
-
+          self.currentQPos = cP # Current position used in update mode
           self.queue = pd.DataFrame({'url': pd.Series(dtype='str'),
                                           'fetched': pd.Series(dtype='str'),
                                           'status': pd.Series(dtype='int'),
@@ -54,6 +54,20 @@ class urlQueue:
           return(True)
         
 
+      def getByUrl(self, u):
+          if  self.queue[ self.queue['url'] == u ].shape[0] == 0:
+              return( {} )
+            
+          return( self.queue[ self.queue['url'] == u ].to_dict( orient='records' )[0]  )
+
+
+
+      def getByHash(self, h):
+          if  self.queue[ self.queue['hash'] == h ].shape[0] == 0:
+              return( {} )
+            
+          return( self.queue[ self.queue['hash'] == h ].to_dict( orient='records' )[0]  )
+
 
 
       def add(self, u, f=np.nan, s=-1, c=np.nan, l=np.nan, h=np.nan):
@@ -86,7 +100,17 @@ class urlQueue:
           
 
 
-      def getNext(self):
+      def getNext(self, mode = 'expand'):
+
+          if mode == 'update':
+             if self.currentQPos < self.queue.shape[0]:   
+                uUrl = self.queue.iloc[ self.currentQPos ]['url']
+                self.currentQPos += 1
+                return( uUrl )
+             else:
+                return( None )
+
+          # Not in update mode. Get one that has not been fetched.  
           try:
              return( self.queue.loc[ self.queue['status'] == -1, 'url' ].iloc[0] )
           except IndexError as iErr:              
@@ -112,6 +136,12 @@ class urlQueue:
       def updateStatus(self, u, sts):          
           self.queue.loc[ self.queue['url'] == u, 'status' ] = sts
 
+
+
+      def updateTimeFetched(self, u):
+          nw = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+          self.queue.loc[ self.queue['url'] == u, 'fetched' ] = nw
+          
           
       def updateLastModified(self, u, lm):          
           self.queue.loc[ self.queue['url'] == u, 'lastmodified' ] = lm

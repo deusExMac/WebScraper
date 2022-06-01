@@ -488,7 +488,83 @@ class commandImpl:
 
 
 
+      def __updateCrawl(self, qF, oF, cfg, xR, nU ):
 
+          print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
+          uQ = urlQueue.urlQueue(startNewSession=False, qF=qF)
+          
+          '''
+          try:
+              queueDF = pd.read_csv(qF, sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )
+          except Exception as rEx:
+                 print('Error.', str(rEx) )
+                 return(False)
+            
+          print('ok. Total of ', queueDF.shape[0], ' rows', sep='')
+          '''
+
+          print('\t[DEBUG] Loading csvfile file [', oF, ']...', end='')
+          try:
+              csvDF = pd.read_csv(oF, sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )
+          except Exception as rEx:
+                 print('Error.', str(rEx) )
+                 return(False)
+            
+          print('ok. Total of ', csvDF.shape[0], ' rows', sep='')
+
+          cPos = 0 
+          while(True):
+                
+                if cPos >=csvDF.shape[0]:
+                   print('Empty queue. Terminating')   
+                   break
+
+                targetUrl = csvDF.iloc[cPos]['url']  
+                print('\t\t', cPos, ') [DEBUG] Doing [', targetUrl, ']', sep='' )
+                qData = uQ.getByUrl( targetUrl )
+                if not qData:
+                   print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND!')
+
+                #else:
+                #   print('\t\t[DEBUG] Url [', csvDF.iloc[cPos]['url'], ']:', qData)   
+
+
+                # TODO: Try block here...      
+                pUrl = urlparse( unquote(targetUrl) )    
+                session = HTMLSession()                
+                response = session.get(targetUrl)
+
+                if response.headers.get('Last-Modified', '') != '':
+                   if response.headers.get('Last-Modified', '') == qData['lastmodified']:
+                      print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')
+                      cPos += 1
+                      continue
+
+
+                # Check hashes
+                newHash = utils.txtHash( response.text )
+                if newHash == qData['hash']:
+                   print('\t\t[DEBUG] Hash comparison: Not modified.')
+                   cPos += 1
+                   continue
+
+                print('\t\t[DEBUG] Modified.')
+
+                # next url    
+                cPos += 1
+                
+                if nU is None:
+                   maxU = cfg.getint('Crawler', 'maxPages', fallback=-1)
+                else:
+                   maxU = nU
+
+                      
+                if maxU > 0:
+                   if cPos >= maxU:   
+                      print('\t\tLimit of', maxU, 'reached. Terminating')
+                      return(False)
+                
+          
 
 
 
@@ -504,12 +580,19 @@ class commandImpl:
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
              cmdArgs.add_argument('-s', '--sleeptime', type=float, nargs='?' )
              cmdArgs.add_argument('-o', '--outputcsvfile', type=str, nargs='?', default='extracted' + datetime.datetime.now().strftime("%d-%m-%Y@%H-%M-%S") + '.csv' )
+             cmdArgs.add_argument('-q', '--queuefile', type=str, default='.queue' )
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
              cmdArgs.add_argument('-H', '--humandelay', action='store_true' )
              cmdArgs.add_argument('-D', '--debugmode', action='store_true' )
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
+             
+             
+             cmdArgs.add_argument('-U', '--update', action='store_true' )
+             #cmdArgs.add_argument('-Q', '--updateQueue', action='store_true' )
+             cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
+             
              args = vars( cmdArgs.parse_args(a) )
 
           except Exception as gEx:
@@ -554,6 +637,13 @@ class commandImpl:
                 except Exception as flEx:
                        print(str(flEx) )
                        return(False)
+
+
+
+          if args['update']:
+             self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages') )
+             return(False)
+
 
           '''
           if exRules is None or exRules.library is None:
@@ -630,6 +720,7 @@ class commandImpl:
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 
+                 uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status_code )
                  uQ.updateContentType( currentUrl, response.headers.get('Content-Type', '') )
                  if response.status_code != 200:
