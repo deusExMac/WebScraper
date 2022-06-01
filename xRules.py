@@ -45,11 +45,11 @@ class ruleConditionList:
 
 
 
-def makeRuleConditionList()->ruleConditionList:
-    return ruleConditionList( conditionType= '', conditionList=[] )
+
       
 
-
+def makeRuleConditionList():
+    return ruleConditionList()
 
 
 
@@ -72,7 +72,7 @@ class extractionRule:
 
     #rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
     #rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList)
-    rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList )
+    rulePreconditions: ruleConditionList =field(default_factory=makeRuleConditionList )
 
     
     
@@ -93,6 +93,17 @@ class extractionRule:
     ruleAppliedCount: int = 0
     ruleMatchCount: int = 0
 
+
+
+    def __post_init__(self):
+        if self.rulePreconditions is None:
+           self.rulePreconditions = ruleConditionList(conditionType='', conditionList=[])   
+
+
+          
+    #@staticmethod
+    #def makeRuleConditionList()->ruleConditionList:
+    #    return ruleConditionList( conditionType= '', conditionList=[] )
      
     # Check if this rule should be activated for this url
     def ruleMatches(self, url) -> bool:

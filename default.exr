@@ -24,8 +24,8 @@
  "ruleDescription": "Extracting links rule"
  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"]
  "rulePreconditions" : { 
-                             "conditionType": ""
-                            "conditionList": []
+                              "conditionType": ""
+                             "conditionList": []
                        }
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
