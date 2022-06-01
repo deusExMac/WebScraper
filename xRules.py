@@ -72,7 +72,7 @@ class extractionRule:
 
     #rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
     #rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList)
-    rulePreconditions: ruleConditionList =field(default_factory=makeRuleConditionList )
+    rulePreconditions: ruleConditionList = None #=field(default_factory=makeRuleConditionList )
 
     
     
@@ -95,7 +95,7 @@ class extractionRule:
 
 
 
-    def __post_init__(self):
+    def __post_init__(self):  
         if self.rulePreconditions is None:
            self.rulePreconditions = ruleConditionList(conditionType='', conditionList=[])   
 
