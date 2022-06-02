@@ -161,7 +161,12 @@ class extractionRule:
 
 
     def evalPreconditions(self, htmlContent) -> dict:
-          
+
+        # TODO: Quci and dirty fix. Find a better way to do this.
+        if  len(self.rulePreconditions) == 0:
+            return({'status':True, 'cssselector':''})
+
+      
         if self.rulePreconditionType.lower() == 'all':
            # This means all conditions must hold to apply rule
            for pc in self.rulePreconditions:
@@ -219,6 +224,7 @@ class extractionRule:
         '''
 
         preconStatus = self.evalPreconditions(htmlContent)
+        print('\t\t[DEBUG] evaluation of preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
            exTractedData[self.ruleName] = ''
            return(exTractedData)
@@ -283,6 +289,7 @@ class extractionRule:
 
                       exTractedData[self.ruleName] = rList
                       nM = len(rList)
+                      print(':::', exTractedData )
 
                  self.ruleMatchCount += nM     
                  return(exTractedData)

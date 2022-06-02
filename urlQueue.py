@@ -33,7 +33,7 @@ class urlQueue:
                  print('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.', sep='') 
               
           
-          
+          print('[DEBUG]Using queue file [', self.qFile, ']')
           
           
           
@@ -73,7 +73,7 @@ class urlQueue:
       def add(self, u, f=np.nan, s=-1, c=np.nan, l=np.nan, h=np.nan):
 
           if self.uInQueue(u):
-             #print('[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
+             #print('\t[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
              return(False)
 
 
@@ -166,6 +166,7 @@ class urlQueue:
              return(False)
             
           try:
+             print('[DEBUG] Saving to queue file ', self.qFile)   
              self.queue.to_csv( self.qFile, index=False, sep=csvsep, quoting=csv.QUOTE_NONNUMERIC )
              return(True)
           except Exception as svEx:

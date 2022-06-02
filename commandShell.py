@@ -488,7 +488,7 @@ class commandImpl:
 
 
 
-      def __updateCrawl(self, qF, oF, cfg, xR, nU ):
+      def __updateCrawl(self, qF, oF, cfg, xR, nU, mr=False ):
 
           print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
           uQ = urlQueue.urlQueue(startNewSession=False, qF=qF)
@@ -503,7 +503,12 @@ class commandImpl:
           print('ok. Total of ', queueDF.shape[0], ' rows', sep='')
           '''
 
+          
           print('\t[DEBUG] Loading csvfile file [', oF, ']...', end='')
+          if not os.path.exists(oF):
+             print('No such file. Terminating')
+             return(False)
+            
           try:
               csvDF = pd.read_csv(oF, sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )
           except Exception as rEx:
@@ -521,12 +526,12 @@ class commandImpl:
 
                 targetUrl = csvDF.iloc[cPos]['url']  
                 print('\t\t', cPos, ') [DEBUG] Doing [', targetUrl, ']', sep='' )
+                cPos += 1 # Move to next... TODO: Is this correct here? Elsewhere?
                 qData = uQ.getByUrl( targetUrl )
                 if not qData:
                    print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND!')
 
-                #else:
-                #   print('\t\t[DEBUG] Url [', csvDF.iloc[cPos]['url'], ']:', qData)   
+                
 
 
                 # TODO: Try block here...      
@@ -535,23 +540,24 @@ class commandImpl:
                 response = session.get(targetUrl)
 
                 if response.headers.get('Last-Modified', '') != '':
-                   if response.headers.get('Last-Modified', '') == qData['lastmodified']:
-                      print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')
-                      cPos += 1
+                   if response.headers.get('Last-Modified', '') == qData.get('lastmodified', ''):
+                      print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')                      
                       continue
 
 
                 # Check hashes
                 newHash = utils.txtHash( response.text )
-                if newHash == qData['hash']:
-                   print('\t\t[DEBUG] Hash comparison: Not modified.')
-                   cPos += 1
+                if newHash == qData.get('hash', ''):
+                   print('\t\t[DEBUG] Hash comparison: Not modified.')                   
                    continue
 
                 print('\t\t[DEBUG] Modified.')
 
-                # next url    
-                cPos += 1
+                if mr:
+                    if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cfg.get('Storage', 'mirrorRoot', fallback='')):
+                       print('\t[DEBUG] Error saving file')   
+
+                
                 
                 if nU is None:
                    maxU = cfg.getint('Crawler', 'maxPages', fallback=-1)
@@ -560,7 +566,7 @@ class commandImpl:
 
                       
                 if maxU > 0:
-                   if cPos >= maxU:   
+                   if (cPos -1) >= maxU:   
                       print('\t\tLimit of', maxU, 'reached. Terminating')
                       return(False)
                 
@@ -641,7 +647,20 @@ class commandImpl:
 
 
           if args['update']:
-             self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages') )
+             print("")
+             print("")   
+             print("######################################")
+             print("#")
+             print("#")
+             print("#")
+             print("#       Entering UPDATE MODE")   
+             print("#")
+             print("#")
+             print("#")
+             print("######################################")
+             print("")
+             print("")   
+             self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages'), args['mirror'] )
              return(False)
 
 
@@ -676,7 +695,7 @@ class commandImpl:
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= (['url'] + exRules.csvLineFormat) )  
 
-          uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], sQ=True ) 
+          uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
           
           try:
@@ -749,7 +768,9 @@ class commandImpl:
                  # TODO: has a bug when saving files with extension e.g.:https://www.econ.upatras.gr/sites/default/files/attachments/tmima_politiki_poiotitas_toe_v3.pdf
                  #       does not 
                  if args['mirror']:
-                                        
+                    if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cmdConfigSettings.get('Storage', 'mirrorRoot', fallback='')):
+                       print('\t[DEBUG] Error saving file')   
+                    '''
                     try:
                        targetName = utils.urlToFilename(cmdConfigSettings.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
                        print('\t[DEBUG] [mirror] Saving to ', targetName)
@@ -770,7 +791,7 @@ class commandImpl:
                     except Exception as pcEx:
                        print('\tERROR creating directories or creating file ', targetName, str(pcEx))
 
-                    
+                    '''
                   
                  if 'html' not in response.headers.get('Content-Type', ''):
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   

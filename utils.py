@@ -37,7 +37,11 @@ def byteHash(byteArray, chnunkSize=4096):
 def urlToFilename( root, u ):
                 
             parsedUrl = urlparse(unquote(u))
-            prefix = root + '/' + parsedUrl.netloc
+            if not root.endswith('/'):
+               prefix = root + '/' + parsedUrl.netloc
+            else:
+               prefix = root +  parsedUrl.netloc
+               
             if os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() != '':
                print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
                return(prefix + parsedUrl.path)
@@ -66,3 +70,29 @@ def isText(contentType):
               
     return(False)
 
+
+
+def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
+    try:
+       targetName = urlToFilename(mRoot, u)
+       print('\t[DEBUG] [mirror] Saving to ', targetName)
+       targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '').replace('"', '').replace("'", '')
+       targetDir = os.path.dirname(targetName)
+       Path(targetDir).mkdir(parents=True, exist_ok=True)
+       print('\t[DEBUG] Content-type:', rsp.headers.get('Content-Type', '') )
+       if isText( rsp.headers.get('Content-Type', '') ):
+          print('\t[DEBUG] Writing text')
+          # TODO: What about encoding?
+          with open(targetName, 'w', errors='ignore') as f:
+               f.write( rsp.text )
+       else:
+           print('\t[DEBUG] Writing binary')     
+           with open(targetName, 'wb') as f:
+                f.write( rsp.content )   
+
+       return(True)                  
+    except Exception as pcEx:
+           print('\tERROR creating directories or creating file ', targetName, str(pcEx))
+           return(False)
+
+       
