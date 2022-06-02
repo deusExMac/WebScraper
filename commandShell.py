@@ -906,7 +906,101 @@ class commandImpl:
 
 
 
+      def applyRules(self, a): 
 
+          pageData = {}  
+          try:
+            cmdArgs = ThrowingArgumentParser()
+            cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
+            cmdArgs.add_argument('-l', '--libfile',  nargs='?' )
+            cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
+
+            args = vars( cmdArgs.parse_args(a) )
+          except Exception as argEx:
+                 print('Error.', str(argEx) )
+                 return(False)
+
+          if args.get('libfile', '')  == '':
+             print('No .exr file given.')
+             return(False)
+
+          try:
+             print('Loading library file [', args['libfile'], ']...', end='')   
+             with open(args['libfile'],  encoding='utf-8', errors='ignore', mode='r') as f:          
+                  xLib = xRules.loadLibrary(f.read())
+             print('ok')     
+          except Exception as rFile:
+                  print('Error reading rule file', args['libfile'])
+                  return(False)  
+
+          print('\tLibrary description:', xLib.libraryDescription)
+          print('\tNumber of rules :', len(xLib.library) )
+          targetRule = None
+          if args.get('rulename') is None:
+             print('\tRule: Applying all rules in library')   
+          else:      
+             #print('Checking if rule [', args.get('rulename', ''), '] exists...')   
+             allRNames = []   
+             for r in xLib.library:
+                 allRNames.append( r.ruleName )  
+                 if r.ruleName == args.get('rulename'):
+                    targetRule = r
+                    break
+                  
+             if targetRule is None:
+                print('\tRule:', args.get('rulename', ''), ' not found in library (', allRNames, ')')
+                return(False)
+             else: 
+                 print('\tRule: Found in library (', targetRule.ruleName, ')')
+
+          
+          if len(args.get('url', [])) == 0:
+             print('No url given.')
+             return(False)
+
+
+          if targetRule is not None and not targetRule.ruleMatches(args['url'][0]):
+             print('Cannot apply rule to this url. URl does not match')
+             return(False)
+
+            
+          try:
+             print('Fetching url [', args['url'][0], ']...', end='')  
+             session = HTMLSession()
+             response = session.get(args['url'][0])
+             print('ok.')
+          except Exception as netEx:
+                 print('Error.', str(netEx))
+                 return(False)
+
+          #return(False)
+
+      
+          if targetRule is not None:
+             print('Applying rule', targetRule.ruleName)   
+             xData = targetRule.apply( response.html )
+             pageData.update(xData)
+          else:
+               for r in xLib.library:
+                   if not r.ruleMatches(args['url'][0]):
+                      print('Rule ', r.ruleName, ' not applying. Does not meet URLActivation criteria.')
+                      continue
+                   print('Applying rule', r.ruleName)    
+                   xData = r.apply( response.html )
+                   pageData.update(xData)
+                   
+
+                      
+          print('\nExtracted data:', pageData)      
+
+            
+             
+            
+
+
+        
+          
+          
 
 
 
@@ -1079,6 +1173,9 @@ class commandImpl:
           return(False)    
 
           
+
+     
+
 
 '''
 #
