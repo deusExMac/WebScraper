@@ -8,6 +8,7 @@ A simple python program for scraping speficied data from web pages. Specificatio
 Make sure you have the following python modules installed
 
 dataconf
+
 requests_html
 
 
