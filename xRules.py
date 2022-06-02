@@ -59,7 +59,8 @@ class extractionRule:
     ruleName: str = field(default = '')
     ruleDescription: str  = field(default = '')
     # regular expression the URL has to match to make this rule fire
-    ruleURLActivationCondition: List[str] = field(default_factory=lambda:[]) 
+    ruleURLActivationCondition: List[str] = field(default_factory=lambda:[])
+    ruleTarget: str = field(default='html') # Does this rule apply on html or on javascript? Two values supported: html and js
 
     # How to get/scrap the data (in regex or css selector form)
     ruleCSSSelector: str  = field(default = '')
@@ -159,10 +160,27 @@ class extractionRule:
 
 
 
+    # EXAMPLE: "data: {.*labels: \[([^\]]*)\],"
+    def extractFromScript(self, htmlContent, rgExp, scrName='') -> dict:
+          
+        scriptList = htmlContent.find('script')
+
+        for s in scriptList:
+            fill_sequence=re.compile( rgExp ,re.MULTILINE)
+            for match in fill_sequence.finditer(s.text):
+              # ok. Found match. Assume this is it.    
+              fVal = match.groups()
+              return({self.ruleName:fVal[0]})
+              
+        return( {} )      
+          
+
+
 
     def evalPreconditions(self, htmlContent) -> dict:
 
-        # TODO: Quci and dirty fix. Find a better way to do this.
+        # If no preconditions are present, this means rule should be applied. 
+        # TODO: Quck and dirty fix. Find a better way to do this.
         if  len(self.rulePreconditions) == 0:
             return({'status':True, 'cssselector':''})
 
@@ -181,6 +199,7 @@ class extractionRule:
            return( {'status': True, 'cssselector':''} ) 
 
         if self.rulePreconditionType.lower() == 'any':
+           # This means at least one condition must hold to apply rule   
            for pc in self.rulePreconditions:
                print('\t\t[DEBUG] [Mode ANY] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
                if pc.conditionHolds(htmlContent):
@@ -229,16 +248,31 @@ class extractionRule:
            exTractedData[self.ruleName] = ''
            return(exTractedData)
 
-              
-        self.ruleAppliedCount += 1
+        print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')
         
-        print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')        
+        self.ruleAppliedCount += 1
+
+        if self.ruleTarget == 'js':
+           # This rule targets a script. Enter script mode
+           # preconStatus['cssselector']
+           print('\t\t[DEBUG] Extracting from script...')
+           if preconStatus['cssselector'] == '':
+              return( self.extractFromScript(htmlContent, self.ruleContentCondition  ) )
+           else:
+               return( self.extractFromScript(htmlContent, preconStatus['cssselector']  ) )  
+
+
+        
+                
         if preconStatus['cssselector'] == '':
            res = htmlContent.find(self.ruleCSSSelector, first=False)
         else:   
             res = htmlContent.find(preconStatus['cssselector'], first=False)
 
-            
+
+
+
+
         
         if self.ruleTargetAttribute == "text":
             
@@ -317,6 +351,10 @@ class extractionRule:
 
 
 
+
+@dataclass
+class scriptExtractionRule(extractionRule):
+      scrptCaptureRegExp: str =''
 
 
 

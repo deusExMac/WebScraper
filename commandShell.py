@@ -717,7 +717,7 @@ class commandImpl:
                    print('Error:', str(popEx))   
                    break    
 
-                 print( (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted,  sep='')
+                 print('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted,  sep='')
 
                  tmStart = time.perf_counter() # start counting time
                  
@@ -735,7 +735,10 @@ class commandImpl:
                         numNetErrors += 1
                         if numNetErrors >= 3:
                            # TODO: a break here would be more appropriate...   
-                           uQ.saveQ()   
+                           uQ.saveQ()
+                           if xDataDF is not None:
+                              xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+                              
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 

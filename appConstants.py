@@ -15,9 +15,9 @@ Version: 20/04/2022
 
 
 
-APPVERSION = '0.01b'
-VERSIONRELEASEDATE = '18/05/2022'
+APPVERSION = '0.01a'
+VERSIONRELEASEDATE = '02/06/2022'
 AUTHOR = 'mmt (tzagara@upatras.gr)'
 
 
-DEFAULTCONFIGFILE = 'twitterSearch.conf'
+DEFAULTCONFIGFILE = 'webscraper.conf'

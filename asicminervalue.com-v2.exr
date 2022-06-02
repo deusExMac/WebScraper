@@ -8,7 +8,7 @@
 
 {
 "libraryDescription": "Library to extract data from www.asicminervalue.com/miners/ pages",
-"csvLineFormat": ["manufacturer", "model", "alsoKnownAs", "releaseDate", "power", "incomePDay", "electricityPDay"]
+"csvLineFormat": ["manufacturer", "model", "alsoKnownAs", "releaseDate", "power", "incomePDay", "electricityPDay", "graphlabels", "graphdata"]
 "library": [
 
 {
@@ -99,7 +99,7 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": []
+ "ruleRemoveChars": [","]
 },
 
 
@@ -113,7 +113,7 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 {
@@ -126,7 +126,7 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 {
@@ -140,7 +140,7 @@
  "ruleReturnedValueNames": ["metric", "incomePDay", "incomePMonth", "incomePYear"]
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 {
@@ -154,7 +154,7 @@
  "ruleReturnedValueNames": ["metric", "electricityPDay", "electricityPMonth", "electricityPYear"]
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 {
@@ -168,7 +168,7 @@
  "ruleReturnedValueNames": ["metric", "profitPDay", "profitPMonth", "profitPYear"]
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 
@@ -183,7 +183,7 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 
@@ -197,7 +197,7 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": ["$", ","]
 },
 
 {
@@ -210,9 +210,43 @@
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 2
  "ruleReturningMoreIsError": False
+ "ruleRemoveChars": ["$", ","]
  
  # other parameters needed
 },
+
+
+
+
+{
+ "ruleName": "graphlabels"
+ "ruleDescription": "Extracting LABELS from graph that is displayed rule"
+ "ruleTarget": "js"
+ "ruleURLActivationCondition": ["/miners/", "testPages"]
+ "ruleCSSSelector": ""
+ "ruleTargetAttribute": ""
+ "ruleContentCondition": "data: {.*labels: \[([^\]]*)\],"
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+  
+},
+
+{
+ "ruleName": "graphdata"
+ "ruleDescription": "Extracting DATA from graph that is displayed rule"
+ "ruleTarget": "js"
+ "ruleURLActivationCondition": ["/miners/", "testPages"]
+ "ruleCSSSelector": ""
+ "ruleTargetAttribute": ""
+ "ruleContentCondition": "datasets:.*data: \[([^\]]*)\],"
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+  
+},
+
+
 
 {
  "ruleName": "getLinks"
