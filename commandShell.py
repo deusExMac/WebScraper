@@ -864,7 +864,10 @@ class commandImpl:
                  tmEnd = time.perf_counter()
                  pageHandlingTimes.append( tmEnd - tmStart )
                  print('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds', sep='' )
-                 
+                 if len(pageHandlingTimes) > 5:
+                    print('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')', sep='')   
+                    pageHandlingTimes.clear()
+                    
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:
                     if cmdConfigSettings.get('Crawler', 'delayModel', fallback='c') == 'h':
