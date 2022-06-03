@@ -849,7 +849,8 @@ class commandImpl:
                  if xdt:
                     xdt['url'] = currentUrl
                     print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
-                    xDataDF = xDataDF.append( xdt, ignore_index = True )
+                    #xDataDF = xDataDF.append( xdt, ignore_index = True )
+                    xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
                     #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
                     #print(xDataDF)
                  
