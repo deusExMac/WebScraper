@@ -30,7 +30,7 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 
 TODO: library extraction files have been  updated with new properties. Make changes here!
-Below is an example of a .exr file and the way rules are specified in json
+Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
 
 ```
 #
@@ -181,8 +181,12 @@ Below is an example of a .exr file and the way rules are specified in json
 
 }
 
-
 ```
+
+## Structure of rules in .exr file
+
+''ruleName'': Name of the rule. In the current version, rule names should not contain spaces and these names are used to store extracted values in disctionaries.
+
 
 
 
