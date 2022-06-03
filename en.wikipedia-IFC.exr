@@ -26,7 +26,7 @@
                             }                       
                        ]
  "ruleCSSSelector": "tr:nth-child(2) .infobox-data"
- "ruleruleAttribute": "text"
+ "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0

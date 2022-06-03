@@ -1046,7 +1046,7 @@ class commandImpl:
              with open(args['exrfile'][0],  encoding='utf-8', errors='ignore', mode='r') as f:          
                   xLib = xRules.loadLibrary(f.read())
            except Exception as rFile:
-                  print('Error reading rule file', args['exrfile'])
+                  print('Error reading rule file', args['exrfile'], str(rFile))
                   return(False)
           else:
                   print('Showing loaded library')
