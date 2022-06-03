@@ -185,7 +185,13 @@ Below is an example of a .exr file that is used to extract data related to footb
 
 ## Structure of rules in .exr file
 
-''ruleName'': Name of the rule. In the current version, rule names should not contain spaces and these names are used to store extracted values in disctionaries.
+-'libraryDescription': A human readable description of the .exr file. What it is used for etc.
+-'library': list of rules comprising this library.
+
+Rule attributes/properties:
+
+- 'ruleName': Name of the rule. In the current version, rule names should not contain spaces. Rule names are important as these names are used to store extracted values, by that rule, with these keys in python dictionaries.
+- 'ruleDescription': A human readable description of the rule's aim i.e. what it does. 
 
 
 
