@@ -16,11 +16,15 @@ Make sure you have the following python packages installed before running the ap
 
 # Specifying what data to extract using .exr files
 
-.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. These conditions 
+.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and the the extraction rules inside the same .exr file is called a library. During startup the preferred .exr file can be specified. The specified .exr file and the rule it contains are applied to each individual page that the application downloads.  
 
 Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
 
 ## Example .exr file
+
+.exr files, when applied to content (web-page) downloaded from the WWW, attempt to express the following conditions and actions:
+
+*"If the web-page URL matches the conditions, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets a contition. If so, return it as the scraped value. If not, return empty data."*   
 
 TODO: library extraction files have been  updated with new properties. Make changes here!
 
