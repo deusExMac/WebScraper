@@ -904,6 +904,24 @@ class commandImpl:
 
 
 
+      #
+      # TODO: What to do with this method? Keep, remove, refactor???
+      #
+      def loadResource( self, resource ):
+          if os.path.exists(resource):
+             with open(resource,mode='r') as f:
+                fcnt = f.read()
+
+             h = HTML(html=fcnt) 
+             return(None, h)
+
+          s = HTMLSession()
+          response = s.get(resource)
+          return( response, response.html )
+
+
+
+
 
 
       def applyRules(self, a): 
@@ -963,7 +981,14 @@ class commandImpl:
              print('Cannot apply rule to this url. URl does not match')
              return(False)
 
-            
+          try:
+             
+             response, responseHtml = self.loadResource(args['url'][0])
+             
+          except Exception as readEx:
+                  print('ERROR.', str(readEx))
+                  return(False)
+          '''  
           try:
              print('Fetching url [', args['url'][0], ']...', end='')  
              session = HTMLSession()
@@ -972,21 +997,23 @@ class commandImpl:
           except Exception as netEx:
                  print('Error.', str(netEx))
                  return(False)
-
+          '''
           #return(False)
 
       
           if targetRule is not None:
-             print('Applying rule', targetRule.ruleName)   
-             xData = targetRule.apply( response.html )
+             print('* Applying rule', targetRule.ruleName)   
+             xData = targetRule.apply( responseHtml )
              pageData.update(xData)
           else:
+               print('Rule list:') 
                for r in xLib.library:
                    if not r.ruleMatches(args['url'][0]):
-                      print('Rule ', r.ruleName, ' not applying. Does not meet URLActivation criteria.')
+                      print('* Rule ', r.ruleName, ' not applying. Does not meet URLActivation criteria.')
                       continue
-                   print('Applying rule', r.ruleName)    
-                   xData = r.apply( response.html )
+
+                   print('* Applying rule', r.ruleName)    
+                   xData = r.apply( responseHtml )
                    pageData.update(xData)
                    
 

@@ -14,7 +14,7 @@
 {
  "ruleName": "manufacturer"
  "ruleDescription": "Miner manufacturer"
- "ruleURLActivationCondition": ["/miners/", "testPages"] 
+ "ruleURLActivationCondition": ["/miners/", "testPages", "etc"] 
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(1) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
@@ -27,7 +27,7 @@
 {
  "ruleName": "model"
  "ruleDescription": "Miner model"
- "ruleURLActivationCondition": ["/miners/", "testPages"] 
+ "ruleURLActivationCondition": ["/miners/", "testPages", "etc"] 
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(2) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
@@ -40,7 +40,7 @@
 {
  "ruleName": "alsoKnownAs"
  "ruleDescription": "aka"
- "ruleURLActivationCondition": ["/miners/", "testPages"] 
+ "ruleURLActivationCondition": ["/miners/", "testPages", "etc"] 
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(3) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
@@ -256,7 +256,7 @@
  "ruleTargetAttribute": "href"
  "ruleContentCondition": "^(https|http)://.*\.asicminervalue\.com.*$"
  "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
+ "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
  
  # other parameters needed
