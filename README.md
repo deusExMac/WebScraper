@@ -187,14 +187,14 @@ Below is an example of a .exr file that is used to extract data related to footb
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
 
--``[library]``: list of rules comprising this library.
+-``[library]``: list of rules defining this library.
 
 Rule attributes/properties:
 
 - ``[ruleName]``: Name of the rule. In the current version, rule names should not contain spaces. Rule names are important as these names are used to store extracted values, by that rule, with these keys in python dictionaries.
 - ``[ruleDescription]``: A human readable description of the rule's aim i.e. what it does. 
 
-
+-``ruleURLActivationCondition``: List of regular expressions that the URL of the web page must match. Rule is applied if ANY of the regular expressions in this list is matched. If no regular expression is matched, rule if not applied. If this list is empty, rule is applied.
 
 
 
