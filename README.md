@@ -1,21 +1,22 @@
 # WebScraper
  
-A simple python program for scraping speficied data from web pages. Specifications for scraped data is stored in .exr files.
+A simple python program for scraping/extracting data from web pages. Specifications for how to extract data from individual web-pages is stored in .exr files. Each .exr file contains one or more extraction rules, collectively called a library, that are applied to a single web-page. .exr files are in json format. More information on how to author .exr files can be found below.
 
 
 # Required python modules
 
-Make sure you have the following python modules installed
+Make sure you have the following python packages installed before running the application:
 
-dataconf
+* dataconf (https://pypi.org/project/dataconf/)
 
-requests_html
+* requests_html (https://requests.readthedocs.io/projects/requests-html/en/latest/)
+
 
 
 
 # Specifying what data to extract using .exr files
 
-.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. 
+.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. These conditions 
 
 Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
 
