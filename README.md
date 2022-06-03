@@ -24,7 +24,8 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 .exr files, when applied to content (web-page) downloaded from the WWW, attempt to express the following conditions and actions:
 
-*"If the web-page URL matches the conditions, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets a contition. If so, return it as the scraped value. If not, return empty data."*   
+*"For each rule inside the .exr file, do the following: If the web-page URL matches the conditions, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets a contition. If so, return it as the scraped value. If not, return empty data."*   
+
 
 TODO: library extraction files have been  updated with new properties. Make changes here!
 
