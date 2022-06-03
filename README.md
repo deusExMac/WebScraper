@@ -33,41 +33,153 @@ TODO: library extraction files have been  updated with new properties. Make chan
 Below is an example of a .exr file and the way rules are specified in json
 
 ```
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
 {
-"libraryDescription": "Default rule library. Library to extract data from econ.upatras.gr pages",
+"libraryDescription": "Library to extract data from english wikipedia pages",
+"csvLineFormat": ["teamFullName", "clubPresident"],
+
 "library": [
 
 {
- "ruleName": "efficiencyPerDay"
- "ruleDescription": "A simple example of a rule"
- "ruleURLActivationCondition": ["econ.upatras.gr"]
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleName": "teamFullName"
+ "ruleDescription": "Get full name of clubs from infoboxes"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org"]
+ 
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : [ 
+                            {
+                              "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
+                              "ecTextCondition" : "Full name"
+                              "ecRuleCSSSelector" : ""
+                            }                       
+                       ]
+ "ruleCSSSelector": "tr:nth-child(2) .infobox-data"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
- "ruleReturnedValueNames": []
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
- "ruleAux1": ''
- "ruleAux2": ''
+ "ruleRemoveChars": []
 },
 
 {
- "ruleName": "costPerDay"
+ "ruleName": "articleTitle"
  "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": []
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" :  [ 
+                             {
+                               "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
+                               "ecTextCondition" : "Full name"
+                             },
+                             {
+			        "ecCSSSelector" : "tr:nth-child(3) .infobox-label" 
+			        "ecTextCondition" : "Full name"
+                             }
+                          ]
+                       
+ "ruleCSSSelector": "#content h1.firstHeading"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+},
+
+
+{
+ "ruleName": "clubPresident"
+ "ruleDescription": "Get football club president from infobox"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" :   [ 
+                             {
+			      "ecCSSSelector" : "tr:nth-child(5) .infobox-label" 
+			      "ecTextCondition": "President"
+			      "ecRuleCSSSelector" : "tr:nth-child(5) .agent"			      			      
+                             },
+                             
+                             {
+			      "ecCSSSelector" : "tr:nth-child(6) .infobox-label" 
+			      "ecTextCondition": "President"
+			      "ecRuleCSSSelector" : "tr:nth-child(6) .agent"			      			      
+                             },
+                             
+                             {
+			      "ecCSSSelector" : "tr:nth-child(7) .infobox-label" 
+			      "ecTextCondition": "President"
+			      "ecRuleCSSSelector" : "tr:nth-child(7) .agent"			      			      
+                             },
+                             
+                             {
+                               "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
+                               "ecTextCondition": "President"
+                               "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
+                             },
+                             
+                             {
+			       "ecCSSSelector" : "tr:nth-child(9) .infobox-label" 
+			       "ecTextCondition": "President"
+			       "ecRuleCSSSelector" : "tr:nth-child(9) .agent"
+                             },
+                             
+                             {
+			       "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
+			       "ecTextCondition": "Chairman"
+			       "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
+                             },
+                             
+                             {
+			     	"ecCSSSelector" : "style+ .vcard tr:nth-child(9) .infobox-label" 
+			     	"ecTextCondition": "Chairman"
+			     	"ecRuleCSSSelector" : "tr:nth-child(9) .agent"
+                             }
+                             
+                             
+                             
+                          ]                       
+ "ruleCSSSelector": "#content h1.firstHeading"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": ["\n", "\t"]
+},
+
+
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
+ 
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []
+ 
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "en\.wikipedia\.org/.*$"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
 }
 
 ]
-}
 
+
+}
 
 
 ```
