@@ -539,6 +539,7 @@ class commandImpl:
                 session = HTMLSession()                
                 response = session.get(targetUrl)
 
+                print('\t\t[DEBUG] Compaing last modification dates (', response.headers.get('Last-Modified', '???'), ') (', qData.get('lastmodified', '???'), ')')  
                 if response.headers.get('Last-Modified', '') != '':
                    if response.headers.get('Last-Modified', '') == qData.get('lastmodified', ''):
                       print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')                      
@@ -550,6 +551,8 @@ class commandImpl:
                 if newHash == qData.get('hash', ''):
                    print('\t\t[DEBUG] Hash comparison: Not modified.')                   
                    continue
+                else:
+                   print('[\t\t[DEBUG] Hash does not match. Modified')   
 
                 print('\t\t[DEBUG] Modified.')
 
