@@ -194,7 +194,7 @@ Rule attributes/properties:
 - ``[ruleName]``: Name of the rule. In the current version, rule names should not contain spaces. Rule names are important as these names are used to store extracted values, by that rule, with these keys in python dictionaries.
 - ``[ruleDescription]``: A human readable description of the rule's aim i.e. what it does. 
 
--``ruleURLActivationCondition``: List of regular expressions that the URL of the web page must match. Rule is applied if ANY of the regular expressions in this list is matched. If no regular expression is matched, rule if not applied. If this list is empty, rule is applied.
+-``ruleURLActivationCondition``: List of regular expressions that the URL of the web page must match. Rule is applied if ANY of the regular expressions in this list is matched. If no regular expression is matched, rule if not applied. If this list is empty, rule is applied. Example: ruleURLActivationCondition: ["en.wikipedia.org", "C://downloadedPages//"] meaning if URL matches en.wikipedia.org or C://downloadedPages//, then apply this rule. If URL or file ame does not match any of regular expressions in this list rule is not applied.
 
 
 
