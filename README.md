@@ -2,6 +2,8 @@
  
 A simple python program for scraping/extracting data from web pages. Specifications for how to extract data from individual web-pages is stored in .exr files. Each .exr file contains one or more extraction rules, collectively called a library, that are applied to a single web-page. .exr files are in json format. More information on how to author .exr files can be found below.
 
+**IMPORTANT: This software is in alpha.**
+
 
 # Required python modules
 
@@ -199,9 +201,13 @@ Rule attributes/properties:
     - ``ecCSSSelector``: String. Specifies a CSS selector on content of the web pages.
     - ``ecTextCondition``: String. Regular expression. The regular expression the text of css selector ``ecCSSSelector`` has to match. if matched, the precondition is evaluation to True and hence holds.
     - ``ecRuleCSSSelector``: String. CSS selector. If non-empty and precondition matches and ``rulePreconditionType`` is any, the CSS selector specified here will replace the CSS slector of this rule (``ruleCSSSelector``) 
-- ``ruleCSSSelector``: String. CSS selector. The CSS selector to extract actual data from the web page if conditions hold (URL regular expression and preconditions). Can be ovewritten by ``ecRuleCSSSelector`` under specific circumstances (see ``ecRuleCSSSelector``)
+- ``ruleCSSSelector``: String. CSS selector. The CSS selector to extract actual data from the web page if conditions hold (URL regular expression and preconditions). This is the sought after data. Can be ovewritten by ``ecRuleCSSSelector`` under specific circumstances (see ``ecRuleCSSSelector``)
 - ``ruleTargetAttribute``: String. Attribute of the ``ruleCSSSelector`` element to return as the extracted data. If equal to ``text`` the text of the element is returned. Otherwise the named attribute of the CSS element.
+- ``ruleContentCondition``: String. Regular expression. The regular expression the extracted data has to match. If extracted data matches this regular expression, extracted data is returned. If not, empty extracted data is returned.
+- ``ruleReturnsMore``: Boolean. True or False. Specifies if CSS selector ``ruleCSSSelector`` will return more than one matching result.
+- ``ruleReturnedMatchPos``: Integer. If ``ruleReturnsMore``is True, this specifies which result to return as valid match. 
 
+IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
 
 # Related projects
