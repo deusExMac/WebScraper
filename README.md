@@ -186,6 +186,7 @@ Below is an example of a .exr file that is used to extract data related to footb
 ## Structure of rules in .exr file
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
+
 -``[library]``: list of rules comprising this library.
 
 Rule attributes/properties:
