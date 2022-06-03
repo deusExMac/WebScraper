@@ -554,7 +554,7 @@ class commandImpl:
                 print('\t\t[DEBUG] Modified.')
 
                 if mr:
-                    if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cfg.get('Storage', 'mirrorRoot', fallback='')):
+                    if not utils.saveWebPageToLocalFile(targetUrl, response, True, cfg.get('Storage', 'mirrorRoot', fallback='')):
                        print('\t[DEBUG] Error saving file')   
 
                 

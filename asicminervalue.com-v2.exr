@@ -90,6 +90,11 @@
                            "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(9) th" 
                            "ecTextCondition" : "Power"
                            "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(9) td"
+                          },
+                          {
+			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) th" 
+			  "ecTextCondition" : "Power"
+			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) td"
                           }
                        ]
  
