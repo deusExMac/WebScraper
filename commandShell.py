@@ -491,7 +491,7 @@ class commandImpl:
       def __updateCrawl(self, qF, oF, cfg, xR, nU, mr=False ):
 
           print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
-          uQ = urlQueue.urlQueue(startNewSession=False, qF=qF)
+          uQ = urlQueue.urlQueue(startNewSession=False, qF=qF, sQ=True)
           
           print('\t[DEBUG] Loading csvfile file [', oF, ']...', end='')
           if not os.path.exists(oF):
@@ -517,12 +517,14 @@ class commandImpl:
                    break
 
                 targetUrl = csvDF.iloc[cPos]['url']  
-                print('\t\t', cPos, ') [DEBUG] Doing [', targetUrl, ']', sep='' )
+                print('', cPos, ') [DEBUG] Doing [', targetUrl, ']', sep='' )
                 cPos += 1 # Move to next... TODO: Is this correct here? Elsewhere?
                 qData = uQ.getByUrl( targetUrl )
                 if not qData:
-                   print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND!')
-
+                   print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND! Adding to urlQueue')                   
+                   uQ.add( targetUrl )
+                else:
+                   print('\t\t[DEBUG] Url [', targetUrl, '] FOUND IN QUEUE!')   
                 
                 # TODO: Try block here...      
                 pUrl = urlparse( unquote(targetUrl) )    
@@ -602,6 +604,9 @@ class commandImpl:
                       print('\t\tLimit of', maxU, 'reached. Terminating')
                       return(False)
                 
+          print('\t[DEBUG] Saving url queue...', end='')
+          uQ.saveQ()
+          print('ok.')
           
 
 

@@ -8,7 +8,7 @@ import datetime
 
 class urlQueue:
 
-      def __init__(self, qSz=1000, startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
+      def __init__(self, qSz=-1, startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
           
           self.qSize = qSz
           self.qFile = qF
@@ -76,7 +76,7 @@ class urlQueue:
              #print('\t[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
              return(False)
 
-
+          
           if self.qSize > 0:
              if self.queueSize() >= self.qSize:
                 return(False) 
