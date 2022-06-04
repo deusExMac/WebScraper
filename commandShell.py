@@ -540,6 +540,7 @@ class commandImpl:
 
                 # Check hashes
                 newHash = utils.txtHash( response.text )
+                print('\t\t[DEBUG] oldHash=[', qData.get('hash', ''), '] newHash=[', newHash,']', sep='')
                 if newHash == qData.get('hash', ''):
                    print('\t\t[DEBUG] Hash comparison: Not modified.')                   
                    continue
@@ -604,9 +605,9 @@ class commandImpl:
                       print('\t\tLimit of', maxU, 'reached. Terminating')
                       return(False)
                 
-          print('\t[DEBUG] Saving url queue...', end='')
+          #print('\t[DEBUG] Saving url queue...', end='')
           uQ.saveQ()
-          print('ok.')
+          #print('ok.')
           
 
 
