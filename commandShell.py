@@ -493,17 +493,6 @@ class commandImpl:
           print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
           uQ = urlQueue.urlQueue(startNewSession=False, qF=qF)
           
-          '''
-          try:
-              queueDF = pd.read_csv(qF, sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )
-          except Exception as rEx:
-                 print('Error.', str(rEx) )
-                 return(False)
-            
-          print('ok. Total of ', queueDF.shape[0], ' rows', sep='')
-          '''
-
-          
           print('\t[DEBUG] Loading csvfile file [', oF, ']...', end='')
           if not os.path.exists(oF):
              print('No such file. Terminating')
@@ -516,6 +505,9 @@ class commandImpl:
                  return(False)
             
           print('ok. Total of ', csvDF.shape[0], ' rows', sep='')
+
+
+          
 
           cPos = 0 
           while(True):
@@ -532,8 +524,6 @@ class commandImpl:
                    print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND!')
 
                 
-
-
                 # TODO: Try block here...      
                 pUrl = urlparse( unquote(targetUrl) )    
                 session = HTMLSession()                
@@ -560,6 +550,45 @@ class commandImpl:
                     if not utils.saveWebPageToLocalFile(targetUrl, response, True, cfg.get('Storage', 'mirrorRoot', fallback='')):
                        print('\t[DEBUG] Error saving file')   
 
+                exTractedData = {}
+                pageData = {}
+                for r in xR.library:
+                      
+                    print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
+                    if not r.ruleMatches(targetUrl):
+                        print('No.')
+                        continue
+                  
+                    print('yes')
+
+                    if r.ruleName == 'getLinks':
+                       print('\t[DEBUG] Skipping getLinks rule')   
+                       continue
+
+                    print('\t[DEBUG] Applying rule [', r.ruleName, ']', sep='') 
+                    xData = r.apply( response.html )
+                    pageData.update(xData)
+
+
+                # Update url queue
+                print('\t[DEBUG] Updating queue...')
+                uQ.updateTimeFetched(targetUrl)
+                uQ.updateStatus( targetUrl, response.status_code )
+                uQ.updateLastModified(targetUrl, response.headers.get('Last-Modified', ''))
+                uQ.updatePageHash( targetUrl, newHash )
+
+                # Update extracted data
+                print('\t[DEBUG] Updating csv...')
+                storedRecord = csvDF[ csvDF['url'] ==targetUrl].to_dict(orient='records')[0]
+                
+                #csvDF.iloc[cPos]['url']
+                if storedRecord is not None:
+                   print('EXISTING DATA:', storedRecord)
+                else:
+                   print('!!!!!! NOT EXISTING DATA')
+
+                   
+                print('EXTRACTED DATA:', pageData)
                 
                 
                 if nU is None:
@@ -836,7 +865,10 @@ class commandImpl:
                                uQ.add( canonicalLink )
                              
                      else:
+                           # xData has the extracted data originating from one rule 
                            xData = r.apply( response.html )
+                           # Aggregate it. pageData aggregates all data extracted by
+                           # all rules on one page.
                            pageData.update(xData)
                            
 
