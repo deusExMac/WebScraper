@@ -2,7 +2,7 @@
  
 A simple python program for scraping/extracting data from web pages. Specifications for how to extract data from individual web-pages is stored in .exr files. Each .exr file contains one or more extraction rules, collectively called a library, that are applied to a single web-page. .exr files are in json format. More information on how to author .exr files can be found below.
 
-**IMPORTANT: This software is in alpha release. This means features mentioned here may have serious bugs.**
+**IMPORTANT: This software is currently in alpha release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
 
 # Required python modules
