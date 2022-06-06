@@ -488,6 +488,8 @@ class commandImpl:
 
 
 
+
+
       def __updateCrawl(self, qF, oF, cfg, xR, nU, mr=False ):
 
           print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
@@ -507,7 +509,6 @@ class commandImpl:
           print('ok. Total of ', csvDF.shape[0], ' rows', sep='')
 
 
-          
 
           cPos = 0 
           while(True):
@@ -553,6 +554,8 @@ class commandImpl:
                     if not utils.saveWebPageToLocalFile(targetUrl, response, True, cfg.get('Storage', 'mirrorRoot', fallback='')):
                        print('\t[DEBUG] Error saving file')   
 
+
+
                 exTractedData = {}
                 pageData = {}
                 for r in xR.library:
@@ -592,6 +595,17 @@ class commandImpl:
 
                    
                 print('EXTRACTED DATA:', pageData)
+
+                print('\t[DEBUG] Updating csv data...')
+                pageData['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')   
+                for k in xR.csvLineFormat:
+                    print('\t\t[DEBUG] Updating key', k)
+                    print('\t\t\t[DEBUG] From [', csvDF.loc[ csvDF['url'] == targetUrl,  k ].values[0], ']', sep='')
+                    print('\t\t\t[DEBUG] To [', pageData[k], ']', sep='')  
+                    csvDF.loc[ csvDF['url'] == targetUrl,  k ] = pageData[k]
+
+                csvDF.loc[ csvDF['url'] == targetUrl,  'dateaccessed' ] = pageData['dateaccessed']
+
                 
                 
                 if nU is None:
@@ -608,7 +622,13 @@ class commandImpl:
           #print('\t[DEBUG] Saving url queue...', end='')
           uQ.saveQ()
           #print('ok.')
-          
+          print('\t[DEBUG] Saving csv to [', oF, ']...', sep='') 
+          csvDF.to_csv( oF, index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+          print('ok')
+
+
+
+
 
 
 
@@ -731,7 +751,7 @@ class commandImpl:
 
           xDataDF = None
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
-             xDataDF =  pd.DataFrame(columns= (['url'] + exRules.csvLineFormat) )  
+             xDataDF =  pd.DataFrame(columns= (['dateaccessed', 'url'] + exRules.csvLineFormat) )  
 
           uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
@@ -888,6 +908,7 @@ class commandImpl:
                  # Store extracted data
                  xdt = exRules.toDict(pageData)
                  if xdt:
+                    xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                     xdt['url'] = currentUrl
                     print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
                     #xDataDF = xDataDF.append( xdt, ignore_index = True )
