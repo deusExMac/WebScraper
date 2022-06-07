@@ -77,8 +77,9 @@ class urlQueue:
              return(False)
 
           
-          if self.qSize > 0:
+          if self.qSize >= 0:
              if self.queueSize() >= self.qSize:
+                #print('\t[DEBUG] QUEUE: maximum queue size [', self.qSize,  '] reached. Rejecting URL.', sep='')   
                 return(False) 
           try:
             d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'lastmodified':l, 'hash':h}

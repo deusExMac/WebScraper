@@ -7,7 +7,7 @@
 
 
 {
-"libraryDescription": "Library to extract data from english wikipedia pages",
+"libraryDescription": "Library to extract specific data from english wikipedia pages related to italian football teams.",
 "csvLineFormat": ["teamFullName", "clubPresident"],
 
 "library": [
@@ -33,6 +33,7 @@
  "ruleReturningMoreIsError": False
  "ruleRemoveChars": []
 },
+
 
 {
  "ruleName": "articleTitle"
@@ -68,43 +69,43 @@
  "rulePreconditions" :   [ 
                              {
 			      "ecCSSSelector" : "tr:nth-child(5) .infobox-label" 
-			      "ecTextCondition": "President"
+			      "ecTextCondition": "(President|Chairman|Manager)"
 			      "ecRuleCSSSelector" : "tr:nth-child(5) .agent"			      			      
                              },
                              
                              {
 			      "ecCSSSelector" : "tr:nth-child(6) .infobox-label" 
-			      "ecTextCondition": "President"
+			      "ecTextCondition": "(President|Chairman|Manager)"
 			      "ecRuleCSSSelector" : "tr:nth-child(6) .agent"			      			      
                              },
                              
                              {
 			      "ecCSSSelector" : "tr:nth-child(7) .infobox-label" 
-			      "ecTextCondition": "President"
+			      "ecTextCondition": "(President|Chairman|Manager)"
 			      "ecRuleCSSSelector" : "tr:nth-child(7) .agent"			      			      
                              },
                              
                              {
                                "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
-                               "ecTextCondition": "President"
+                               "ecTextCondition": "(President|Chairman|Manager)"
                                "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
                              },
                              
                              {
 			       "ecCSSSelector" : "tr:nth-child(9) .infobox-label" 
-			       "ecTextCondition": "President"
+			       "ecTextCondition": "(President|Chairman|Manager)"
 			       "ecRuleCSSSelector" : "tr:nth-child(9) .agent"
                              },
                              
                              {
 			       "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
-			       "ecTextCondition": "Chairman"
+			       "ecTextCondition": "(President|Chairman|Manager)"
 			       "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
                              },
                              
                              {
 			     	"ecCSSSelector" : "style+ .vcard tr:nth-child(9) .infobox-label" 
-			     	"ecTextCondition": "Chairman"
+			     	"ecTextCondition": "(President|Chairman|Manager)"
 			     	"ecRuleCSSSelector" : "tr:nth-child(9) .agent"
                              }
                              

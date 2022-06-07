@@ -489,7 +489,7 @@ class commandImpl:
 
 
 
-
+      # TODO: Change what parameters are passed
       def __updateCrawl(self, qF, oF, cfg, xR, nU, mr=False ):
 
           print('\t[DEBUG] Loading queue file [', qF, ']...', end='')
@@ -510,9 +510,11 @@ class commandImpl:
 
 
 
-          cPos = 0 
+          cPos = 0
+          numProcessed = 0
+          numUpdated = 0
           while(True):
-                
+            try:    
                 if cPos >=csvDF.shape[0]:
                    print('Empty queue. Terminating')   
                    break
@@ -531,6 +533,8 @@ class commandImpl:
                 pUrl = urlparse( unquote(targetUrl) )    
                 session = HTMLSession()                
                 response = session.get(targetUrl)
+
+                numProcessed += 1
 
                 print('\t\t[DEBUG] Compaing last modification dates (', response.headers.get('Last-Modified', '???'), ') (', qData.get('lastmodified', '???'), ')')  
                 if response.headers.get('Last-Modified', '') != '':
@@ -605,7 +609,7 @@ class commandImpl:
                     csvDF.loc[ csvDF['url'] == targetUrl,  k ] = pageData[k]
 
                 csvDF.loc[ csvDF['url'] == targetUrl,  'dateaccessed' ] = pageData['dateaccessed']
-
+                numUpdated += 1
                 
                 
                 if nU is None:
@@ -618,6 +622,19 @@ class commandImpl:
                    if (cPos -1) >= maxU:   
                       print('\t\tLimit of', maxU, 'reached. Terminating')
                       return(False)
+
+                delayValue = 0.5  
+                if cfg.get('Crawler', 'delayModel', fallback='c') == 'h':
+                   delayValue = abs( float( np.random.normal(cfg.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), cfg.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
+                else:
+                   delayValue = cfg.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
+                       
+                print('\t[DEBUG] Sleeping for ', delayValue, ' seconds', sep='')   
+                time.sleep( delayValue )  
+
+            except KeyboardInterrupt:
+                   print('Control-C seen. Terminating. Processed/Updated:', numProcessed, '/', numUpdated, sep='')
+                   break
                 
           #print('\t[DEBUG] Saving url queue...', end='')
           uQ.saveQ()
@@ -753,7 +770,7 @@ class commandImpl:
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= (['dateaccessed', 'url'] + exRules.csvLineFormat) )  
 
-          uQ = urlQueue.urlQueue(-1, startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
+          uQ = urlQueue.urlQueue(cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
           
           try:
