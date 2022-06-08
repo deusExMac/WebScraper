@@ -77,6 +77,8 @@ class extractionRule:
     rulePreconditionType: str = 'ANY'
     rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
+    # Whether or not downloaded page should be rendered using HTMLSession's .render method
+    # TODO: Very, very slow. Please dont set it to true in the current version.
     ruleRenderPage: bool  = False
     
     ruleReturnsMore: bool  = False
