@@ -80,6 +80,12 @@ class extractionRule:
     
     
     ruleReturnsMore: bool  = False
+
+    # List of css selectors to apply to each result of ruleCSSSelector in order to
+    # extract specific values and assign them to variables one-by-one defined in
+    # ruleReturnedValueNames.
+    rulePostCSSSelector: List[str] = field(default_factory=lambda:[])
+    
     # If more than one value is returned, the next field tells us under what
     # key to store the extracted values (i.e. the text of each element)
     ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])    
@@ -323,10 +329,22 @@ class extractionRule:
                  #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars}) 
                  nM = 0 
                  if len(self.ruleReturnedValueNames) > 0:
-                     for e, name in zip(res, self.ruleReturnedValueNames):
-                         exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})                         
+                   if len(self.rulePostCSSSelector) == 0:    
+                       for e, name in zip(res, self.ruleReturnedValueNames):
+                           exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})                         
+                   else:
+                       rsList = []  
+                       for e in res:
+                           d = {}  
+                           for  subR, name in zip(self.rulePostCSSSelector, self.ruleReturnedValueNames):
+                                d[name] = e.find(subR, first=True).text 
 
-                     nM = len(self.ruleReturnedValueNames)    
+                           rsList.append(d)
+                           print('\t\t\t[DEBUG] Got', d)
+
+                       exTractedData['__LIST'] = rsList
+                       
+                   nM = len(res) * len(self.ruleReturnedValueNames)    
                  else:
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []

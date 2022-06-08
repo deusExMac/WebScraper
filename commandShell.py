@@ -800,6 +800,7 @@ class commandImpl:
                     session = HTMLSession()
                     #print( '\t[DEBUG] ', session.headers['user-agent'])                    
                     response = session.get(currentUrl)
+                    response.html.render(timeout=40)
                     visitedQueue.append( currentUrl )
                     break
                   
