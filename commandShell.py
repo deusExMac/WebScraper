@@ -800,7 +800,7 @@ class commandImpl:
                     session = HTMLSession()
                     #print( '\t[DEBUG] ', session.headers['user-agent'])                    
                     response = session.get(currentUrl)
-                    response.html.render(timeout=40)
+                    #response.html.render(timeout=40)
                     visitedQueue.append( currentUrl )
                     break
                   
@@ -891,6 +891,11 @@ class commandImpl:
                         continue
                   
                      print('yes')
+
+                     if r.ruleRenderPage:
+                        print('\t[DEBUG] Rendering page...')   
+                        response.html.render(timeout=220)   
+                           
 
                      # Select part of the html specified by rule
                      res = response.html.find(r.ruleCSSSelector, first=False)

@@ -77,7 +77,7 @@ class extractionRule:
     rulePreconditionType: str = 'ANY'
     rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
-    
+    ruleRenderPage: bool  = False
     
     ruleReturnsMore: bool  = False
 

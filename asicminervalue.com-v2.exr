@@ -18,6 +18,9 @@
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(1) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
+ # ruleRenderPage is EXPERIMENTAL. Has not been tested.
+ # Please make sure that this property has the value False. 
+ "ruleRenderPage": False
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
