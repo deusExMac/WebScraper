@@ -772,17 +772,15 @@ class commandImpl:
 
           uQ = urlQueue.urlQueue(cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
+
+          lastAutosave = time.perf_counter()
+          crawlStarted  = time.perf_counter()
           
           try:
             while (True):
                  try:
                        
-                  #if len(linkQueue) == 0:
-                  #   print('\t[DEBUG] Empty Queue')      
-                  #   break
-                  
-                  #currentUrl = linkQueue.pop(0)
-                  
+                                    
                   currentUrl = uQ.getNext()
                   if currentUrl is None:
                      print('\t[DEBUG] Empty Queue')
@@ -946,6 +944,20 @@ class commandImpl:
                  if len(pageHandlingTimes) > 5:
                     print('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')', sep='')   
                     pageHandlingTimes.clear()
+
+
+                 # Should we autosave?
+                 if cmdConfigSettings.getboolean('Crawler', 'autoSave', fallback=False):
+                  if (time.perf_counter() - lastAutosave) >= cmdConfigSettings.getint('Crawler', 'autoSaveInterval', fallback=200):   
+                    print('\t[DEBUG] Autosaving...(elapsed:', (time.perf_counter() - lastAutosave), ' seconds)')    
+                    try:
+                        uQ.saveQ()
+                        xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+                        lastAutosave = time.perf_counter()
+                    except Exception as asEx:
+                           print('\t[DEBUG] Error autosaving!', str(asEx) )
+                           
+
                     
                  # Sleep only if previous request was on the same server
                  if previousHost == pUrl.netloc:

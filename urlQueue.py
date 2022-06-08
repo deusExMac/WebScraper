@@ -167,7 +167,7 @@ class urlQueue:
              return(False)
             
           try:
-             print('[DEBUG] Saving to queue file ', self.qFile)   
+             print('\t[DEBUG] Saving to queue file [', self.qFile, ']', sep='')   
              self.queue.to_csv( self.qFile, index=False, sep=csvsep, quoting=csv.QUOTE_NONNUMERIC )
              return(True)
           except Exception as svEx:

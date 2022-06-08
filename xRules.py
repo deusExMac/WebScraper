@@ -60,6 +60,7 @@ class extractionRule:
     ruleDescription: str  = field(default = '')
     # regular expression the URL has to match to make this rule fire
     ruleURLActivationCondition: List[str] = field(default_factory=lambda:[])
+    
     ruleTarget: str = field(default='html') # Does this rule apply on html or on javascript? Two values supported: html and js
 
     # How to get/scrap the data (in regex or css selector form)
@@ -84,6 +85,10 @@ class extractionRule:
     ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])    
     ruleReturnedMatchPos: int  = 0    
     ruleReturningMoreIsError: bool  = False
+
+    # If non-empty, applies this css selector to each result returned by ruleCSSSelector
+    # TODO: Do we need this?
+    #rulePostContentProcessing: str = field(default = '')
     
     ruleRemoveChars: List[str] = field(default_factory=lambda:[])
     ruleAux1: str = ''
@@ -297,10 +302,17 @@ class extractionRule:
 
              else:
                  # text, but more than one result is returned
+                 # TODO: This does not work properly!
               
                  if self.ruleContentCondition != '': 
                     res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
 
+
+                 #print('>>>> RETURNED', len(res))
+                 #for k in res:
+                 #    print('\treturned:', k.text)
+
+                     
                  # TODO: Here, remove specified characters
                  # something like this:
                  #for i in range(len(res)):
@@ -312,7 +324,7 @@ class extractionRule:
                  nM = 0 
                  if len(self.ruleReturnedValueNames) > 0:
                      for e, name in zip(res, self.ruleReturnedValueNames):
-                         exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})
+                         exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})                         
 
                      nM = len(self.ruleReturnedValueNames)    
                  else:
