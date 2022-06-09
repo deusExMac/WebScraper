@@ -24,7 +24,7 @@ import configparser
 # For parsing the dates received from twitter in readable formats
 import datetime
 import dateutil.parser
-from datetime import datetime, timedelta
+from datetime import  timedelta 
 import time
 import re
 import statistics
@@ -35,7 +35,7 @@ import copy
 import pandas as pd
 import webbrowser
 
-import json, requests, datetime
+import json, requests 
 from urllib.parse import urlparse, urljoin, unquote
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession, HTML
@@ -912,10 +912,10 @@ class commandImpl:
                                uQ.add( canonicalLink )
                              
                      else:
-                           # xData has the extracted data originating from one rule 
+                           # xData has the extracted data originating from a single (one) rule only.
                            xData = r.apply( response.html )
                            # Aggregate it. pageData aggregates all data extracted by
-                           # all rules on one page.
+                           # all rules on one page. In the end, pageData will have 
                            pageData.update(xData)
                            
 
@@ -926,7 +926,11 @@ class commandImpl:
                  #print('\t[DEBUG] csv line:', ln)
 
 
+                 #   
                  # Store extracted data
+                 #
+                 # TODO: handle differently recordlist and record types of extractions.
+                 #
                  xdt = exRules.toDict(pageData)
                  if xdt:
                     xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
@@ -958,8 +962,9 @@ class commandImpl:
                     print('\t[DEBUG] Autosaving...(elapsed:', (time.perf_counter() - lastAutosave), ' seconds)')    
                     try:
                         uQ.saveQ()
-                        xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
-                        lastAutosave = time.perf_counter()
+                        if xDataDF is not None:
+                           xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+                           lastAutosave = time.perf_counter()
                     except Exception as asEx:
                            print('\t[DEBUG] Error autosaving!', str(asEx) )
                            

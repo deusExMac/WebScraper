@@ -239,6 +239,8 @@ class extractionRule:
     def apply( self, htmlContent ) -> dict:
 
         exTractedData = {}
+        exTractedData['datatype'] = 'record'
+        
         '''
         # Check if there are preconditions and they are met.
         # If not, rule is not applied.
@@ -339,12 +341,18 @@ class extractionRule:
                        for e in res:
                            d = {}  
                            for  subR, name in zip(self.rulePostCSSSelector, self.ruleReturnedValueNames):
-                                d[name] = e.find(subR, first=True).text 
+                                
+                                if e.find(subR, first=True) is None:
+                                   d[name] = val  = ''
+                                else:
+                                   d[name] = e.find(subR, first=True).text   
+                                
 
                            rsList.append(d)
                            print('\t\t\t[DEBUG] Got', d)
 
-                       exTractedData['__LIST'] = rsList
+                       exTractedData[self.ruleName] = rsList
+                       exTractedData['datatype'] = 'recordlist'
                        
                    nM = len(res) * len(self.ruleReturnedValueNames)    
                  else:
