@@ -931,7 +931,9 @@ class commandImpl:
                  #
                  # TODO: handle differently recordlist and record types of extractions.
                  #
-                 xdt = exRules.toDict(pageData)
+
+                 # Extract fields required by csv
+                 xdt = exRules.CSVFields(pageData)
                  if xdt:
                     xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                     xdt['url'] = currentUrl

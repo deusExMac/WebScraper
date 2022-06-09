@@ -424,7 +424,7 @@ class ruleLibrary:
           else:
               return( self.library[pos] )
 
-
+      '''
       def toCSVLine(self, xD, sep=',') -> str:
           csvLine = ''
           for nm in self.csvLineFormat:
@@ -440,10 +440,13 @@ class ruleLibrary:
                     csvLine = csvLine + sep + xD[nm]
 
           return(csvLine)             
+      ''' 
 
 
+      def CSVFields(self, xD) -> dict:
+          return( self.toDict(xD) )
 
-              
+      
       def toDict(self, xD) -> dict:
           dct = {}
           nonEmpty = 0
