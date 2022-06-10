@@ -46,6 +46,8 @@ import hashlib
 import numpy as np
 import csv
 
+import clrprint
+
 # We define constants in this file
 import appConstants
 from commandHistory import commandHistory
@@ -427,6 +429,8 @@ class commandImpl:
                if rresponse.status_code != 200:
                   print('ERROR. Got status code:', rresponse.status_code )
                   return(False)
+
+
                   
             if args.get('savetofile') is not None:
                with open(args['savetofile'], 'w') as f:
@@ -753,7 +757,7 @@ class commandImpl:
           
           linkQueue = []
           linkQueue.append( args['url'][0] )
-          visitedQueue = []
+          #visitedQueue = []
           visitedPageHashes = []
           pageHandlingTimes = []
 
@@ -790,7 +794,7 @@ class commandImpl:
                    print('Error:', str(popEx))   
                    break    
 
-                 print('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted,  sep='')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, clr='yellow')
 
                  tmStart = time.perf_counter() # start counting time
                  
@@ -801,7 +805,9 @@ class commandImpl:
                     #print( '\t[DEBUG] ', session.headers['user-agent'])                    
                     response = session.get(currentUrl)
                     #response.html.render(timeout=40)
-                    visitedQueue.append( currentUrl )
+
+                    print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
+                    #visitedQueue.append( currentUrl )
                     break
                   
                   except Exception as netEx:
@@ -933,9 +939,12 @@ class commandImpl:
                  #
 
                  # Extract fields required by csv
-                 
-                 xdt = exRules.CSVFields(pageData)
-                 if xdt:
+
+                 print('\t[DEBUG] Extracted data is record:', xRules.isRecordData(pageData) )
+                 print('\t[DEBUG] Extracted data is recordlist:', xRules.isRecordListData(pageData) )
+                 if xRules.isRecordData(pageData):
+                    xdt = exRules.CSVFields(pageData)
+                    if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
                        print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
@@ -943,7 +952,16 @@ class commandImpl:
                        xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
                        #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
                        #print(xDataDF)
-                 
+                 else:
+                       recordList = pageData[xRules.getRecordListFieldName(pageData)]
+                       for r in recordList:
+                           csvr = exRules.CSVFields(r)  
+                           csvr['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+                           csvr['url'] = currentUrl
+                           print('\t\t[DEBUG] (record list) Adding [', csvr, ']', sep='')
+                           xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ csvr ])])
+                       
+                       
 
                     
                  

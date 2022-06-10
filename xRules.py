@@ -333,7 +333,8 @@ class extractionRule:
                  #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars}) 
                  nM = 0 
                  if len(self.ruleReturnedValueNames) > 0:
-                   if len(self.rulePostCSSSelector) == 0:    
+                   if len(self.rulePostCSSSelector) == 0:
+                       # in this situation, we get the element's text  
                        for e, name in zip(res, self.ruleReturnedValueNames):
                            exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})                         
                    else:
@@ -478,10 +479,61 @@ class ruleLibrary:
           return(False)    
 
 
-# Test!
+# General purpose functions
 def loadRule( r ):    
     rl = dataconf.loads(r, extractionRule)
     return(rl)
 
 def loadLibrary(r):
     return( dataconf.loads(r, ruleLibrary) )
+
+
+
+# The next two functions are borderline stupid. But i
+# could not come up with a better solution in a short
+# amount of time i had.
+#
+# TODO: Needs to go.  Has to be replaced by a better
+# and more thought out model.
+#
+def isRecordData( xd ):
+    for k,v in xd.items():
+        if type(v) == list:
+           if len(v) <= 0:
+              continue   
+
+           if type(v[0]) == dict:
+              return(False)
+
+    return(True)        
+
+
+def isRecordListData( xd ):
+    nFound = 0  
+    for k,v in xd.items():
+        if type(v) == list:
+           if len(v) <= 0:
+              continue   
+
+           if type(v[0]) == dict:
+              print('\t\t[DEBUG] Key', k, 'is record list.')   
+              nFound  += 1
+
+    if nFound == 0:
+       return(False)
+    elif nFound == 1:
+         return(True)
+    else:
+          print('Serioud error. You should never see this. Need to terminate.')
+          sys.exit('Fatal error. Terminating.')
+          
+def getRecordListFieldName(xd):
+    for k,v in xd.items():
+        if type(v) == list:
+           if len(v) <= 0:
+              continue   
+
+           if type(v[0]) == dict:
+              return(k)  # Return first. There can only be one. 
+
+    return(None)          
