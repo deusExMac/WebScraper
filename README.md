@@ -13,7 +13,7 @@ Make sure you have the following python packages installed before running the ap
 
 * requests_html (https://requests.readthedocs.io/projects/requests-html/en/latest/)
 
-
+* clrprint (https://pypi.org/project/clrprint/)
 
 
 # Specifying what data to extract using .exr files
