@@ -933,15 +933,19 @@ class commandImpl:
                  #
 
                  # Extract fields required by csv
+                 
                  xdt = exRules.CSVFields(pageData)
                  if xdt:
-                    xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
-                    xdt['url'] = currentUrl
-                    print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
-                    #xDataDF = xDataDF.append( xdt, ignore_index = True )
-                    xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
-                    #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
-                    #print(xDataDF)
+                       xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
+                       xdt['url'] = currentUrl
+                       print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
+                       #xDataDF = xDataDF.append( xdt, ignore_index = True )
+                       xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
+                       #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
+                       #print(xDataDF)
+                 
+
+                    
                  
                  numProcessed += 1
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
@@ -1009,6 +1013,10 @@ class commandImpl:
           exRules.libStats()
           
           return(False)
+
+
+
+
 
 
 
