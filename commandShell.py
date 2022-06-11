@@ -48,6 +48,10 @@ import csv
 
 import clrprint
 
+#TODO: Does asyncio fix the "coroutine 'Launcher.killChrome' was never awaited" issue?
+#import asyncio
+
+
 # We define constants in this file
 import appConstants
 from commandHistory import commandHistory
@@ -804,8 +808,7 @@ class commandImpl:
                     session = HTMLSession()
                     #print( '\t[DEBUG] ', session.headers['user-agent'])                    
                     response = session.get(currentUrl)
-                    #response.html.render(timeout=40)
-
+                    
                     print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
                     #visitedQueue.append( currentUrl )
                     break
@@ -844,7 +847,19 @@ class commandImpl:
                  uQ.updatePageHash( currentUrl, pHash )
                  uQ.updateLastModified( currentUrl, response.headers.get('Last-Modified', '') )
                  
-                 
+                 if exRules.renderPages:
+                       try:   
+                          print('\t[DEBUG] Rendering page...')    
+                          response.html.render(timeout=250)
+                       except KeyboardInterrupt:
+                              print('\t[DEBUG] *** ', sep='')
+                              raise KeyboardInterrupt
+                              continue
+                       except Exception as rtmEx:
+                              print('\t[DEBUG] Exception during rendering.', str(rtmEx) )
+                              continue
+                              #raise KeyboardInterrupt
+                        
                  
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
@@ -898,10 +913,18 @@ class commandImpl:
                   
                      print('yes')
 
+                     '''
                      if r.ruleRenderPage:
-                        print('\t[DEBUG] Rendering page...')   
-                        response.html.render(timeout=220)   
-                           
+                        print('\t[DEBUG] Rendering page...')
+                        try:
+                           response.html.render(timeout=220)
+                        except KeyboardInterrupt:
+                              print('\t[DEBUG] *** ', sep='')
+                              raise KeyboardInterrupt
+                              continue
+                        except Exception as rtmEx:
+                              raise KeyboardInterrupt
+                     '''         
 
                      # Select part of the html specified by rule
                      res = response.html.find(r.ruleCSSSelector, first=False)

@@ -1,0 +1,62 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to extract product title and price from amazon pages",
+"csvLineFormat":["productName", "productPrice"],
+"renderPages":True,
+"library": [
+
+{
+ "ruleName": "productName"
+ "ruleDescription": "Get name of product"
+ "ruleURLActivationCondition": ["www\.amazon\.com/"]
+ "ruleCSSSelector": "#productTitle"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+},
+
+
+{
+ "ruleName": "productPrice"
+ "ruleDescription": "Get price of product"
+ "ruleURLActivationCondition": ["www\.amazon\.com/"]
+ "ruleCSSSelector": ".apexPriceToPay span"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+},
+
+
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["www\.amazon\.com"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "www\.amazon\.com"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+]
+
+
+}

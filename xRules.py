@@ -79,7 +79,8 @@ class extractionRule:
 
     # Whether or not downloaded page should be rendered using HTMLSession's .render method
     # TODO: Very, very slow. Please dont set it to true in the current version.
-    ruleRenderPage: bool  = False
+    # NOTE: @11/06/2022: This has been moved to the library class. Was this correct?
+    # ruleRenderPage: bool  = False
     
     ruleReturnsMore: bool  = False
 
@@ -409,6 +410,11 @@ class ruleLibrary:
       # be formatted as a line in csv format
       csvLineFormat: List[str] = field( default_factory=lambda:[] )
 
+      # Whether or not downloaded pages should be rendered using HTMLSession's .render() method
+      # If set to True, all downloaded pages will be rendered
+      # TODO: Seems to be very, very slow. Be careful when setting is to true.
+      renderPages: bool = False
+      
       def get(self, ruleName) -> extractionRule:
           for r in self.library:
               if r.ruleName == ruleName:
