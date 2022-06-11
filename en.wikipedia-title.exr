@@ -1,0 +1,47 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to extract title from english wikipedia pages",
+"csvLineFormat":["articleTitle"]
+"library": [
+
+
+
+{
+ "ruleName": "articleTitle"
+ "ruleDescription": "Get title of english wikipedia articles"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
+ "ruleCSSSelector": "#firstHeading"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+},
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "en\.wikipedia\.org/.*$"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+]
+
+
+}
