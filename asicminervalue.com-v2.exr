@@ -98,6 +98,26 @@
 			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) th" 
 			  "ecTextCondition" : "Power"
 			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) td"
+                          },
+                          {
+			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) th" 
+			  "ecTextCondition" : "Power"
+			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) td"
+                          },
+                          {
+			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) th" 
+			  "ecTextCondition" : "Power"
+			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) td"
+                          },
+                          {
+			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) th" 
+			  "ecTextCondition" : "Power"
+			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) td"
+                          },
+                          {
+			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) th" 
+			  "ecTextCondition" : "Power"
+			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) td"
                           }
                        ]
  
