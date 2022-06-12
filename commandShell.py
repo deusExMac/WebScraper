@@ -645,6 +645,20 @@ class commandImpl:
 
 
 
+      #
+      # Takes an absolute url
+      # and returns a canonical url.
+      #
+      # TODO: This should be a simple method in utils.
+      def canonicaURL(self, u ):
+          parsedURL =  urlparse(unquote(u))  
+          canonURL = parsedURL.scheme + '://' + parsedURL.netloc
+    
+          canonURL +=  parsedURL.path
+          if parsedURL.query != '':
+             canonURL = canonURL + '?' + parsedURL.query
+
+          return( canonURL )  
 
 
 
@@ -820,7 +834,8 @@ class commandImpl:
                  uQ.updateStatus( currentUrl, response.status_code )
                  uQ.updateContentType( currentUrl, response.headers.get('Content-Type', '') )
                  if response.status_code != 200:
-                    numHTTPErrors += 1   
+                    numHTTPErrors += 1
+                    print('\t[DEBUG] Http status [', response.status_code, ']' )
                     continue
 
 
@@ -890,18 +905,18 @@ class commandImpl:
                         # getLinks is a special rule that is treated differently...   
                         res = response.html.find(r.ruleCSSSelector, first=False)   
                         for lnk in res:   
-                            canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
+                            absoluteUrl = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
                              # TODO: Parse url and make checks and normalize URLs. A normalized URLS must be added
                              # to the queue.
 
-                              
+                            cUrl = self.canonicaURL( absoluteUrl )  
                             #if canonicalLink                            
                             #if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
                             #   continue
                             
                             # Does acquired content match content rule?
-                            if re.search( r.ruleContentCondition, canonicalLink) is not None:  
-                               uQ.add( canonicalLink )
+                            if re.search( r.ruleContentCondition, cUrl) is not None:  
+                               uQ.add( cUrl )
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
