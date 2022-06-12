@@ -650,7 +650,7 @@ class commandImpl:
       # and returns a canonical url.
       #
       # TODO: This should be a simple method in utils.
-      def canonicaURL(self, u ):
+      def canonicaURL123(self, u ):
           parsedURL =  urlparse(unquote(u))  
           canonURL = parsedURL.scheme + '://' + parsedURL.netloc
     
@@ -833,11 +833,14 @@ class commandImpl:
                  uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status_code )
                  uQ.updateContentType( currentUrl, response.headers.get('Content-Type', '') )
+                 
                  if response.status_code != 200:
                     numHTTPErrors += 1
                     print('\t[DEBUG] Http status [', response.status_code, ']' )
                     continue
 
+
+                 # TODO: Check if content was actually received i.e. content-length is not zero.
 
                  if utils.isText( response.headers.get('Content-Type', '')  ):
                     pHash = utils.txtHash( response.text )
@@ -909,7 +912,8 @@ class commandImpl:
                              # TODO: Parse url and make checks and normalize URLs. A normalized URLS must be added
                              # to the queue.
 
-                            cUrl = self.canonicaURL( absoluteUrl )  
+                            cUrl = utils.canonicalURL( absoluteUrl )
+                            
                             #if canonicalLink                            
                             #if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
                             #   continue

@@ -33,6 +33,21 @@ def byteHash(byteArray, chnunkSize=4096):
 
 
 
+def canonicalURL( u ):
+          parsedURL =  urlparse(unquote(u))  
+          canonURL = parsedURL.scheme + '://' + parsedURL.netloc
+    
+          canonURL +=  parsedURL.path
+          if parsedURL.query != '':
+             canonURL = canonURL + '?' + parsedURL.query
+
+          return( canonURL )
+
+
+
+
+       
+
 # TODO: Replace characters and create directories
 def urlToFilename( root, u ):
                 

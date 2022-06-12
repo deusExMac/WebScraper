@@ -104,6 +104,8 @@ class urlQueue:
       def getNext(self, mode = 'expand'):
 
           if mode == 'update':
+             # In update mode, setup a  position (currentQPos) that
+             # tells us which URL to process.
              if self.currentQPos < self.queue.shape[0]:   
                 uUrl = self.queue.iloc[ self.currentQPos ]['url']
                 self.currentQPos += 1
@@ -111,7 +113,8 @@ class urlQueue:
              else:
                 return( None )
 
-          # Not in update mode. Get one that has not been fetched.  
+          # Not in update mode. Get one that has not been yet fetched i.e.
+          # has status equal to -1.
           try:
              return( self.queue.loc[ self.queue['status'] == -1, 'url' ].iloc[0] )
           except IndexError as iErr:              
