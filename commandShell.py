@@ -860,28 +860,7 @@ class commandImpl:
                  if args['mirror']:
                     if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cmdConfigSettings.get('Storage', 'mirrorRoot', fallback='')):
                        print('\t[DEBUG] Error saving file')   
-                    '''
-                    try:
-                       targetName = utils.urlToFilename(cmdConfigSettings.get('Storage', 'mirrorRoot', fallback=''), currentUrl)
-                       print('\t[DEBUG] [mirror] Saving to ', targetName)
-                       targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '').replace('"', '').replace("'", '')
-                       targetDir = os.path.dirname(targetName)
-                       Path(targetDir).mkdir(parents=True, exist_ok=True)
-                       print('\t[DEBUG] Content-type:', response.headers.get('Content-Type', '') )
-                       if utils.isText( response.headers.get('Content-Type', '') ):
-                          print('\t[DEBUG] Writing text')
-                          # TODO: What about encoding?
-                          with open(targetName, 'w', errors='ignore') as f:
-                               f.write( response.text )
-                       else:
-                          print('\t[DEBUG] Writing binary')     
-                          with open(targetName, 'wb') as f:
-                               f.write( response.content )   
-                         
-                    except Exception as pcEx:
-                       print('\tERROR creating directories or creating file ', targetName, str(pcEx))
-
-                    '''
+                    
                   
                  if 'html' not in response.headers.get('Content-Type', ''):
                     print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
@@ -893,7 +872,7 @@ class commandImpl:
                  else:
                       print('\t[DEBUG] Extracting using library: ', exRules.libraryDescription)  
       
-                 exTractedData = {} 
+                 #exTractedData = {} 
                  pageData = {}
                  for r in exRules.library: #self.extractionRules.library:
                        
@@ -904,23 +883,13 @@ class commandImpl:
                         continue
                   
                      print('yes')
-
-                     '''
-                     if r.ruleRenderPage:
-                        print('\t[DEBUG] Rendering page...')
-                        try:
-                           response.html.render(timeout=220)
-                        except KeyboardInterrupt:
-                              print('\t[DEBUG] *** ', sep='')
-                              raise KeyboardInterrupt
-                              continue
-                        except Exception as rtmEx:
-                              raise KeyboardInterrupt
-                     '''         
+        
 
                      # Select part of the html specified by rule
-                     res = response.html.find(r.ruleCSSSelector, first=False)
+                     #res = response.html.find(r.ruleCSSSelector, first=False)
                      if r.ruleName == 'getLinks':
+                        # getLinks is a special rule that is treated differently...   
+                        res = response.html.find(r.ruleCSSSelector, first=False)   
                         for lnk in res:   
                             canonicalLink = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
 
@@ -1081,7 +1050,7 @@ class commandImpl:
             cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
             cmdArgs.add_argument('-l', '--libfile',  nargs='?' )
             cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
-            cmdArgs.add_argument('-D',  '--render', action='store_true')
+            #cmdArgs.add_argument('-D',  '--render', action='store_true')
 
             args = vars( cmdArgs.parse_args(a) )
           except Exception as argEx:
@@ -1132,10 +1101,10 @@ class commandImpl:
              return(False)
 
           try:
-             
+             # Fetch url
              response, responseHtml = self.loadResource(args['url'][0])
              if response is not None:
-                if args['render']:
+                if xLib.renderPages:
                    print('\tRendering page...')
                    response.html.render()
              
