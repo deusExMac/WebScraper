@@ -139,7 +139,7 @@ class extractionRule:
 
 
     
-
+    '''
     # TODO: Do we need this?
     def load(self, dictionary) -> int:
         self.ruleName = dictionary.get('name', '')
@@ -151,7 +151,7 @@ class extractionRule:
         return(0)
         
 
-
+    
     # TODO: Complete me.
     
     def extract(self, text) -> list:
@@ -171,7 +171,7 @@ class extractionRule:
            return( matches[pos] )
         else:
            return('') 
-
+    '''
 
 
     # EXAMPLE: "data: {.*labels: \[([^\]]*)\],"
