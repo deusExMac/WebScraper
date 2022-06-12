@@ -359,8 +359,11 @@ class commandImpl:
 
 
       
-
-
+      '''
+      #
+      #
+      # TODO: Do we need this method?
+      #
       def extract(self, a):
 
 
@@ -416,18 +419,7 @@ class commandImpl:
 
 
           try:
-            '''    
-            session = HTMLSession()    
-            print('Fetching url [', args['url'][0], ']...', sep='', end='' )    
-            rresponse = session.get(args['url'][0])
-            print( rresponse.headers.get('Content-Type', '') )
-            print('ok')
-            if rresponse.status_code != 200:
-               print('ERROR. Got status code:', rresponse.status_code )
-               return(False)
-
-
-            '''
+            
             rresponse, html = loadResource( args['url'][0] )
             if rresponse is not None:
                if rresponse.status_code != 200:
@@ -492,8 +484,8 @@ class commandImpl:
 
           print('\n\nExtracted data:', exTractedData )
           return(False)
-        
-
+      '''  
+      
 
 
 
@@ -854,10 +846,10 @@ class commandImpl:
                        except KeyboardInterrupt:
                               print('\t[DEBUG] *** ', sep='')
                               raise KeyboardInterrupt
-                              continue
+                              break
                        except Exception as rtmEx:
                               print('\t[DEBUG] Exception during rendering.', str(rtmEx) )
-                              continue
+                              break
                               #raise KeyboardInterrupt
                         
                  
@@ -900,8 +892,8 @@ class commandImpl:
                     continue
                  else:
                       print('\t[DEBUG] Extracting using library: ', exRules.libraryDescription)  
-
-                 exTractedData = {}
+      
+                 exTractedData = {} 
                  pageData = {}
                  for r in exRules.library: #self.extractionRules.library:
                        
@@ -970,7 +962,7 @@ class commandImpl:
                     if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
-                       print('\t\t[DEBUG] Adding [', xdt, ']', sep='')
+                       clrprint.clrprint('\t\t[DEBUG] Adding [', xdt, ']',  clr='green')
                        #xDataDF = xDataDF.append( xdt, ignore_index = True )
                        xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
                        #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
@@ -981,7 +973,7 @@ class commandImpl:
                            csvr = exRules.CSVFields(r)  
                            csvr['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
                            csvr['url'] = currentUrl
-                           print('\t\t[DEBUG] (record list) Adding [', csvr, ']', sep='')
+                           clrprint.clrprint('\t\t[DEBUG] (record list) Adding [', csvr, ']', clr='green')
                            xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ csvr ])])
                        
                        
@@ -1089,6 +1081,7 @@ class commandImpl:
             cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
             cmdArgs.add_argument('-l', '--libfile',  nargs='?' )
             cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
+            cmdArgs.add_argument('-D',  '--render', action='store_true')
 
             args = vars( cmdArgs.parse_args(a) )
           except Exception as argEx:
@@ -1141,6 +1134,10 @@ class commandImpl:
           try:
              
              response, responseHtml = self.loadResource(args['url'][0])
+             if response is not None:
+                if args['render']:
+                   print('\tRendering page...')
+                   response.html.render()
              
           except Exception as readEx:
                   print('ERROR.', str(readEx))

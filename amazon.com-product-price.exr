@@ -8,6 +8,10 @@
 
 {
 "libraryDescription": "Library to extract product title and price from amazon pages",
+
+# Fields to store in csv file. Note that these 
+# field names refer to rule names and their extracted
+# data
 "csvLineFormat":["productName", "productPrice"],
 "renderPages":True,
 "library": [
