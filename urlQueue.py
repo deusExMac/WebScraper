@@ -8,9 +8,24 @@ import datetime
 
 class urlQueue:
 
-      def __init__(self, qSz=-1, startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
+      def __init__(self, qSz=-1, qMemSz='-1', startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
           
           self.qSize = qSz
+          self.qMemorySize = -1
+          print('\t[DEBUG] Got queue memory size [', qMemSz.lower(), ']')
+          if qMemSz.lower().endswith('k'):
+             self.qMemorySize = int(qMemSz[:-1])*1024
+          elif qMemSz.lower().endswith('m'):
+                self.qMemorySize = int(qMemSz[:-1])*1024*1024
+          elif qMemSz.lower().endswith('g'):
+               self.qMemorySize = int(qMemSz[:-1])*1024*1024*1024
+          else:
+              if int(qMemSz) < 0:
+                 self.qMemorySize = -1
+              else:
+                 self.qMemorySize = qMemSz   
+
+          print('\t[DEBUG] Queue memory size set to ', self.qMemorySize)      
           self.qFile = qF
           self.qSave = sQ
           self.currentQPos = cP # Current position used in update mode
@@ -18,6 +33,7 @@ class urlQueue:
                                           'fetched': pd.Series(dtype='str'),
                                           'status': pd.Series(dtype='int'),
                                           'contenttype': pd.Series(dtype='str'),
+                                          'contentlength':pd.Series(dtype='int'),
                                           'lastmodified': pd.Series(dtype='str'),
                                           'hash': pd.Series(dtype='str')
                                          }
@@ -70,19 +86,26 @@ class urlQueue:
 
 
 
-      def add(self, u, f=np.nan, s=-1, c=np.nan, l=np.nan, h=np.nan):
+      def add(self, u, f=np.nan, s=-1, c=np.nan, cl=np.nan, l=np.nan, h=np.nan):
 
-          if self.uInQueue(u):
-             #print('\t[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
-             return(False)
-
-          
+                    
           if self.qSize >= 0:
              if self.queueSize() >= self.qSize:
                 #print('\t[DEBUG] QUEUE: maximum queue size [', self.qSize,  '] reached. Rejecting URL.', sep='')   
-                return(False) 
+                return(False)
+
+          if self.qMemorySize > 0:
+             if self.queueMemorySize() >= self.qMemorySize:
+                #print('\t[DEBUG] Memory limit [', self.qMemorySize , '] reached. Current size:', self.queueMemorySize(), '. Not adding.', sep='')
+                return(False)
+             
+          if self.uInQueue(u):
+             #print('\t[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
+             return(False)
+            
+            
           try:
-            d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'lastmodified':l, 'hash':h}
+            d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'contentlength':cl, 'lastmodified':l, 'hash':h}
             #self.queue = self.queue.append(d, ignore_index = True)
             self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])])
             return(True)
@@ -125,6 +148,9 @@ class urlQueue:
       def queueSize(self):
           return( self.queue.shape[0] )
 
+
+      def queueMemorySize(self):
+          return(self.queue.memory_usage(deep=True).sum() ) 
         
       def pendingUrlsCount(self):
           return( self.queue.loc[ self.queue['status'] == -1].shape[0] )
@@ -152,7 +178,10 @@ class urlQueue:
 
 
       def updateContentType(self, u, ct):          
-          self.queue.loc[ self.queue['url'] == u, 'contenttype' ] = ct   
+          self.queue.loc[ self.queue['url'] == u, 'contenttype' ] = ct
+
+      def updateContentLength(self, u, cl):          
+          self.queue.loc[ self.queue['url'] == u, 'contentlength' ] = cl
 
 
       def updatePageHash(self, u, ph):          

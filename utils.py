@@ -49,6 +49,7 @@ def canonicalURL( u ):
        
 
 # TODO: Replace characters and create directories
+#       Also, enforce a maximum file name length. 
 def urlToFilename( root, u ):
                 
             parsedUrl = urlparse(unquote(u))
@@ -56,12 +57,13 @@ def urlToFilename( root, u ):
                prefix = root + '/' + parsedUrl.netloc
             else:
                prefix = root +  parsedUrl.netloc
-               
+
+            # split path in name and extension tuple   
             if os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() != '':
                print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
                return(prefix + parsedUrl.path)
             else:
-               qParams =  parsedUrl.query.replace('&', 'X').replace('!', 'X').replace('@','X') 
+               qParams =  parsedUrl.query.replace('&', 'X').replace('!', 'X').replace('@','X').replace("/", 'oXo') 
                if parsedUrl.path.endswith('/'):
                   if qParams == '':
                      return(prefix + parsedUrl.path + 'index.html' )

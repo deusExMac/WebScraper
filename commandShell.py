@@ -784,7 +784,7 @@ class commandImpl:
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= (['dateaccessed', 'url'] + exRules.csvLineFormat) )  
 
-          uQ = urlQueue.urlQueue(cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
+          uQ = urlQueue.urlQueue(qSz=cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), qMemSz=cmdConfigSettings.get('Crawler', 'maxQueueMemorySize', fallback='-1'), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
 
           lastAutosave = time.perf_counter()
@@ -803,7 +803,7 @@ class commandImpl:
                    print('Error:', str(popEx))   
                    break    
 
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, clr='yellow')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, clr='yellow')
 
                  tmStart = time.perf_counter() # start counting time
                  
@@ -853,6 +853,7 @@ class commandImpl:
                     if pageContentLength < 0:
                        pageContentLength = len( response.content )
 
+                 uQ.updateContentLength( currentUrl, pageContentLength )
                  if pageContentLength == 0 :
                     print('\t[DEBUG] Zero content length')   
                     uQ.updateStatus( currentUrl, -999 )
