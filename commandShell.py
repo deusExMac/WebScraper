@@ -664,12 +664,13 @@ class commandImpl:
 
 
 
-      # TODO: IT's so ugly. Refactor me! 
+      # Starts crawling from an initial URL.
+      # TODO: This method is so ugly. Has to be refactored seriously. 
 
       def crawl(self, a):
-
-                    
-          try:  
+                
+          try:
+             # Supported arguments of crawl commans    
              cmdArgs = ThrowingArgumentParser()
              cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
@@ -767,7 +768,6 @@ class commandImpl:
           
           linkQueue = []
           linkQueue.append( args['url'][0] )
-          #visitedQueue = []
           visitedPageHashes = []
           pageHandlingTimes = []
 
