@@ -839,13 +839,25 @@ class commandImpl:
                     print('\t[DEBUG] Http status [', response.status_code, ']' )
                     continue
 
+                 #if response.headers.get('Content-Length', -2):
+                 pageContentLength = int( response.headers.get('Content-Length', '-2') )      
 
                  # TODO: Check if content was actually received i.e. content-length is not zero.
 
                  if utils.isText( response.headers.get('Content-Type', '')  ):
                     pHash = utils.txtHash( response.text )
+                    if pageContentLength < 0:
+                       pageContentLength = len( response.text )
                  else:
                     pHash = utils.byteHash( response.content )
+                    if pageContentLength < 0:
+                       pageContentLength = len( response.content )
+
+                 if pageContentLength == 0 :
+                    print('\t[DEBUG] Zero content length')   
+                    uQ.updateStatus( currentUrl, -999 )
+                    continue
+                       
 
                  print('\t[DEBUG] Hash:', pHash )
                  # Have we seen this content? If so, discard it; move to next
