@@ -8,7 +8,8 @@
 
 {
 "libraryDescription": "Library to crawl greek reddit",
-"csvLineFormat": ["postAuthor", "postTitle"]
+"csvLineFormat": ["postAuthor", "postTitle"],
+"renderPages": True,
 "library": [
 
 {
@@ -22,7 +23,6 @@
  "ruleContentCondition": ""
  "rulePostCSSSelector": [".oQctV4n0yUb0uiHDdGnmE", "._eYtD2XCVieq6emjKBH3m"]
  "ruleReturnedValueNames": ["postAuthor", "postTitle"]
- "ruleRenderPage": False
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
