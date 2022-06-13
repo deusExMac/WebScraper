@@ -1,4 +1,6 @@
 
+import sys
+
 import pandas as pd
 import numpy as np
 import csv
@@ -150,6 +152,7 @@ class urlQueue:
 
 
       def queueMemorySize(self):
+          #print(sys.getsizeof(self.queue) )   # kind of different method with the same result.
           return(self.queue.memory_usage(deep=True).sum() ) 
         
       def pendingUrlsCount(self):
