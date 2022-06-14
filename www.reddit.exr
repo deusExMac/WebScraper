@@ -8,7 +8,7 @@
 
 {
 "libraryDescription": "Library to crawl greek reddit",
-"csvLineFormat": ["postAuthor", "postTitle"],
+"csvLineFormat": ["postAuthor", "postTitle", "upvoteCount"],
 "renderPages": True,
 "library": [
 
@@ -21,8 +21,8 @@
  "ruleCSSSelector": "._11R7M_VOgKO1RJyRSRErT3"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
- "rulePostCSSSelector": [".oQctV4n0yUb0uiHDdGnmE", "._eYtD2XCVieq6emjKBH3m"]
- "ruleReturnedValueNames": ["postAuthor", "postTitle"]
+ "rulePostCSSSelector": [".oQctV4n0yUb0uiHDdGnmE", "._eYtD2XCVieq6emjKBH3m", "._1E9mcoVn4MYnuBQSVDt1gC"]
+ "ruleReturnedValueNames": ["postAuthor", "postTitle", "upvoteCount"]
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False

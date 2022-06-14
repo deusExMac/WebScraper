@@ -59,7 +59,7 @@ import xRules
 
 import utils
 import urlQueue
-
+import extractedDataSource
 
 
 
@@ -499,32 +499,31 @@ class commandImpl:
           if not os.path.exists(oF):
              print('No such file. Terminating')
              return(False)
-            
-          try:
-              csvDF = pd.read_csv(oF, sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC )
-          except Exception as rEx:
-                 print('Error.', str(rEx) )
-                 return(False)
-            
-          print('ok. Total of ', csvDF.shape[0], ' rows', sep='')
 
 
+          uS = extractedDataSource.extractedDataFileCSVReader(oF, sep=';')
 
+           
+          print('ok. Total of ', uS.getNumRows(), ' rows', sep='')
+
+
+          
           cPos = 0
           numProcessed = 0
           numUpdated = 0
           while(True):
-            try:    
-                if cPos >=csvDF.shape[0]:
-                   print('Empty queue. Terminating')   
+            try:
+               
+                exData = uS.getNext()
+                if exData is None:
+                   print('\t[DEBUG] No URLs found. Exiting.')
                    break
-
-                targetUrl = csvDF.iloc[cPos]['url']  
-                print('', cPos, ') [DEBUG] Doing [', targetUrl, ']', sep='' )
-                cPos += 1 # Move to next... TODO: Is this correct here? Elsewhere?
+                  
+                targetUrl = exData['url']
+                clrprint.clrprint( (numProcessed+1), '/', uS.getNumRows(), ') Doing [', targetUrl, ']', clr='yellow', sep=''  )
                 qData = uQ.getByUrl( targetUrl )
                 if not qData:
-                   print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND! Adding to urlQueue')                   
+                   print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND IN QUEUE! Adding to urlQueue')                   
                    uQ.add( targetUrl )
                 else:
                    print('\t\t[DEBUG] Url [', targetUrl, '] FOUND IN QUEUE!')   
@@ -542,7 +541,11 @@ class commandImpl:
                       print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')                      
                       continue
 
+                if xR.renderPages:
+                   print('\t\tRendering page....')   
+                   response.html.render(timeout=250)
 
+                   
                 # Check hashes
                 newHash = utils.txtHash( response.text )
                 print('\t\t[DEBUG] oldHash=[', qData.get('hash', ''), '] newHash=[', newHash,']', sep='')
@@ -579,7 +582,7 @@ class commandImpl:
                     xData = r.apply( response.html )
                     pageData.update(xData)
 
-                #if xR.isRecordData(pageData):
+                 
                     
                 # Update url queue
                 print('\t[DEBUG] Updating queue...')
@@ -587,38 +590,38 @@ class commandImpl:
                 uQ.updateStatus( targetUrl, response.status_code )
                 uQ.updateLastModified(targetUrl, response.headers.get('Last-Modified', ''))
                 uQ.updatePageHash( targetUrl, newHash )
-
-                # Update extracted data
-                print('\t[DEBUG] Updating csv...')
-                storedRecord = csvDF[ csvDF['url'] ==targetUrl].to_dict(orient='records')[0]
                 
-                #csvDF.iloc[cPos]['url']
-                if storedRecord is not None:
-                   print('EXISTING DATA:', storedRecord)
-                else:
-                   print('!!!!!! NOT EXISTING DATA')
-
                    
-                print('EXTRACTED DATA:', pageData)
+                print('\t[DEBUG] Extracted:', pageData)
 
                 # TODO: check/expand this.
-                '''
-                if xR.isRecordData(pageData):
+                
+                if xRules.isRecordData(pageData):
+                   print('\t[DEBUG] Record data..')   
                    xdt = xR.CSVFields(pageData)
                    xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
                    xdt['url'] = targetUrl
-                '''
+                   clrprint.clrprint('\t[DEBUG] Adding ', xdt, clr='green', sep='')  
+                   uS.updateExtractedData(targetUrl, xdt)
+                else:
+                     # Since this returned a recordList, iterate over
+                     # the individual records and add then to the data frame
+                     xdtList = pageData[xRules.getRecordListFieldName(pageData)]
+                     print('\t[DEBUG] Removing all rows with URL [', targetUrl, ']',  sep='')
+                     uS.removeExtractedData( targetUrl )
+                     for xdt in xdtList:
+                         xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+                         xdt['url'] = targetUrl  
+                         clrprint.clrprint('\t[DEBUG] Adding ', xdt, clr='green', sep='')
+                         uS.insertDataAtCurrentPosition(xdt)
+                         
+
+                     # Move the current position forward because more than one 
+                     #uS.moveBy( len(xdtList) )
+                   
+                
 
                 
-                print('\t[DEBUG] Updating csv data...')
-                pageData['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')   
-                for k in xR.csvLineFormat:
-                    print('\t\t[DEBUG] Updating key', k)
-                    print('\t\t\t[DEBUG] From [', csvDF.loc[ csvDF['url'] == targetUrl,  k ].values[0], ']', sep='')
-                    print('\t\t\t[DEBUG] To [', pageData[k], ']', sep='')  
-                    csvDF.loc[ csvDF['url'] == targetUrl,  k ] = pageData[k]
-
-                csvDF.loc[ csvDF['url'] == targetUrl,  'dateaccessed' ] = pageData['dateaccessed']
                 numUpdated += 1
                 
                 
@@ -649,8 +652,9 @@ class commandImpl:
           #print('\t[DEBUG] Saving url queue...', end='')
           uQ.saveQ()
           #print('ok.')
-          print('\t[DEBUG] Saving csv to [', oF, ']...', sep='') 
-          csvDF.to_csv( oF, index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
+          print('\t[DEBUG] Saving csv to [', oF, ']...', sep='', end='')
+          uS.save()
+          #csvDF.to_csv( oF, index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
           print('ok')
 
 

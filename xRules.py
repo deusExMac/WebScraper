@@ -381,7 +381,7 @@ class extractionRule:
             exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
             numExtracted += 1
          else:
-            print(len(res), ' matches found')
+            #print(len(res), ' matches found')
             lst = []
             for item in res:
                 lst.append( item.text )
