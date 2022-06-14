@@ -579,7 +579,8 @@ class commandImpl:
                     xData = r.apply( response.html )
                     pageData.update(xData)
 
-
+                #if xR.isRecordData(pageData):
+                    
                 # Update url queue
                 print('\t[DEBUG] Updating queue...')
                 uQ.updateTimeFetched(targetUrl)
@@ -600,6 +601,15 @@ class commandImpl:
                    
                 print('EXTRACTED DATA:', pageData)
 
+                # TODO: check/expand this.
+                '''
+                if xR.isRecordData(pageData):
+                   xdt = xR.CSVFields(pageData)
+                   xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
+                   xdt['url'] = targetUrl
+                '''
+
+                
                 print('\t[DEBUG] Updating csv data...')
                 pageData['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')   
                 for k in xR.csvLineFormat:
@@ -645,6 +655,10 @@ class commandImpl:
 
 
 
+
+
+
+
       #
       # Takes an absolute url
       # and returns a canonical url.
@@ -659,6 +673,9 @@ class commandImpl:
              canonURL = canonURL + '?' + parsedURL.query
 
           return( canonURL )  
+
+
+
 
 
 
