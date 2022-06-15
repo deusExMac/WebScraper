@@ -1196,7 +1196,10 @@ class commandImpl:
                    pageData.update(xData)
                    
 
-                      
+          if not pageData:
+             print('\t[DEBUG] Nothing extracted.')
+             return(False)
+                
           #print('\nExtracted data:', pageData)
           print('\nExtracted data from page:', )
           print('\tData type:', pageData.get('datatype', '???'))
@@ -1214,7 +1217,7 @@ class commandImpl:
                          
             
              
-            
+          return(False)   
 
 
         
