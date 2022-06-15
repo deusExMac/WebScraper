@@ -1103,7 +1103,7 @@ class commandImpl:
           try:
             cmdArgs = ThrowingArgumentParser()
             cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
-            cmdArgs.add_argument('-l', '--libfile',  nargs='?' )
+            cmdArgs.add_argument('-r', '--rules',  nargs='?' )
             cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
             #cmdArgs.add_argument('-D',  '--render', action='store_true')
 
@@ -1112,17 +1112,17 @@ class commandImpl:
                  print('Error.', str(argEx) )
                  return(False)
 
-          if args.get('libfile', '')  == '':
+          if args.get('rules', '')  == '':
              print('No .exr file given.')
              return(False)
 
           try:
-             print('Loading library file [', args['libfile'], ']...', end='')   
-             with open(args['libfile'],  encoding='utf-8', errors='ignore', mode='r') as f:          
+             print('Loading library file [', args['rules'], ']...', end='')   
+             with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
                   xLib = xRules.loadLibrary(f.read())
              print('ok')     
           except Exception as rFile:
-                  print('Error reading rule file', args['libfile'])
+                  print('Error reading rule file', args['rules'])
                   return(False)  
 
           print('\tLibrary description:', xLib.libraryDescription)
@@ -1161,7 +1161,7 @@ class commandImpl:
              if response is not None:
                 if xLib.renderPages:
                    print('\tRendering page...')
-                   response.html.render()
+                   response.html.render(timeout=220)
              
           except Exception as readEx:
                   print('ERROR.', str(readEx))
@@ -1178,7 +1178,8 @@ class commandImpl:
           '''
           #return(False)
 
-      
+          
+             
           if targetRule is not None:
              print('* Applying rule', targetRule.ruleName)   
              xData = targetRule.apply( responseHtml )
@@ -1196,8 +1197,21 @@ class commandImpl:
                    
 
                       
-          print('\nExtracted data:', pageData)      
-
+          #print('\nExtracted data:', pageData)
+          print('\nExtracted data from page:', )
+          print('\tData type:', pageData.get('datatype', '???'))
+          if pageData.get('datatype', '???') == 'record':                
+            for k in pageData.keys():
+              print('\t',k, ':[', pageData[k],']', sep='')
+          else:
+               i = 0 # just a counter 
+               recordList = pageData[xRules.getRecordListFieldName(pageData)]
+               for ex in recordList:
+                   i += 1  
+                   print('\t\tExtracted data ', i, ')', sep='')  
+                   for k in ex.keys():
+                       print('\t\t\t',k, ':[', ex[k],']', sep='')  
+                         
             
              
             

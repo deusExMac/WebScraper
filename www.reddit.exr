@@ -15,7 +15,7 @@
 {
  "ruleName": "postEntry"
  "ruleDescription": "Get authors and titles of Europes subreddit page"
- "ruleURLActivationCondition": ["www\.reddit\.com/r/europe/$"]
+ "ruleURLActivationCondition": ["www\.reddit\.com/r/greece/$"]
  "rulePreconditionType": "Any"
  "rulePreconditions" : []                                                  
  "ruleCSSSelector": "._11R7M_VOgKO1RJyRSRErT3"
