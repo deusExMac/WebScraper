@@ -11,13 +11,12 @@ import requests_html
 @dataclass
 class extractionCondition:
       """
-         This is used to place preconditions on the content of the html page.
+         This is used to place preconditions on the content of the ENTIRE html page or on specfic extracted sections.
          Preconditions have a css selector and regular expression the text of the
-         selected element needs to match.
-         Currently, only the FIRST of the potential many elements is checked.
+         selected element needs to match.         
          TODO: Error checking
       """
-      # Currently this places conditions (regular expressions) only on the extracted text of elements.
+      
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
@@ -72,10 +71,17 @@ class extractionRule:
     ruleContentCondition: str = field(default = '') #''
     # Preconditions that (all) must be met by the html content in order to apply the rule
 
-    #rulePreconditions:List[extractionCondition]  = field(default_factory=lambda:[])     
-    #rulePreconditions: ruleConditionList=field(default_factory=makeRuleConditionList)
+    
+
+    # Preconditions applied to the ENTIRE PAGE
     rulePreconditionType: str = 'ANY'
     rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
+
+    # TODO: Do we need this????
+    # Preconditions applied to each extracted record from a SINGLE PAGE, when the rule
+    # returns a recordlist i.e. a list of records from one single page.
+    ruleRecordPreconditionType: str = 'ANY'
+    ruleRecordPreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
     # Whether or not downloaded page should be rendered using HTMLSession's .render method
     # TODO: Very, very slow. Please dont set it to true in the current version.
@@ -190,7 +196,7 @@ class extractionRule:
           
 
 
-
+    # Preconditions for PAGES 
     def evalPreconditions(self, htmlContent) -> dict:
 
         # If no preconditions are present, this means rule should be applied. 
@@ -234,9 +240,30 @@ class extractionRule:
 
 
 
+
+
+    def evalRecordPreconditions(self, record):
+        print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
+        if len(self.ruleRecordPreconditions) <= 0:
+           return({'status':True, 'cssselector':''})   
+
+
+        for rpc in self.ruleRecordPreconditions:
+            print('\t\t[DEBUG] Evaluating RECORD precondition [', rpc.ecCSSSelector, ']....', end='')    
+            if rpc.conditionHolds( record ):
+               print('YES. Returning [', rpc.ecRuleCSSSelector, ']')   
+               return( {'status': True, 'cssselector': rpc.ecRuleCSSSelector} )      
+
+            print('NO')
+        
+        return( {'status': False, 'cssselector':''} )  
+
+
+
     
     # htmlContent must be html object from requests_html
     # TODO: Check this thoroughly. Also, refactor this...
+    #       This method has become so ugly. I'm sorry
     def apply( self, htmlContent ) -> dict:
 
         exTractedData = {}
@@ -259,7 +286,7 @@ class extractionRule:
         '''
 
         preconStatus = self.evalPreconditions(htmlContent)
-        print('\t\t[DEBUG] evaluation of preconditions returned: ', preconStatus['status'])
+        print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
            exTractedData[self.ruleName] = ''
            return(exTractedData)
@@ -286,9 +313,6 @@ class extractionRule:
             res = htmlContent.find(preconStatus['cssselector'], first=False)
 
 
-
-
-
         
         if self.ruleTargetAttribute == "text":
             
@@ -312,6 +336,7 @@ class extractionRule:
                     return(exTractedData)
 
              else:
+                 
                  # text, but more than one result is returned
                  # TODO: This does not work properly!
               
@@ -371,20 +396,45 @@ class extractionRule:
                  return(exTractedData)
             
         else:
-         # no text   
-         numExtracted = 0   
+
+
+         print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
+         # no text
+         if len(self.ruleRecordPreconditions) > 0:
+            pRes = []   
+            for e in res:                
+                pStatus = self.evalRecordPreconditions(e)
+                if pStatus['status']:
+                   if pStatus['cssselector'] != '':
+                      pRes.append( e.find( pStatus['cssselector'], first=True) )
+                      print(pRes)
+                   else:
+                      pRes.append(e)
+
+            res = pRes
+            print('\t\t[DEBUG] Total of ', len(res))
+                   
+         #print('>>>#####', res)          
+         numExtracted = 0
+
+         # TODO: The next commented out check must somehow be included. Does not work as intended whtn
+         # getLinks rule is applied
+         '''
          if self.ruleContentCondition != '': 
             res = [m for m in res if re.search(self.ruleContentCondition, m.attrs.get(self.ruleTargetAttribute)) is not None ]
-                         
+         '''
+         
+         #print('\t\tNo TEXT.', res)                
          if self.ruleReturnedMatchPos >= 0:
             print('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']', sep='' )
             exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
             numExtracted += 1
          else:
-            #print(len(res), ' matches found')
+            print(len(res), ' matches found')
             lst = []
             for item in res:
-                lst.append( item.text )
+                #lst.append( item.text )
+                lst.append( item.attrs.get(self.ruleTargetAttribute) )
 
             exTractedData[self.ruleName] = lst    
             numExtracted += len(res)

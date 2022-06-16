@@ -9,7 +9,7 @@
 {
 "libraryDescription": "Library to extract specific data from english wikipedia pages related to italian football teams.",
 "csvLineFormat": ["teamFullName", "clubPresident"],
-
+"renderPages":False,
 "library": [
 
 {

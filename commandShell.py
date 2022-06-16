@@ -939,6 +939,7 @@ class commandImpl:
                      # Select part of the html specified by rule
                      #res = response.html.find(r.ruleCSSSelector, first=False)
                      if r.ruleName == 'getLinks':
+                        '''   
                         # getLinks is a special rule that is treated differently...   
                         res = response.html.find(r.ruleCSSSelector, first=False)   
                         for lnk in res:   
@@ -955,6 +956,16 @@ class commandImpl:
                             # Does acquired content match content rule?
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
                                uQ.add( cUrl )
+                        '''
+                        xData = r.apply(response.html)
+                        #print('GETLINKS:', xData)
+                        xLinks = xData.get('getLinks', [])
+                        print('\t[DEBUG] Total of [', len(xLinks), '] links extracted')
+                        for lnk in xLinks:
+                            absoluteUrl = urljoin(args['url'][0], lnk )
+                            cUrl = utils.canonicalURL( absoluteUrl )
+                            if re.search( r.ruleContentCondition, cUrl) is not None:  
+                               uQ.add( cUrl ) # Add it to the URL queue
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
