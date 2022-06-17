@@ -261,6 +261,11 @@
  
  "ruleCSSSelector": "tr"
  "ruleRecordPreconditionType":"Any"
+ 
+ # The next precondition makes sure that
+ # only links leading to miners targeting
+ # algorithms Kadena OR SHA-256 OR Scrypt
+ # will be followed.
  "ruleRecordPreconditions": [
                                {
                                  "ecCSSSelector" : "tr td:nth-child(6)" 
