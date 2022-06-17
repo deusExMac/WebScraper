@@ -243,13 +243,14 @@ class extractionRule:
 
 
     def evalRecordPreconditions(self, record):
-        print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
+        #print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
         if len(self.ruleRecordPreconditions) <= 0:
            return({'status':True, 'cssselector':''})   
 
 
         for rpc in self.ruleRecordPreconditions:
-            print('\t\t[DEBUG] Evaluating RECORD precondition [', rpc.ecCSSSelector, ']....', end='')    
+            print('\t\t[DEBUG] Evaluating RECORD precondition [', rpc.ecCSSSelector, ']....', end='')
+            #print('\t\t\t[DEBUG] for record', record)
             if rpc.conditionHolds( record ):
                print('YES. Returning [', rpc.ecRuleCSSSelector, ']')   
                return( {'status': True, 'cssselector': rpc.ecRuleCSSSelector} )      
@@ -407,12 +408,14 @@ class extractionRule:
                 if pStatus['status']:
                    if pStatus['cssselector'] != '':
                       pRes.append( e.find( pStatus['cssselector'], first=True) )
-                      print(pRes)
+                      #print(pRes)
                    else:
                       pRes.append(e)
 
             res = pRes
             print('\t\t[DEBUG] Total of ', len(res))
+            if len(res) <= 0:
+               return(exTractedData)   
                    
          #print('>>>#####', res)          
          numExtracted = 0

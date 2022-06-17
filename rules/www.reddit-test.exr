@@ -1,0 +1,51 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl greek reddit",
+"csvLineFormat": ["postAuthor", "postTitle", "upvoteCount"],
+"renderPages": True,
+"library": [
+
+{
+ "ruleName": "postEntry"
+ "ruleDescription": "Get authors and titles of Europes subreddit page"
+ "ruleURLActivationCondition": ["www\.reddit\.com/r/greece/$"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []                                                  
+ "ruleCSSSelector": "._11R7M_VOgKO1RJyRSRErT3"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "rulePostCSSSelector": [".oQctV4n0yUb0uiHDdGnmE", "._eYtD2XCVieq6emjKBH3m", "._1E9mcoVn4MYnuBQSVDt1gC"]
+ "ruleReturnedValueNames": ["postAuthor", "postTitle", "upvoteCount"]
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+  
+},
+
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["www\.reddit\.com/r/greece"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ 
+}
+
+]
+
+
+}

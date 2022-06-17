@@ -257,12 +257,22 @@
 {
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["www\.asicminervalue\.com.*$"]
- "ruleCSSSelector": "a[href]"
+ "ruleURLActivationCondition": ["www\.asicminervalue\.com/$"]
+ 
+ "ruleCSSSelector": "tr"
+ "ruleRecordPreconditionType":"Any"
+ "ruleRecordPreconditions": [
+                               {
+                                 "ecCSSSelector" : "tr td:nth-child(6)" 
+                                 "ecTextCondition" : "(Kadena|SHA-256)"
+                                 "ecRuleCSSSelector" : "tr td:nth-child(1) a[href]"
+                               }
+   
+                             ]
  "ruleTargetAttribute": "href"
- "ruleContentCondition": "^(https|http)://.*\.asicminervalue\.com.*$"
+ "ruleContentCondition": ""
  "ruleReturnsMore": True
- "ruleReturnedMatchPos": 0
+ "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
  
  # other parameters needed
