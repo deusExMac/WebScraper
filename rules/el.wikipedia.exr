@@ -8,6 +8,8 @@
 
 {
 "libraryDescription": "Library to extract data from greek wikipedia pages",
+"csvLineFormat":["articleTitle"],
+"renderPages":False,
 "library": [
 
 {

@@ -8,8 +8,9 @@
 
 {
 "libraryDescription": "Library to extract data from english wikipedia pages",
+"csvLineFormat":["articleTitle"],
+"renderPages":False,
 "library": [
-
 {
  "ruleName": "teamFullName"
  "ruleDescription": "Get full name of clubs from infoboxes"

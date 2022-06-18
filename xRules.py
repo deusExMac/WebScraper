@@ -80,8 +80,8 @@ class extractionRule:
     # TODO: Do we need this????
     # Preconditions applied to each extracted record from a SINGLE PAGE, when the rule
     # returns a recordlist i.e. a list of records from one single page.
-    ruleRecordPreconditionType: str = 'ANY'
-    ruleRecordPreconditions: List[extractionCondition] = field(default_factory=lambda:[])
+    ruleMatchPreconditionType: str = 'ANY'
+    ruleMatchPreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
     # Whether or not downloaded page should be rendered using HTMLSession's .render method
     # TODO: Very, very slow. Please dont set it to true in the current version.
@@ -242,14 +242,14 @@ class extractionRule:
 
 
 
-    def evalRecordPreconditions(self, record):
+    def evalMatchPreconditions(self, record):
         #print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
-        if len(self.ruleRecordPreconditions) <= 0:
+        if len(self.ruleMatchPreconditions) <= 0:
            return({'status':True, 'cssselector':''})   
 
 
-        for rpc in self.ruleRecordPreconditions:
-            print('\t\t[DEBUG] Evaluating RECORD precondition [', rpc.ecCSSSelector, ']....', end='')
+        for rpc in self.ruleMatchPreconditions:
+            print('\t\t[DEBUG] Evaluating MATCH precondition [', rpc.ecCSSSelector, ']....', end='')
             #print('\t\t\t[DEBUG] for record', record)
             if rpc.conditionHolds( record ):
                print('YES. Returning [', rpc.ecRuleCSSSelector, ']')   
@@ -312,6 +312,26 @@ class extractionRule:
            res = htmlContent.find(self.ruleCSSSelector, first=False)
         else:   
             res = htmlContent.find(preconStatus['cssselector'], first=False)
+
+
+
+        # application of ruleMatchPreconditions
+        # TODO: Move this just after applying the css selector.
+        print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH')
+        if len(self.ruleMatchPreconditions) > 0:
+            pRes = []   
+            for e in res:                
+                pStatus = self.evalMatchPreconditions(e)
+                if pStatus['status']:
+                   if pStatus['cssselector'] != '':
+                      pRes.append( e.find( pStatus['cssselector'], first=True) )
+                      #print(pRes)
+                   else:
+                      pRes.append(e)
+
+            res = pRes
+
+       # end of application of ruleMatchPreconditions 
 
 
         
@@ -402,27 +422,10 @@ class extractionRule:
          
          print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
          
-         # application of ruleRecordPreconditions
-         # TODO: Move this just after applying the css selector.
-         if len(self.ruleRecordPreconditions) > 0:
-            pRes = []   
-            for e in res:                
-                pStatus = self.evalRecordPreconditions(e)
-                if pStatus['status']:
-                   if pStatus['cssselector'] != '':
-                      pRes.append( e.find( pStatus['cssselector'], first=True) )
-                      #print(pRes)
-                   else:
-                      pRes.append(e)
-
-            res = pRes
-
-            # end of application of ruleRecordPreconditions
-
             
-            print('\t\t[DEBUG] Total of ', len(res))
-            if len(res) <= 0:
-               return(exTractedData)   
+            
+         if len(res) <= 0:
+            return(exTractedData)   
 
           
 

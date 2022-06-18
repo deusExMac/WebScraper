@@ -260,13 +260,13 @@
  "ruleURLActivationCondition": ["www\.asicminervalue\.com/$"]
  
  "ruleCSSSelector": "tr"
- "ruleRecordPreconditionType":"Any"
+ "ruleMatchPreconditionType":"Any"
  
  # The next precondition makes sure that
  # only links leading to miners targeting
  # algorithms Kadena OR SHA-256 OR Scrypt
  # will be followed.
- "ruleRecordPreconditions": [
+ "ruleMatchPreconditions": [
                                {
                                  "ecCSSSelector" : "tr td:nth-child(6)" 
                                  "ecTextCondition" : "Blake2B-Sia"
