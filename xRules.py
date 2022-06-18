@@ -403,6 +403,7 @@ class extractionRule:
          print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
          
          # application of ruleRecordPreconditions
+         # TODO: Move this just after applying the css selector.
          if len(self.ruleRecordPreconditions) > 0:
             pRes = []   
             for e in res:                
@@ -415,11 +416,15 @@ class extractionRule:
                       pRes.append(e)
 
             res = pRes
+
+            # end of application of ruleRecordPreconditions
+
+            
             print('\t\t[DEBUG] Total of ', len(res))
             if len(res) <= 0:
                return(exTractedData)   
 
-          # end of application of ruleRecordPreconditions
+          
 
                    
          #print('>>>#####', res)          
