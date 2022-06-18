@@ -269,7 +269,7 @@
  "ruleRecordPreconditions": [
                                {
                                  "ecCSSSelector" : "tr td:nth-child(6)" 
-                                 "ecTextCondition" : "(Kadena|SHA-256|Scrypt)"
+                                 "ecTextCondition" : "Blake2B-Sia"
                                  "ecRuleCSSSelector" : "tr td:nth-child(1) a[href]"
                                }
    

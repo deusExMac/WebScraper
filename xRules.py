@@ -46,7 +46,7 @@ class ruleConditionList:
 
 
       
-
+# TODO: Remove this function
 def makeRuleConditionList() -> ruleConditionList or None:
     return ruleConditionList()
 
@@ -264,7 +264,7 @@ class extractionRule:
     
     # htmlContent must be html object from requests_html
     # TODO: Check this thoroughly. Also, refactor this...
-    #       This method has become so ugly. I'm sorry
+    #       THIS IS A MESS. Has become so ugly. I'm sorry...
     def apply( self, htmlContent ) -> dict:
 
         exTractedData = {}
@@ -307,7 +307,7 @@ class extractionRule:
 
 
         
-                
+        # Apply the actual selector        
         if preconStatus['cssselector'] == '':
            res = htmlContent.find(self.ruleCSSSelector, first=False)
         else:   
@@ -397,10 +397,12 @@ class extractionRule:
                  return(exTractedData)
             
         else:
+         # This is no text
 
-
+         
          print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
-         # no text
+         
+         # application of ruleRecordPreconditions
          if len(self.ruleRecordPreconditions) > 0:
             pRes = []   
             for e in res:                
@@ -416,6 +418,9 @@ class extractionRule:
             print('\t\t[DEBUG] Total of ', len(res))
             if len(res) <= 0:
                return(exTractedData)   
+
+          # end of application of ruleRecordPreconditions
+
                    
          #print('>>>#####', res)          
          numExtracted = 0
@@ -443,6 +448,8 @@ class extractionRule:
             numExtracted += len(res)
 
          return(exTractedData)    
+
+
 
 
 
