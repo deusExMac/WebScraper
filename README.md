@@ -190,8 +190,10 @@ Below is an example of a .exr file that is used to extract data related to footb
 ## Structure of rules in .exr file
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
-
+-``[csvLineFormat]``: List of rule names (string - see below) that specify the extracted data from which rules should be stored in .csv files.
+-``[renderPages]``: If downloaded html pages should be rendered i.e. 
 -``[library]``: list of rules defining this library.
+
 
 Rule attributes/properties:
 
