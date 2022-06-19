@@ -805,6 +805,11 @@ class commandImpl:
           if exRules is not None and len( exRules.csvLineFormat ) > 0: 
              xDataDF =  pd.DataFrame(columns= (['dateaccessed', 'url'] + exRules.csvLineFormat) )  
 
+          if args['continue']:
+             if os.path.exists( args['outputcsvfile'] ):
+               print('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']', sep='')    
+               xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)
+              
           uQ = urlQueue.urlQueue(qSz=cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), qMemSz=cmdConfigSettings.get('Crawler', 'maxQueueMemorySize', fallback='-1'), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
           uQ.add( args['url'][0] )
 

@@ -7,7 +7,7 @@
 
 
 {
-"libraryDescription": "Library to extract data from english wikipedia pages related to mathematical logic",
+"libraryDescription": "Library to extract data from english wikipedia pages related to statistics",
 "csvLineFormat":["articleTitle"],
 "renderPages":False,
 "library": [
