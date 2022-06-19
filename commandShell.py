@@ -966,6 +966,8 @@ class commandImpl:
                         #print('GETLINKS:', xData)
                         xLinks = xData.get('getLinks', [])
                         print('\t[DEBUG] Total of [', len(xLinks), '] links extracted')
+                        # TODO: Seems that the loop below takes too long.
+                        #       Check it/measure it.
                         for lnk in xLinks:
                             absoluteUrl = urljoin(args['url'][0], lnk )
                             cUrl = utils.canonicalURL( absoluteUrl )
