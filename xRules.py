@@ -285,7 +285,7 @@ class extractionRule:
             print('YES') 
 
         '''
-
+        # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
         print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
@@ -296,9 +296,12 @@ class extractionRule:
         
         self.ruleAppliedCount += 1
 
+        # We are now applying the actual selectors or regular expressions
+
         if self.ruleTarget == 'js':
-           # This rule targets a script. Enter script mode
-           # preconStatus['cssselector']
+           # This rule targets a script. Enter script mode meaning
+           # start executing the regular expression in ruleContentCondition
+           # if the selector was nor replaced by a precondition. 
            print('\t\t[DEBUG] Extracting from script...')
            if preconStatus['cssselector'] == '':
               return( self.extractFromScript(htmlContent, self.ruleContentCondition  ) )
@@ -307,7 +310,7 @@ class extractionRule:
 
 
         
-        # Apply the actual selector        
+        # Apply the actual CSS selector        
         if preconStatus['cssselector'] == '':
            res = htmlContent.find(self.ruleCSSSelector, first=False)
         else:   
@@ -315,8 +318,8 @@ class extractionRule:
 
 
 
-        # application of ruleMatchPreconditions
-        # TODO: Move this just after applying the css selector.
+        # Apply now the ruleMatchPreconditions for each matched result.
+        
         print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH')
         if len(self.ruleMatchPreconditions) > 0:
             pRes = []   
@@ -331,7 +334,7 @@ class extractionRule:
 
             res = pRes
 
-       # end of application of ruleMatchPreconditions 
+       # We have checked all conditions and preconditions. Now  
 
 
         
@@ -417,8 +420,7 @@ class extractionRule:
                  return(exTractedData)
             
         else:
-         # This is no text
-
+         # This is no simple text
          
          print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
          
@@ -426,8 +428,6 @@ class extractionRule:
             
          if len(res) <= 0:
             return(exTractedData)   
-
-          
 
                    
          #print('>>>#####', res)          
