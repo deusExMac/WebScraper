@@ -1,6 +1,6 @@
-# WebScraper
+# About WebScraper
  
-A simple python program for scraping/extracting data from web pages. Specifications for how to extract data from individual web-pages is stored in .exr files. Each .exr file contains one or more extraction rules, collectively called a library, that are applied to a single web-page. .exr files are in json format. More information on how to author .exr files can be found below.
+WebScraper is a simple python program enabling rule-based scraping/extraction of data from web pages. Specifications on which data to extract from individual web-pages pages comes in the form or rules stored in .exr files ((EX)traction (R)ules). Each .exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain condition hold. .exr files are in json format. More information on how to author .exr files can be found below.
 
 **IMPORTANT: This software is currently in alpha release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
@@ -16,11 +16,13 @@ Make sure you have the following python packages installed before running the ap
 * clrprint (https://pypi.org/project/clrprint/)
 
 
-# Specifying what data to extract using .exr files
+# Specifying extraction rules using .exr files
 
-.exr files are files in json format specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and the the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
+.exr files are files in json format defining the rules specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and the the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
 
-During startup the preferred .exr file can be specified. The specified .exr file and all the rules it contains are applied to each individual page that the application downloads.  
+During WebScraper's startup the preferred .exr file can be specified via the -r option on the command line. If no .exr file is specified, the default extraction rules file default.exr is loaded. If no .exr file is loaded, WebScraper does not start. 
+
+.exr files can also been set as arguments during individual commands in the application's shell. The used .exr file and all the rules it contains are applied to each individual page that the application downloads. Currently only one .exr can be specified and used during the extraction process.
 
 Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
 
