@@ -968,11 +968,14 @@ class commandImpl:
                         print('\t[DEBUG] Total of [', len(xLinks), '] links extracted')
                         # TODO: Seems that the loop below takes too long.
                         #       Check it/measure it.
+                        tB = time.perf_counter()
                         for lnk in xLinks:
                             absoluteUrl = urljoin(args['url'][0], lnk )
-                            cUrl = utils.canonicalURL( absoluteUrl )
+                            cUrl = utils.canonicalURL( absoluteUrl )      
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
-                               uQ.add( cUrl ) # Add it to the URL queue 
+                               uQ.add( cUrl ) # Add it to the URL queue
+                               
+                        print('\t\t[DEBUG] All links done in', time.perf_counter()-tB )   
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
