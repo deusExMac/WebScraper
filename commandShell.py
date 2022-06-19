@@ -972,7 +972,7 @@ class commandImpl:
                             absoluteUrl = urljoin(args['url'][0], lnk )
                             cUrl = utils.canonicalURL( absoluteUrl )
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
-                               uQ.add( cUrl ) # Add it to the URL queue
+                               uQ.add( cUrl ) # Add it to the URL queue 
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
