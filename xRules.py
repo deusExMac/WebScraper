@@ -16,7 +16,8 @@ class extractionCondition:
          selected element needs to match.         
          TODO: Error checking
       """
-      
+      # TODO: ecBooleanOperator not yet used/supported. Design it first.
+      #ecBooleanOperator: str =''
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
@@ -320,7 +321,7 @@ class extractionRule:
 
         # Apply now the ruleMatchPreconditions for each matched result.
         
-        print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH')
+        print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH (', len(self.ruleMatchPreconditions), ' MATCH preconditions)', sep='' )
         if len(self.ruleMatchPreconditions) > 0:
             pRes = []   
             for e in res:                
