@@ -7,32 +7,17 @@
 
 
 {
-"libraryDescription": "Library to extract data from english wikipedia pages",
+"libraryDescription": "Library to extract the title from english wikipedia pages",
+# csv file will contain only the extracted data from rule named articleTitle
 "csvLineFormat":["articleTitle"],
 "renderPages":False,
 "library": [
-{
- "ruleName": "teamFullName"
- "ruleDescription": "Get full name of clubs from infoboxes"
- "ruleURLActivationCondition": ["en\.wikipedia\.org"]
- "rulePreconditions" : [ 
-                         {
-                           "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
-                           "ecTextCondition" : "Full name"
-                          }
-                       ]
- "ruleCSSSelector": "tr:nth-child(2) .infobox-data"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- "ruleRemoveChars": []
-},
+
 
 {
+ # Rule "articleTitle" that extracts only the title of a wikipedia article
  "ruleName": "articleTitle"
- "ruleDescription": "2nd rule"
+ "ruleDescription": "Gets the title of english wikipedia articles."
  "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
  "ruleCSSSelector": "#content h1.firstHeading"
  "ruleTargetAttribute": "text"
@@ -44,6 +29,7 @@
 },
 
 {
+ # Rule "getLinks" that extracts only the links found in the article
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
  "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
@@ -53,8 +39,6 @@
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False
- 
- # other parameters needed
 }
 
 ]
