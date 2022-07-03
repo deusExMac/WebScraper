@@ -211,6 +211,8 @@ Rule attributes/properties:
 - ``ruleReturnsMore``: Boolean. True or False. Specifies if CSS selector ``ruleCSSSelector`` will return more than one matching result.
 - ``ruleReturnedMatchPos``: Integer. If ``ruleReturnsMore``is True, this specifies which result to return as valid match.
 - ``rulePostCSSSelector``: css selector. TODO: Fill this....
+- ``ruleReturnedValueNames``: List of strings. Specifies +++
+- ``ruleMatchPreconditions``: List of [rule preconditions] . 
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
