@@ -212,7 +212,7 @@ Rule attributes/properties:
 - ``ruleReturnedMatchPos``: Integer. If ``ruleReturnsMore``is True, this specifies which result to return as valid match.
 - ``rulePostCSSSelector``: css selector. TODO: Fill this....
 - ``ruleReturnedValueNames``: List of strings. Specifies +++
-- ``ruleMatchPreconditions``: List of [rule preconditions] . 
+- ``ruleMatchPreconditions``: List of [rule preconditions] . These preconditions will be applied to every match returned by selector ruleCSSSelector and after ruleCSSSelector is applied. These preconditions may even replace the used ruleCSSSelector for each match and hence replace the match returned by  ruleCSSSelector. 
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
