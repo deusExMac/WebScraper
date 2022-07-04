@@ -8,7 +8,7 @@
 
 
 #
-# TODO: NOT YET USED
+# TODO: NOT YET USED. THIS IS NOT WORKING!
 #
 
 str_to_token = {'True':True,
