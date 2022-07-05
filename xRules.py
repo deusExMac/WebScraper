@@ -207,6 +207,7 @@ class extractionRule:
         if  len(self.rulePreconditions) == 0:
             return({'status':True, 'cssselector':''})
 
+        # TODO: 05/07/2022: This has not been tested!
         if self.rulePreconditionType.lower() == 'eval':
            tokens = []
            for pc in self.rulePreconditions:
