@@ -15,8 +15,10 @@ def evaluateBooleanExpressionString( bExp ):
 
 
 def evaluateBooleanExpressionList( bExpList ):
+    #print('[DEBUG] Evaluating ', bExpList)
     try:
-         strBExp = ' '.join(bExpList) 
+         strBExp = ' '.join(bExpList)
+         print('[DEBUG] Evaluating boolean expression [', strBExp, ']', sep='')
          return( eval(strBExp) )
     except Exception as eEx:
            return(None) 

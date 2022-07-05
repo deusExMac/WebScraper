@@ -1,0 +1,105 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to extract data from english wikipedia pages related to statistics",
+"csvLineFormat":["articleTitle"],
+"renderPages":False,
+"library": [
+
+{
+ "ruleName": "articleTitle"
+ "ruleDescription": "Get title of english wikipedia articles related to statistics"
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
+ "rulePreconditionType": "eval"
+ "rulePreconditions" : [ 
+                           {
+                             "ecBooleanOperator": "not"
+                             "ecCSSSelector" : "#Statistics" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          {
+                             "ecBooleanOperator": "and not ("
+                             "ecCSSSelector" : "" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          
+                          {
+                             "ecBooleanOperator": ""
+                             "ecCSSSelector" : "#Statistics" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          
+                          {
+                             "ecBooleanOperator": "and ("
+                             "ecCSSSelector" : "" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          
+                          {
+                             "ecBooleanOperator": ""
+                             "ecCSSSelector" : "#kolos" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          
+                          {
+                             "ecBooleanOperator": "or"
+                             "ecCSSSelector" : "#mouni" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          
+                          {
+                             "ecBooleanOperator": ")"
+                             "ecCSSSelector" : "" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          },
+                          {
+                             "ecBooleanOperator": ")"
+                             "ecCSSSelector" : "" 
+                             "ecTextCondition" : ""
+                             "ecRuleCSSSelector" : "XXX"
+                          }
+                        ]
+                        
+ "ruleCSSSelector": "#firstHeading"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+}
+
+#,
+
+
+#{
+# "ruleName": "getLinks"
+# "ruleDescription": "Extracting links rule"
+# "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
+# "ruleCSSSelector": "a[href]"
+# "ruleTargetAttribute": "href"
+# "ruleContentCondition": "en\.wikipedia\.org/.*$"
+# "ruleReturnsMore": True
+# "ruleReturnedMatchPos": -1
+# "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+#}
+
+]
+
+
+}

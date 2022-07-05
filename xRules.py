@@ -211,18 +211,21 @@ class extractionRule:
         if self.rulePreconditionType.lower() == 'eval':
            tokens = []
            for pc in self.rulePreconditions:
-               if pc.ecBooleanOperator == '':
-                  return(None)
+               #if pc.ecBooleanOperator == '':
+               #   return(None)
+
+               if '(' in pc.ecBooleanOperator  or pc.ecBooleanOperator == ')':
+                  tokens.append( pc.ecBooleanOperator)
+                  continue
             
                tokens.append( pc.ecBooleanOperator)
                tokens.append( str(pc.conditionHolds(htmlContent)))
 
-           return( booleanEvaluation.evaluateBooleanExpressionList(tokens) )    
+           eRes = booleanEvaluation.evaluateBooleanExpressionList(tokens) 
+           return( {'status': eRes, 'cssselector':''} )
+               
 
                
-           
-
-
       
         if self.rulePreconditionType.lower() == 'all':
            # This means all conditions must hold to apply rule
@@ -308,6 +311,7 @@ class extractionRule:
         preconStatus = self.evalPreconditions(htmlContent)
         print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
+           # TODO: Should we remove next line? Is it required?  
            exTractedData[self.ruleName] = ''
            return(exTractedData)
 
