@@ -7,6 +7,22 @@
 
 
 
+def evaluateBooleanExpressionString( bExp )
+    try:
+         return( eval(bExp) )
+    except Exception as eEx:
+           return(None) 
+
+
+def evaluateBooleanExpressionList( bExpList )
+    try:
+         strBExp = ' '.join(bExpList) 
+         return( eval(strBExp) )
+    except Exception as eEx:
+           return(None) 
+
+
+
 #
 # TODO: NOT YET USED. THIS IS NOT WORKING!
 #

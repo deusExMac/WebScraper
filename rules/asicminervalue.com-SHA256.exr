@@ -269,7 +269,7 @@
  "ruleMatchPreconditions": [
                                {
                                  "ecCSSSelector" : "tr td:nth-child(6)" 
-                                 "ecTextCondition" : "Blake2B-Sia"
+                                 "ecTextCondition" : "SHA-256"
                                  "ecRuleCSSSelector" : "tr td:nth-child(1) a[href]"
                                }
    

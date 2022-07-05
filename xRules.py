@@ -17,7 +17,7 @@ class extractionCondition:
          TODO: Error checking
       """
       # TODO: ecBooleanOperator not yet used/supported. Design it first.
-      #ecBooleanOperator: str =''
+      ecBooleanOperator: str =''
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
