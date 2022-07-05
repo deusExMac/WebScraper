@@ -7,6 +7,8 @@ import dataconf
 import re
 import requests_html
 
+import booleanEvaluation
+
 
 @dataclass
 class extractionCondition:
@@ -204,6 +206,21 @@ class extractionRule:
         # TODO: Quck and dirty fix. Find a better way to do this.
         if  len(self.rulePreconditions) == 0:
             return({'status':True, 'cssselector':''})
+
+        if self.rulePreconditionType.lower() == 'eval':
+           tokens = []
+           for pc in self.rulePreconditions:
+               if pc.ecBooleanOperator == '':
+                  return(None)
+            
+               tokens.append( pc.ecBooleanOperator)
+               tokens.append( str(pc.conditionHolds(htmlContent)))
+
+           return( booleanEvaluation.evaluateBooleanExpressionList(tokens) )    
+
+               
+           
+
 
       
         if self.rulePreconditionType.lower() == 'all':

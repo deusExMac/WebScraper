@@ -7,14 +7,14 @@
 
 
 
-def evaluateBooleanExpressionString( bExp )
+def evaluateBooleanExpressionString( bExp ):
     try:
          return( eval(bExp) )
     except Exception as eEx:
            return(None) 
 
 
-def evaluateBooleanExpressionList( bExpList )
+def evaluateBooleanExpressionList( bExpList ):
     try:
          strBExp = ' '.join(bExpList) 
          return( eval(strBExp) )
