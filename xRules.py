@@ -18,7 +18,9 @@ class extractionCondition:
          selected element needs to match.         
          TODO: Error checking
       """
-      # TODO: ecBooleanOperator not yet used/supported. Design it first.
+      # ecBooleanOperator specifies the boolean operator to apply to this
+      # condition.
+      # TODO: This MUST be improved!
       ecBooleanOperator: str =''
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
@@ -218,11 +220,14 @@ class extractionRule:
                   tokens.append( pc.ecBooleanOperator)
                   continue
             
-               tokens.append( pc.ecBooleanOperator)
+               if pc.ecBooleanOperator != '':
+                  tokens.append( pc.ecBooleanOperator)
+                  
                tokens.append( str(pc.conditionHolds(htmlContent)))
 
-           eRes = booleanEvaluation.evaluateBooleanExpressionList(tokens) 
-           return( {'status': eRes, 'cssselector':''} )
+           # We built the expression. Evaluate it now. 
+             
+           return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
                
 
                
@@ -312,7 +317,7 @@ class extractionRule:
         print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
-           exTractedData[self.ruleName] = ''
+           #exTractedData[self.ruleName] = ''
            return(exTractedData)
 
         print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')
