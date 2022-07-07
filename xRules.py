@@ -211,6 +211,7 @@ class extractionRule:
 
         # TODO: 05/07/2022: This has not been tested!
         if self.rulePreconditionType.lower() == 'eval':
+               
            tokens = []
            for pc in self.rulePreconditions:
                #if pc.ecBooleanOperator == '':
@@ -226,7 +227,7 @@ class extractionRule:
                tokens.append( str(pc.conditionHolds(htmlContent)))
 
            # We built the expression. Evaluate it now. 
-             
+           print('\t\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)  
            return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
                
 
