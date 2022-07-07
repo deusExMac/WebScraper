@@ -11,7 +11,8 @@ def evaluateBooleanExpressionString( bExp ):
     try:
          return( eval(bExp) )
     except Exception as eEx:
-           return(None) 
+           print('[WARNING] boolean expression could not be evaluated due to errors (', str(eEx), ')', sep='' )
+           return(False) 
 
 
 def evaluateBooleanExpressionList( bExpList ):
@@ -21,7 +22,8 @@ def evaluateBooleanExpressionList( bExpList ):
          print('[DEBUG] Evaluating boolean expression [', strBExp, ']', sep='')
          return( eval(strBExp) )
     except Exception as eEx:
-           return(None) 
+           print('[WARNING] boolean expression could not be evaluated due to errors (', str(eEx), ')', sep='' )
+           return(False) # Return false so as to not break the process. 
 
 
 
