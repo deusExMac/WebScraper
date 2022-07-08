@@ -318,7 +318,7 @@ class extractionRule:
         print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
-           #exTractedData[self.ruleName] = ''
+           exTractedData[self.ruleName] = ''
            return(exTractedData)
 
         print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')

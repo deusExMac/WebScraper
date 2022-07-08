@@ -42,6 +42,36 @@
  "ruleName": "alsoKnownAs"
  "ruleDescription": "aka"
  "ruleURLActivationCondition": ["/miners/", "testPages", "etc"] 
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : [ 
+                          {
+                            "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(3) th" 
+                            "ecTextCondition" : "Also known as"
+                            "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(3) td"
+                          },
+ 
+                         {
+                           "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(4) th" 
+                           "ecTextCondition" : "Also known as"
+                           "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(4) td"
+                          },
+ 
+                         {
+                           "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(5) th" 
+                           "ecTextCondition" : "Also known as"
+                           "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(5) td"
+                          },
+                         {
+                           "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(6) th" 
+                           "ecTextCondition" : "Also known as"
+                           "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(6) td"
+                          },
+                          {
+			               "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) th" 
+			               "ecTextCondition" : "Also known as"
+			                "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) td"
+                          }
+                       ]
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(3) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
