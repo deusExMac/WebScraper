@@ -20,6 +20,14 @@ Make sure you have the following python packages installed before running the ap
 
 .exr files are files in json format defining the rules specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and the the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
 
+In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
+
+*"For each rule inside the .exr file, do the following: If the web-page URL matches a condition, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
+
+The above description sumplifies the process but attempts to give the general idea. 
+The overall idea is that each individual rule inside a library and applied to a web page is responsible of extracting only one particular kind of data found on the web page which it returns in the form of key:value.
+.exr files when applied to a URL and may return: 1) a single record containing the extracted data as values of keys for a given web page or 2) a list of records containing the extracted data as values of keys for a single page.
+
 During WebScraper's startup the preferred .exr file can be specified via the -r option on the command line. If no .exr file is specified, the default extraction rules file default.exr is loaded. If no .exr file is loaded, WebScraper does not start. 
 
 .exr files can also been set as arguments during individual commands in the application's shell. The used .exr file and all the rules it contains are applied to each individual page that the application downloads. Currently only one .exr can be specified and used during the extraction process.
@@ -28,13 +36,7 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 ## Example .exr file
 
-In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
-
-*"For each rule inside the .exr file, do the following: If the web-page URL matches a condition, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
-
-The above description sumplifies the process but attempts to give the general idea. 
-The overall idea is that each individual rule inside a library and applied to a web page is responsible of extracting only one particular kind of data found on the web page which it returns in the form of key:value.
-.exr files when applied to a URL and may return: 1) a single record containing the extracted data as values of keys for a given web page or 2) a list of records containing the extracted data as values of keys for a single page. 
+ 
 
 TODO: library extraction files have been  updated with new properties. Make changes here!
 Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
