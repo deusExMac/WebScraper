@@ -28,10 +28,13 @@ Authoring .exr files requires basic knowledge of [css selectors] (https://develo
 
 ## Example .exr file
 
-.exr files, when applied to content (web-page) downloaded from the WWW, attempt to express the following conditions and actions:
+In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
 
-*"For each rule inside the .exr file, do the following: If the web-page URL matches the conditions, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets a contition. If so, return it as the scraped value. If not, return empty extracted data."*   
+*"For each rule inside the .exr file, do the following: If the web-page URL matches a condition, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
 
+The above description sumplifies the process but attempts to give the general idea. 
+The overall idea is that each individual rule inside a library and applied to a web page is responsible of extracting only one particular kind of data found on the web page which it returns in the form of key:value.
+.exr files when applied to a URL and may return: 1) a single record containing the extracted data as values of keys for a given web page or 2) a list of records containing the extracted data as values of keys for a single page. 
 
 TODO: library extraction files have been  updated with new properties. Make changes here!
 Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
@@ -212,7 +215,7 @@ Rule attributes/properties:
 - ``ruleReturnedMatchPos``: Integer. If ``ruleReturnsMore``is True, this specifies which result to return as valid match.
 - ``rulePostCSSSelector``: css selector. TODO: Fill this....
 - ``ruleReturnedValueNames``: List of strings. Specifies +++
-- ``ruleMatchPreconditions``: List of [rule preconditions] . These preconditions will be applied to every match returned by selector ruleCSSSelector and after ruleCSSSelector is applied. These preconditions may even replace the used ruleCSSSelector for each match and hence replace the match returned by  ruleCSSSelector. 
+- ``ruleMatchPreconditions``: List of [rule preconditions] . These preconditions will be applied after application of ruleCSSSelector and on each match returned by ruleCSSSelector. These preconditions allow users to apply more complicatied conditions on matches. ruleMatchPreconditions may even replace a match returned with another. Currently only disjunctive match preconditions are supported. 
 - ``ruleMatchPreconditionType``: ANY | AND. How the match preconditions specified in ruleMatchPreconditions should be combined (currently ANY, AND values supported.)
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
