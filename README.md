@@ -25,7 +25,7 @@ In general, .exr files, when applied to content (web-page) downloaded from the W
 *"For each rule inside the .exr file, do the following: If the web-page URL matches a condition, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
 
 The above description sumplifies the process but attempts to give the general idea. 
-The overall idea is that each individual rule inside a library and applied to a web page is responsible of extracting only one particular kind of data found on the web page which it returns in the form of key:value.
+The overall idea is that each individual rule inside a library when applied to a downloaded web page is responsible of extracting only one particular kind of data from the web page which it returns in the form of key:value.
 .exr files when applied to a URL and may return: 1) a single record containing the extracted data as values of keys for a given web page or 2) a list of records containing the extracted data as values of keys for a single page.
 
 During WebScraper's startup the preferred .exr file can be specified via the -r option on the command line. If no .exr file is specified, the default extraction rules file default.exr is loaded. If no .exr file is loaded, WebScraper does not start. 
