@@ -490,7 +490,13 @@ class extractionRule:
 
 
 
+'''
+This class was crreated as a derived class from extractionRule.
+Was not continued because i did not study how dataclasses in Python
+support inheritance.
 
+TODO: Complete this. Or remove it.
+'''
 @dataclass
 class scriptExtractionRule(extractionRule):
       scrptCaptureRegExp: str =''
@@ -504,7 +510,7 @@ class ruleLibrary:
       library: List[extractionRule] = field(default_factory=lambda:[])
 
       # A list of ruleNames specifying the way the extracted data should
-      # be formatted as a line in csv format
+      # be formatted as a line when storing results in csv format
       csvLineFormat: List[str] = field( default_factory=lambda:[] )
 
       # Whether or not downloaded pages should be rendered using HTMLSession's .render() method
