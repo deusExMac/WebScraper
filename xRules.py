@@ -492,7 +492,7 @@ class extractionRule:
 
 '''
 This class was crreated as a derived class from extractionRule.
-Was not continued because i did not study how dataclasses in Python
+Was not continued because need to study how dataclasses in Python
 support inheritance.
 
 TODO: Complete this. Or remove it.
