@@ -39,6 +39,17 @@
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
  "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
+ "rulePreconditionType": "Any"
+  "rulePreconditions" : [
+                            {
+                             "ecCSSSelector" : "#catlinks" 
+                             "ecTextCondition" : "4th-century Roman emperors"                            
+                            },
+                            {
+			      "ecCSSSelector" : "#firstHeading" 
+			      "ecTextCondition" : "Category:4th-century Roman emperors"                            
+                            }
+                         ]
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
  "ruleContentCondition": "en\.wikipedia\.org/.*$"

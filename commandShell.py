@@ -701,9 +701,10 @@ class commandImpl:
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
              cmdArgs.add_argument('-r', '--rules',  nargs='?' )
-             cmdArgs.add_argument('-H', '--humandelay', action='store_true' )
-             cmdArgs.add_argument('-D', '--debugmode', action='store_true' )
+             cmdArgs.add_argument('-H', '--humandelay', action='store_true' )             
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
+             cmdArgs.add_argument('-D', '--dfs', action='store_true' )
+             #cmdArgs.add_argument('-B', '--bfs', action='store_true' )
              
              
              cmdArgs.add_argument('-U', '--update', action='store_true' )
@@ -741,6 +742,10 @@ class commandImpl:
              cmdConfigSettings.set('Crawler', 'delayModel', 'c' )   
                 
 
+          if args.get('dfs'):
+             cmdConfigSettings.set('Crawler', 'traversalStrategy', 'dfs' )
+          else:
+             cmdConfigSettings.set('Crawler', 'traversalStrategy', 'bfs' )     
 
           if args.get('rules') is None:
              exRules = self.extractionRules
@@ -810,7 +815,10 @@ class commandImpl:
                print('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']', sep='')    
                xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)
               
-          uQ = urlQueue.urlQueue(qSz=cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1), qMemSz=cmdConfigSettings.get('Crawler', 'maxQueueMemorySize', fallback='-1'), startNewSession=not args['continue'], qF=args['queuefile'], sQ=True ) 
+          uQ = urlQueue.urlQueue(qSz=cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1),
+                                 qMemSz=cmdConfigSettings.get('Crawler', 'maxQueueMemorySize', fallback='-1'),
+                                 startNewSession=not args['continue'],
+                                 qF=args['queuefile'], sQ=True, tS=cmdConfigSettings.get('Crawler', 'traversalStrategy', fallback='bfs') ) 
           uQ.add( args['url'][0] )
 
           lastAutosave = time.perf_counter()
@@ -1021,11 +1029,15 @@ class commandImpl:
                            clrprint.clrprint('\t\t[DEBUG] (record list) Adding [', csvr, ']', clr='green')
                            xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ csvr ])])
                        
-                       
-
-                    
+                                           
                  
                  numProcessed += 1
+
+                 if xDataDF is not None:
+                    numExtracted = xDataDF.shape[0]
+                 else:
+                    numExtracted = -1
+                    
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):
                        print('Terminating. Reached page limit ', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) ) 

@@ -10,11 +10,12 @@ import datetime
 
 class urlQueue:
 
-      def __init__(self, qSz=-1, qMemSz='-1', startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0  ):
+      def __init__(self, qSz=-1, qMemSz='-1', startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0, tS='bfs'  ):
           
           self.qSize = qSz
           self.qMemorySize = -1
-          print('\t[DEBUG] Got queue memory size [', qMemSz.lower(), ']')
+          self.traversal = tS.lower() # traversal stratery: dfs or bfs.
+          print('\t[DEBUG] Got queue memory size [', qMemSz.lower(), ']. Traversal: [', self.traversal, ']')
           if qMemSz.lower().endswith('k'):
              self.qMemorySize = int(qMemSz[:-1])*1024
           elif qMemSz.lower().endswith('m'):
@@ -108,9 +109,16 @@ class urlQueue:
             
           try:
             d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'contentlength':cl, 'lastmodified':l, 'hash':h}
-            #self.queue = self.queue.append(d, ignore_index = True)
-            self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])])
+            if self.traversal == 'dfs':
+               # this is a depth first search. Add it to the start of the queue   
+               self.queue = pd.concat([pd.DataFrame.from_records([ d ]), self.queue], ignore_index=True )
+            else:   
+               # this is a breadth first search. Add it to the end of the queue
+               # add it to the end of the queue            
+               self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])], ignore_index=True )
+
             return(True)
+      
           except Exception as ex:
              return(False) 
 
@@ -141,7 +149,9 @@ class urlQueue:
           # Not in update mode. Get one that has not been yet fetched i.e.
           # has status equal to -1.
           try:
+             
              return( self.queue.loc[ self.queue['status'] == -1, 'url' ].iloc[0] )
+             
           except IndexError as iErr:              
               return( None )
 
