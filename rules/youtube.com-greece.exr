@@ -1,0 +1,59 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to extract title from youtube videos that contain the term greece",
+# Note: Date and url are automatically added
+"csvLineFormat":["videoTitle"]
+"renderPages": True,
+"library": [
+
+
+
+{
+ "ruleName": "videoTitle"
+ "ruleDescription": "Get title of youtube video if it contains the term greece"
+ "ruleURLActivationCondition": ["www\.youtube\.com/watch\?v=.*$"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : [
+                           {
+                            "ecCSSSelector" : ".title .ytd-video-primary-info-renderer" 
+                            "ecTextCondition" : "GREECE"                            
+                           }
+                         ]
+ 
+ "ruleCSSSelector": ".title .ytd-video-primary-info-renderer"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ "ruleRemoveChars": []
+},
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["www\.youtube\.com.*$"]
+ "rulePreconditionType": "Any"
+  "rulePreconditions" : []
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "www\.youtube\.com/watch\?v=.*$"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+]
+
+
+}
