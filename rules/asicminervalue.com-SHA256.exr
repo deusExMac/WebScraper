@@ -294,7 +294,7 @@
  
  # The next precondition makes sure that
  # only links leading to miners targeting
- # algorithms Kadena OR SHA-256 OR Scrypt
+ # algorithms SHA-256
  # will be followed.
  "ruleMatchPreconditions": [
                                {
