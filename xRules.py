@@ -27,10 +27,11 @@ class extractionCondition:
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
 
       def conditionHolds(self, htmlContent) -> bool:
-          res = htmlContent.find(self.ecCSSSelector, first=False)
+          res = htmlContent.find(self.ecCSSSelector, first=False)          
           if len(res) <= 0:
              return(False)
-            
+
+          # TODO: Case sensitive support here!  
           if re.search(self.ecTextCondition, res[0].text) is None:
              return(False)
           else:
