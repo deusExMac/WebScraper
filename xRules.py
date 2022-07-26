@@ -440,6 +440,7 @@ class extractionRule:
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []
                       for m in res:
+                          #print('\t\t[DEBUG] Appending ', m.text)  
                           rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
 
                       exTractedData[self.ruleName] = rList

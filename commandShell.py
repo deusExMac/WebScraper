@@ -545,7 +545,7 @@ class commandImpl:
 
                 if xR.renderPages:
                    print('\t\tRendering page....')   
-                   response.html.render(timeout=250)
+                   response.html.render(timeout=250, scrolldown=12)
 
                    
                 # Check hashes

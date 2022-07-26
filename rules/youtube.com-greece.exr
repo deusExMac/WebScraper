@@ -10,7 +10,7 @@
 "libraryDescription": "Library to extract title from youtube videos that contain the term greece",
 # Note: Date and url are automatically added
 "csvLineFormat":["videoTitle"]
-"renderPages": True,
+"renderPages": False,
 
 # HTTP request related attributes.
 # Placing them here means that they will be included in every request 
