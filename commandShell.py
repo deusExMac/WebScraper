@@ -48,6 +48,8 @@ import csv
 
 import clrprint
 
+import pyppdf.patch_pyppeteer
+
 #TODO: Does asyncio fix the "coroutine 'Launcher.killChrome' was never awaited" issue?
 #import asyncio
 
@@ -845,8 +847,12 @@ class commandImpl:
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
                     session = HTMLSession()
-                    #print( '\t[DEBUG] ', session.headers['user-agent'])                    
-                    response = session.get(currentUrl)
+                    #print( '\t[DEBUG] ', session.headers['user-agent'])
+                    header = {}
+                    if exRules.requestUserAgent.strip() != "":
+                       headers = {'User-Agent': exRules.requestUserAgent}
+
+                    response = session.get(currentUrl, cookies = exRules.requestCookies)
                     
                     print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
                     #visitedQueue.append( currentUrl )

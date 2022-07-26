@@ -1,7 +1,7 @@
 
 
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict
 import dataconf 
 
 import re
@@ -518,6 +518,13 @@ class ruleLibrary:
       # If set to True, all downloaded pages will be rendered
       # TODO: Seems to be very, very slow. Be careful when setting is to true.
       renderPages: bool = False
+
+
+
+      # HTTP request related variables
+      
+      requestCookies: Dict[str, str] = field(default_factory=dict)
+      requestUserAgent: str = ''
       
       def get(self, ruleName) -> extractionRule:
           for r in self.library:
@@ -589,6 +596,8 @@ class ruleLibrary:
           return(False)    
 
 
+
+
 # General purpose functions
 def loadRule( r ):    
     rl = dataconf.loads(r, extractionRule)
@@ -596,6 +605,9 @@ def loadRule( r ):
 
 def loadLibrary(r):
     return( dataconf.loads(r, ruleLibrary) )
+
+
+
 
 
 

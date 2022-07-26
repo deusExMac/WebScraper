@@ -97,6 +97,7 @@ def main():
                     
      print('done')
      print('\tTotal of ', ruleLibrary.numberOfRules(), ' extraction rules loaded.')
+     
    except Exception as readEx:
        print('Error.', str(readEx))
 

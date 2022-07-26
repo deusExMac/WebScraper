@@ -11,6 +11,36 @@
 # Note: Date and url are automatically added
 "csvLineFormat":["videoTitle"]
 "renderPages": True,
+
+# HTTP request related attributes.
+# Placing them here means that they will be included in every request 
+"requestCookies": {
+                   "__Secure-1PAPISID": "U1jkYTw45iDUKWdO/A70KC06aX8oO5miLg",
+                   "__Secure-1PSID" : "MQiMyqsHY-KD5eTTtNODN3XoJYhXYdSA7gB838t3ZQnshj1AX7_xRTP45x8uFd9Pb1xIIA.",
+                   "__Secure-1PSIDCC": "AJi4QfFVH7n1HJvTYy--MMAp1Fu8bkjTR5NBX5h53I_RtjH-p2mq3BV_-KQvFCQskKlb6tKjg6I",
+                   "__Secure-3PAPISID": "U1jkYTw45iDUKWdO/A70KC06aX8oO5miLg",
+                   "__Secure-3PSID": "MQiMyqsHY-KD5eTTtNODN3XoJYhXYdSA7gB838t3ZQnshj1ALZDXHwcltuIEJF5PIo3wyw.",
+                   "__Secure-3PSIDCC": "AJi4QfE7YeOIojOYMxtB2ALI3YsEr2BBzs8m8qG-yL4_7e6zDdgywpPSPJDz5QLnpS7ixSIgiUI",
+                   "_ga": "GA1.2.1932144469.1598279401",
+                   "APISID":  "FEYU4y7Y8zovhImS/AFKRjZdCpKY5lhUQv",
+                   "CONSENT": "YES+GR.el+20160417-17-0",
+                   "HSID": "Apv7zw_V9QIfKB_QQ",
+                   "LOGIN_INFO": "AFmmF2swRgIhANxVuDVE9OOUxAr0_zEv3zvEXdxGfI2SFv60GqzD85w8AiEAu2sSwUFwMhBJZI7zMhufEAinybmlVWVqCSYVVebUpeQ:QUQ3MjNmem5PUUZMNzRnZE5HcVFaVjFwM3pWWEFYSGw5TzhaQUNiZk9FXy1wWElRY29FOGRwdEY4dFQ4WkJvYUxNS3RwNFV0Nnl4NnN1em1wYVZFeXRORHZBSDUtWWJZVGY4WVhOZkNTU2hNMWQwSmdSa21ZSlJ4cjBPQm1DQUJiVWI3cW5QNFRBOUZUTlZmWVNucWVDNUdCYjRtRHZfOU5Oajg4M1FWMk8wd0daTk1SZk1Kb3RGS0cwSkZZX3E2NUtyZ21BTjNnbFE1NUc0OGEzQm01aUoyLWFsWHpqUXZCS1l3Mng4eUtkZktPdGdmNTJ1VEdycE1oVW15RmlBcF92emEyaldmQ1ktbg==",
+                   "PREF": "f6=40000000&tz=Europe.Athens&al=en&f5=30000", 
+                   "s_gl": "cdd678c14681ca9039b4afb15fd9b89ecwIAAABHUg==",
+                   "SAPISID": "U1jkYTw45iDUKWdO/A70KC06aX8oO5miLg",
+                   "SID": "MQiMyqsHY-KD5eTTtNODN3XoJYhXYdSA7gB838t3ZQnshj1A7U4ZX0u9k8WLniWldTY07A.",
+                   "SIDCC": "AJi4QfHUP8A62_5fxGEMexX6bEj80Kf-8dhm7oHyi2f2sNpvbrVwFKuRWohiSm--eamCiXoEUYg",
+                   "SSID" :  "ALq6wjrTWHNpBvaGo",
+                   "VISITOR_INFO1_LIVE": "wMmCmHSK75E",
+                   "wide": "0",
+                   "YSC": "FAex3YQzYUY"
+},
+
+#"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+
+"requestUserAgent": "",
+
 "library": [
 
 
@@ -22,12 +52,12 @@
  "rulePreconditionType": "Any"
  "rulePreconditions" : [
                            {
-                            "ecCSSSelector" : ".title .ytd-video-primary-info-renderer" 
-                            "ecTextCondition" : "GREECE"                            
+                            "ecCSSSelector" : "h1.ytd-watch-metadata" 
+                            "ecTextCondition" : "(?i)GReeCe"                            
                            }
                          ]
  
- "ruleCSSSelector": ".title .ytd-video-primary-info-renderer"
+ "ruleCSSSelector": "h1.ytd-watch-metadata"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
