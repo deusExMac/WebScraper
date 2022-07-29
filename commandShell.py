@@ -24,7 +24,7 @@ import configparser
 # For parsing the dates received from twitter in readable formats
 import datetime
 import dateutil.parser
-from datetime import  timedelta 
+#from datetime import  timedelta 
 import time
 import re
 import statistics
@@ -63,7 +63,7 @@ import utils
 import urlQueue
 import extractedDataSource
 
-
+import htmlRendering
 
 
 
@@ -670,6 +670,7 @@ class commandImpl:
       # and returns a canonical url.
       #
       # TODO: This should be a simple method in utils.
+      #       REMOVE ME!
       def canonicaURL123(self, u ):
           parsedURL =  urlparse(unquote(u))  
           canonURL = parsedURL.scheme + '://' + parsedURL.netloc
@@ -681,6 +682,30 @@ class commandImpl:
           return( canonURL )  
 
 
+
+
+      #
+      # TODO: add cookie parameters also. These here are hardcoded
+      #       and valid only for youtube
+      #
+      def prepareCookies(self, url, d):
+          cookieList = []  
+          for k,v in d.items():
+            c={}
+            c['name'] = k
+            c['value'] = v
+            c['url'] = url
+            c['domain'] = '.youtube.com'
+            c['path'] = '/'
+            dtTime = datetime.datetime.strptime('2023-07-28T06:24:39.000Z', '%Y-%m-%dT%H:%M:%S.000Z')
+        
+            c['expires'] = datetime.datetime.timestamp(dtTime) #'2023-07-28T06:24:39.000Z'
+            c['httpOnly'] = True
+            c['secure'] = True
+            c['samesite'] = 'None'
+            cookieList.append( c )
+
+          return(cookieList)   
 
 
 
@@ -848,11 +873,14 @@ class commandImpl:
                     pUrl = urlparse( unquote(currentUrl) )    
                     session = HTMLSession()
                     #print( '\t[DEBUG] ', session.headers['user-agent'])
-                    header = {}
+                    headers = {}
                     if exRules.requestUserAgent.strip() != "":
                        headers = {'User-Agent': exRules.requestUserAgent}
 
-                    response = session.get(currentUrl, cookies = exRules.requestCookies)
+                    #ccc = self.prepareCookies(pUrl, exRules.requestCookies)
+                    
+                    #response = session.get(currentUrl, cookies = exRules.requestCookies)                    
+                    response = session.get(currentUrl, cookies = exRules.requestCookies   )
                     
                     print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
                     #visitedQueue.append( currentUrl )
@@ -908,11 +936,26 @@ class commandImpl:
 
                  uQ.updatePageHash( currentUrl, pHash )
                  uQ.updateLastModified( currentUrl, response.headers.get('Last-Modified', '') )
+
+                 # We keep the html object in a separate variable that will be the subject of css selectors
+                 # and regular expression found in rules.
+                 # We do this because rendering the html page may result in changing the html.
+                 # This is because we do not rely on response.html.render() to do the rendering, as
+                 # it seems to be not working/buggy. Instead a separate class has been developed
+                 # rendering html pages, which however has the sideeffect that the same page needs
+                 # to be fetched again. Sorry for this.
+                 #
+                 # TODO: This needs more thorough testing.
+                 htmlObject = response.html
                  
                  if exRules.renderPages:
                        try:   
                           print('\t[DEBUG] Rendering page...')    
-                          response.html.render(timeout=250)
+                          htmlRndr = htmlRendering.htmlRenderer()
+                          rHTML = htmlRndr.render(url=currentUrl, timeout=10, requestCookies=self.prepareCookies(currentUrl, exRules.requestCookies), scrolldown=7, maxRetries=5)
+                          #response.html.render(timeout=250, cookies= exRules.requestCookies, scrolldown=5)
+                          htmlObject = HTML( html=rHTML )
+                          #htmlObject = response.html.html # TODO: This must leave if abover .render is replaced.
                        except KeyboardInterrupt:
                               print('\t[DEBUG] *** ', sep='')
                               raise KeyboardInterrupt
@@ -941,6 +984,7 @@ class commandImpl:
                     continue
                  else:
                       print('\t[DEBUG] Extracting using library: ', exRules.libraryDescription)  
+
       
                  #exTractedData = {} 
                  pageData = {}
@@ -955,28 +999,10 @@ class commandImpl:
                      print('yes')
         
 
-                     # Select part of the html specified by rule
-                     #res = response.html.find(r.ruleCSSSelector, first=False)
-                     if r.ruleName == 'getLinks':
-                        '''   
-                        # getLinks is a special rule that is treated differently...   
-                        res = response.html.find(r.ruleCSSSelector, first=False)   
-                        for lnk in res:   
-                            absoluteUrl = urljoin(args['url'][0], lnk.attrs.get(r.ruleTargetAttribute) )
-                             # TODO: Parse url and make checks and normalize URLs. A normalized URLS must be added
-                             # to the queue.
-
-                            cUrl = utils.canonicalURL( absoluteUrl )
-                            
-                            #if canonicalLink                            
-                            #if (canonicalLink in linkQueue) or (canonicalLink in visitedQueue):                               
-                            #   continue
-                            
-                            # Does acquired content match content rule?
-                            if re.search( r.ruleContentCondition, cUrl) is not None:  
-                               uQ.add( cUrl )
-                        '''
-                        xData = r.apply(response.html)
+                     # getLings are handled a little bit different than other rules.
+                     #  TODO: Refactor this.                     
+                     if r.ruleName == 'getLinks':                        
+                        xData = r.apply(htmlObject)
                         #print('GETLINKS:', xData)
                         xLinks = xData.get('getLinks', [])
                         print('\t[DEBUG] Total of [', len(xLinks), '] links extracted')
@@ -985,15 +1011,16 @@ class commandImpl:
                         tB = time.perf_counter()
                         for lnk in xLinks:
                             absoluteUrl = urljoin(args['url'][0], lnk )
-                            cUrl = utils.canonicalURL( absoluteUrl )      
+                            cUrl = utils.canonicalURL( absoluteUrl )
+                            # TODO: move the next check inside .apply()???
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
                                uQ.add( cUrl ) # Add it to the URL queue
                                
-                        print('\t\t[DEBUG] All links done in', time.perf_counter()-tB )   
+                        print('\t\t[DEBUG] All links done in', time.perf_counter() - tB )   
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
-                           xData = r.apply( response.html )
+                           xData = r.apply( htmlObject )
                            # Aggregate it. pageData aggregates all data extracted by
                            # all rules on one page. In the end, pageData will have 
                            pageData.update(xData)
@@ -1001,9 +1028,7 @@ class commandImpl:
 
                         
                  print('\n\tExtracted page data:', pageData, '\n' )
-                 
-                 #ln = exRules.toCSVLine(pageData, ';')
-                 #print('\t[DEBUG] csv line:', ln)
+                                  
 
 
                  #   

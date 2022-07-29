@@ -18,7 +18,7 @@
  "rulePreconditionType": "Any"
  "rulePreconditions" : [ 
                            {
-                             "ecCSSSelector" : ".navbox" 
+                             "ecCSSSelector" : "#Mathematical_logic" 
                              "ecTextCondition" : "Mathematical logic"
                              "ecRuleCSSSelector" : ""
                           }
