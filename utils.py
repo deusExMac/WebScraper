@@ -1,4 +1,5 @@
 import os
+import platform
 import os.path
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
@@ -112,4 +113,27 @@ def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
            print('\tERROR creating directories or creating file ', targetName, str(pcEx))
            return(False)
 
+
+
+def getPlatformName():
+    return( platform.system() )  
+
+
+       
+def isWindows():
+    if getPlatformName().lower() == 'windows':
+       return(True)
+    return(False)
+
+
+
+def isMac():
+    if getPlatformName().lower() == 'darwin':
+       return(True)
+    return(False)
+
+def isLinux():
+    if getPlatformName().lower() == 'linux':
+       return(True)
+    return(False)
        

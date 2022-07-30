@@ -4,6 +4,7 @@ import argparse
 
 #import sys, getopt
 import os
+import platform
 import os.path
 from pathlib import Path
 
@@ -54,8 +55,8 @@ def main():
 
     
    
-
-   print("\n\nLoading configuration settings from [", configFile, "]....", end='')
+   print('\n\nExecution started on ', platform.system(), ' release ', platform.release(), ' (', os.name, ')', sep='')
+   print("\nLoading configuration settings from [", configFile, "]....", end='')
    # Check if config file exists
    cFile = Path(configFile)
    if not cFile.exists():

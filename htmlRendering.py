@@ -7,7 +7,7 @@ import asyncio
 
 import pyppeteer
 
-
+import utils
 
 
 
@@ -71,8 +71,17 @@ class htmlRenderer:
        if scrolldown > 0:         
         for _ in range(scrolldown):
           print('\t[DEBUG] Scrolling....', end='')
-          # Replaced method .down with .press
-          await self.page._keyboard.press('PageDown')
+             
+          if utils.isMac():
+               # TODO: Check if .scrollPageDown works also for all other OSs 
+               print('\t\t[DEBUG] MacOS detected') 
+               await self.scrollPageDown(self.page)
+          else:
+               # On windows and linux, PageDown key works
+               # Replaced method .down with .press 
+               await self.page._keyboard.press('PageDown') 
+               
+            
           print('done')
           print('\t[DEBUG] Sleeping....', end='')  
           await asyncio.sleep(1.4)
@@ -84,13 +93,20 @@ class htmlRenderer:
        return( content )
 
 
-
-      async def macOSPageDown():
-            await page.keyboard.down('fn')
-            await page.keyboard.down('Shift')
-            await page.keyboard.press('ArrowDown')
-            await page.keyboard.up('Shift')
-            await page.keyboard.up('fn')
+      # This is a different implementation for scrolling down the
+      # page. This works on MacOS.
+      # TODO: Does this also work on windows and other OSs?
+      async def scrollPageDown(self, pg):
+            await pg.evaluate('window.scrollBy(0,window.innerHeight)')
+            #document.body.scrollHeight
+            #window.innerHeight
+            '''
+            await pg.keyboard.down('Fn')
+            await pg.keyboard.down('Shift')
+            await pg.keyboard.press('ArrowDown')
+            await pg.keyboard.up('Shift')
+            await pg.keyboard.up('fn')
+            '''
 
 
 
