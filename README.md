@@ -9,6 +9,8 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
 
 Make sure you have the following python packages installed before running the application:
 
+* pandas
+
 * dataconf (https://pypi.org/project/dataconf/)
 
 * requests_html (https://requests.readthedocs.io/projects/requests-html/en/latest/)
