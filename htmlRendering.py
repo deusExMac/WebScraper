@@ -70,17 +70,29 @@ class htmlRenderer:
 
        if scrolldown > 0:         
         for _ in range(scrolldown):
-          print('\t[DEBUG] Scrolling....', end='')  
-          await self.page._keyboard.down('PageDown')
+          print('\t[DEBUG] Scrolling....', end='')
+          # Replaced method .down with .press
+          await self.page._keyboard.press('PageDown')
           print('done')
           print('\t[DEBUG] Sleeping....', end='')  
-          await asyncio.sleep(5.4)
+          await asyncio.sleep(1.4)
           print('done')
 
        await self.page.screenshot({'path': 'screenShot.png'})
        content = await self.page.content()
                 
        return( content )
+
+
+
+      async def macOSPageDown():
+            await page.keyboard.down('fn')
+            await page.keyboard.down('Shift')
+            await page.keyboard.down('ArrowDown')
+            await page.keyboard.up('Shift')
+            await page.keyboard.up('fn')
+
+
 
 
 

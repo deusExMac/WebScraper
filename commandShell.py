@@ -952,7 +952,7 @@ class commandImpl:
                        try:   
                           print('\t[DEBUG] Rendering page...')    
                           htmlRndr = htmlRendering.htmlRenderer()
-                          rHTML = htmlRndr.render(url=currentUrl, timeout=10, requestCookies=self.prepareCookies(currentUrl, exRules.requestCookies), scrolldown=2, maxRetries=5)
+                          rHTML = htmlRndr.render(url=currentUrl, timeout=10, requestCookies=self.prepareCookies(currentUrl, exRules.requestCookies), scrolldown=10, maxRetries=5)
                           #response.html.render(timeout=250, cookies= exRules.requestCookies, scrolldown=5)
                           htmlObject = HTML( html=rHTML )
                           #htmlObject = response.html.html # TODO: This must leave if abover .render is replaced.
