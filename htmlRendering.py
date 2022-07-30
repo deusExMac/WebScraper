@@ -88,7 +88,7 @@ class htmlRenderer:
       async def macOSPageDown():
             await page.keyboard.down('fn')
             await page.keyboard.down('Shift')
-            await page.keyboard.down('ArrowDown')
+            await page.keyboard.press('ArrowDown')
             await page.keyboard.up('Shift')
             await page.keyboard.up('fn')
 
