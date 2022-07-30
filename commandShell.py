@@ -1317,19 +1317,26 @@ class commandImpl:
               
           print('Description: ', xLib.libraryDescription, sep='')
           print('Total of ', len(xLib.library), ' extraction rules in library', sep='')
-          i = 1
-          for r in xLib.library:
-              print('\t', 10*"+", i, 10*'+')
+          #i = 1
+          for i,r in enumerate(xLib.library):
+              print('\t', 10*"+", (i+1), 10*'+')
               print( "\tName:", r.ruleName   )
               print( "\tDescription:", r.ruleDescription   )
               print( "\tActivation:", r.ruleURLActivationCondition   )
+              print( "\tNumber of PAGE preconditions:", len(r.rulePreconditions)   )
+              print( "\tPAGE Precondition type:", r.rulePreconditionType  )
+              for idx, rP in enumerate(r.rulePreconditions):
+                  print("\t\tPrecondition selector:", rP.ecCSSSelector)
+                  print("\t\tPrecondition text condition:", rP.ecTextCondition)
+                  print("\t\tPrecondition RULE selector:", rP.ecRuleCSSSelector)
+                  print('')
+                  
+
               print( "\tCSS selector:", r.ruleCSSSelector   )
-              print( "\tPrecondition type:", r.rulePreconditionType  )
-              print( "\tNumber of preconditions:", len(r.rulePreconditions)   )
-              print("\tUsage stats:")
+              print("\t** Usage stats:")
               print( "\t\tApplied count:", r.ruleAppliedCount   )
               print( "\t\tMatch count:", r.ruleMatchCount   )
-              i+=1
+              #i+=1
 
           return(False)
 
