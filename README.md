@@ -15,6 +15,10 @@ Make sure you have the following python packages installed before running the ap
 
 * clrprint (https://pypi.org/project/clrprint/)
 
+* pyppeteer
+
+* pyppdf
+
 
 # Specifying extraction rules using .exr files
 
