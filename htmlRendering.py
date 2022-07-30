@@ -74,7 +74,7 @@ class htmlRenderer:
           await self.page._keyboard.down('PageDown')
           print('done')
           print('\t[DEBUG] Sleeping....', end='')  
-          await asyncio.sleep(1)
+          await asyncio.sleep(5.4)
           print('done')
 
        await self.page.screenshot({'path': 'screenShot.png'})
