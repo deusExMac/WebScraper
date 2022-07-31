@@ -29,6 +29,7 @@ class htmlRenderer:
       def __init__(self):
           self.browser = None
           self.page = None
+          self.headers = None
 
 
       
@@ -73,14 +74,16 @@ class htmlRenderer:
             
            try:
               attemptStart = time.perf_counter() # start counting request time
-              await self.page.goto(url, options={'timeout': int(timeout * 1000)})
+              origResponse = await self.page.goto(url, options={'timeout': int(timeout * 1000)})
               attemptEnd = time.perf_counter() 
               break
            except Exception as fetchException:
                print('\t\t[DEBUG] (', numTries, ') Excpetion ', str(fetchException), sep='' )
                numTries += 1
 
-               
+       #print(origResponse.headers)
+       self.headers = origResponse.headers
+       
        print('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart))       
        print('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm))    
 
@@ -90,7 +93,7 @@ class htmlRenderer:
              
           if utils.isMac():
                # TODO: Check if .scrollPageDown works also for all other OSs 
-               print('\t\t[DEBUG] MacOS detected') 
+               #print('\t\t[DEBUG] MacOS detected') 
                await self.scrollPageDown(self.page)
           else:
                # On windows and linux, PageDown key works

@@ -259,6 +259,19 @@ class commandShell:
 
 
 
+class httpResponse:
+      def __init__(self):
+          self.status = -1
+          self.headers = None
+          self.html = None
+          self.text = None
+
+      def get(self, key, default):
+          return( self.headers.get(key, default) )
+      
+
+
+
 # Was previously shellCommandExecutioner
 class commandImpl:
 
@@ -665,23 +678,6 @@ class commandImpl:
 
 
 
-      #
-      # Takes an absolute url
-      # and returns a canonical url.
-      #
-      # TODO: This should be a simple method in utils.
-      #       REMOVE ME!
-      def canonicaURL123(self, u ):
-          parsedURL =  urlparse(unquote(u))  
-          canonURL = parsedURL.scheme + '://' + parsedURL.netloc
-    
-          canonURL +=  parsedURL.path
-          if parsedURL.query != '':
-             canonURL = canonURL + '?' + parsedURL.query
-
-          return( canonURL )  
-
-
 
 
       #
@@ -709,6 +705,29 @@ class commandImpl:
 
 
 
+      def downloadURL(self, dUrl, rCookies=None, userAgent=None, renderPage=False):
+          r = httpResponse()  
+          if not renderPage:
+             session = HTMLSession()
+             response = session.get(dUrl, cookies = rCookies )
+             r.status = int(response.status_code)
+             r.headers = response.headers
+             r.html = response.html
+             r.text = response.text
+          else:
+                htmlRndr = htmlRendering.htmlRenderer()
+                rHTML = htmlRndr.render(url=dUrl, timeout=10, requestCookies=[], scrolldown=4, maxRetries=1)
+                r.headers = htmlRndr.headers
+                if r.headers is not None:
+                   r.status = int(r.headers.get('status') )
+                   r.html = rHTML
+                   r.text = ''
+                
+          if r.headers is not None:
+             r.headers =  {k.lower(): v for k, v in r.headers.items()}
+             
+          return( r )
+                
 
 
 
@@ -1466,8 +1485,26 @@ class commandImpl:
 
           return(False)    
 
-          
-
+      #def downloadURL(self, url, rCookies=None, userAgent=None, renderPage=False, **options)
+      def download(self, a):
+          cmdArgs = ThrowingArgumentParser()          
+          cmdArgs.add_argument('url', nargs=argparse.REMAINDER, default=[''] )
+          args = vars( cmdArgs.parse_args(a) )
+          try:
+            #print('Downloading', args['url'], '...')
+            print('>>>>', args['url'][0])
+            respS = self.downloadURL( dUrl=args['url'][0], rCookies=None, userAgent=None, renderPage=False)
+            print('\tSession: content-type', respS.get('content-type', '????') )
+            print('\tSession: content-length', respS.get('content-length', '-1') )
+            print('>>>>', args['url'][0])
+            respR = self.downloadURL( dUrl=args['url'][0], rCookies=None, userAgent=None, renderPage=True)
+            print('\tRendered: content-type', respR.get('content-type', '????') )
+            print('\tRendered: content-length', respR.get('content-length', '-1') )
+          except Exception as dEx:
+                 print('Error downloading url ', args['url'], str(dEx))
+                 return(False)
+            
+      
      
 
 
