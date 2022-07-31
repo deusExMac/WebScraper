@@ -710,7 +710,11 @@ class commandImpl:
           if not renderPage:
              session = HTMLSession()
              response = session.get(dUrl, cookies = rCookies )
-             r.status = int(response.status_code)
+             #print(response.headers)
+             try:
+                r.status = int(response.status_code)
+             except Exception as statusEx:
+                    r.status = -5 
              r.headers = response.headers
              r.html = response.html
              r.text = response.text
@@ -719,10 +723,16 @@ class commandImpl:
                 rHTML = htmlRndr.render(url=dUrl, timeout=10, requestCookies=rCookies, scrolldown=4, maxRetries=1)
                 r.headers = htmlRndr.headers
                 if r.headers is not None:
-                   r.status = int(r.headers.get('status') )
+                   #print( r.headers)
+                   try:   
+                      r.status = int(r.headers.get('status') )
+                   except Exception as statusEx:
+                      r.status = -6
+                      
                    r.html = rHTML
                    r.text = '' # Fix me
-                
+
+          # make all fields/keys lowercase    
           if r.headers is not None:
              r.headers =  {k.lower(): v for k, v in r.headers.items()}
              
@@ -1494,10 +1504,13 @@ class commandImpl:
             #print('Downloading', args['url'], '...')
             print('>>>>', args['url'][0])
             respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=False)
+            print('\tSession: Status', respS.status)
             print('\tSession: content-type', respS.get('content-type', '????') )
             print('\tSession: content-length', respS.get('content-length', '-1') )
             print('>>>>', args['url'][0])
+            
             respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=True)
+            print('\tRendered: Status', respR.status)
             print('\tRendered: content-type', respR.get('content-type', '????') )
             print('\tRendered: content-length', respR.get('content-length', '-1') )
           except Exception as dEx:
