@@ -2,12 +2,25 @@ import sys
 import time
 #from datetime import datetime
 #import json
-
 import asyncio
-
 import pyppeteer
 
 import utils
+
+
+
+async def intercept_network_response(response):
+          # In this example, we only care about HTML responses!
+          #if "text/html" in response.headers.get("content-type", ""):
+             # Print some info about the responses
+             print("URL:", response.url)
+             print("Method:", response.request.method)
+             print("Response headers:", response.headers)
+             print("Request Headers:", response.request.headers)
+             print("Response status:", response.status)
+             # Print the content of the response
+             #print("Content: ", await response.text())
+             # NOTE: Use await response.json() if you want to get the JSON directly
 
 
 
@@ -18,7 +31,8 @@ class htmlRenderer:
           self.page = None
 
 
-
+      
+        
       def render(self, url='', timeout=5, requestCookies=[], scrolldown=0, maxRetries = 3):
           return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, timeout, requestCookies, scrolldown, maxRetries)) )
 
@@ -35,6 +49,8 @@ class htmlRenderer:
        if self.page is None:
           print('\t[DEBUG] Creating new PAGE') 
           self.page = await self.browser.newPage()
+          # Uncomment next line if you would like to intercept responses
+          #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) )         
        else:
           print('\t[DEBUG] Reusing existing PAGE') 
         

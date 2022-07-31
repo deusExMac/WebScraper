@@ -956,6 +956,7 @@ class commandImpl:
                           #response.html.render(timeout=250, cookies= exRules.requestCookies, scrolldown=5)
                           htmlObject = HTML( html=rHTML )
                           #htmlObject = response.html.html # TODO: This must leave if abover .render is replaced.
+                          #TODO: Update hash, content type/length etc.
                        except KeyboardInterrupt:
                               print('\t[DEBUG] *** ', sep='')
                               raise KeyboardInterrupt
