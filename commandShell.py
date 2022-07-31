@@ -266,7 +266,7 @@ class httpResponse:
           self.html = None
           self.text = None
 
-      def get(self, key, default):
+      def get(self, key, default=''):
           return( self.headers.get(key, default) )
       
 
@@ -705,7 +705,7 @@ class commandImpl:
 
 
 
-      def downloadURL(self, dUrl, rCookies=None, userAgent=None, renderPage=False):
+      def downloadURL(self, dUrl, rCookies=[], userAgent=None, renderPage=False):
           r = httpResponse()  
           if not renderPage:
              session = HTMLSession()
@@ -716,12 +716,12 @@ class commandImpl:
              r.text = response.text
           else:
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=10, requestCookies=[], scrolldown=4, maxRetries=1)
+                rHTML = htmlRndr.render(url=dUrl, timeout=10, requestCookies=rCookies, scrolldown=4, maxRetries=1)
                 r.headers = htmlRndr.headers
                 if r.headers is not None:
                    r.status = int(r.headers.get('status') )
                    r.html = rHTML
-                   r.text = ''
+                   r.text = '' # Fix me
                 
           if r.headers is not None:
              r.headers =  {k.lower(): v for k, v in r.headers.items()}
@@ -1493,11 +1493,11 @@ class commandImpl:
           try:
             #print('Downloading', args['url'], '...')
             print('>>>>', args['url'][0])
-            respS = self.downloadURL( dUrl=args['url'][0], rCookies=None, userAgent=None, renderPage=False)
+            respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=False)
             print('\tSession: content-type', respS.get('content-type', '????') )
             print('\tSession: content-length', respS.get('content-length', '-1') )
             print('>>>>', args['url'][0])
-            respR = self.downloadURL( dUrl=args['url'][0], rCookies=None, userAgent=None, renderPage=True)
+            respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=True)
             print('\tRendered: content-type', respR.get('content-type', '????') )
             print('\tRendered: content-length', respR.get('content-length', '-1') )
           except Exception as dEx:
