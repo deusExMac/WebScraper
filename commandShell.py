@@ -38,6 +38,7 @@ import webbrowser
 import json, requests 
 from urllib.parse import urlparse, urljoin, unquote
 from bs4 import BeautifulSoup
+from bs4.element import Comment
 from requests_html import HTMLSession, HTML
 
 from pathlib import Path
@@ -748,6 +749,29 @@ class commandImpl:
 
 
 
+
+      def htmlToText(self, html):
+            
+         def tag_visible(element):
+             if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
+                return False
+             if isinstance(element, Comment):
+                return False
+
+             return True
+            
+
+         try:   
+          soup = BeautifulSoup(html, 'html.parser')
+          texts = soup.findAll(text=True)
+          visible_texts = filter(tag_visible, texts)
+          return u" ".join(t.strip() for t in visible_texts)
+         except Exception as bsEx:
+                print('\t[DEBUG] Error parsing with BS:', str(bsEx) )
+                return('')
+
+
+
       def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False):
           r = httpResponse()  
           if not renderPage:
@@ -764,8 +788,13 @@ class commandImpl:
              r.text = response.text
              
           else:
+                cks = []
+                if rCookies:
+                   print('\t[DEBUG] Preparing cookies...')   
+                   cks = self.prepareCookies(dUrl, rCookies)
+                   
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=25, requestCookies=rCookies, userAgent=uAgent, scrolldown=0, maxRetries=5)                
+                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=6, maxRetries=5)                
                 if rHTML is None:
                    return(None)
                   
@@ -777,7 +806,10 @@ class commandImpl:
                    r.status = -6
                       
                 r.html = rHTML
-                r.text = '' # Fix me
+                print('\t[DEBUG] Converting html to text...', end='')
+                r.text = self.htmlToText(rHTML)
+                print('done.')
+                                
                 htmlRndr.cleanUp() # Not needed anymore
                    
           
@@ -1540,15 +1572,30 @@ class commandImpl:
 
           return(False)    
 
+
+
+
       #def downloadURL(self, url, rCookies=None, userAgent=None, renderPage=False, **options)
       def download(self, a):
-          cmdArgs = ThrowingArgumentParser()          
+          cmdArgs = ThrowingArgumentParser()
+          cmdArgs.add_argument('-r', '--rules', type=str, nargs='?', default='' )
           cmdArgs.add_argument('url', nargs=argparse.REMAINDER, default=[''] )
           args = vars( cmdArgs.parse_args(a) )
+
+          exRules = None
+          if args['rules'] != '':
+             print('Loading rules file', args['rules'])   
+             with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
+                  exRules = xRules.loadLibrary(f.read())
+
+          ccc = []
+          if exRules is not None:
+             ccc = exRules.requestCookies
+             
           try:
             #print('Downloading', args['url'], '...')
             print('>>>> SESSTION', args['url'][0])
-            respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=False)
+            respS = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=False)
             print('\tSession: Status=', respS.status)
             print('\tSession: content-type=', respS.get('Content-tYpe', '????') )
             print('\tSession: content-length=', respS.get('content-length', '-1') )
@@ -1558,7 +1605,7 @@ class commandImpl:
             
             print('>>>> RENDERED ', args['url'][0])
             
-            respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=True)
+            respR = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=True)
             if respR is None:
                print('\t[ERROR] Error downloading url')
             else:   

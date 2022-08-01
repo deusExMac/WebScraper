@@ -102,7 +102,8 @@ class htmlRenderer:
           else:
                # On windows and linux, PageDown key works
                # Replaced method .down with .press 
-               await self.page._keyboard.press('PageDown') 
+               #await self.page._keyboard.press('PageDown')
+               await self.scrollPageDown(self.page) # test!
                
             
           print('done')
