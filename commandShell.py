@@ -262,8 +262,9 @@ class commandShell:
 
 class httpResponse:
       
-      def __init__(self):
+      def __init__(self, fm='static'):
             
+          self.fetchMethod = fm
           self.status = -999          
           self.__requestResponse = None
 
@@ -277,7 +278,11 @@ class httpResponse:
           self.html = None
           self.text = None
 
+      # two values supported: static and dynamic
+      def setFetchMethod(self, fm='static'):
+          self.fetchMethod = fm
 
+          
       def setResponse(self, resp):
           if resp is None:
              return
@@ -303,6 +308,15 @@ class httpResponse:
             
           return( self.__headers.get(key.lower(), default) )
 
+
+
+      def getText(self):
+          if self.fetchMethod == 'static':
+             return(self.text)
+          elif self.fetchMethod == 'dynamic':
+               return(self.html) 
+          else:
+               return('') 
 
       
       """  
@@ -775,6 +789,7 @@ class commandImpl:
       def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False):
           r = httpResponse()  
           if not renderPage:
+             r.setFetchMethod('static')
              session = HTMLSession()
              response = session.get(dUrl, cookies = rCookies )             
              r.setResponse(response)
@@ -788,6 +803,7 @@ class commandImpl:
              r.text = response.text
              
           else:
+                r.setFetchMethod('dynamic') 
                 cks = []
                 if rCookies:
                    print('\t[DEBUG] Preparing cookies...')   
@@ -977,19 +993,20 @@ class commandImpl:
                  while (True):
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
-                    session = HTMLSession()
-                    #print( '\t[DEBUG] ', session.headers['user-agent'])
-                    headers = {}
-                    if exRules.requestUserAgent.strip() != "":
-                       headers = {'User-Agent': exRules.requestUserAgent}
 
-                    #ccc = self.prepareCookies(pUrl, exRules.requestCookies)
+                    #session = HTMLSession()                    
+                    #headers = {}
+                    uA = None
+                    if exRules.requestUserAgent.strip() != "":
+                       uA = exRules.requestUserAgent
+
+                    
                     
                     #response = session.get(currentUrl, cookies = exRules.requestCookies)                    
-                    response = session.get(currentUrl, cookies = exRules.requestCookies   )
-                    
-                    print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
-                    #visitedQueue.append( currentUrl )
+                    #response = session.get(currentUrl, cookies = exRules.requestCookies   )
+                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages )
+                    #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
+                    print('\t[DEBUG] Cookies: ', response.get('Set-Cookie', '') ) 
                     break
                   
                   except Exception as netEx:
@@ -1005,31 +1022,36 @@ class commandImpl:
                            return(False)   
 
                  uQ.updateTimeFetched(currentUrl)
-                 uQ.updateStatus( currentUrl, response.status_code )
-                 uQ.updateContentType( currentUrl, response.headers.get('Content-Type', '') )
+                 uQ.updateStatus( currentUrl, response.status )
+                 uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
                  
-                 if response.status_code != 200:
+                 if response.status != 200:
                     numHTTPErrors += 1
-                    print('\t[DEBUG] Http status [', response.status_code, ']' )
+                    print('\t[DEBUG] Http status [', response.status, ']' )
                     continue
 
                  #if response.headers.get('Content-Length', -2):
-                 pageContentLength = int( response.headers.get('Content-Length', '-2') )      
+                 pageContentLength = int( response.get('Content-Length', '-2') )      
 
                  # TODO: Check if content was actually received i.e. content-length is not zero.
 
-                 if utils.isText( response.headers.get('Content-Type', '')  ):
+                 if utils.isText( response.get('Content-Type', '')  ):
                     pHash = utils.txtHash( response.text )
                     if pageContentLength < 0:
                        pageContentLength = len( response.text )
                  else:
+                    print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
+                    continue
+                    
+                    '''   
                     pHash = utils.byteHash( response.content )
                     if pageContentLength < 0:
                        pageContentLength = len( response.content )
-
+                    '''
+                    
                  uQ.updateContentLength( currentUrl, pageContentLength )
-                 if pageContentLength == 0 :
-                    print('\t[DEBUG] Zero content length')   
+                 if pageContentLength <= 0 :
+                    print('\t[DEBUG] Zero content length! (wtf???)')   
                     uQ.updateStatus( currentUrl, -999 )
                     continue
                        
@@ -1041,7 +1063,7 @@ class commandImpl:
                     continue
 
                  uQ.updatePageHash( currentUrl, pHash )
-                 uQ.updateLastModified( currentUrl, response.headers.get('Last-Modified', '') )
+                 uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
 
                  # We keep the html object in a separate variable that will be the subject of css selectors
                  # and regular expression found in rules.
@@ -1053,7 +1075,8 @@ class commandImpl:
                  #
                  # TODO: This needs more thorough testing.
                  htmlObject = response.html
-                 
+
+                 '''
                  if exRules.renderPages:
                        try:   
                           print('\t[DEBUG] Rendering page...')    
@@ -1071,7 +1094,7 @@ class commandImpl:
                               print('\t[DEBUG] Exception during rendering.', str(rtmEx) )
                               break
                               #raise KeyboardInterrupt
-                        
+                 '''       
                  
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
@@ -1082,8 +1105,8 @@ class commandImpl:
                        print('\t[DEBUG] Error saving file')   
                     
                   
-                 if 'html' not in response.headers.get('Content-Type', ''):
-                    print('\t\tignoring ', response.headers.get('Content-Type', 'xxx'))   
+                 if 'html' not in response.get('Content-Type', ''):
+                    print('\t\tignoring ', response.get('Content-Type', 'xxx'))   
                     continue
                  
                  if exRules is None or exRules.library is None:

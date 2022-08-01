@@ -8,6 +8,7 @@
 
 {
 "libraryDescription": "Library to extract data from econ.upatras.gr pages",
+"csvLineFormat":["professorName"],
 "library": [
 
 {
