@@ -778,6 +778,7 @@ class commandImpl:
                       
                 r.html = rHTML
                 r.text = '' # Fix me
+                htmlRndr.cleanUp() # Not needed anymore
                    
           
           return( r )
