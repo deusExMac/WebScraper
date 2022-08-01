@@ -810,7 +810,7 @@ class commandImpl:
                    cks = self.prepareCookies(dUrl, rCookies)
                    
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=6, maxRetries=5)                
+                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5)                
                 if rHTML is None:
                    return(None)
                   
@@ -821,7 +821,7 @@ class commandImpl:
                 except Exception as statusEx:
                    r.status = -6
                       
-                r.html = rHTML
+                r.html = HTML( html=rHTML )
                 print('\t[DEBUG] Converting html to text...', end='')
                 r.text = self.htmlToText(rHTML)
                 print('done.')
