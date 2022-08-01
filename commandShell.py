@@ -260,15 +260,58 @@ class commandShell:
 
 
 class httpResponse:
+      
       def __init__(self):
-          self.status = -1
-          self.headers = None
+            
+          self.status = -999          
+          self.__requestResponse = None
+
+          # We need a separate header dict since
+          # the dicts returned by the 2 different calls fetching pages (and inside the __requestResponse)
+          # are of different kind with regard to letter case. 
+          # Here we make sure that all keys are lower case in any way
+          # they appear in the original dicts.
+          self.__headers = None
+          
           self.html = None
           self.text = None
 
+
+      def setResponse(self, resp):
+          if resp is None:
+             return
+            
+          self.__requestResponse = resp
+          self.setHeaders( resp.headers )
+
+
+
+          
+      def setHeaders(self, hdr):
+          self.__headers = {k.lower(): v for k, v in hdr.items()}
+
+
+          
+
       def get(self, key, default=''):
-          return( self.headers.get(key, default) )
+          #print('Calling get with key [', key, ']', sep='')
+          #print( type(self.requestResponse.headers ) )
+          #print( self.requestResponse.headers )
+          if  self.__headers is None:
+              return(default)
+            
+          return( self.__headers.get(key.lower(), default) )
+
+
       
+      """  
+      # During normalization we store the header key/value pairs in a
+      # different dictionary as requestResponse.headers attribute can;t be set
+      def normalizeHeaders(self):
+          print('NORMALIZING HEADERS!')  
+          self.headers = {k.lower(): v for k, v in self.requestResponse.headers.items()}
+      """
+
 
 
 
@@ -709,33 +752,34 @@ class commandImpl:
           r = httpResponse()  
           if not renderPage:
              session = HTMLSession()
-             response = session.get(dUrl, cookies = rCookies )
-             #print(response.headers)
+             response = session.get(dUrl, cookies = rCookies )             
+             r.setResponse(response)
              try:
                 r.status = int(response.status_code)
              except Exception as statusEx:
-                    r.status = -5 
-             r.headers = response.headers
+                    r.status = -5
+
+                                 
              r.html = response.html
              r.text = response.text
+             
           else:
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=10, requestCookies=rCookies, scrolldown=4, maxRetries=1)
-                r.headers = htmlRndr.headers
-                if r.headers is not None:
-                   #print( r.headers)
-                   try:   
-                      r.status = int(r.headers.get('status') )
-                   except Exception as statusEx:
-                      r.status = -6
+                rHTML = htmlRndr.render(url=dUrl, timeout=25, requestCookies=rCookies, scrolldown=0, maxRetries=3)                
+                if rHTML is None:
+                   return(None)
+                  
+                r.setResponse(htmlRndr.response) 
+                #if r.requestResponse is not None:                   
+                try:   
+                   r.status = int( htmlRndr.response._status )
+                except Exception as statusEx:
+                   r.status = -6
                       
-                   r.html = rHTML
-                   r.text = '' # Fix me
-
-          # make all fields/keys lowercase    
-          if r.headers is not None:
-             r.headers =  {k.lower(): v for k, v in r.headers.items()}
-             
+                r.html = rHTML
+                r.text = '' # Fix me
+                   
+          
           return( r )
                 
 
@@ -1502,17 +1546,22 @@ class commandImpl:
           args = vars( cmdArgs.parse_args(a) )
           try:
             #print('Downloading', args['url'], '...')
-            print('>>>>', args['url'][0])
+            print('>>>> SESSTION', args['url'][0])
             respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=False)
-            print('\tSession: Status', respS.status)
-            print('\tSession: content-type', respS.get('content-type', '????') )
-            print('\tSession: content-length', respS.get('content-length', '-1') )
-            print('>>>>', args['url'][0])
+            print('\tSession: Status=', respS.status)
+            print('\tSession: content-type=', respS.get('Content-tYpe', '????') )
+            print('\tSession: content-length=', respS.get('content-length', '-1') )
+            
+            print('>>>> RENDERED ', args['url'][0])
             
             respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=True)
-            print('\tRendered: Status', respR.status)
-            print('\tRendered: content-type', respR.get('content-type', '????') )
-            print('\tRendered: content-length', respR.get('content-length', '-1') )
+            if respR is None:
+               print('\t[ERROR] Error downloading url')
+            else:   
+               print('\tRendered: Status', respR.status)
+               print('\tRendered: content-type', respR.get('content-TYPE', '????') )
+               print('\tRendered: content-length', respR.get('conTeNt-Length', '-1') )
+            
           except Exception as dEx:
                  print('Error downloading url ', args['url'], str(dEx))
                  return(False)

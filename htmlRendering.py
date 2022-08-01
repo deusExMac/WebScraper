@@ -30,6 +30,7 @@ class htmlRenderer:
           self.browser = None
           self.page = None
           self.headers = None
+          self.response = None
 
 
       
@@ -74,7 +75,7 @@ class htmlRenderer:
             
            try:
               attemptStart = time.perf_counter() # start counting request time
-              origResponse = await self.page.goto(url, options={'timeout': int(timeout * 1000)})
+              self.response = await self.page.goto(url, options={'timeout': int(timeout * 1000)})
               attemptEnd = time.perf_counter() 
               break
            except Exception as fetchException:
@@ -82,7 +83,8 @@ class htmlRenderer:
                numTries += 1
 
        #print(origResponse.headers)
-       self.headers = origResponse.headers
+       # TODO: Remove me?
+       self.headers = None #origResponse.headers
        
        print('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart))       
        print('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm))    
@@ -110,6 +112,8 @@ class htmlRenderer:
        content = await self.page.content()
                 
        return( content )
+
+
 
 
       # This is a different implementation for scrolling down the
