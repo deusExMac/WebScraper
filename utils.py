@@ -102,8 +102,9 @@ def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
           print('\t[DEBUG] Writing text')
           # TODO: What about encoding?
           with open(targetName, 'w', errors='ignore') as f:
-               f.write( rsp.getText() )
+               f.write( rsp.text )
        else:
+           # TODO: Is this correct???   
            print('\t[DEBUG] Writing binary')     
            with open(targetName, 'wb') as f:
                 f.write( rsp.html )   

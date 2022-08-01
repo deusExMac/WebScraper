@@ -309,12 +309,12 @@ class httpResponse:
           return( self.__headers.get(key.lower(), default) )
 
 
-
+      # TODO: REmove me!
       def getText(self):
           if self.fetchMethod == 'static':
              return(self.text)
           elif self.fetchMethod == 'dynamic':
-               return(self.html) 
+               return(self.text) 
           else:
                return('') 
 
@@ -822,9 +822,9 @@ class commandImpl:
                    r.status = -6
                       
                 r.html = HTML( html=rHTML )
-                print('\t[DEBUG] Converting html to text...', end='')
-                r.text = self.htmlToText(rHTML)
-                print('done.')
+                #print('\t[DEBUG] Converting html to text...', end='')
+                r.text = rHTML
+                #print('done.')
                                 
                 htmlRndr.cleanUp() # Not needed anymore
                    
