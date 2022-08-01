@@ -35,12 +35,12 @@ class htmlRenderer:
 
       
         
-      def render(self, url='', timeout=5, requestCookies=[], scrolldown=0, maxRetries = 3):
-          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, timeout, requestCookies, scrolldown, maxRetries)) )
+      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0):
+          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown)) )
 
 
 
-      async def fetchUrl(self, url='', timeout=5, requestCookies=[], scrolldown=0, maxRetries = 3):
+      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0 ):
 
        if self.browser is None:
           print('\t[DEBUG] Creating new BROWSER') 
@@ -56,7 +56,9 @@ class htmlRenderer:
        else:
           print('\t[DEBUG] Reusing existing PAGE') 
         
-
+       if userAgent is not None:
+          await self.page.setUserAgent(userAgent);
+          
        for c in requestCookies:
             await self.page.setCookie( c )
 

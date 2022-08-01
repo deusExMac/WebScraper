@@ -748,7 +748,7 @@ class commandImpl:
 
 
 
-      def downloadURL(self, dUrl, rCookies=[], userAgent=None, renderPage=False):
+      def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False):
           r = httpResponse()  
           if not renderPage:
              session = HTMLSession()
@@ -765,7 +765,7 @@ class commandImpl:
              
           else:
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=25, requestCookies=rCookies, scrolldown=0, maxRetries=3)                
+                rHTML = htmlRndr.render(url=dUrl, timeout=25, requestCookies=rCookies, userAgent=uAgent, scrolldown=0, maxRetries=5)                
                 if rHTML is None:
                    return(None)
                   
@@ -1547,20 +1547,27 @@ class commandImpl:
           try:
             #print('Downloading', args['url'], '...')
             print('>>>> SESSTION', args['url'][0])
-            respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=False)
+            respS = self.downloadURL( dUrl=args['url'][0], rCookies=[], uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=False)
             print('\tSession: Status=', respS.status)
             print('\tSession: content-type=', respS.get('Content-tYpe', '????') )
             print('\tSession: content-length=', respS.get('content-length', '-1') )
+            print('\tSession: Last-Modified=', respS.get('Last-Modified', '-1') )
+            print('\tSession: Date=', respS.get('date', '-1') )
+            print('\tSession: Set-Cookie=', respS.get('Set-Cookie', '-1') )
             
             print('>>>> RENDERED ', args['url'][0])
             
-            respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], userAgent=None, renderPage=True)
+            respR = self.downloadURL( dUrl=args['url'][0], rCookies=[], uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=True)
             if respR is None:
                print('\t[ERROR] Error downloading url')
             else:   
                print('\tRendered: Status', respR.status)
                print('\tRendered: content-type', respR.get('content-TYPE', '????') )
                print('\tRendered: content-length', respR.get('conTeNt-Length', '-1') )
+               print('\tRendered: Last-Modified', respR.get('Last-Modified', '-1') )
+               print('\tRendered: Date', respR.get('date', '-1') )
+               print('\tRendered: Set-Cookie', respR.get('Set-Cookie', '-1') )
+               
             
           except Exception as dEx:
                  print('Error downloading url ', args['url'], str(dEx))
