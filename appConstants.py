@@ -15,8 +15,8 @@ Version: 20/04/2022
 
 
 
-APPVERSION = '0.01a'
-VERSIONRELEASEDATE = '02/06/2022'
+APPVERSION = '0.05a'
+VERSIONRELEASEDATE = '02/08/2022'
 AUTHOR = 'mmt (tzagara@upatras.gr)'
 
 
