@@ -78,6 +78,18 @@ def urlToFilename( root, u ):
 
 
 
+def urlToPlainFilename( root, u ):
+       
+    toReplace = {'/': '-', '&': '-','i': '-', '@':'-', '\\':'-', '*':'-', '<':'-', '>':'-', ':':'-', '?':'-', '=':'-'}
+    
+    if root=='' or root.endswith('/'):
+       return( root + u.translate(str.maketrans(toReplace)) )
+    else:
+       return( root + '/' + u.translate(str.maketrans(toReplace)) )    
+    
+
+
+
 # TODO: change this.
 def isText(contentType):             
     textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml', 'application/rss+xml']

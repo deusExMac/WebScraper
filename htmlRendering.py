@@ -43,7 +43,8 @@ class htmlRenderer:
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0 ):
 
        if self.browser is None:
-          print('\t[DEBUG] Creating new BROWSER') 
+          print('\t[DEBUG] Creating new BROWSER')
+          # launches a browser in headless mode. Headless means WITHOUT UI.
           self.browser = await pyppeteer.launch()
        else:
             print('\t[DEBUG] Reusing existing BROWSER')
@@ -111,7 +112,8 @@ class htmlRenderer:
           await asyncio.sleep(1.4)
           print('done')
 
-       await self.page.screenshot({'path': 'screenShot.png'})
+       #'screenShot.png'
+       await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url)+ '.png' })
        content = await self.page.content()
                 
        return( content )
