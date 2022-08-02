@@ -786,7 +786,7 @@ class commandImpl:
 
 
 
-      def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False):
+      def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False, dynamicElem=[]):
           r = httpResponse()  
           if not renderPage:
              r.setFetchMethod('static')
@@ -810,7 +810,7 @@ class commandImpl:
                    cks = self.prepareCookies(dUrl, rCookies)
                    
                 htmlRndr = htmlRendering.htmlRenderer()
-                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5)                
+                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
                    return(None)
                   
@@ -1004,7 +1004,7 @@ class commandImpl:
                     
                     #response = session.get(currentUrl, cookies = exRules.requestCookies)                    
                     #response = session.get(currentUrl, cookies = exRules.requestCookies   )
-                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages )
+                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements )
                     #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
                     print('\t[DEBUG] Cookies: ', response.get('Set-Cookie', '') ) 
                     break

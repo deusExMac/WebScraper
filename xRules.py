@@ -40,6 +40,13 @@ class extractionCondition:
 
 
 
+@dataclass
+class ruleDynamicPageContent:
+      dpcType: str = field(default='js') # 2 types supported with values: js for javasctipt functions and button for clickable page elements
+      dpcPageElement: str = field(default = '') # name of js function to execute or  element name on page to click
+      dpcScrolldown: int = 0
+      dpcWaitFor: str = field(default = '')
+      
 
 
 
@@ -60,7 +67,7 @@ def makeRuleConditionList() -> ruleConditionList or None:
 
 @dataclass
 class extractionRule:
-    """Class for represeing a simple extraction rule."""
+    """Class for represeing one simple extraction rule."""
     ruleName: str = field(default = '')
     ruleDescription: str  = field(default = '')
     # regular expression the URL has to match to make this rule fire
@@ -68,9 +75,13 @@ class extractionRule:
     
     ruleTarget: str = field(default='html') # Does this rule apply on html or on javascript? Two values supported: html and js
 
+    
+
+
     # How to get/scrap the data (in regex or css selector form)
     ruleCSSSelector: str  = field(default = '')
     ruleTargetAttribute: str  = field(default = '')
+
     #ruleRegularExpression: str = ''
     # Regular expression that the extracted rule content must match
     # to be considered valid
@@ -519,6 +530,13 @@ class ruleLibrary:
       # If set to True, all downloaded pages will be rendered
       # TODO: Seems to be very, very slow. Be careful when setting is to true.
       renderPages: bool = False
+
+      # A list of dynamic elements i.e. js scripts and buttons on html page, that need to be executed or clicked/pressed after the
+      # page has been loaded and before parsing of the page in order to render properly the page.
+      # Currently, works only if the fetch method is dynamic i.e. renderPages is True.
+      #
+      # IMPORTANT: Elements/buttons are executed/clicked in the order in which they appear in this list.
+      ruleDynamicElements: List[ruleDynamicPageContent] = field(default_factory=lambda:[])
 
 
 

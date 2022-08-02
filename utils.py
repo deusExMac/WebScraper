@@ -80,7 +80,7 @@ def urlToFilename( root, u ):
 
 def urlToPlainFilename( root, u ):
        
-    toReplace = {'/': '-', '&': '-','i': '-', '@':'-', '\\':'-', '*':'-', '<':'-', '>':'-', ':':'-', '?':'-', '=':'-'}
+    toReplace = {'/': '-', '&': '-','|': '-', '@':'-', '\\':'-', '*':'-', '<':'-', '>':'-', ':':'-', '?':'-', '=':'-'}
     
     if root=='' or root.endswith('/'):
        return( root + u.translate(str.maketrans(toReplace)) )

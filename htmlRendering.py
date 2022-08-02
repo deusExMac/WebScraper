@@ -26,6 +26,8 @@ async def intercept_network_response(response):
 
 class htmlRenderer:
 
+
+
       def __init__(self):
           self.browser = None
           self.page = None
@@ -33,14 +35,18 @@ class htmlRenderer:
           self.response = None
 
 
+
       
         
-      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0):
-          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown)) )
+      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[]):
+          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements)) )
 
 
 
-      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0 ):
+
+
+
+      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
        if self.browser is None:
           print('\t[DEBUG] Creating new BROWSER')
@@ -112,11 +118,20 @@ class htmlRenderer:
           await asyncio.sleep(1.4)
           print('done')
 
+       if dynamicElements:
+          for de in  dynamicElements:
+              await self.executeDynamicElement(self.page, de.dpcType, de.dpcPageElement, de.dpcWaitFor, de.dpcScrolldown)
+       else:
+             print('\t[DEBUG] No dynamic element on page to be executed')
+
        #'screenShot.png'
        await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url)+ '.png' })
        content = await self.page.content()
                 
        return( content )
+
+
+
 
 
 
@@ -137,7 +152,13 @@ class htmlRenderer:
             '''
 
 
-
+      #._s65ijh7 .dir-ltr
+      async def executeDynamicElement(self, pg, dType, targetElement, endCondition, scrolldown):
+            await pg.waitForSelector( targetElement );
+            await pg.click(targetElement)
+            if loadCondition != '':
+               await pg.waitForSelector(endCondition)
+            
 
 
       def cleanUp(self):
