@@ -154,7 +154,7 @@ class htmlRenderer:
 
 
       #
-      #TODO: directive scroll does not work
+      # TODO: directive scroll does not work
       #
       async def executeDynamicElement(self, pg, dElem):
 
@@ -162,6 +162,10 @@ class htmlRenderer:
                return(None)
 
             print('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, sep='')
+            if not await self.elementExists(pg, dElem.dpcPageElement):
+               print(f'\t\t[DEBUG] Element {dElem.dpcPageElement} does not exist on page. Not executing any bahavior.')
+               return(None) 
+
 
             if dElem.dpcType == 'button':   
                await pg.click(dElem.dpcPageElement)
@@ -171,6 +175,8 @@ class htmlRenderer:
                  selector = dElem.dpcPageElement
                  for _ in range(dElem.dpcScrolldown):
                      #document.querySelectorAll
+
+                     # TODO: check if this works somehow.
                      try:                        
                         await pg.evaluate('{window.scrollTo(0, document.body.scrollHeight);}')
                         await pg.evaluate('''selector => {
@@ -200,6 +206,8 @@ class htmlRenderer:
                      #          }''', selector);
             else:
                  return(None) # not supported directive
+
+
                 
             if dElem.dpcWaitFor != '':
                await pg.waitForSelector(dElem.dpcWaitFor)
@@ -207,6 +215,26 @@ class htmlRenderer:
                    
             return(0)   
             
+
+
+      # Check if element exists on page
+      async def elementExists(self, pg, elemSel):          
+          selector = elemSel
+          value = await pg.evaluate('''selector => {
+                                            const element = document.querySelector(selector);
+                                            if ( element ) {
+                                                 return(0)
+                                            } else {
+                                                 return(-1) 
+                                            }
+                                            }''', selector)          
+          if value < 0:
+             return(False)
+
+          return(True)  
+
+
+
 
 
       def cleanUp(self):

@@ -1122,12 +1122,12 @@ class commandImpl:
                  for r in exRules.library: #self.extractionRules.library:
                        
                      # should we apply this rule to the URL?
-                     print('\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
+                     print('\t\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
                      if not r.ruleMatches(currentUrl):
-                        print('No.')
+                        print('NO.')
                         continue
                   
-                     print('yes')
+                     print('YES')
         
 
                      # getLings are handled a little bit different than other rules.
@@ -1136,7 +1136,7 @@ class commandImpl:
                         xData = r.apply(htmlObject)
                         #print('GETLINKS:', xData)
                         xLinks = xData.get('getLinks', [])
-                        print('\t[DEBUG] Total of [', len(xLinks), '] links extracted')
+                        print('\t\t[DEBUG] Total of [', len(xLinks), '] links extracted')
                         # TODO: Seems that the loop below takes too long.
                         #       Check it/measure it.
                         tB = time.perf_counter()
@@ -1147,7 +1147,7 @@ class commandImpl:
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
                                uQ.add( cUrl ) # Add it to the URL queue
                                
-                        print('\t\t[DEBUG] All links done in', time.perf_counter() - tB )   
+                        print('\t\t\t[DEBUG] All links done in', time.perf_counter() - tB )   
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
