@@ -42,8 +42,8 @@ class extractionCondition:
 
 @dataclass
 class ruleDynamicPageContent:
-      dpcType: str = field(default='js') # 2 types supported with values: js for javasctipt functions and button for clickable page elements
-      dpcPageElement: str = field(default = '') # name of js function to execute or  element name on page to click
+      dpcType: str = field(default='js') # 3 types supported with values: js for javasctipt functions, button for clickable page elements and scroll for scrollable elements
+      dpcPageElement: str = field(default = '') # name of js function to execute, element name on page to click on or element to scroll
       dpcScrolldown: int = 0
       dpcWaitFor: str = field(default = '')
       

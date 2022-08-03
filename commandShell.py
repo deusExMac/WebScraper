@@ -787,6 +787,7 @@ class commandImpl:
 
 
       def downloadURL(self, dUrl, rCookies=[], uAgent=None, renderPage=False, dynamicElem=[]):
+            
           r = httpResponse()  
           if not renderPage:
              r.setFetchMethod('static')

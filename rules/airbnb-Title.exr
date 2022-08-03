@@ -10,6 +10,23 @@
 "libraryDescription": "Library to crawl greek reddit",
 "csvLineFormat":["getTitle"],
 "renderPages": True,
+"ruleDynamicElements": [ 
+		 {
+		     "dpcType":"button",
+		     "dpcPageElement":"button._11eqlma4",
+		     "dpcScrolldown":0,
+		     "dpcWaitFor":"div.r1are2x1"
+		 },
+
+		 {
+		     "dpcType":"scroll",
+		     "dpcPageElement":"div[data-testid='pdp-reviews-modal-scrollable-panel']",
+		     "dpcScrolldown":10,
+		     "dpcWaitFor":""
+		 }
+ 
+],
+
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
 "library": [
 {

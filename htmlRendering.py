@@ -101,7 +101,8 @@ class htmlRenderer:
        if scrolldown > 0:         
         for _ in range(scrolldown):
           print('\t[DEBUG] Scrolling....', end='')
-             
+          await self.scrollPageDown(self.page)
+          '''
           if utils.isMac():
                # TODO: Check if .scrollPageDown works also for all other OSs 
                #print('\t\t[DEBUG] MacOS detected') 
@@ -111,7 +112,7 @@ class htmlRenderer:
                # Replaced method .down with .press 
                #await self.page._keyboard.press('PageDown')
                await self.scrollPageDown(self.page) # test!
-               
+          '''     
             
           print('done')
           print('\t[DEBUG] Sleeping....', end='')  
@@ -120,7 +121,7 @@ class htmlRenderer:
 
        if dynamicElements:
           for de in  dynamicElements:
-              await self.executeDynamicElement(self.page, de.dpcType, de.dpcPageElement, de.dpcWaitFor, de.dpcScrolldown)
+              await self.executeDynamicElement(self.page, de)
        else:
              print('\t[DEBUG] No dynamic element on page to be executed')
 
@@ -152,12 +153,59 @@ class htmlRenderer:
             '''
 
 
-      #._s65ijh7 .dir-ltr
-      async def executeDynamicElement(self, pg, dType, targetElement, endCondition, scrolldown):
-            await pg.waitForSelector( targetElement );
-            await pg.click(targetElement)
-            if loadCondition != '':
-               await pg.waitForSelector(endCondition)
+      #
+      #TODO: directive scroll does not work
+      #
+      async def executeDynamicElement(self, pg, dElem):
+
+            if dElem is None:
+               return(None)
+
+            print('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, sep='')
+
+            if dElem.dpcType == 'button':   
+               await pg.click(dElem.dpcPageElement)
+            elif dElem.dpcType == 'js':
+                result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')    
+            elif dElem.dpcType == 'scroll':
+                 selector = dElem.dpcPageElement
+                 for _ in range(dElem.dpcScrolldown):
+                     #document.querySelectorAll
+                     try:                        
+                        await pg.evaluate('{window.scrollTo(0, document.body.scrollHeight);}')
+                        await pg.evaluate('''selector => {
+                             
+                             const element = document.querySelector(selector);
+                             if ( element ) {                                  
+                                  element.scroll(50, 0);
+                                  console.error(`Scrolled to selector ${selector}`);
+                             } else {
+                                       console.error(`cannot find selector ${selector}`);
+                             }
+                               }''', selector)   
+                     except Exception as scrEx:
+                        print('\t[DEBUG] Error during element scrolling', str(scrEx)) 
+                        return(None) 
+                     
+                     #await pg.evaluate('''selector => {
+                     #        
+                     #        const element = document.querySelector(selector);
+                     #        if ( element ) {
+                     #             //document.getElementById(selector).scrollTop += 100;
+                     #             element.scrollTop += 10;
+                     #             console.error(`Scrolled to selector ${selector}`);
+                     #        } else {
+                     #                  console.error(`cannot find selector ${selector}`);
+                     #        }
+                     #          }''', selector);
+            else:
+                 return(None) # not supported directive
+                
+            if dElem.dpcWaitFor != '':
+               await pg.waitForSelector(dElem.dpcWaitFor)
+             
+                   
+            return(0)   
             
 
 
@@ -166,7 +214,7 @@ class htmlRenderer:
           
           
       async def __close(self):
-          print('[DEBUG] Freeing resources')
+          print('\t[DEBUG] Freeing resources')
           try:
             await self.browser.close()
           except Exception as cEx:
