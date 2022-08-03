@@ -1,0 +1,34 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl greek reddit",
+"csvLineFormat":["getTitle"],
+"renderPages": True,
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+"library": [
+{
+ "ruleName": "getTitle"
+ "ruleDescription": "Extracting the title of room"
+ "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []
+ 
+ "ruleCSSSelector": "h1._fecoyn4"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ 
+}
+
+]
+
+
+}

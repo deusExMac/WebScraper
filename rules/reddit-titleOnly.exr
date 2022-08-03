@@ -1,0 +1,51 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl reddit main page",
+"csvLineFormat": ["postTitle"],
+"renderPages": True,
+"library": [
+
+{
+ "ruleName": "postTitle"
+ "ruleDescription": "Get only title of post"
+ "ruleURLActivationCondition": ["old\.reddit\.com[/]$"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []                                                  
+ "ruleCSSSelector": ".title"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "rulePostCSSSelector": []
+ "ruleReturnedValueNames": []
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+  
+},
+
+
+
+{
+ "ruleName": "getLinks"
+ "ruleDescription": "Extracting links rule"
+ "ruleURLActivationCondition": ["old\.reddit\.com/$"]
+ "ruleCSSSelector": "a[href]"
+ "ruleTargetAttribute": "href"
+ "ruleContentCondition": "old\.reddit\.com/$"
+ "ruleReturnsMore": True
+ "ruleReturnedMatchPos": -1
+ "ruleReturningMoreIsError": False
+ 
+ 
+}
+
+]
+
+
+}
