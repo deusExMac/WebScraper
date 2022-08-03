@@ -44,15 +44,16 @@ class urlQueue:
           if not startNewSession:
               # We do it this way so that even if an error occurs, an empty data frame exists.
               # Also, we rely on the Python gb to do its job.
-              print('[DEBUG] loading queue from [', self.qFile, '].....', end='')
+              print('[DEBUG] loading EXISTING queue from [', self.qFile, '].....', end='')
               try:
                  self.queue = pd.read_csv(self.qFile, header=0, sep=csvSep, quoting=csv.QUOTE_NONNUMERIC)
                  print('ok.')
               except Exception as rEx:
                  print('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.', sep='') 
+          else:    
+              print('\t[DEBUG] Using NEW queue file [', self.qFile, ']')
               
-          
-          print('[DEBUG]Using queue file [', self.qFile, ']')
+          print('\t[DEBUG] Using queue file [', self.qFile, ']')
           
           
           

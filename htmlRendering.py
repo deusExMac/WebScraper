@@ -100,7 +100,7 @@ class htmlRenderer:
 
        if scrolldown > 0:         
         for _ in range(scrolldown):
-          print('\t[DEBUG] Scrolling....', end='')
+          #print('\t[DEBUG] Scrolling....', end='')
           await self.scrollPageDown(self.page)
           '''
           if utils.isMac():
@@ -114,10 +114,10 @@ class htmlRenderer:
                await self.scrollPageDown(self.page) # test!
           '''     
             
-          print('done')
-          print('\t[DEBUG] Sleeping....', end='')  
-          await asyncio.sleep(1.4)
-          print('done')
+          #print('done')
+          #print('\t[DEBUG] Sleeping....', end='')  
+          await asyncio.sleep(1.4) # TODO: decrease sleep time?
+          #print('done')
 
        if dynamicElements:
           for de in  dynamicElements:
