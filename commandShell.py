@@ -808,7 +808,9 @@ class commandImpl:
                 cks = []
                 if rCookies:
                    print('\t[DEBUG] Preparing cookies...')   
-                   cks = self.prepareCookies(dUrl, rCookies)
+                   #cks = self.prepareCookies(dUrl, rCookies)
+                   cks = utils.cookiesFromDict(rCookies, dUrl)
+                   print('\t[DEBUG] Cookies:', cks)
                    
                 htmlRndr = htmlRendering.htmlRenderer()
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                

@@ -187,7 +187,17 @@ def isLinux():
 # Returns a list of dictionaries, one dict for each cookie.
 def cookiesFromDict( d, url ):
     
-    cookieList = []  
+    cookieList = []
+    for k, v in d.items():
+        c = {'name':k, 'value':v, 'domain':getDomain(url) }
+        cookieList.append(c)
+
+    return(cookieList)
+
+        #c['name'] = k
+        #c['value'] = v
+        
+    '''
     cParams = {'url':'', 'domain':'', 'path':'', 'expires':'', 'httponly':True, 'secure':True, 'samesite':'None'}
     for k,v in d.items():
         if k in cParams.keys():
@@ -214,8 +224,8 @@ def cookiesFromDict( d, url ):
         c['name'] = k
         c['value'] = v
         cookieList.append(c)
-
-    return(cookieList)     
+    '''
+        
 
 
 

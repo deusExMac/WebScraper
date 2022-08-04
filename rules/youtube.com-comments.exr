@@ -34,11 +34,7 @@
                    "SSID" :  "ALq6wjrTWHNpBvaGo",
                    "VISITOR_INFO1_LIVE": "wMmCmHSK75E",
                    "wide": "0",
-                   "YSC": "FAex3YQzYUY",
-                   "expires":"28-07-2023T06:24:39.000Z",
-                   "path":"/",
-                   "httpOnly":"True",
-                   "secure":"True"
+                   "YSC": "FAex3YQzYUY"                   
 },
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
