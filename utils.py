@@ -5,6 +5,7 @@ from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
 
 import hashlib
+import http.cookies
 
 
 # Calculates sha256 checksum for textual data.
@@ -128,6 +129,21 @@ def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
 
 
 
+
+def strToBool(s):
+       
+    if s.lower().strip() in ['true', '1', 't', 'y', 'yes', 'yeah', 'yup', 'certainly', 'uh-huh']:
+       return(True)
+
+    return(False)
+
+
+
+
+def getDomain(url):
+    return(urlparse(url).netloc)
+
+
 def getPlatformName():
     return( platform.system() )  
 
@@ -149,4 +165,107 @@ def isLinux():
     if getPlatformName().lower() == 'linux':
        return(True)
     return(False)
+
+
+
        
+
+#####################################
+#
+# http cookie related stuff
+#
+#####################################
+
+
+
+
+# This function takes as input a dictionary which contains the cookie names
+# and values as well as the COMMON cookie parameters like domain, path, expires etc.
+# for each cookie.
+# The function first separates the parameters from the dict which  is then used to
+# configure all cookies.
+# Returns a list of dictionaries, one dict for each cookie.
+def cookiesFromDict( d, url ):
+    
+    cookieList = []  
+    cParams = {'url':'', 'domain':'', 'path':'', 'expires':'', 'httponly':True, 'secure':True, 'samesite':'None'}
+    for k,v in d.items():
+        if k in cParams.keys():
+           if k.lower() == 'expires':
+              cParams[k] = datetime.timestamp(datetime.strptime(v, '%d-%m-%YT%H:%M:%S.000Z'))
+           else:   
+              cParams[k] = v   
+
+    if cParams['domain'] == '':
+       cParams['domain'] = utils.getDomain(url)
+
+    if cParams['url'] == '':
+       cParams['url'] = url
+
+
+    cParams['httponly'] = utils.strToBool(cParams['httponly'])
+    cParams['secure'] = utils.strToBool(cParams['secure'])
+    
+    for k, v in d.items():
+        if k in cParams.keys():
+           continue
+      
+        c = cParams.copy()
+        c['name'] = k
+        c['value'] = v
+        cookieList.append(c)
+
+    return(cookieList)     
+
+
+
+
+      
+def cookieFromString( s, url ):
+    print('String cookie:', s, '\n\n')  
+    
+    polishedCookie = {'url': url}
+    cks = http.cookies.SimpleCookie()
+    cks.load(s)
+    for k, m in cks.items():
+        # SimpleCookie returns a key and a Morsel (m)
+        polishedCookie['name'] = k
+        polishedCookie['value'] = m.value
+        polishedCookie['domain'] = utils.getDomain(url)
+        polishedCookie['path'] = m['path']
+        polishedCookie['expires'] = ''
+        if m['expires'] != '':
+           polishedCookie['expires'] = datetime.timestamp(datetime.strptime(m['expires'], '%d-%m-%YT%H:%M:%S.000Z')) 
+        polishedCookie['httponly'] = utils.strToBool(m['httponly'])
+        polishedCookie['secure'] = utils.strToBool(m['secure'])
+        polishedCookie['samesite'] = m['samesite']
+        return(polishedCookie) 
+    
+
+
+              
+# Takes as input a list of strings, whare each string in the form:
+#    cookieName=cookieValue;domain=xxx;path=yyy;expires=zzz etc
+# and returns a dictionary for of the cookie with the keys mentioned.
+#
+def cookiesFromStringList( strList, url ):
+    cList = []
+    for idx, c in enumerate(strList):
+        cookie = cookieFromString( c, url )
+        if cookie is None:
+           return(None)   
+           #print('Cookie', c, 'has no valid format')
+        else:
+             cList.append(cookie)               
+             
+    return(cList)   
+        
+
+
+
+
+
+    
+              
+
+
