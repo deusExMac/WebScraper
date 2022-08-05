@@ -811,7 +811,7 @@ class commandImpl:
              
           else:
                 r.setFetchMethod('dynamic') 
-                cks = []
+                cks = {}
                 if rCookies:
                    print('\t[DEBUG] Preparing cookies...')   
                    #cks = self.prepareCookies(dUrl, rCookies)
