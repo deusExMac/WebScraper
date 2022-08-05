@@ -141,10 +141,15 @@ def strToBool(s):
 
 
 
+       
 def getDomain(url):
     extractedDomain = tldextract.extract(url)  
     return( '.'.join( [extractedDomain.domain, extractedDomain.suffix] ) )
 
+
+# Get domain as defined in http cookies.
+def getCookieDomain(url):
+    return( urlparse(url).netloc )   
 
 
 def getPlatformName():
