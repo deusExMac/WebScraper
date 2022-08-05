@@ -3,10 +3,11 @@ import platform
 import os.path
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
+import requests
 
 import hashlib
 import http.cookies
-
+import tldextract
 
 # Calculates sha256 checksum for textual data.
 # Cuts it in sizes of 4K and calculates sha256
@@ -141,7 +142,9 @@ def strToBool(s):
 
 
 def getDomain(url):
-    return(urlparse(url).netloc)
+    extractedDomain = tldextract.extract(url)  
+    return( '.'.join( [extractedDomain.domain, extractedDomain.suffix] ) )
+
 
 
 def getPlatformName():
@@ -179,23 +182,34 @@ def isLinux():
 
 
 
-# This function takes as input a dictionary which contains the cookie names
-# and values as well as the COMMON cookie parameters like domain, path, expires etc.
-# for each cookie.
-# The function first separates the parameters from the dict which  is then used to
-# configure all cookies.
+
+
+
+# This function takes as input one dictionary where each cookie is a key:value pair
+# (i.e. in the form of <cookie name>:<cookie value>) and transforms it into
+# dictionaries (one for each key:value pair) where each individual cookie has the form { 'name':<cookie name>, 'value':<cookie value> }
 # Returns a list of dictionaries, one dict for each cookie.
+#
+# IMPORTANT! specifying url in cookie is fine i.e. session is recognized.
+#            domain in cookie though, is not ok i.e. session is not recognized
 def cookiesFromDict( d, url ):
-    
+
+    print(d)
     cookieList = []
+    
+    if url is None or url == '' :
+       return(cookieList)
+
+    
+    
     for k, v in d.items():
-        c = {'name':k, 'value':v, 'domain':getDomain(url) }
+        #c = {'name':k, 'value':v, 'domain':getDomain(url) }
+        c = {'name':k, 'value':v, 'url':url }
         cookieList.append(c)
 
     return(cookieList)
 
-        #c['name'] = k
-        #c['value'] = v
+        
         
     '''
     cParams = {'url':'', 'domain':'', 'path':'', 'expires':'', 'httponly':True, 'secure':True, 'samesite':'None'}
@@ -230,33 +244,36 @@ def cookiesFromDict( d, url ):
 
 
 
-      
-def cookieFromString( s, url ):
-    print('String cookie:', s, '\n\n')  
+# Take one string of the form <cookie name>=<cookie value> and returns a dictionary
+# of the form { 'name':<cookie name>, 'value':<cookie value> }
+#
+# IMPORTANT! specifying url in cookie is fine i.e. session is recognized.
+#            domain in cookie though, is not ok i.e. session is not recognized
+
+def cookiesFromString( s, url ):
+
+    #print('HELLO!!!!')
+    cookieList = []
+    if url is None or url == '' :
+       return(cookieList)
     
-    polishedCookie = {'url': url}
     cks = http.cookies.SimpleCookie()
     cks.load(s)
     for k, m in cks.items():
         # SimpleCookie returns a key and a Morsel (m)
-        polishedCookie['name'] = k
-        polishedCookie['value'] = m.value
-        polishedCookie['domain'] = utils.getDomain(url)
-        polishedCookie['path'] = m['path']
-        polishedCookie['expires'] = ''
-        if m['expires'] != '':
-           polishedCookie['expires'] = datetime.timestamp(datetime.strptime(m['expires'], '%d-%m-%YT%H:%M:%S.000Z')) 
-        polishedCookie['httponly'] = utils.strToBool(m['httponly'])
-        polishedCookie['secure'] = utils.strToBool(m['secure'])
-        polishedCookie['samesite'] = m['samesite']
-        return(polishedCookie) 
+        #c ={ 'name':k, 'value':m.value, 'domain': getDomain(url)}
+        c ={ 'name':k, 'value':m.value, 'url': url}
+        cookieList.append(c)
+        
+    return(cookieList) 
     
 
 
               
 # Takes as input a list of strings, whare each string in the form:
-#    cookieName=cookieValue;domain=xxx;path=yyy;expires=zzz etc
-# and returns a dictionary for of the cookie with the keys mentioned.
+#    cookieName1=cookieValue1;cookieName2=cookieValue2;cookieName3=cookieValue3;...
+# and returns a list of dictionaries where each dictionary is a cookie in the form
+# { 'name':<cookie name>, 'value':<cookie value> }
 #
 def cookiesFromStringList( strList, url ):
     cList = []
@@ -272,6 +289,21 @@ def cookiesFromStringList( strList, url ):
         
 
 
+
+def cookieJarFromDict( d, url ):
+       
+    lst = []
+    #if not d
+    for k, v in d.items():
+        lst.append( k+'='+v + ';domain=' + url)   
+       
+    strCookie = ';'.join(lst)
+    
+    sCookie = http.cookies.SimpleCookie(strCookie)
+    cJar = requests.cookies.RequestsCookieJar()
+    cJar.update(sCookie)
+
+    return(cJar)
 
 
 

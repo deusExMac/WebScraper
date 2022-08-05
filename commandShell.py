@@ -785,14 +785,20 @@ class commandImpl:
                 return('')
 
 
-
-      def downloadURL(self, dUrl, rCookies=[{}], uAgent=None, renderPage=False, dynamicElem=[]):
+     
+      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[]):
             
           r = httpResponse()  
           if not renderPage:
              r.setFetchMethod('static')
              session = HTMLSession()
-             response = session.get(dUrl, cookies = rCookies )             
+             #print('\t[DEBUG] Cookies:', rCookies)
+             #cJar = utils.cookieJarFromDict(rCookies, dUrl)
+             #print('\t[DEBUG] Request cookies:')
+             #for cookie in cJar:
+             #    print ( cookie.name, cookie.value, cookie.domain)
+                 
+             response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl)  )             
              r.setResponse(response)
              try:
                 r.status = int(response.status_code)
@@ -1009,7 +1015,7 @@ class commandImpl:
                     #response = session.get(currentUrl, cookies = exRules.requestCookies   )
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements )
                     #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
-                    print('\t[DEBUG] Cookies: ', response.get('Set-Cookie', '') )                    
+                    print('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '') )                    
                     break
                   
                   except Exception as netEx:
