@@ -580,23 +580,33 @@ class ruleLibrary:
       ''' 
 
 
-      def CSVFields(self, xD) -> dict:
-          return( self.toDict(xD) )
+      def CSVFields(self, xD, minFilled=1) -> dict:
+          return( self.toDict(xD, minFilled) )
 
-      
-      def toDict(self, xD) -> dict:
+
+      # minFilled: percentage of keys that must not be empty in order
+      # to consider an extraction to have succeeded.
+      def toDict(self, xD, minFilled=1) -> dict:
           dct = {}
           nonEmpty = 0
-          for nm in self.csvLineFormat:
+          if minFilled > 1:
+             minPctFilled = 1
+          else:
+              minPctFilled = minFilled
+              
+          for i, nm in enumerate(self.csvLineFormat):
               if xD.get(nm) is None:
                  continue
             
               dct[nm] = xD[nm]
               if xD[nm] != '':
-                 nonEmpty += 1   
+                 nonEmpty += 1
 
-          if nonEmpty == 0:
-             print('\t\t\t[DEBUG] Not adding', dct)   
+          # Check if        
+          print('\t\t[DEBUG] Total of ', i + 1, 'fields. NonEmpty=', nonEmpty, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', minFilled )
+          if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
+          #if nonEmpty == 0:
+             print('\t\t\t[DEBUG] Not adding', dct, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ')')   
              return( {} )
             
           return(dct)    

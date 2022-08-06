@@ -1181,7 +1181,7 @@ class commandImpl:
                  print('\t[DEBUG] Extracted data is record:', xRules.isRecordData(pageData) )
                  print('\t[DEBUG] Extracted data is recordlist:', xRules.isRecordListData(pageData) )
                  if xRules.isRecordData(pageData):
-                    xdt = exRules.CSVFields(pageData)
+                    xdt = exRules.CSVFields(pageData, 1)
                     if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
