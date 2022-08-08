@@ -1,20 +1,25 @@
 
 ########################################################################################################################################################
 #
-# Example library 3
+# Example library 4
 # 
-# This library scraps/extracts the team's name and team's full name (formal name) of football club pages in wikipedia. For example,
-# for the football team Napoli, it's name is S.S.C. Napoli but its full name is "Societa Sportiva Calcio Napoli S.p.A." as can be
-# seen on its wikipedia page https://en.wikipedia.org/wiki/S.S.C._Napoli 
+# This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
+# for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be
+# seen on the team's wikipedia page https://en.wikipedia.org/wiki/Barnsley_F.C.
+# This library demonstrates the use of page rule preconditions that allows extracting the data specified in ruleCSSSelector only if the precondition(s) 
+# hold. If precondition(s) do not hold, ruleCSSSelector is not applied and hence no data is extracted.
 #
-# The library contains also the special rule named "getLinks" for harvesting links.
+# The library contains rule "getLinks" for harvesting links.
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy
+# v0.05a){1}WebScraper >> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs
 #
-# This will extract the team's name (title) and full name of all the wikipedia pages downloaded and store it in the csv file named example3.csv .
-# NOTE: You may find in the .csv file entries with empty values for the teams full name. This is because this library does not make any check or 
+# NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
+# option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
+#
+# This will extract the team's (title) and manager's name of all the wikipedia pages downloaded and store it in the csv file named example4.csv .
+# NOTE: TODO: Complete this! You may find in the .csv file entries with empty values for the teams full name. This is because this library does not make any check or 
 # does not imply any precondition before applying the rules.
 # 
 # v0.1@5/8/2022
@@ -26,12 +31,11 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the team name and team full name from wikipedia articles related to football clubs",
+"libraryDescription": "Library to extract the team name and team's manager name from wikipedia articles related to english premier league football clubs",
 
 
 
-# List of rule names, whose results should be stored in the csv file. Here only articleTitle is
-# mentioned meaning that only the result of the rule named articleTitle should be stored in the csv file.
+# List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
 "csvLineFormat":["teamName", "manager"],
@@ -70,19 +74,35 @@
 # is assumed to be the teams name, not it's full name (or formal name)
 
 {
+
+ # If no ruleName is specified, the extracted data of this rule cannot be used
+ # in  the csvLineFormat attribute.
+ 
  "ruleName": "teamName",
- "ruleDescription": "Extracts the title of a wikipedia article",
+ 
+ 
+ # Short description
+ 
+ "ruleDescription": "Extracts the team and manager name from wikipedia article to premier league pages",
+ 
+ 
  
  # Regular expression specifying which URL pattern will trigger the
  # execution of this rule. 
  # This is a list ([]) meaning you may add many disjunctive regular expressions
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
+ 
  "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
+ 
+ 
+ 
  
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
+ 
  "ruleCSSSelector": "#firstHeading",
+ 
  
  # Once the CSS selector element in  ruleCSSSelector has been found, what 
  # exactly to extract from element: the text or some other attribute. 
@@ -111,10 +131,24 @@
 
 #
 # This rule returns a specific field in the infobox of wikipedia articles related to fottball clubs
-# that contains the teams' formal name.
+# that contains the teams' manager name.
+#
+# This rule uses page preconditions i.e. preconditions that are checked and must hold before applying 
+# the selector ruleCSSSelector. The selector is only applied if precondition holds.
+#
+# In the precondition it is checked whether the 9th row of the infobox has a text value
+# that matches the regular expression (Manager|Head coach) i.e. contains the words "Manager"
+# or "Head coach" (case sensitive!). If so, the selector ruleCSSSelector is applied. If not,
+# ruleCSSSelector is not applied.
 #
 {
+ 
+ # ruleName so that the scraped data by this rule can be used in csvLineFormat.
+ 
  "ruleName": "manager",
+ 
+ 
+ 
  "ruleDescription": "Extracts the team's manager name ",
  
  # Regular expression specifying which URL pattern will trigger the
@@ -122,13 +156,37 @@
  # This is a list ([]) meaning you may add many disjunctive regular expressions
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
+ 
  "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
  
+ 
+ # Page rule preconditions, i.e. preconditions that must hold for the PAGE in order  
+ # to apply the selector in ruleCSSSelector. 
+ # This rule contains only one page precondition. More preconditions can be set for the same
+ # page along with boolean modifiers specifying if any or all of the preconditions must hold.
+ # More complicated expressions are also possible.
  "rulePreconditions" : [ 
                           {
-                            "ecCSSSelector" : "tr:nth-child(9) .infobox-label" 
+                             # The precondition selector i.e. the element specifying to be
+                             # checked.
+                             
+                            "ecCSSSelector" : "tr:nth-child(9) .infobox-label", 
+                            
+                            
+                            # Regular expression the text property of the element 
+                            # in ecCSSSelector must match. Only text property is currently 
+                            # supported. If element matches regular expression, the 
+                            # precondition holds and the ruleCSSSelector is applied.
+                            #
+                            # Some premier league pages on wikipedia may not use "Manager"
+                            # in the infobox, but "Head coach" instead. Hence this regular
+                            # expression. 
+                            # Specified regular expression is by default case sensitive.
+                            # If you would like to specify a case INsensitive match,
+                            # you may add the (?i) flag i.e.
+                            # "(?i)(Manager|Head coach)".                             
+                            
                             "ecTextCondition" : "(Manager|Head coach)"
-                            "ecRuleCSSSelector" : ""
                           }
  ],
                           
@@ -138,7 +196,7 @@
  
  
  # A CSS selector specifying the element on the page to scrape.
- # We assume that the full name can be found in this page element.
+ # The precondition makes sure that the manager's name can be found in this element.
  #
  # If this rule is applied to a wikipedia page that is not about a football club,
  # the CSS selector may not be valid and an empty string is returned. You may see in the .csv file
@@ -146,29 +204,46 @@
  # This is because there are no conditions specified when to apply this selector. ruleCSSSelectors are always
  # applied on pages, without any checking whther or not these exists.
  #
+ 
  "ruleCSSSelector": "tr:nth-child(9) .agent",
  
- # Once the CSS selector element in  ruleCSSSelector has been found, what 
- # exactly to extract from element: the text or some other attribute. 
+ 
+ 
+ # Once the CSS selector element in ruleCSSSelector has been found, what 
+ # exactly to extract from the element: the text or some other attribute. 
  # text means simply return the text of the scraped element.
+ 
  "ruleTargetAttribute": "text",
+ 
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ 
  "ruleContentCondition": "",
  
+ 
+ 
  # Does this rule return more than one result?
+ 
  "ruleReturnsMore": False,
+ 
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.
+ 
  "ruleReturnedMatchPos": 0,
+ 
+ 
  
  # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
  # an error?
+ 
  "ruleReturningMoreIsError": False,
  
+ 
+ 
  # List of characters to remove from the extracted value (text or attribute)
+ 
  "ruleRemoveChars": [],
 },
 
