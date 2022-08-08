@@ -126,7 +126,8 @@ class htmlRenderer:
              print('\t[DEBUG] No dynamic element on page to be executed')
 
        #'screenShot.png'
-       await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url)+ '.png' })
+       print('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url))      
+       await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url) + '.png' })
        content = await self.page.content()
                 
        return( content )
