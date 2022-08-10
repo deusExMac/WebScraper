@@ -12,10 +12,17 @@ import tldextract
 
 
 #
-# Function to be used in inline debug messages.
+# Takes as input a variable length list of arguments,
+# transforms them into strings and prints them out as
+# one message.
 #
+# Function to be used in inline debug messages.
 def toString( *args ):
-    lst = [str(i) for i in args]
+    try:   
+       lst = [str(i) for i in args]
+    except Exception as toStrEx:
+           return( '[ERROR] ' + str(toStrEx) )
+       
     return( ''.join(lst) )   
 
 
