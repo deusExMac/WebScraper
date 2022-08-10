@@ -14,7 +14,7 @@ import tldextract
 #
 # Takes as input a variable length list of arguments,
 # transforms them into strings and prints them out as
-# one message.
+# one message in the same order as given.
 #
 # Function to be used in inline debug messages.
 def toString( *args ):
