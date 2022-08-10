@@ -294,13 +294,19 @@ def cookiesFromStringList( strList, url ):
         
 
 
-
+# TODO: Not tested
 def cookieJarFromDict( d, url ):
        
     lst = []
-    #if not d
+    
+    dmn = ''
+    if dmn != '':
+       dmn = getCookieDomain(url)
+       
     for k, v in d.items():
-        lst.append( k+'='+v + ';domain=' + url)   
+        # TODO: Should this be domain or url???
+        #       a url is always passed. 
+        lst.append( k+'='+v + ';domain=' + dmn)   
        
     strCookie = ';'.join(lst)
     
