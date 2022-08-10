@@ -1194,7 +1194,8 @@ class commandImpl:
                  else:
                        recordList = pageData[xRules.getRecordListFieldName(pageData)]
                        for r in recordList:
-                           csvr = exRules.CSVFields(r)  
+                           csvr = exRules.CSVFields(r)
+                           # TODO: check here is csvr is kinda empty
                            csvr['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
                            csvr['url'] = currentUrl
                            clrprint.clrprint('\t\t[DEBUG] (record list) Adding [', csvr, ']', clr='green')
