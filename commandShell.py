@@ -1144,7 +1144,8 @@ class commandImpl:
                         xData = r.apply(htmlObject)
                         #print('GETLINKS:', xData)
                         xLinks = xData.get('getLinks', [])
-                        print( ''.join(['\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted']) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                        #print( ''.join(['\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted']) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                        print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
                         # TODO: Seems that the loop below takes too long.
                         #       Check it/measure it.
                         tB = time.perf_counter()

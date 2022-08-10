@@ -9,6 +9,18 @@ import hashlib
 import http.cookies
 import tldextract
 
+
+
+#
+# Function to be used in inline debug messages.
+#
+def toString( *args ):
+    lst = [str(i) for i in args]
+    return( ''.join(lst) )   
+
+
+
+
 # Calculates sha256 checksum for textual data.
 # Cuts it in sizes of 4K and calculates sha256
 # TODO: Not yet used.           
