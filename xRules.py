@@ -31,7 +31,14 @@ class extractionCondition:
           if len(res) <= 0:
              return(False)
 
-          # TODO: Case sensitive support here!  
+          # if no regular expression is present to match text but
+          # element exists, assume that condition holds.
+          if self.ecTextCondition.strip() == '':
+             return(True)
+
+            
+          # NOTE: Case sensitive support is specified at the regex level i.e.
+          # using the (?i) flag  
           if re.search(self.ecTextCondition, res[0].text) is None:
              return(False)
           else:

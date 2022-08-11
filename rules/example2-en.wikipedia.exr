@@ -1,7 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 2
+# Example library 2: Demonstrating the application of two rules, one of which extracts hyperlinks. Inside libraries
+# a rule with the name getLinks always extracts hyperlinks. The name getLinks is a keyword. 
 # 
 # This library scraps/extracts the title of all english wikipedia articles that will be encounterred as well as all hyperlinks that
 # that lead to wikipedia. Links leaving wikipedia are ignored.
