@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 4
+# Example library 4: Demonstrating use of page preconditions before applying css selectors
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
 # for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be

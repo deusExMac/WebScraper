@@ -1,7 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 3
+# Example library 3: Demonstrating application of three rules on downloaded page extracting different parts. One of 
+# these rules extracts hyperlinks. This rule is always named getLinks. This is a keyword.
 # 
 # This library scraps/extracts the team's name and team's full name (formal name) of football club pages in wikipedia. For example,
 # for the football team Napoli, it's name is S.S.C. Napoli but its full name is "Societa Sportiva Calcio Napoli S.p.A." as can be

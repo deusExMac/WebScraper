@@ -862,12 +862,12 @@ class commandImpl:
              cmdArgs.add_argument('-H', '--humandelay', action='store_true' )             
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
              cmdArgs.add_argument('-D', '--dfs', action='store_true' )
-             #cmdArgs.add_argument('-B', '--bfs', action='store_true' )
-             
-             
+                          
              cmdArgs.add_argument('-U', '--update', action='store_true' )
              #cmdArgs.add_argument('-Q', '--updateQueue', action='store_true' )
              cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
+             
+             cmdArgs.add_argument('-G', '--debug', action='store_true' )
              
              args = vars( cmdArgs.parse_args(a) )
 
@@ -918,7 +918,9 @@ class commandImpl:
                        print(str(flEx) )
                        return(False)
 
-
+          if args['debug']:
+                 cmdConfigSettings.set('DEBUG', 'debugging', 'True' )
+                
 
           if args['update']:
              print("")
