@@ -908,7 +908,7 @@ class commandImpl:
           if args.get('rules') is None:
              exRules = self.extractionRules
           else:
-                print('\t[DEBUG] Loading extraction rules from [', args['rules'], ']...', sep='', end='')
+                print( utils.toString('\t[DEBUG] Loading extraction rules from [', args['rules'], ']...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
                 try:
                   with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
                      exRules = xRules.loadLibrary(f.read())
@@ -1015,7 +1015,7 @@ class commandImpl:
                     #response = session.get(currentUrl, cookies = exRules.requestCookies   )
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements )
                     #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
-                    print('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '') )                    
+                    print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
                     break
                   
                   except Exception as netEx:
@@ -1065,7 +1065,7 @@ class commandImpl:
                     continue
                        
 
-                 print('\t[DEBUG] Hash:', pHash )
+                 print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                  # Have we seen this content? If so, discard it; move to next
                  if uQ.hInQueue(pHash):
                     print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')
@@ -1119,10 +1119,10 @@ class commandImpl:
                     continue
                  
                  if exRules is None or exRules.library is None:
-                    print('\t[DEBUG] No library present. Skipping extraction.')   
+                    print(utils.toString('\t[DEBUG] No library present. Skipping extraction.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     continue
                  else:
-                      print('\t[DEBUG] Extracting using library: ', exRules.libraryDescription)  
+                      print(utils.toString('\t[DEBUG] Extracting using library: ', exRules.libraryDescription, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')  
 
       
                  #exTractedData = {} 
@@ -1130,12 +1130,12 @@ class commandImpl:
                  for r in exRules.library: #self.extractionRules.library:
                        
                      # should we apply this rule to the URL?
-                     print('\t\t[DEBUG] Checking if rule ', r.ruleName,'should be applied...', end='')
+                     print( utils.toString('\t\t[DEBUG] Checking if rule ', r.ruleName,' should be applied...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                      if not r.ruleMatches(currentUrl):
-                        print('NO.')
+                        print( utils.toString('NO.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                         continue
                   
-                     print('YES')
+                     print(utils.toString('YES\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
         
 
                      # getLings are handled a little bit different than other rules.
@@ -1156,7 +1156,7 @@ class commandImpl:
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
                                uQ.add( cUrl ) # Add it to the URL queue
                                
-                        print('\t\t\t[DEBUG] All links done in', time.perf_counter() - tB )   
+                        print( utils.toString('\t\t\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )   
                              
                      else:
                            # xData has the extracted data originating from a single (one) rule only.
@@ -1167,7 +1167,7 @@ class commandImpl:
                            
 
                         
-                 print('\n\tExtracted page data:', pageData, '\n' )
+                 print(utils.toString('\n\tExtracted page data:', pageData, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
                                   
 
 
@@ -1179,8 +1179,8 @@ class commandImpl:
 
                  # Extract fields required by csv
 
-                 print('\t[DEBUG] Extracted data is record:', xRules.isRecordData(pageData) )
-                 print('\t[DEBUG] Extracted data is recordlist:', xRules.isRecordListData(pageData) )
+                 print(utils.toString('\t[DEBUG] Extracted data is record:', xRules.isRecordData(pageData), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+                 print( utils.toString('\t[DEBUG] Extracted data is recordlist:', xRules.isRecordListData(pageData), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  if xRules.isRecordData(pageData):
                     xdt = exRules.CSVFields(pageData, 1)
                     if xdt:
@@ -1218,16 +1218,16 @@ class commandImpl:
 
                  tmEnd = time.perf_counter()
                  pageHandlingTimes.append( tmEnd - tmStart )
-                 print('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds', sep='' )
+                 print( utils.toString('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
                  if len(pageHandlingTimes) > 5:
-                    print('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')', sep='')   
+                    print( utils.toString('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')   
                     pageHandlingTimes.clear()
 
 
                  # Should we autosave?
                  if cmdConfigSettings.getboolean('Crawler', 'autoSave', fallback=False):
                   if (time.perf_counter() - lastAutosave) >= cmdConfigSettings.getint('Crawler', 'autoSaveInterval', fallback=200):   
-                    print('\t[DEBUG] Autosaving...(elapsed:', (time.perf_counter() - lastAutosave), ' seconds)')    
+                    print( utils.toString('\t[DEBUG] Autosaving...(elapsed:', (time.perf_counter() - lastAutosave), ' seconds)\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')    
                     try:
                         uQ.saveQ()
                         if xDataDF is not None:
@@ -1245,7 +1245,7 @@ class commandImpl:
                     else:
                        delayValue = cmdConfigSettings.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
                        
-                    print('\t[DEBUG] Sleeping for ', delayValue, ' seconds', sep='')   
+                    print( utils.toString('\t[DEBUG] Sleeping for ', delayValue, ' seconds\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')   
                     time.sleep( delayValue )
 
                  previousHost = pUrl.netloc

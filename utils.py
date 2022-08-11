@@ -126,19 +126,19 @@ def isText(contentType):
 def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
     try:
        targetName = urlToFilename(mRoot, u)
-       print('\t[DEBUG] [mirror] Saving to ', targetName)
+       #print('\t[DEBUG] [mirror] Saving to ', targetName)
        targetName = targetName.replace(':', '').replace('*', '').replace('?', '').replace('<', '').replace('>', '').replace('|', '').replace('"', '').replace("'", '')
        targetDir = os.path.dirname(targetName)
        Path(targetDir).mkdir(parents=True, exist_ok=True)
-       print('\t[DEBUG] Content-type:', rsp.get('Content-Type', '') )
+       #print('\t[DEBUG] Content-type:', rsp.get('Content-Type', '') )
        if isText( rsp.get('Content-Type', '') ):
-          print('\t[DEBUG] Writing text')
+          #print('\t[DEBUG] Writing text')
           # TODO: What about encoding?
           with open(targetName, 'w', errors='ignore') as f:
                f.write( rsp.text )
        else:
            # TODO: Is this correct???   
-           print('\t[DEBUG] Writing binary')     
+           #print('\t[DEBUG] Writing binary')     
            with open(targetName, 'wb') as f:
                 f.write( rsp.html )   
 

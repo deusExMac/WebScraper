@@ -248,27 +248,27 @@ class extractionRule:
         if self.rulePreconditionType.lower() == 'all':
            # This means all conditions must hold to apply rule
            for pc in self.rulePreconditions:
-               print('\t\t[DEBUG] [Mode ALL] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
+               #print('\t\t[DEBUG] [Mode ALL] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
                if not pc.conditionHolds(htmlContent):
-                  print('NO')                  
+                  #print('NO')                  
                   self.rulePreconditionFailedCount += 1
                   return( {'status': False, 'cssselector':''} )
 
-               print('YES')
+               #print('YES')
                
            return( {'status': True, 'cssselector':''} ) 
 
         if self.rulePreconditionType.lower() == 'any':
            # This means at least one condition must hold to apply rule   
            for pc in self.rulePreconditions:
-               print('\t\t[DEBUG] [Mode ANY] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
+               #print('\t\t[DEBUG] [Mode ANY] Checking if precodition rule [', pc.ecCSSSelector, '] holds......', end='')
                if pc.conditionHolds(htmlContent):
-                  print('YES')
+                  #print('YES')
                   if pc.ecRuleCSSSelector != '':
                      return( {'status': True, 'cssselector': pc.ecRuleCSSSelector})
                   else:
                       return( {'status': True, 'cssselector': ''} )
-               print('NO')
+               #print('NO')
 
            self.rulePreconditionFailedCount += 1                   
            return( {'status': False, 'cssselector':''} )                   
@@ -327,13 +327,13 @@ class extractionRule:
         '''
         # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
-        print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
+        #print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
            exTractedData[self.ruleName] = ''
            return(exTractedData)
 
-        print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')
+        #print('\t\t[DEBUG] Precoditions hold. CSS Selector changed to [', preconStatus['cssselector'],']', sep='')
         
         self.ruleAppliedCount += 1
 
@@ -361,7 +361,7 @@ class extractionRule:
 
         # Apply now the ruleMatchPreconditions for each matched result.
         
-        print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH (', len(self.ruleMatchPreconditions), ' MATCH preconditions)', sep='' )
+        #print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH (', len(self.ruleMatchPreconditions), ' MATCH preconditions)', sep='' )
         if len(self.ruleMatchPreconditions) > 0:
             pRes = []   
             for e in res:                
@@ -464,10 +464,8 @@ class extractionRule:
         else:
          # This is no simple text
          
-         print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
-         
-            
-            
+         #print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
+           
          if len(res) <= 0:
             return(exTractedData)   
 
@@ -603,10 +601,10 @@ class ruleLibrary:
                  nonEmpty += 1
 
           # Check if        
-          print('\t\t[DEBUG] Total of ', i + 1, 'fields. NonEmpty=', nonEmpty, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', minFilled )
+          #print('\t\t[DEBUG] Total of ', i + 1, 'fields. NonEmpty=', nonEmpty, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', minFilled )
           if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
           #if nonEmpty == 0:
-             print('\t\t\t[DEBUG] Not adding', dct, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ')')   
+             #print('\t\t\t[DEBUG] Not adding', dct, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ')')   
              return( {} )
             
           return(dct)    
