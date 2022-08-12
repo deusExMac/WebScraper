@@ -168,7 +168,7 @@
  # More complicated expressions are also possible.
  "rulePreconditions" : [ 
                           {
-                             # The precondition selector i.e. the element specifying to be
+                             # The precondition selector i.e. the element to be
                              # checked.
                              
                             "ecCSSSelector" : "tr:nth-child(9) .infobox-label", 
