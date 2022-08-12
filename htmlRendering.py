@@ -98,10 +98,7 @@ class htmlRenderer:
        print('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart))       
        print('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm))    
 
-       if scrolldown > 0:         
-        for _ in range(scrolldown):
-          #print('\t[DEBUG] Scrolling....', end='')
-          await self.scrollPageDown(self.page)
+       
           '''
           if utils.isMac():
                # TODO: Check if .scrollPageDown works also for all other OSs 
@@ -114,16 +111,21 @@ class htmlRenderer:
                await self.scrollPageDown(self.page) # test!
           '''     
             
-          #print('done')
-          #print('\t[DEBUG] Sleeping....', end='')  
-          await asyncio.sleep(1.4) # TODO: decrease sleep time?
-          #print('done')
-
+       # Execute dynamic elements
+       # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
        if dynamicElements:
           for de in  dynamicElements:
               await self.executeDynamicElement(self.page, de)
        else:
              print('\t[DEBUG] No dynamic element on page to be executed')
+
+       # scroll entire browser page if required
+       if scrolldown > 0:         
+        for _ in range(scrolldown):
+          #print('\t[DEBUG] Scrolling....', end='')
+          await self.scrollPageDown(self.page)
+
+       await asyncio.sleep(1.4) # TODO: decrease sleep time?
 
        #'screenShot.png'
        print('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url))      
