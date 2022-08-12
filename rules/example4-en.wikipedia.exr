@@ -57,7 +57,7 @@
 # dynamically. 
 # 
 # Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
-# will make page loading faster.
+# will make page loading faster. If renderPages is missing, it defaults to False.
 
 "renderPages":False,
 
