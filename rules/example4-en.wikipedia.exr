@@ -27,11 +27,12 @@
 ########################################################################################################################################################
 
 
+
 {
 
 # Description of the library
 
-"libraryDescription": "Library to extract the team name and team's manager name from wikipedia articles related to english premier league football clubs",
+"libraryDescription": "Library to extract the team name and team's manager name from wikipedia articles related to english premier league football clubs. This is done only for pages that have a manager mentioned at a very specific part of the page ",
 
 
 

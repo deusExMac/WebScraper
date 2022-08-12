@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating applying a simple rule on only one web page.
+# Example library 1: Demonstrating application of a simple rule on only one web page.
 # 
 # This library scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract or follow any links found in these articles. 

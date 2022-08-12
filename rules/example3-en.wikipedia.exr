@@ -2,7 +2,7 @@
 ########################################################################################################################################################
 #
 # Example library 3: Demonstrating application of three rules on downloaded page extracting different parts. One of 
-# these rules extracts hyperlinks. This rule is always named getLinks. This is a keyword.
+# these rules extracts hyperlinks. This rule is always named getLinks. This is a reserved word.
 # 
 # This library scraps/extracts the team's name and team's full name (formal name) of football club pages in wikipedia. For example,
 # for the football team Napoli, it's name is S.S.C. Napoli but its full name is "Societa Sportiva Calcio Napoli S.p.A." as can be
@@ -27,7 +27,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the team name and team full name from wikipedia articles related to football clubs",
+"libraryDescription": "Library to extract the team name, team full name and hyperlinks leading to wikipedia from wikipedia articles related to football clubs",
 
 
 
@@ -164,7 +164,7 @@
 
 
 
-# Rule for extracting links from the page
+# Rule for extracting the hyperlinks from the page
 # A the name getLinks is a keyword signifying a rule that extracts
 # hyperlinks found on the page what match the specified conditions.
 #
@@ -183,6 +183,7 @@
  "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
  
  # Regular expression specifying for which URLs/pages to activate this rule.
+ # Here, only hyperlinks from english wikipedia articles are extracted.
  "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
  
  # CSS selector containing the information (hyperlink) to extract
@@ -197,6 +198,7 @@
  # specifies a condition that the value has to meet. Here, we are interested 
  # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
  # of the english wikipedia site will not be extracted and hence won't be followed.
+ 
  "ruleContentCondition": "en\.wikipedia\.org/.*$",
  
  # This signifies that this rule will not return only one chunk of information, but

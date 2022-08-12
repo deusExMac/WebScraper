@@ -1,18 +1,21 @@
 
 ########################################################################################################################################################
 #
-# Example library 2: Demonstrating the application of two rules, one of which extracts hyperlinks. Inside libraries
-# a rule with the name getLinks always extracts hyperlinks. The name getLinks is a keyword. 
+# Example library 2: Demonstrating the application of two rules, one extracting the title and one extracting hyperlinks of pages. 
+# Inside libraries a rule with the name getLinks always extracts hyperlinks. The name getLinks is a reserved word. Extracted
+# hyperlinks are followed and pages they point to are processed in the same way (i.e. extracting their title). 
 # 
 # This library scraps/extracts the title of all english wikipedia articles that will be encounterred as well as all hyperlinks that
-# that lead to wikipedia. Links leaving wikipedia are ignored.
+# that lead to wikipedia. Links leaving wikipedia are ignored. All extracted wikipedia links will be followed and processed in the
+# same way.
 # It contains a special rule named "getLinks" which is a keyword and only rules harvesting links should be named like that.
 # 
 # How to apply this rule:
 #
 # v0.05a){1}WebScraper >> crawl  -r rules/example2-en.wikipedia.exr -o csv/example2.csv https://en.wikipedia.org/wiki/Python_(programming_language)
 #
-# This will extract the title of all the wikipedia pages downloaded and store it in the csv file named example2.csv
+# This will extract the title of all the wikipedia pages downloaded and store it in the csv file named example2.csv . English wikipedia
+# hyperlinks are followed and from the visited pages the title is extracted. 
 # 
 # v0.1@5/8/2022
 #
@@ -23,7 +26,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title from wikipedia articles ignoring links",
+"libraryDescription": "Library to extract the title and hyperlinks from wikipedia articles",
 
 
 
