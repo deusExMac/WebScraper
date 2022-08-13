@@ -62,7 +62,7 @@ def main():
    if not cFile.exists():
       # No, does not exists. Continue with default values
 
-      # Generate an empty configuration file, only withe the sections   
+      # Generate an empty configuration file, containing only the required sections   
       config = generateDefaultConfiguration() 
       print("Error. Config file [", configFile, "] not found. Continuing with default settings.", sep="")    
       config.add_section('__Runtime')
