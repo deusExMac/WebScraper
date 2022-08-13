@@ -118,6 +118,17 @@ class commandHistory:
           return('')
 
 
+      def getLastContaining(self, strt):
+
+          if len(strt) == 0:
+             return('')
+            
+          for cmd in self.commandHistory[::-1]:
+              if strt.lower() in cmd.lower():
+                 return(cmd)
+            
+          return('') 
+
       
           
       def load(self):

@@ -9,6 +9,7 @@ import os.path
 from pathlib import Path
 
 
+import appConstants
 import xRules
 import commandShell
 
@@ -53,9 +54,8 @@ def main():
    # NOTE: This will at least have the default value
    configFile = args['config']
 
-    
-   
-   print('\n\nExecution started on ', platform.system(), ' release ', platform.release(), ' (', os.name, ')', sep='')
+   print('\n\n[v', appConstants.APPVERSION, ' ', appConstants.VERSIONRELEASEDATE, ']', sep='') 
+   print('Execution started on ', platform.system(), ' release ', platform.release(), ' (', os.name, ')', sep='')
    print("\nLoading configuration settings from [", configFile, "]....", end='')
    # Check if config file exists
    cFile = Path(configFile)

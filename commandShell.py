@@ -132,7 +132,7 @@ class commandShell:
                
              except Exception as nmbrEx:
                  #print('Executing last command starting with [', command[1:], ']', sep='')
-                 return( self.cmdHistory.getLastStartingWith(cmd[1:] ) )
+                 return( self.cmdHistory.getLastContaining(cmd[1:] ) )
                    
           if cmd.startswith('^'):
              tokens = cmd.split('^')
