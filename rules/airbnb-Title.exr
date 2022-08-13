@@ -13,7 +13,7 @@
 "ruleDynamicElements": [ 
 		 {
 		     "dpcType":"button",
-		     "dpcPageElement":".sjpaiqp .dir-ltr",
+		     "dpcPageElement":"button._11eqlma4",
 		     "dpcScrolldown":0,
 		     "dpcWaitFor":"div._13qdk1f"
 		 },

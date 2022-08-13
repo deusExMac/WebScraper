@@ -110,6 +110,15 @@ class htmlRenderer:
                #await self.page._keyboard.press('PageDown')
                await self.scrollPageDown(self.page) # test!
        '''     
+
+       # scroll entire browser page if required
+       if scrolldown > 0:         
+        for _ in range(scrolldown):
+          #print('\t[DEBUG] Scrolling....', end='')
+          await self.scrollPageDown(self.page)
+
+       await asyncio.sleep(3.4) # TODO: decrease sleep time?
+
             
        # Execute dynamic elements
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
@@ -119,13 +128,7 @@ class htmlRenderer:
        else:
              print('\t[DEBUG] No dynamic element on page to be executed')
 
-       # scroll entire browser page if required
-       if scrolldown > 0:         
-        for _ in range(scrolldown):
-          #print('\t[DEBUG] Scrolling....', end='')
-          await self.scrollPageDown(self.page)
-
-       await asyncio.sleep(3.4) # TODO: decrease sleep time?
+       
 
        #'screenShot.png'
        print('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url))      
