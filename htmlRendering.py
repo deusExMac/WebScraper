@@ -99,7 +99,7 @@ class htmlRenderer:
        print('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm))    
 
        
-          '''
+       '''
           if utils.isMac():
                # TODO: Check if .scrollPageDown works also for all other OSs 
                #print('\t\t[DEBUG] MacOS detected') 
@@ -109,7 +109,7 @@ class htmlRenderer:
                # Replaced method .down with .press 
                #await self.page._keyboard.press('PageDown')
                await self.scrollPageDown(self.page) # test!
-          '''     
+       '''     
             
        # Execute dynamic elements
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
@@ -125,7 +125,7 @@ class htmlRenderer:
           #print('\t[DEBUG] Scrolling....', end='')
           await self.scrollPageDown(self.page)
 
-       await asyncio.sleep(1.4) # TODO: decrease sleep time?
+       await asyncio.sleep(3.4) # TODO: decrease sleep time?
 
        #'screenShot.png'
        print('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url))      

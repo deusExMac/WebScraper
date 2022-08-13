@@ -7,15 +7,15 @@
 
 
 {
-"libraryDescription": "Library to crawl greek reddit",
+"libraryDescription": "Library to crawl airbnb",
 "csvLineFormat":["getTitle"],
 "renderPages": True,
 "ruleDynamicElements": [ 
 		 {
 		     "dpcType":"button",
-		     "dpcPageElement":"button._11eqlma4",
+		     "dpcPageElement":".sjpaiqp .dir-ltr",
 		     "dpcScrolldown":0,
-		     "dpcWaitFor":"div.r1are2x1"
+		     "dpcWaitFor":"div._13qdk1f"
 		 },
 
 		 {
