@@ -107,7 +107,10 @@ def main():
    # Check how to start: Interactive or batch mode
 
    if not args.get('batch', False):
-      print("Starting interactive mode\n") 
+      print("Starting interactive mode\n")
+      # Start the interactive shell. This shell
+      # allows the user to issue and execute a specified set
+      # of commands.
       iShell = commandShell.commandShell( config, ruleLibrary )
       iShell.startShell()
    else:
