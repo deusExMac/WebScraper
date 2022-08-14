@@ -154,8 +154,9 @@
                           
                           
                           # Second precondition: Check if page is about algebra.
-                          # NOTE: The same element/method do not always work for all
-                          # wikipedia articles
+                          # NOTE: Checking the same element/method (see previous rule) does not 
+                          # always work for all wikipedia articles
+                        
                           {
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the page being processed 
@@ -167,7 +168,9 @@
                             # Regular expression the text property of the element 
                             # in ecCSSSelector must match. Only text property is currently 
                             # supported. If element matches regular expression, the 
-                            # precondition holds and the ruleCSSSelector is applied.
+                            # precondition holds and based on the  rulePreconditionType the
+                            # preconditions are evaluated. If these return TRUE the 
+                            # ruleCSSSelector is applied on the page currently being processed.
                             #
                             # NOTE: case insensitive match specified
                                                         
