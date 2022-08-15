@@ -1044,7 +1044,7 @@ class commandImpl:
                  
                  if response.status != 200:
                     numHTTPErrors += 1
-                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\ν') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue
 
                  pageContentLength = int( response.get('Content-Length', '-2') )      
@@ -1059,12 +1059,7 @@ class commandImpl:
                     print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
                     continue
                     
-                    '''   
-                    pHash = utils.byteHash( response.content )
-                    if pageContentLength < 0:
-                       pageContentLength = len( response.content )
-                    '''
-                    
+                     
                  uQ.updateContentLength( currentUrl, pageContentLength )
                  if pageContentLength <= 0 :
                     print('\t[DEBUG] Zero content length! (wtf???)')   
