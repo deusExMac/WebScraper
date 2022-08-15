@@ -997,7 +997,11 @@ class commandImpl:
                    print('Error:', str(popEx))   
                    break    
 
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, clr='yellow')
+                 pgsPerSec = '???'
+                 if len(pageHandlingTimes) > 0:
+                    pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
+                    
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, ' - Avg pps:', pgsPerSec, clr='yellow')
 
                  tmStart = time.perf_counter() # start counting time
                  
@@ -1221,7 +1225,7 @@ class commandImpl:
                  tmEnd = time.perf_counter()
                  pageHandlingTimes.append( tmEnd - tmStart )
                  print( utils.toString('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
-                 if len(pageHandlingTimes) > 5:
+                 if len(pageHandlingTimes) >= cmdConfigSettings.getint('Crawler', 'maxTPPSamples', fallback=100):
                     print( utils.toString('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')   
                     pageHandlingTimes.clear()
 
