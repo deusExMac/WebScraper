@@ -786,7 +786,7 @@ class commandImpl:
 
 
      
-      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[]):
+      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None):
             
           r = httpResponse()  
           if not renderPage:
@@ -797,7 +797,13 @@ class commandImpl:
              #print('\t[DEBUG] Request cookies:')
              #for cookie in cJar:
              #    print ( cookie.name, cookie.value, cookie.domain)
-                 
+
+             # TODO: check if cfg is None
+             if not rCookies:
+                print( utils.toString('\t[DEBUG] No request cookies for this request') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='')
+             else:    
+                print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl) ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='' )    
+
              response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl)  )             
              r.setResponse(response)
              try:
@@ -1019,7 +1025,7 @@ class commandImpl:
                     
                     #response = session.get(currentUrl, cookies = exRules.requestCookies)                    
                     #response = session.get(currentUrl, cookies = exRules.requestCookies   )
-                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements )
+                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
                     #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
                     break
@@ -1225,7 +1231,7 @@ class commandImpl:
                  tmEnd = time.perf_counter()
                  pageHandlingTimes.append( tmEnd - tmStart )
                  print( utils.toString('\t[DEBUG] Average page handling time: ', '{:.4}'.format( statistics.mean(pageHandlingTimes) ), ' seconds\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
-                 if len(pageHandlingTimes) >= cmdConfigSettings.getint('Crawler', 'maxTPPSamples', fallback=100):
+                 if len(pageHandlingTimes) >= cmdConfigSettings.getint('Crawler', 'maxTPPSamples', fallback=50):
                     print( utils.toString('\t[DEBUG] Cleaning timing list (', len(pageHandlingTimes), ')\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')   
                     pageHandlingTimes.clear()
 
