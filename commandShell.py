@@ -1020,13 +1020,9 @@ class commandImpl:
                     uA = None
                     if exRules.requestUserAgent.strip() != "":
                        uA = exRules.requestUserAgent
-
                     
-                    
-                    #response = session.get(currentUrl, cookies = exRules.requestCookies)                    
-                    #response = session.get(currentUrl, cookies = exRules.requestCookies   )
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
-                    #print('\t[DEBUG] Cookies: ', response.cookies.get_dict() ) 
+                     
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
                     break
                   
@@ -1048,10 +1044,9 @@ class commandImpl:
                  
                  if response.status != 200:
                     numHTTPErrors += 1
-                    print('\t[DEBUG] Http status [', response.status, ']' )
+                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\ν') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue
 
-                 #if response.headers.get('Content-Length', -2):
                  pageContentLength = int( response.get('Content-Length', '-2') )      
 
                  # TODO: Check if content was actually received i.e. content-length is not zero.

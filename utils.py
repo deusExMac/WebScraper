@@ -83,7 +83,7 @@ def urlToFilename( root, u ):
             # split path in name and extension tuple   
             if os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() != '':
                # TODO: Remove next line 
-               print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
+               #print( os.path.splitext( os.path.basename(parsedUrl.path))[-1].lower() )
                return(prefix + parsedUrl.path)
             else:
                qParams =  parsedUrl.query.replace('&', 'X').replace('!', 'X').replace('@','X').replace("/", 'oXo') 
