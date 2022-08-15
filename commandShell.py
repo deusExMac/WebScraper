@@ -345,9 +345,9 @@ class commandImpl:
       # commandParts: a list of tokens comprising the command given, spearated by 
       #               whitespaces at the command line.
       #               For example, when the following is entered:
-      #               TwitterAPI v2 >> search -t 1/1/1970 -u 2/1/1970 -t 0D12H5M3S -n 7 mmmmm
+      #               (v0.1a){0}WebScraper >> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  -C https://en.wikipedia.org/wiki/Statistics
       #               commandParts will contain all tokens separated by whitespaces i.e.
-      #               commandParts = ['search', '-t', '1/1/1970', '-u', '2/1/1970', '-t', '0D12H5M3S', '-n', '7', 'mmmmm']
+      #               commandParts = ['crawl', '-M', '-n', '-1', '-r', 'rules/example5-en.wikipedia.exr', '-o', 'csv/STATSORALG.csv', '-C', 'https://en.wikipedia.org/wiki/Statistics']
       #               First item commandParts[0] is always the command and is used to call the method with the same
       #               name in this class.
       #               
@@ -1029,8 +1029,7 @@ class commandImpl:
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
 
-                    #session = HTMLSession()                    
-                    #headers = {}
+                    
                     uA = None
                     if exRules.requestUserAgent.strip() != "":
                        uA = exRules.requestUserAgent
@@ -1171,6 +1170,7 @@ class commandImpl:
                         #       Check it/measure it.
                         tB = time.perf_counter()
                         for lnk in xLinks:
+                            # TODO: Should args['url'][0] be currentUrl ???? 
                             absoluteUrl = urljoin(args['url'][0], lnk )
                             cUrl = utils.canonicalURL( absoluteUrl )
                             # TODO: move the next check inside .apply()???
