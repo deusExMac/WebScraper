@@ -1650,7 +1650,7 @@ class commandImpl:
           try:
             #print('Downloading', args['url'], '...')
             print('>>>> SESSTION', args['url'][0])
-            respS = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=False)
+            respS = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=False, cfg=self.configuration)
             print('\tSession: Status=', respS.status)
             print('\tSession: content-type=', respS.get('Content-tYpe', '????') )
             print('\tSession: content-length=', respS.get('content-length', '-1') )
