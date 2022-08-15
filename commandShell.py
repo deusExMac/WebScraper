@@ -340,6 +340,7 @@ class commandImpl:
           self.extractionRules = rules
 
 
+      # TODO: fix me!!!!
       # Main entry point. Call this to execute commands given via the apps command line shell.
       # commandParts: a list of tokens comprising the command given, spearated by 
       #               whitespaces at the command line.
@@ -709,7 +710,7 @@ class commandImpl:
                       print('\t\tLimit of', maxU, 'reached. Terminating')
                       return(False)
 
-                delayValue = 0.5  
+                delayValue = 0.5 #some value   
                 if cfg.get('Crawler', 'delayModel', fallback='c') == 'h':
                    delayValue = abs( float( np.random.normal(cfg.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), cfg.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
                 else:
@@ -845,13 +846,27 @@ class commandImpl:
                    
           
           return( r )
+
+
                 
-
-
-
+      #
+      #
+      #
+      #
+      #  
+      # 
+      #
+      # 
+      # Main crawl method!
       # Starts crawling from an initial URL.
       # TODO: This method is so ugly. Has to be refactored seriously. 
-
+      #
+      #
+      #
+      #
+      #
+      #
+     
       def crawl(self, a):
                 
           try:
@@ -931,28 +946,23 @@ class commandImpl:
           if args['update']:
              print("")
              print("")   
-             print("######################################")
+             print("#######################################################################")
              print("#")
              print("#")
              print("#")
-             print("#       Entering UPDATE MODE")   
+             print("#       Entering UPDATE MODE - USING OLD MODEL!")   
+             print("#       NOT TESTED WITH NEW CRAWL MODEL")
+             print("#       Execute on your own responsibility")
              print("#")
-             print("#")
-             print("#")
-             print("######################################")
+             print("#######################################################################")
              print("")
-             print("")   
+             print("")
+             time.sleep( delayValue )
              self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages'), args['mirror'] )
              return(False)
 
 
-          '''
-          if exRules is None or exRules.library is None:
-             print('[WARNING] Not extraction library found.')
-          else:    
-             print('\t[DEBUG] Using extraction library: ', exRules.libraryDescription)            
-
-          '''
+          
 
           if exRules is None or exRules.library is None:
              print('[WARNING] Not extraction library found.')
@@ -980,11 +990,14 @@ class commandImpl:
              if os.path.exists( args['outputcsvfile'] ):
                print('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']', sep='')    
                xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)
-              
+
+          # Create URLqueue object   
           uQ = urlQueue.urlQueue(qSz=cmdConfigSettings.getint('Crawler', 'maxQueueSize', fallback=-1),
                                  qMemSz=cmdConfigSettings.get('Crawler', 'maxQueueMemorySize', fallback='-1'),
                                  startNewSession=not args['continue'],
                                  qF=args['queuefile'], sQ=True, tS=cmdConfigSettings.get('Crawler', 'traversalStrategy', fallback='bfs') ) 
+
+          # add url given in the shell argument
           uQ.add( args['url'][0] )
 
           lastAutosave = time.perf_counter()
@@ -1003,6 +1016,7 @@ class commandImpl:
                    print('Error:', str(popEx))   
                    break    
 
+                 # transform average seconds/page to pages/second
                  pgsPerSec = '???'
                  if len(pageHandlingTimes) > 0:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
@@ -1038,6 +1052,11 @@ class commandImpl:
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 
+
+
+                 # Got a response from web server
+
+                  
                  uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
