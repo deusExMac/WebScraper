@@ -1163,16 +1163,20 @@ class commandImpl:
                      #  TODO: Refactor this.                     
                      if r.ruleName == 'getLinks':                        
                         xData = r.apply(htmlObject)
-                        #print('GETLINKS:', xData)
+                        
                         xLinks = xData.get('getLinks', [])
-                        #print( ''.join(['\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted']) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                        
                         print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
                         # TODO: Seems that the loop below takes too long.
                         #       Check it/measure it.
                         tB = time.perf_counter()
                         for lnk in xLinks:
                             # TODO: Should args['url'][0] be currentUrl ???? 
-                            absoluteUrl = urljoin(args['url'][0], lnk )
+
+                            absoluteUrl = urljoin( currentUrl, lnk )
+
+                            #print( utils.toString('\t\t[DEBUG] currentUrl', currentUrl, '] lnk') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+
                             cUrl = utils.canonicalURL( absoluteUrl )
                             # TODO: move the next check inside .apply()???
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
