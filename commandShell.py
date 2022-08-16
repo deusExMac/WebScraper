@@ -1056,6 +1056,7 @@ class commandImpl:
                  uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
+                 uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
                  
                  if response.status != 200:
                     numHTTPErrors += 1
@@ -1090,7 +1091,9 @@ class commandImpl:
                     continue
 
                  uQ.updatePageHash( currentUrl, pHash )
-                 uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
+                 
+                 #uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
+
 
                  # We keep the html object in a separate variable that will be the subject of css selectors
                  # and regular expression found in rules.
