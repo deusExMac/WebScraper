@@ -1052,7 +1052,8 @@ class commandImpl:
 
                  # Got a response from web server
 
-                  
+                 print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
+
                  uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
@@ -1081,7 +1082,7 @@ class commandImpl:
                     uQ.updateStatus( currentUrl, -999 )
                     continue
                        
-
+                 
                  print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                  # Have we seen this content? If so, discard it; move to next
                  if uQ.hInQueue(pHash):
