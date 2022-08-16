@@ -340,7 +340,7 @@ class commandImpl:
           self.extractionRules = rules
 
 
-      # TODO: fix me!!!!
+      
       # Main entry point. Call this to execute commands given via the apps command line shell.
       # commandParts: a list of tokens comprising the command given, spearated by 
       #               whitespaces at the command line.
@@ -831,16 +831,15 @@ class commandImpl:
                    return(None)
                   
                 r.setResponse(htmlRndr.response) 
-                #if r.requestResponse is not None:                   
+                                   
                 try:   
                    r.status = int( htmlRndr.response._status )
                 except Exception as statusEx:
                    r.status = -6
                       
                 r.html = HTML( html=rHTML )
-                #print('\t[DEBUG] Converting html to text...', end='')
                 r.text = rHTML
-                #print('done.')
+                
                                 
                 htmlRndr.cleanUp() # Not needed anymore
                    
@@ -849,23 +848,20 @@ class commandImpl:
 
 
                 
-      #
-      #
-      #
-      #
+      
       #  
       # 
       #
       # 
       # Main crawl method!
       # Starts crawling from an initial URL.
+      #
       # TODO: This method is so ugly. Has to be refactored seriously. 
       #
       #
       #
       #
-      #
-      #
+      
      
       def crawl(self, a):
                 
@@ -885,7 +881,6 @@ class commandImpl:
              cmdArgs.add_argument('-D', '--dfs', action='store_true' )
                           
              cmdArgs.add_argument('-U', '--update', action='store_true' )
-             #cmdArgs.add_argument('-Q', '--updateQueue', action='store_true' )
              cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
              
              cmdArgs.add_argument('-G', '--debug', action='store_true' )
@@ -1002,11 +997,12 @@ class commandImpl:
 
           lastAutosave = time.perf_counter()
           crawlStarted  = time.perf_counter()
-          
+
+          # Processing URLs starts from here          
           try:
             while (True):
-                 try:
-                                                          
+                  
+                 try:                                                        
                   currentUrl = uQ.getNext()
                   if currentUrl is None:
                      print('\t[DEBUG] Empty Queue' if cmdConfigSettings.getboolean('Debug', 'debugging', fallback=False) else '')
@@ -1017,18 +1013,19 @@ class commandImpl:
                    break    
 
                  # transform average seconds/page to pages/second
-                 pgsPerSec = '???'
+                 pgsPerSec = '---'
                  if len(pageHandlingTimes) > 0:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
                     
                  clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, ' - Avg pps:', pgsPerSec, clr='yellow')
 
                  tmStart = time.perf_counter() # start counting time
-                 
+
+                 # Download URL. We'll try a number of times if
+                 # network errors occur
                  while (True):
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
-
                     
                     uA = None
                     if exRules.requestUserAgent.strip() != "":
@@ -1630,7 +1627,7 @@ class commandImpl:
 
 
 
-      #def downloadURL(self, url, rCookies=None, userAgent=None, renderPage=False, **options)
+      
       def download(self, a):
           cmdArgs = ThrowingArgumentParser()
           cmdArgs.add_argument('-r', '--rules', type=str, nargs='?', default='' )
