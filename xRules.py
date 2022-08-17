@@ -220,6 +220,15 @@ class extractionRule:
           
 
 
+    def pagePreconditionsHold(self, htmlContent ) -> bool:
+        try:  
+           return( self.evalPreconditions(htmlContent)['status'] )
+        except Exception as evalEx:
+           print('Exception calling pagePreconditionHolds: ', str(evalEx))
+           return(False)
+
+
+          
     # Preconditions for PAGES 
     def evalPreconditions(self, htmlContent) -> dict:
 

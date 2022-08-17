@@ -978,7 +978,11 @@ class commandImpl:
           numExtracted = 0 # Number of matches found/extracted
 
           xDataDF = None
-          if exRules is not None and len( exRules.csvLineFormat ) > 0: 
+          if exRules is not None and len( exRules.csvLineFormat ) > 0:
+             # Create a new, empty data.frame that will store all extracted data.
+             # The data.frame will have as columns the url and datetime the url was accessed
+             # (these are always and everytime added) as well as the fields specified in the
+             # field csvLineFormat of the library.
              xDataDF =  pd.DataFrame(columns= (['dateaccessed', 'url'] + exRules.csvLineFormat) )  
 
           if args['continue']:
@@ -1092,7 +1096,7 @@ class commandImpl:
 
                  uQ.updatePageHash( currentUrl, pHash )
                  
-                 #uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
+                 
 
 
                  # We keep the html object in a separate variable that will be the subject of css selectors
@@ -1106,25 +1110,7 @@ class commandImpl:
                  # TODO: This needs more thorough testing.
                  htmlObject = response.html
 
-                 '''
-                 if exRules.renderPages:
-                       try:   
-                          print('\t[DEBUG] Rendering page...')    
-                          htmlRndr = htmlRendering.htmlRenderer()
-                          rHTML = htmlRndr.render(url=currentUrl, timeout=10, requestCookies=self.prepareCookies(currentUrl, exRules.requestCookies), scrolldown=10, maxRetries=5)
-                          #response.html.render(timeout=250, cookies= exRules.requestCookies, scrolldown=5)
-                          htmlObject = HTML( html=rHTML )
-                          #htmlObject = response.html.html # TODO: This must leave if abover .render is replaced.
-                          #TODO: Update hash, content type/length etc.
-                       except KeyboardInterrupt:
-                              print('\t[DEBUG] *** ', sep='')
-                              raise KeyboardInterrupt
-                              break
-                       except Exception as rtmEx:
-                              print('\t[DEBUG] Exception during rendering.', str(rtmEx) )
-                              break
-                              #raise KeyboardInterrupt
-                 '''       
+                       
                  
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
@@ -1145,12 +1131,30 @@ class commandImpl:
                  else:
                       print(utils.toString('\t[DEBUG] Extracting using library: ', exRules.libraryDescription, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')  
 
+
       
-                 #exTractedData = {} 
+                 # pageData will contain all the extracted/scraped data from the page after
+                 # all rules have been applied.
+                 # pageData will have the extracted data in the form of <key, value> pairs where
+                 # key is the rule name and value the extracted value by that rule.
+                 #
+                 # The data extracted by each rule, updates this dictionary.
+                 #
+                 # NOTE: pageData may contain a single record or a list of records (recordlist) originating
+                 #       from the page extraction. This will determine how pageData will be
+                 #       processed/stored later.
                  pageData = {}
-                 for r in exRules.library: #self.extractionRules.library:
+
+                 # Iterate over all rules and check if they must be applied on the page
+                 # that was just downloaded.
+                 for r in exRules.library: 
                        
-                     # should we apply this rule to the URL?
+                     # Should we apply this rule to this URL?
+                     # I.e. does the URL match the url conditions imposed by the rule?
+                     #
+                     # NOTE: other constraints e.g. page preconditions, are checked at a different
+                     # position. This is beacuse page preconditions may modify the rule (e.g. overriding
+                     # css selector).
                      print( utils.toString('\t\t[DEBUG] Checking if rule ', r.ruleName,' should be applied...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                      if not r.ruleMatches(currentUrl):
                         print( utils.toString('NO.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
@@ -1159,25 +1163,30 @@ class commandImpl:
                      print(utils.toString('YES\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
         
 
-                     # getLings are handled a little bit different than other rules.
+                     #  getLings rules are handled a little bit different than other.
                      #  TODO: Refactor this.                     
-                     if r.ruleName == 'getLinks':                        
+                     if r.ruleName == 'getLinks':
+
+                        # apply() will also check page preconditions.
+                        # page precondition checks are located there, because these
+                        # checks may modify/override the rule's css selector. 
                         xData = r.apply(htmlObject)
                         
+                        # get links as extracted
                         xLinks = xData.get('getLinks', [])
                         
                         print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+
+                        # Iterate over extracted links and process them
+                        # so that they become absolute and canonical.
+                        #
                         # TODO: Seems that the loop below takes too long.
                         #       Check it/measure it.
                         tB = time.perf_counter()
                         for lnk in xLinks:
-                            # TODO: Should args['url'][0] be currentUrl ???? 
-
                             absoluteUrl = urljoin( currentUrl, lnk )
-
-                            #print( utils.toString('\t\t[DEBUG] currentUrl', currentUrl, '] lnk') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
-
                             cUrl = utils.canonicalURL( absoluteUrl )
+                            # Does URL match condition? If so, add it to the queue. 
                             # TODO: move the next check inside .apply()???
                             if re.search( r.ruleContentCondition, cUrl) is not None:  
                                uQ.add( cUrl ) # Add it to the URL queue
@@ -1185,10 +1194,12 @@ class commandImpl:
                         print( utils.toString('\t\t\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )   
                              
                      else:
-                           # xData has the extracted data originating from a single (one) rule only.
+                           # xData will have the data extracted by applying
+                           # only one single rule to the downloaded page.
                            xData = r.apply( htmlObject )
                            # Aggregate it. pageData aggregates all data extracted by
-                           # all rules on one page. In the end, pageData will have 
+                           # all rules applied on one page. In the end, pageData will have
+                           # the data extracted by all rules in the library
                            pageData.update(xData)
                            
 
@@ -1208,15 +1219,17 @@ class commandImpl:
                  print(utils.toString('\t[DEBUG] Extracted data is record:', xRules.isRecordData(pageData), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  print( utils.toString('\t[DEBUG] Extracted data is recordlist:', xRules.isRecordListData(pageData), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  if xRules.isRecordData(pageData):
+                    # Get extracted data to generate csv line.
+                    # We generate a line only if a minimum percentage of
+                    # extracted keys in pageData do have a value i.e. are non empty.
                     xdt = exRules.CSVFields(pageData, 1)
                     if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
                        clrprint.clrprint('\t\t[DEBUG] Adding [', xdt, ']',  clr='green')
-                       #xDataDF = xDataDF.append( xdt, ignore_index = True )
+                       # Append extracted data to data frame.
                        xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
-                       #df = pd.concat([df, pd.DataFrame.from_records([{ 'a': 1, 'b': 2 }])])
-                       #print(xDataDF)
+                       
                  else:
                        recordList = pageData[xRules.getRecordListFieldName(pageData)]
                        for r in recordList:
