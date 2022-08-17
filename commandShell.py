@@ -1040,6 +1040,7 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
                     break
                   
+                  #TODO add: except ssl.SSLError as sslErr :
                   except Exception as netEx:
                         print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
