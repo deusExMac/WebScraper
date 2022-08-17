@@ -1009,7 +1009,7 @@ class commandImpl:
                  try:                                                        
                   currentUrl = uQ.getNext()
                   if currentUrl is None:
-                     print('\t[DEBUG] Empty Queue' if cmdConfigSettings.getboolean('Debug', 'debugging', fallback=False) else '')
+                     print('\t[DEBUG] Empty Queue' if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
                      break
                   
                  except Exception as popEx:
@@ -1040,7 +1040,13 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
                     break
                   
-                  #TODO add: except ssl.SSLError as sslErr :
+                  except requests.exceptions.SSLError as sslErr :
+                         print('[DEBUG] SSL error:', str(sslErr) )
+                         response = httpResponse()
+                         response.status = -9
+                         break
+                         #return(False)
+                        
                   except Exception as netEx:
                         print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
