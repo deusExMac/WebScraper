@@ -1041,16 +1041,30 @@ class commandImpl:
                     break
                   
                   except requests.exceptions.SSLError as sslErr :
+                         # That's an SSL error. This is handled differently as there won't be
+                         # any more retries and the process is stopped with an
+                         # special error. 
                          print('[DEBUG] SSL error:', str(sslErr) )
+                         # Create a httpResponse object with an appropriate status
+                         # so that the url will be updated.
                          response = httpResponse()
                          response.status = -9
-                         break
-                         #return(False)
+                         break 
+                         
                         
                   except Exception as netEx:
+                        # Another exception happened. Usually this
+                        # means a network error. In such cases
+                        # the same url will be tried a number of
+                        # times. If all retries fail, the process is stopped
+                        # as this may mean a serious error.
                         print('[DEBUG] Network error:', str(netEx) )
                         numNetErrors += 1
                         if numNetErrors >= 3:
+                           # Exceeded maximum number of tries without
+                           # sucess. Save the queue and extracted data
+                           # and terminate the crawl.
+                           #
                            # TODO: a break here would be more appropriate...   
                            uQ.saveQ()
                            if xDataDF is not None:
@@ -1061,9 +1075,16 @@ class commandImpl:
 
 
 
-                 # Got a response from web server
+                 #
+                 #
+                 # Url has been fetched.
+                 # Process the response and the page content.
+                 #
+                 #
 
-                 
+
+                 # Update the URL in the URLQueue with the data
+                 # from the response
                  uQ.updateTimeFetched(currentUrl)
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
@@ -1177,7 +1198,7 @@ class commandImpl:
                         # apply() will also check page preconditions.
                         # page precondition checks are located there, because these
                         # checks may modify/override the rule's css selector. 
-                        xData = r.apply(htmlObject)
+                        xData = r.apply(response.html)
                         
                         # get links as extracted
                         xLinks = xData.get('getLinks', [])
@@ -1203,7 +1224,7 @@ class commandImpl:
                      else:
                            # xData will have the data extracted by applying
                            # only one single rule to the downloaded page.
-                           xData = r.apply( htmlObject )
+                           xData = r.apply( response.html )
                            # Aggregate it. pageData aggregates all data extracted by
                            # all rules applied on one page. In the end, pageData will have
                            # the data extracted by all rules in the library
