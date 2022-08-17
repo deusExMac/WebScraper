@@ -1136,6 +1136,7 @@ class commandImpl:
                  # to be fetched again. Sorry for this.
                  #
                  # TODO: This needs more thorough testing.
+                 # REMOVE THIS! NOT NEEDED THIS ANYMORE
                  htmlObject = response.html
 
                        
