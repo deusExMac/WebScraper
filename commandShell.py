@@ -801,9 +801,9 @@ class commandImpl:
 
              # TODO: check if cfg is None
              if not rCookies:
-                print( utils.toString('\t[DEBUG] No request cookies for this request') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='')
+                print( utils.toString('\t[DEBUG] No request cookies for this request\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
              else:    
-                print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl) ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='' )    
+                print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )    
 
              response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl)  )             
              r.setResponse(response)
@@ -1037,7 +1037,7 @@ class commandImpl:
                     
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
                      
-                    print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', '')) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' )                    
+                    print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
                     break
                   
                   except requests.exceptions.SSLError as sslErr :
@@ -1167,7 +1167,7 @@ class commandImpl:
                  ###############################################################################
                  
                  if exRules is None or exRules.library is None:
-                    print(utils.toString('\t[DEBUG] No library present. Skipping extraction.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
+                    print(utils.toString('\t[DEBUG] No library present. Skipping extraction.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     continue
                  else:
                       print(utils.toString('\t[DEBUG] Extracting using library: ', exRules.libraryDescription, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')  
@@ -1216,7 +1216,7 @@ class commandImpl:
                         # get links as extracted
                         xLinks = xData.get('getLinks', [])
                         
-                        print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                        print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
 
                         # Iterate over extracted links and process them
                         # so that they become absolute and canonical.
