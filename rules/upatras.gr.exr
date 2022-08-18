@@ -8,48 +8,36 @@
 
 {
 "libraryDescription": "Library to extract data from upatras.gr pages",
+"csvLineFormat":["entryTitle"],
 "library": [
 
 {
- "ruleName": "efficiencyPerDay"
- "ruleDescription": "A simple example of a rule"
- "ruleURLActivationCondition": ["/miners/"]
+ "ruleName": "entryTitle"
+ "ruleDescription": "Extracting entry title - organisational units"
+ "ruleURLActivationCondition": ["www\.upatras\.gr/.*$"]
  
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
+ "ruleCSSSelector": ".entry-title"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
  "ruleReturnedMatchPos": 0
  "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["$"]
+ "ruleRemoveChars": []
 },
 
-{
- "ruleName": "costPerDay"
- "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": []
- "ruleCSSSelector": "div.rentabilitylabel > span:not(.hidden-xs)"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- 
- # other parameters needed
-},
 
 {
- "ruleName": "getLinks"
- "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["www\.upatras\.gr.*$"]
- "ruleCSSSelector": "a[href]"
- "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.upatras\.gr/.*$"
- "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links rule",
+ "ruleURLActivationCondition": ["www\.upatras\.gr.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ #"ruleContentCondition": "www\.upatras\.gr/.*$",
+ "ruleContentCondition": ".*",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
  
- # other parameters needed
 }
 
 ]

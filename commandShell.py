@@ -1090,22 +1090,24 @@ class commandImpl:
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
                  uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
                  
-                 if response.status != 200:
-                    numHTTPErrors += 1
-                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                    continue
+                 
 
+                 # Calculating Content length.
+                 # If no Content-Length is present in the header, content length is
+                 # calculated by the data received.
+                 # NOTE: Content-length for textual data is calculated differently from
+                 #       binary data.
+                 pHash = ''
                  pageContentLength = int( response.get('Content-Length', '-2') )      
-
-                 # TODO: Check if content was actually received i.e. content-length is not zero.
-
                  if utils.isText( response.get('Content-Type', '')  ):
-                    pHash = utils.txtHash( response.text )
+                    # This is text data.
                     if pageContentLength < 0:
                        pageContentLength = len( response.text )
-                 else:
-                    print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
-                    continue
+
+                    pHash = utils.txtHash( response.text )   
+                 #else:
+                 #   print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
+                 #   continue
                     
                      
                  uQ.updateContentLength( currentUrl, pageContentLength )
@@ -1113,34 +1115,32 @@ class commandImpl:
                     print('\t[DEBUG] Zero content length! (wtf???)')   
                     uQ.updateStatus( currentUrl, -999 )
                     continue
-                       
+                      
                  print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
 
+                 if response.status != 200:
+                    numHTTPErrors += 1
+                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+                    continue
+
+
+                 if 'html' not in response.get('Content-Type', ''):
+                    print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' ), end='')   
+                    # Update status just to signify that this resource
+                    # was downloaded, but ignored i.e. not processed
+                    uQ.updateStatus( currentUrl, -8 )
+                    continue
+
+                  
                  print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                 # Have we seen this content? If so, discard it; move to next
+                 # Have we seen this content (NOTE: not url)? If so, discard it; move to next
                  if uQ.hInQueue(pHash):
                     print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')
                     continue
 
                  uQ.updatePageHash( currentUrl, pHash )
                  
-                 
-
-
-                 # We keep the html object in a separate variable that will be the subject of css selectors
-                 # and regular expression found in rules.
-                 # We do this because rendering the html page may result in changing the html.
-                 # This is because we do not rely on response.html.render() to do the rendering, as
-                 # it seems to be not working/buggy. Instead a separate class has been developed
-                 # rendering html pages, which however has the sideeffect that the same page needs
-                 # to be fetched again. Sorry for this.
-                 #
-                 # TODO: This needs more thorough testing.
-                 # REMOVE THIS! NOT NEEDED THIS ANYMORE
-                 htmlObject = response.html
-
-                       
-                 
+                                   
                  # Save to file if so required
                  # TODO: Refactor this. This is awfull....
                  # TODO: has a bug when saving files with extension e.g.:https://www.econ.upatras.gr/sites/default/files/attachments/tmima_politiki_poiotitas_toe_v3.pdf
@@ -1150,9 +1150,7 @@ class commandImpl:
                        print('\t[DEBUG] Error saving file')   
                     
                   
-                 if 'html' not in response.get('Content-Type', ''):
-                    print('\t\tignoring ', response.get('Content-Type', 'xxx'))   
-                    continue
+                 
                  
                  if exRules is None or exRules.library is None:
                     print(utils.toString('\t[DEBUG] No library present. Skipping extraction.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   

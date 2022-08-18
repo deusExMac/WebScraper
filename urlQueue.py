@@ -104,10 +104,10 @@ class urlQueue:
                 return(False)
              
           if self.uInQueue(u):
-             #print('\t[DEBUG] url [', u, '] Already in queue. Not adding.', sep='') 
+             #print('\t[DEBUG] NOT ADDING url [', u, '] Already in queue.', sep='') 
              return(False)
             
-          #print('\t\t[DEBUG] Adding url: [', u, ']', sep='')  
+          #print('\t[DEBUG] ADDING url: [', u, ']', sep='')  
           try:
             d = {'url':u, 'fetched':f, 'status':s, 'contenttype':c, 'contentlength':cl, 'lastmodified':l, 'hash':h}
             if self.traversal == 'dfs':
