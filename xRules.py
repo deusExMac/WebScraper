@@ -402,7 +402,7 @@ class extractionRule:
                  if self.ruleContentCondition != '': 
                     res = [m for m in res if re.search(self.ruleContentCondition, m) is not None ]
                  if len(res) <= 0:
-                    print("\t\t[DEBUG] Empty. No match present")
+                    #print("\t\t[DEBUG] Empty. No match present")
                     exTractedData[self.ruleName] = ''
                     return(exTractedData)
                  else:
