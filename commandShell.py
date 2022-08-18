@@ -1020,8 +1020,13 @@ class commandImpl:
                  pgsPerSec = '---'
                  if len(pageHandlingTimes) > 0:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
+
+                  
+                 exHitRate = 0.0  # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
+                 if uQ.fetchedUrlsCount() != 0:
+                    exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, ' - Avg pps:', pgsPerSec, clr='yellow')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), '(mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Hit rate:', " {:.2f}".format(exHitRate) , ' Avg pps: ', pgsPerSec, ']', clr='yellow', sep='')
 
                  tmStart = time.perf_counter() # start counting time
 

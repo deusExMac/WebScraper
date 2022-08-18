@@ -229,7 +229,7 @@ class extractionRule:
 
 
           
-    # Preconditions for PAGES 
+    # Evaluating PAGE preconditions
     def evalPreconditions(self, htmlContent) -> dict:
 
         # If no preconditions are present, this means rule should be applied. 
