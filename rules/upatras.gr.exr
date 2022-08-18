@@ -32,8 +32,8 @@
  "ruleURLActivationCondition": ["www\.upatras\.gr.*$"],
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
- #"ruleContentCondition": "www\.upatras\.gr/.*$",
- "ruleContentCondition": ".*",
+ "ruleContentCondition": "www\.upatras\.gr/.*$",
+ #"ruleContentCondition": ".*",
  "ruleReturnsMore": True,
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False

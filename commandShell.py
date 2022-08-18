@@ -1118,25 +1118,29 @@ class commandImpl:
                  print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
 
 
-                 # Check if status is ok 
+                 # Check if status is ok.
+                 # If not, continue to next url.
                  if response.status != 200:
                     numHTTPErrors += 1
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                    continue
+                    continue # Get next url
 
-                 # Check if content type is ok
-                 # NOTE: current versions processes only html/text content types
+                 # Check if content type is ok.
+                 # If not, continue to hext url.
+                 # NOTE: current version processes only html/text content types
                  if 'html' not in response.get('Content-Type', ''):
                     print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' ), end='')   
                     # Update status just to signify that this resource
                     # was downloaded, but ignored i.e. not processed because of
                     # incompatible content-type
                     uQ.updateStatus( currentUrl, -8 )
-                    continue
+                    continue # Get next url
 
                   
                  print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                 # Have we seen this content (NOTE: not url)? If so, discard it; move to next
+
+                 # Have we aleadt seen this content (NOTE: not url)?
+                 # If so, discard it; move to next
                  if uQ.hInQueue(pHash):
                     print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')
                     continue
@@ -1152,8 +1156,15 @@ class commandImpl:
                     if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cmdConfigSettings.get('Storage', 'mirrorRoot', fallback='')):
                        print('\t[DEBUG] Error saving file')   
                     
+
                   
-                 
+                 ###############################################################################
+                 #
+                 # This url is valid and urlqueue has been updated with the respective
+                 # data.
+                 # Now, apply all rules of the loaded library to the downloaded content.
+                 #
+                 ###############################################################################
                  
                  if exRules is None or exRules.library is None:
                     print(utils.toString('\t[DEBUG] No library present. Skipping extraction.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
