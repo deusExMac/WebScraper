@@ -1,7 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions with overwriting the ruleCSSSelector selector. 
+# Example library 5: Demonstrating the use of more than one page preconditions with overwriting the specified 
+#                    ruleCSSSelector selector. 
 #                    i.e. the css selector for scrapping data specified in ruleCSSSelector changes based on which page
 #                    precondition is true. ruleCSSSelector overwriting works ONLY when  rulePreconditionType is ANY. If more
 #                    than one preconditions are True, the 
