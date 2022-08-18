@@ -1089,11 +1089,9 @@ class commandImpl:
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
                  uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
-                 
-                 
-
+                                  
                  # Calculating Content length.
-                 # If no Content-Length is present in the header, content length is
+                 # If no Content-Length is present in the response header, content length is
                  # calculated by the data received.
                  # NOTE: Content-length for textual data is calculated differently from
                  #       binary data.
@@ -1102,6 +1100,7 @@ class commandImpl:
                  if utils.isText( response.get('Content-Type', '')  ):
                     # This is text data.
                     if pageContentLength < 0:
+                       # Since this is text data, len() on the received data can be used.   
                        pageContentLength = len( response.text )
 
                     pHash = utils.txtHash( response.text )   
@@ -1118,16 +1117,20 @@ class commandImpl:
                       
                  print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
 
+
+                 # Check if status is ok 
                  if response.status != 200:
                     numHTTPErrors += 1
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue
 
-
+                 # Check if content type is ok
+                 # NOTE: current versions processes only html/text content types
                  if 'html' not in response.get('Content-Type', ''):
                     print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' ), end='')   
                     # Update status just to signify that this resource
-                    # was downloaded, but ignored i.e. not processed
+                    # was downloaded, but ignored i.e. not processed because of
+                    # incompatible content-type
                     uQ.updateStatus( currentUrl, -8 )
                     continue
 
