@@ -2,7 +2,7 @@
 ########################################################################################################################################################
 #
 # Example library 4: Demonstrating the use of page precondition before applying css selectors. This example 
-#                    features rule with only one (1) page precondition.
+#                    features a rule with only one (1) page precondition.
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
 # for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be
@@ -163,15 +163,18 @@
  "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
  
  
- # Page rule preconditions, i.e. preconditions that must hold for the PAGE in order  
- # to apply the selector in ruleCSSSelector. 
+ # Page rule preconditions, i.e. preconditions that must hold (return True) on the PAGE in order  
+ # to apply the selector in ruleCSSSelector. As already mentioned, PAGE preconditions
+ # are used BEFORE applying ruleCSSSelector.
+ # They are called PAGE preconditions because they allow putting conditions on any element 
+ # found on the downloaded page.
  # This rule contains only one page precondition. More preconditions can be set for the same
  # page along with boolean modifiers specifying if any or all of the preconditions must hold.
- # More complicated expressions are also possible.
+ # More complicated expressions are also possible (see "EVAL"").
  "rulePreconditions" : [ 
                           {
-                             # The precondition selector i.e. the element to be
-                             # checked.
+                             # The precondition selector i.e. the element on the downloaded 
+                             # page to be checked.
                              
                             "ecCSSSelector" : "tr:nth-child(9) .infobox-label", 
                             
