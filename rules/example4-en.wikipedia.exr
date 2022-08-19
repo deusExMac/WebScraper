@@ -1,13 +1,15 @@
 
 ########################################################################################################################################################
 #
-# Example library 4: Demonstrating the use of page preconditions before applying css selectors
+# Example library 4: Demonstrating the use of page precondition before applying css selectors. This example 
+#                    features rule with only one (1) page precondition.
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
 # for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be
 # seen on the team's wikipedia page https://en.wikipedia.org/wiki/Barnsley_F.C.
 # This library demonstrates the use of page rule preconditions that allows extracting the data specified in ruleCSSSelector only if the precondition(s) 
-# hold. If precondition(s) do not hold, ruleCSSSelector is not applied and hence no data is extracted.
+# hold. If present, page preconditions are always checked BEFORE applying ruleCCSSelector. If precondition(s) do not hold, ruleCSSSelector is not applied
+# to the page content and hence no data is extracted. I.e. in such case, the rule is ignored.
 #
 # The library contains rule "getLinks" for harvesting links.
 # 
