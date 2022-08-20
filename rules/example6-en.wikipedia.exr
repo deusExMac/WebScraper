@@ -1,24 +1,28 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions with overwriting the specified 
+# Example library 6: Demonstrating the use of more than one page preconditions with overwriting the specified 
 #                    ruleCSSSelector selector. 
 #                    i.e. the css selector for scrapping data specified in ruleCSSSelector changes based on which page
-#                    precondition is true. ruleCSSSelector overwriting works ONLY when  rulePreconditionType is ANY. If more
-#                    than one preconditions are True, the 
+#                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType is ANY. If more
+#                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
+#                    ecRuleCSSSelector is not empty.  
 #                    changes based on which page precondition holds. 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
 #                    preconditions i.e. rule is applied if any of the specified preconditions is TRUE. 
 # 
-# This library scraps/extracts the team and coaches' (manager or Head coaches') name of english wikipedia about premier league teams. 
+# This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia about premier league teams. 
 # The rules in
-# file example6-en.wikipedia.exr makes the assumption that the managers name is always at a very specific position on the page. However
+# file example5-en.wikipedia.exr makes the assumption that the managers name is always at a very specific position in the infobox. However
 # this might not always be the case. See e.g.
 # 
 # https://en.wikipedia.org/wiki/Arsenal_F.C. where the coach is recorded with field name "manager" inside the infobox
 # and
-# https://en.wikipedia.org/wiki/Aston_Villa_F.C. where the coach is recorded with field name "Head coach" inside the infobox and at
-# a different position.
+# https://en.wikipedia.org/wiki/Aston_Villa_F.C. where the coach is recorded with field name "Head coach" inside the infobox.
+# 
+# Team coaches in the above two pages are at different positions inside the infobox. In such situations, overwriting
+# the ruleCSSSelector provides an opportunity to specialise the CSS selector based on which page precondition is True.  
+# 
 #
 # This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
 # be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
