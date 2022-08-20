@@ -65,7 +65,8 @@
 
 
 
-# List of individual rules comprising this library and that will be applied to each page downloaded follows. 
+# The list of individual rules comprising this library and that will be applied to each page downloaded 
+# starts here. 
 # This library consists of two rules, one for extracting the team name, named teamName and
 # one for extracting the managers name, named manager. The value extracted by these rules
 # will be assigned to a special key/variable with the same name as the rule i.e. teamName and manager.
@@ -140,10 +141,10 @@
 # This rule uses page preconditions i.e. preconditions that are checked and must hold before applying 
 # the selector ruleCSSSelector. The selector is only applied if precondition holds.
 #
-# In the precondition it is checked whether the 9th row of the infobox has a text value
+# One of the rules has preconditions. Preconditions check if the 9th row of the infobox has a text value
 # that matches the regular expression (Manager|Head coach) i.e. contains the words "Manager"
 # or "Head coach" (case sensitive!). If so, the selector ruleCSSSelector is applied. If not,
-# ruleCSSSelector is not applied.
+# ruleCSSSelector is not applied to extract the coaches' name.
 #
 {
  
@@ -169,8 +170,13 @@
  # are used BEFORE applying ruleCSSSelector.
  # They are called PAGE preconditions because they allow putting conditions on any element 
  # found on the downloaded page.
- # This rule contains only one page precondition. More preconditions can be set for the same
- # page along with boolean modifiers specifying if any or all of the preconditions must hold.
+ # This rule contains only one page precondition. It requires the ninth row 
+ # of the infobox to have a value of Manager or Head coach. If the ninth row matches
+ # regular condition (i.e. returns True) the selector in ruleCSSSelector is applied. If not
+ # selector in ruleCSSSelector is not applied.
+ #
+ # More preconditions can be set for the same page along with boolean modifiers specifying
+ # if any or all of the preconditions must hold.
  # More complicated expressions are also possible (see "EVAL"").
  "rulePreconditions" : [ 
                           {

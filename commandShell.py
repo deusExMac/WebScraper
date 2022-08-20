@@ -963,9 +963,9 @@ class commandImpl:
              print('[WARNING] Not extraction library found.')
              
           
-          linkQueue = []
-          linkQueue.append( args['url'][0] )
-          visitedPageHashes = []
+          #linkQueue = []
+          #linkQueue.append( args['url'][0] )
+          #visitedPageHashes = []
           pageHandlingTimes = []
 
           previousHost = ''
@@ -996,14 +996,26 @@ class commandImpl:
                                  startNewSession=not args['continue'],
                                  qF=args['queuefile'], sQ=True, tS=cmdConfigSettings.get('Crawler', 'traversalStrategy', fallback='bfs') ) 
 
+
+          if not args['url']:
+             print('No starting URL given. Terminating.')
+             return(False)
+
+            
           # add url given in the shell argument
           uQ.add( args['url'][0] )
 
           lastAutosave = time.perf_counter()
           crawlStarted  = time.perf_counter()
 
-          # Processing URLs starts from here          
+          # counts how many times we reached below minimum hit rate
+          # NOT USED YET.
+          belowMinHitRateCount = 0
+          
+          # Main loop starts here
+          # Processing URLs starts from here.
           try:
+                
             while (True):
                   
                  try:                                                        
@@ -1022,7 +1034,7 @@ class commandImpl:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
 
                   
-                 exHitRate = 0.0  # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
+                 exHitRate = -1.0  # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
                  if uQ.fetchedUrlsCount() != 0:
                     exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
@@ -1031,7 +1043,7 @@ class commandImpl:
                  tmStart = time.perf_counter() # start counting time
 
                  # Download URL. We'll try a number of times if
-                 # network errors occur
+                 # network errors occur - hence the loop.
                  while (True):
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
@@ -1294,12 +1306,27 @@ class commandImpl:
                     numExtracted = xDataDF.shape[0]
                  else:
                     numExtracted = -1
-                    
+
+                 # Check if some limits have been reached
+
+                 # MaxPages
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):
                        print('Terminating. Reached page limit ', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) ) 
                        break
 
+                 # MinHitRate
+                 if cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) > 0:
+                    if exHitRate < cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0):
+                       belowMinHitRateCount += 1
+                       # if we go below hit rate 3 consecutive times,
+                       # terminate
+                       if belowMinHitRateCount >= cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50):
+                          print('\nReached below minimum hit rate', cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0), ' more than', cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50), 'consecutive times. Terminating.\n' )   
+                          break
+                    else:
+                          belowMinHitRateCount = 0 # reset
+                          
 
                  tmEnd = time.perf_counter()
                  pageHandlingTimes.append( tmEnd - tmStart )
