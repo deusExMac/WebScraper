@@ -255,7 +255,7 @@ class extractionRule:
                tokens.append( str(pc.conditionHolds(htmlContent)))
 
            # We built the expression. Evaluate it now. 
-           print('\t\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)  
+           print('\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)  
            return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
                
 
@@ -343,7 +343,7 @@ class extractionRule:
         '''
         # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
-        #print('\t\t[DEBUG] evaluation of PAGE preconditions returned: ', preconStatus['status'])
+        print('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', preconStatus['status'])
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
            exTractedData[self.ruleName] = ''
@@ -575,6 +575,24 @@ class ruleLibrary:
           else:
               return( self.library[pos] )
 
+      def applyAllRules(self, pageUrl, pageHtml) -> dict:
+            
+          pageData = {}
+          for i, r in enumerate(self.library):
+                 print('>>> Applying rule [', r.ruleName, ']')
+                 print('\t[DEBUG] Checking if URL pattern matches activation constraints of [', r.ruleName,'].......', end='')
+                 if not r.ruleMatches(pageUrl):
+                    print('NO')   
+                    continue
+                  
+                 print('YES')  
+                 
+                 xrd = r.apply(pageHtml)
+                 pageData.update( xrd )
+          
+          return(pageData)       
+          #pass
+
       '''
       def toCSVLine(self, xD, sep=',') -> str:
           csvLine = ''
@@ -689,9 +707,16 @@ def isRecordListData( xd ):
     elif nFound == 1:
          return(True)
     else:
-          print('Serioud error. You should never see this. Need to terminate.')
+          print('Serious error. You should never see this. Need to terminate.')
           sys.exit('Fatal error. Terminating.')
-          
+
+
+
+
+# Returns the key name that is a record list i.e.
+# a list of dictionaries.
+# This functions returns the first key encounterred that
+# is a record list.
 def getRecordListFieldName(xd):
     for k,v in xd.items():
         if type(v) == list:

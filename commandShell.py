@@ -1076,8 +1076,27 @@ class commandImpl:
                  # NOTE: pageData may contain a single record or a list of records (recordlist) originating
                  #       from the page extraction. This will determine how pageData will be
                  #       processed/stored later.
-                 pageData = {}
 
+                 #pageData = {}
+
+                 pageData = exRules.applyAllRules(currentUrl, response.html)
+                 
+                 extractedLinks = pageData.get('getLinks', [])
+                 print( utils.toString('\t\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+                 getLinksRule = exRules.get('getLinks')
+                 tB = time.perf_counter()
+                 for lnk in extractedLinks:
+                     absoluteUrl = urljoin( currentUrl, lnk )
+                     cUrl = utils.canonicalURL( absoluteUrl )
+                     # Does URL match condition? If so, add it to the queue. 
+                     # TODO: move the next check inside .apply()???
+                     if getLinksRule:
+                        if re.search( getLinksRule.ruleContentCondition, cUrl) is not None:  
+                           uQ.add( cUrl ) # Add it to the URL queue
+                        
+                 print( utils.toString('\t\t\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  ) 
+
+                 '''
                  # Iterate over all rules and check if they must be applied on the page
                  # that was just downloaded.
                  for r in exRules.library: 
@@ -1135,6 +1154,10 @@ class commandImpl:
                            # the data extracted by all rules in the library
                            pageData.update(xData)
                            
+                 ''' 
+
+
+
 
                         
                  print(utils.toString('\n\tExtracted page data:', pageData, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
@@ -1358,16 +1381,7 @@ class commandImpl:
           except Exception as readEx:
                   print('ERROR.', str(readEx))
                   return(False)
-          '''  
-          try:
-             print('Fetching url [', args['url'][0], ']...', end='')  
-             session = HTMLSession()
-             response = session.get(args['url'][0])
-             print('ok.')
-          except Exception as netEx:
-                 print('Error.', str(netEx))
-                 return(False)
-          '''
+          
           #return(False)
 
           
@@ -1377,6 +1391,7 @@ class commandImpl:
              xData = targetRule.apply( responseHtml )
              pageData.update(xData)
           else:
+               '''   
                print('Rule list:') 
                for r in xLib.library:
                    if not r.ruleMatches(args['url'][0]):
@@ -1386,7 +1401,9 @@ class commandImpl:
                    print('* Applying rule', r.ruleName)    
                    xData = r.apply( responseHtml )
                    pageData.update(xData)
-                   
+               '''
+               pageData = xLib.applyAllRules(args['url'][0], responseHtml)
+
 
           if not pageData:
              print('\t[DEBUG] Nothing extracted.')
