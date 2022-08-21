@@ -1085,7 +1085,13 @@ class commandImpl:
                  print( utils.toString('\t\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  getLinksRule = exRules.get('getLinks')
                  tB = time.perf_counter()
+                 # Process all links now and add them
+                 # to the queue.
                  for lnk in extractedLinks:
+                       
+                     if lnk.startswith('#'):
+                        continue
+                  
                      absoluteUrl = urljoin( currentUrl, lnk )
                      cUrl = utils.canonicalURL( absoluteUrl )
                      # Does URL match condition? If so, add it to the queue. 
