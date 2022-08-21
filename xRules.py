@@ -8,7 +8,7 @@ import re
 import requests_html
 
 import booleanEvaluation
-
+import utils
 
 @dataclass
 class extractionCondition:
@@ -343,7 +343,7 @@ class extractionRule:
         '''
         # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
-        print('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', preconStatus['status'])
+        print('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', str(preconStatus['status']).upper())
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
            exTractedData[self.ruleName] = ''
@@ -575,17 +575,18 @@ class ruleLibrary:
           else:
               return( self.library[pos] )
 
-      def applyAllRules(self, pageUrl, pageHtml) -> dict:
+      def applyAllRules(self, pageUrl, pageHtml, debug=False) -> dict:
             
           pageData = {}
           for i, r in enumerate(self.library):
-                 print('>>> Applying rule [', r.ruleName, ']')
-                 print('\t[DEBUG] Checking if URL pattern matches activation constraints of [', r.ruleName,'].......', end='')
+                 #print( utils.toString('\t\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+                 print(utils.toString('>>> Applying rule [', r.ruleName, ']\n') if debug else '', end='' )
+                 print( utils.toString('\t[DEBUG] Checking if URL pattern matches activation constraints of [', r.ruleName,'].......') if debug else '', end='')
                  if not r.ruleMatches(pageUrl):
-                    print('NO')   
+                    print( utils.toString('NO\n') if debug else '', end='')   
                     continue
                   
-                 print('YES')  
+                 print( utils.toString('YES\n') if debug else '', end='')   
                  
                  xrd = r.apply(pageHtml)
                  pageData.update( xrd )

@@ -1079,10 +1079,10 @@ class commandImpl:
 
                  #pageData = {}
 
-                 pageData = exRules.applyAllRules(currentUrl, response.html)
+                 pageData = exRules.applyAllRules(currentUrl, response.html, cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False))
                  
                  extractedLinks = pageData.get('getLinks', [])
-                 print( utils.toString('\t\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+                 print( utils.toString('\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  getLinksRule = exRules.get('getLinks')
                  tB = time.perf_counter()
                  # Process all links now and add them
@@ -1408,7 +1408,7 @@ class commandImpl:
                    xData = r.apply( responseHtml )
                    pageData.update(xData)
                '''
-               pageData = xLib.applyAllRules(args['url'][0], responseHtml)
+               pageData = xLib.applyAllRules(args['url'][0], responseHtml, self.configuration.getboolean('DEBUG', 'debugging', fallback=False))
 
 
           if not pageData:
