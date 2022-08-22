@@ -695,10 +695,10 @@ class commandImpl:
                 r.setFetchMethod('dynamic') 
                 cks = {}
                 if rCookies:
-                   print('\t[DEBUG] Preparing cookies...')   
+                   print( utils.toString('\t[DEBUG] Preparing cookies...\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
                    #cks = self.prepareCookies(dUrl, rCookies)
                    cks = utils.cookiesFromDict(rCookies, dUrl)
-                   print('\t[DEBUG] Cookies:', cks)
+                   print( utils.toString('\t[DEBUG] Cookies:', cks) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                    
                 htmlRndr = htmlRendering.htmlRenderer()
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
@@ -862,7 +862,7 @@ class commandImpl:
 
           if args['continue']:
              if os.path.exists( args['outputcsvfile'] ):
-               print('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']', sep='')    
+               print( utils.toString('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')    
                xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)
 
           # Create URLqueue object   
@@ -896,7 +896,7 @@ class commandImpl:
                  try:                                                        
                   currentUrl = uQ.getNext()
                   if currentUrl is None:
-                     print('\t[DEBUG] Empty Queue' if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                     print( '\t[DEBUG] Empty Queue' if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '')
                      break
                   
                  except Exception as popEx:
@@ -1003,7 +1003,7 @@ class commandImpl:
                      
                  uQ.updateContentLength( currentUrl, pageContentLength )
                  if pageContentLength <= 0 :
-                    print('\t[DEBUG] Zero content length! (wtf???)')   
+                    print( utils.toString('\t[DEBUG] Zero content length! (wtf???)\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     uQ.updateStatus( currentUrl, -999 )
                     continue
                       
@@ -1034,7 +1034,7 @@ class commandImpl:
                  # Have we aleadt seen this content (NOTE: not url)?
                  # If so, discard it; move to next
                  if uQ.hInQueue(pHash):
-                    print('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, sep='')
+                    print( utils.toString('\t[DEBUG] Same hash [', pHash, '] seen. Url:', currentUrl, '\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
                     continue
 
                  uQ.updatePageHash( currentUrl, pHash )
@@ -1046,7 +1046,7 @@ class commandImpl:
                  #       does not 
                  if args['mirror']:
                     if not utils.saveWebPageToLocalFile(currentUrl, response, args['mirror'], cmdConfigSettings.get('Storage', 'mirrorRoot', fallback='')):
-                       print('\t[DEBUG] Error saving file')   
+                       print( utils.toString('\t[DEBUG] Error saving file\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     
 
                   
@@ -1167,7 +1167,7 @@ class commandImpl:
 
 
                         
-                 print(utils.toString('\n\tExtracted page data:', pageData, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
+                 print(utils.toString('\nExtracted page data:', pageData, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
                                   
 
 
@@ -1274,18 +1274,18 @@ class commandImpl:
                  #break
 
 
-          print('[DEBUG] Saving extracted data to [', args['outputcsvfile'], ']...', end='')
+          print( utils.toString('[DEBUG] Saving extracted data to [', args['outputcsvfile'], ']...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
           if xDataDF is not None:
             try:    
              xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
-             print('ok')
+             print( utils.toString('ok\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
             except Exception as scsvEx:
-                  print('Error.', str(scsvEx))
+                  print( utils.toString('Error.', str(scsvEx), '\n'), end='')
           
           if uQ.qSave: 
-             print('[DEBUG] Saving queue...', end='')       
+             print( utils.toString('[DEBUG] Saving queue...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')       
              uQ.saveQ()
-             print('done.')
+             print( utils.toString('done.\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
 
 
           # Display some statistics 

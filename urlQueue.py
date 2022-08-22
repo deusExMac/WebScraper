@@ -7,15 +7,17 @@ import csv
 
 import datetime
 
+import utils
 
 class urlQueue:
 
-      def __init__(self, qSz=-1, qMemSz='-1', startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0, tS='bfs'  ):
+      # stsFilters: list of integers specifuing desired statuses to keep in queue (filter). Used in update mode. 
+      def __init__(self, qSz=-1, qMemSz='-1', startNewSession=True, qF='.queue',  csvSep=';', sQ=False, cP = 0, tS='bfs', stsFilters=[], debug=False  ):
           
           self.qSize = qSz
           self.qMemorySize = -1
           self.traversal = tS.lower() # traversal stratery: dfs or bfs.
-          print('\t[DEBUG] Got queue memory size [', qMemSz.lower(), ']. Traversal: [', self.traversal, ']')
+          print( utils.toString('\t[DEBUG] Got queue memory size [', qMemSz.lower(), ']. Traversal: [', self.traversal, ']\n') if debug else '', end='')
           if qMemSz.lower().endswith('k'):
              self.qMemorySize = int(qMemSz[:-1])*1024
           elif qMemSz.lower().endswith('m'):
@@ -28,7 +30,8 @@ class urlQueue:
               else:
                  self.qMemorySize = qMemSz   
 
-          print('\t[DEBUG] Queue memory size set to ', self.qMemorySize)      
+          
+          print( utils.toString('\t[DEBUG] Queue memory size set to ', self.qMemorySize, '\n') if debug else '', end='')
           self.qFile = qF
           self.qSave = sQ
           self.currentQPos = cP # Current position used in update mode
@@ -44,19 +47,32 @@ class urlQueue:
           if not startNewSession:
               # We do it this way so that even if an error occurs, an empty data frame exists.
               # Also, we rely on the Python gb to do its job.
-              print('[DEBUG] loading EXISTING queue from [', self.qFile, '].....', end='')
+              print( utils.toString('[DEBUG] loading EXISTING queue from [', self.qFile, '].....') if debug else '', end='')
               try:
                  self.queue = pd.read_csv(self.qFile, header=0, sep=csvSep, quoting=csv.QUOTE_NONNUMERIC)
-                 print('ok.')
+                 print( utils.toString('ok.') if debug else '')
+                 if stsFilters:
+                    # If filters are present, apply them
+                    # currently, only filters on statuses are supported.   
+                    print( utils.toString('[DEBUG] Filtering. Allowed statuses [', stsFilters, '].....') if debug else '', end='')   
+                    self.queue = self.queue[ self.queue['status'].isin(stsFilters) ]
+                    print( utils.toString('ok.') if debug else '')
+                    
               except Exception as rEx:
-                 print('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.', sep='') 
+                 print( utils.toString('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.\n') if debug else '', sep='', end='') 
           else:    
-              print('\t[DEBUG] Using NEW queue file [', self.qFile, ']')
+              print( utils.toString('\t[DEBUG] Using NEW queue file [', self.qFile, ']\n') if debug else '', end='')
               
-          print('\t[DEBUG] Using queue file [', self.qFile, ']')
+          print( utils.toString('\t[DEBUG] Using queue file [', self.qFile, ']\n') if debug else '', sep='', end='')
+          self.debugMode = debug 
           
           
-          
+
+      # TODO: Implement me
+      def reset(self):
+          pass  
+
+
 
 
       def uInQueue(self, u):
@@ -118,6 +134,8 @@ class urlQueue:
                # add it to the end of the queue            
                self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])], ignore_index=True )
 
+            # TODO: Do we really need next line???
+            self.queue['status']=self.queue['status'].astype('Int64') 
             return(True)
       
           except Exception as ex:
@@ -133,6 +151,30 @@ class urlQueue:
 
           return(False)  
           
+
+
+
+
+
+      def statuses(self):
+          return( self.queue['status'].value_counts().to_dict())  
+
+
+
+
+
+
+      def getNextUrlData(self):
+          
+          if self.currentQPos >= self.queue.shape[0]:
+             return(None)
+                      
+          urlData = self.queue.iloc[self.currentQPos].to_dict()
+          self.currentQPos += 1
+          return(urlData) 
+
+
+
 
 
       def getNext(self, mode = 'expand'):

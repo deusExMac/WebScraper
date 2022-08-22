@@ -321,7 +321,7 @@ class extractionRule:
     # htmlContent must be html object from requests_html
     # TODO: Check this thoroughly. Also, refactor this...
     #       THIS IS A MESS. Has become so ugly. I'm sorry...
-    def apply( self, htmlContent ) -> dict:
+    def apply( self, htmlContent, debug=False ) -> dict:
 
         exTractedData = {}
         exTractedData['datatype'] = 'record'
@@ -343,7 +343,7 @@ class extractionRule:
         '''
         # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
-        print('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', str(preconStatus['status']).upper())
+        print( utils.toString('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', str(preconStatus['status']).upper(), '\n') if debug else '', end='' )
         if not preconStatus['status']:
            # TODO: Should we remove next line? Is it required?  
            exTractedData[self.ruleName] = ''
@@ -359,7 +359,7 @@ class extractionRule:
            # This rule targets a script. Enter script mode meaning
            # start executing the regular expression in ruleContentCondition
            # if the selector was nor replaced by a precondition. 
-           print('\t\t[DEBUG] Extracting from script...')
+           print( utils.toString('\t\t[DEBUG] Extracting from script...\n') if debug else '', end='')
            if preconStatus['cssselector'] == '':
               return( self.extractFromScript(htmlContent, self.ruleContentCondition  ) )
            else:
@@ -457,7 +457,7 @@ class extractionRule:
                                 
 
                            rsList.append(d)
-                           print('\t\t\t[DEBUG] Got', d)
+                           print( utils.toString('\t\t\t[DEBUG] Got', d, '\n') if debug else '', end='')
 
                        exTractedData[self.ruleName] = rsList
                        exTractedData['datatype'] = 'recordlist'
@@ -498,7 +498,7 @@ class extractionRule:
          
          #print('\t\tNo TEXT.', res)                
          if self.ruleReturnedMatchPos >= 0:
-            print('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']', sep='' )
+            print( utils.toString('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']\n') if debug else '', sep='', end='' )
             exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
             numExtracted += 1
          else:
@@ -588,7 +588,7 @@ class ruleLibrary:
                   
                  print( utils.toString('YES\n') if debug else '', end='')   
                  
-                 xrd = r.apply(pageHtml)
+                 xrd = r.apply(pageHtml, debug)
                  pageData.update( xrd )
           
           return(pageData)       
