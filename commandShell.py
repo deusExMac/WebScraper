@@ -1082,6 +1082,7 @@ class commandImpl:
                  pageData = exRules.applyAllRules(currentUrl, response.html, cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False))
                  
                  extractedLinks = pageData.get('getLinks', [])
+                 
                  print( utils.toString('\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                  getLinksRule = exRules.get('getLinks')
                  tB = time.perf_counter()
