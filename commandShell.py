@@ -1101,7 +1101,7 @@ class commandImpl:
                         if re.search( getLinksRule.ruleContentCondition, cUrl) is not None:  
                            uQ.add( cUrl ) # Add it to the URL queue
                         
-                 print( utils.toString('\t\t\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  ) 
+                 print( utils.toString('\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  ) 
 
                  '''
                  # Iterate over all rules and check if they must be applied on the page
