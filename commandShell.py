@@ -1291,7 +1291,7 @@ class commandImpl:
           # Display some statistics 
           exRules.libStats()
           
-          print('\nFinished in: ', str(datetime.timedelta(seconds= float('{:.0}'.format(time.perf_counter() - crawlStarted)))) )
+          print('\nFinished in (h:m:s) ', str(datetime.timedelta(seconds= float('{:.0}'.format(time.perf_counter() - crawlStarted)))) )
           return(False)
 
 
