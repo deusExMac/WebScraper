@@ -298,20 +298,20 @@ class extractionRule:
 
 
 
-    def evalMatchPreconditions(self, record):
+    def evalMatchPreconditions(self, record, debug=False):
         #print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
         if len(self.ruleMatchPreconditions) <= 0:
            return({'status':True, 'cssselector':''})   
 
 
         for rpc in self.ruleMatchPreconditions:
-            print('\t\t[DEBUG] Evaluating MATCH precondition [', rpc.ecCSSSelector, ']....', end='')
+            print( utils.toString('\t\t[DEBUG] Evaluating MATCH precondition [', rpc.ecCSSSelector, ']....') if debug else '', end='')
             #print('\t\t\t[DEBUG] for record', record)
             if rpc.conditionHolds( record ):
-               print('YES. Returning [', rpc.ecRuleCSSSelector, ']')   
+               print( utils.toString('YES. Returning [', rpc.ecRuleCSSSelector, ']\n') if debug else '', end='' )
                return( {'status': True, 'cssselector': rpc.ecRuleCSSSelector} )      
 
-            print('NO')
+            print( utils.toString('NO\n') if debug else '', end='' )
         
         return( {'status': False, 'cssselector':''} )  
 
@@ -381,7 +381,7 @@ class extractionRule:
         if len(self.ruleMatchPreconditions) > 0:
             pRes = []   
             for e in res:                
-                pStatus = self.evalMatchPreconditions(e)
+                pStatus = self.evalMatchPreconditions(e, debug)
                 if pStatus['status']:
                    if pStatus['cssselector'] != '':
                       pRes.append( e.find( pStatus['cssselector'], first=True) )
@@ -613,13 +613,13 @@ class ruleLibrary:
       ''' 
 
 
-      def CSVFields(self, xD, minFilled=0) -> dict:
-          return( self.toDict(xD, minFilled) )
+      def CSVFields(self, xD, minFilled=0, debug=False) -> dict:
+          return( self.toDict(xD, minFilled, debug) )
 
 
       # minFilled: percentage of keys that must not be empty in order
       # to consider an extraction to have succeeded.
-      def toDict(self, xD, minFilled=0) -> dict:
+      def toDict(self, xD, minFilled=0, debug=False) -> dict:
           dct = {}
           nonEmpty = 0
           if minFilled > 1:
@@ -636,10 +636,10 @@ class ruleLibrary:
                  nonEmpty += 1
 
           # Check if        
-          #print('\t\t[DEBUG] Total of ', i + 1, 'fields. NonEmpty=', nonEmpty, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', minFilled )
+          print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
           if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
           #if nonEmpty == 0:
-             #print('\t\t\t[DEBUG] Not adding', dct, '(pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ')')   
+             print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  
              return( {} )
             
           return(dct)    
