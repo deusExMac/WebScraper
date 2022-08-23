@@ -1185,13 +1185,15 @@ class commandImpl:
                     # Get extracted data to generate csv line.
                     # We generate a line only if a minimum percentage of
                     # extracted keys in pageData do have a value i.e. are non empty.
-                    xdt = exRules.CSVFields(pageData, 1)
+                    xdt = exRules.CSVFields(pageData)
                     if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
                        clrprint.clrprint('\t\t[DEBUG] Adding [', xdt, ']',  clr='green')
                        # Append extracted data to data frame.
                        xDataDF = pd.concat([xDataDF, pd.DataFrame.from_records([ xdt ])])
+                    #else:
+                    #     print('NOT ADDING!') 
                        
                  else:
                        recordList = pageData[xRules.getRecordListFieldName(pageData)]

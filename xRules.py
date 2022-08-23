@@ -613,13 +613,13 @@ class ruleLibrary:
       ''' 
 
 
-      def CSVFields(self, xD, minFilled=1) -> dict:
+      def CSVFields(self, xD, minFilled=0) -> dict:
           return( self.toDict(xD, minFilled) )
 
 
       # minFilled: percentage of keys that must not be empty in order
       # to consider an extraction to have succeeded.
-      def toDict(self, xD, minFilled=1) -> dict:
+      def toDict(self, xD, minFilled=0) -> dict:
           dct = {}
           nonEmpty = 0
           if minFilled > 1:
