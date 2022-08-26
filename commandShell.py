@@ -612,7 +612,9 @@ class commandImpl:
 
 
 
-      #qF, oF, cfg, xR, nU, mr=False 
+
+
+      
       def updateBasedOnCSV(self, qF, csvF, xR, conf=None):
 
           #if not os.path.exists(qF):
@@ -629,25 +631,40 @@ class commandImpl:
 
           numProcessed = 0
           numUpdated = 0
+          previousHost = ''
           while(True):
                 try:
 
                    extractedData = uS.getNext()
                    if extractedData is None:
-                      print('\tEmpty data. Terminating.')
+                      print('\nEmpty data. Terminating. Updated/processed:', numUpdated, '/', numProcessed)
                       break
 
                    targetUrl = extractedData['url']
-                   clrprint.clrprint( (numProcessed+1), '/', uS.getNumRows(), ') Updating [', targetUrl, ']....', clr='yellow', sep=''  )
+                   pUrl = urlparse( unquote(targetUrl) )
+                   
+                   clrprint.clrprint( (numProcessed+1), '/', uS.getNumRows(), ') Updating [', targetUrl, '] last time accessed:[', extractedData['dateaccessed'], ']...', clr='yellow', sep=''  )
 
                    queueInfo = uQ.getByUrl( targetUrl )
                    if not queueInfo:
                       print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND IN QUEUE! Adding to urlQueue')                   
                       uQ.add( targetUrl )
                    else:
-                      print('\t\t[DEBUG] Url [', targetUrl, '] FOUND IN QUEUE!')
+                      print('\t\t[DEBUG] Url [', targetUrl, '] found in queue.')
 
-                      
+                   
+                   
+                   if previousHost == pUrl.netloc:
+                      delayValue = 0.5 #some value   
+                      if conf.get('Crawler', 'delayModel', fallback='c') == 'h':
+                         delayValue = abs( float( np.random.normal(conf.getfloat('Crawler', 'humanSleepTimeAvg', fallback='3.78'), conf.getfloat('Crawler', 'humanSleepTimeSigma', fallback='0.43'), 1)[0]))
+                      else:
+                         delayValue = conf.getfloat('Crawler', 'sleepTime', fallback='0.3') # TODO: Check fallback!
+                       
+                      #print('Sleeping for', delayValue)
+                      time.sleep( delayValue )
+
+                   previousHost = pUrl.netloc
                    
                    
                    numProcessed += 1
@@ -657,8 +674,9 @@ class commandImpl:
                       continue   
 
                    if response.get('Last-Modified', '') != '':
+                      print('\t\t[DEBUG] Date comparison: NEW=(', response.get('Last-Modified', ''), ') OLD=(', queueInfo['lastmodified'], ')')   
                       if response.get('Last-Modified', '') == queueInfo.get('lastmodified', ''):
-                         print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')                      
+                         #print('\t\t[DEBUG] Date comparison: Not modified (', response.get('Last-Modified', ''), ') (', queueInfo['lastmodified'], ')')                      
                          continue # Not changed
 
                    newHash = utils.txtHash( response.text )
@@ -667,20 +685,55 @@ class commandImpl:
                       print('\t\t[DEBUG] No change.')   
                       continue # Not changed
 
+
+                   print('\t\t[DEBUG] MODIFIED [', targetUrl, ']', sep='')
+                   
                    # There was a change. Extract data now.
                    pageData = xR.applyAllRules(targetUrl, response.html, conf.getboolean('DEBUG', 'debugging', fallback=False))
                    clrprint.clrprint(extractedData, clr='red')
-                   print( pageData )
+                   #print( pageData )
 
+                   uQ.updateTimeFetched(targetUrl)
+                   uQ.updateStatus( targetUrl, response.status )
+                   uQ.updateLastModified(targetUrl, response.get('Last-Modified', ''))
+                   uQ.updatePageHash( targetUrl, newHash )
+
+                   # Update csv file
+                   if xRules.isRecordData(pageData):
+                      xdt = xR.CSVFields(pageData)
+                      xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S') 
+                      xdt['url'] = targetUrl
+                      clrprint.clrprint('\t[DEBUG] Adding ', xdt, clr='green', sep='')  
+                      uS.updateExtractedData(targetUrl, xdt)
+                      
+                   else:
+                     # Since this returned a recordList, iterate over
+                     # the individual records and add then to the data frame
+                     xdtList = pageData[xRules.getRecordListFieldName(pageData)]
+                     #print('\t[DEBUG] Removing all rows with URL [', targetUrl, ']',  sep='')
+                     uS.removeExtractedData( targetUrl )
+                     for xdt in xdtList:
+                         xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+                         xdt['url'] = targetUrl  
+                         clrprint.clrprint('\t[DEBUG] Adding ', xdt, clr='green', sep='')
+                         uS.insertDataAtCurrentPosition(xdt)   
+
+                   numUpdated += 1 
+
+                    
                          
                 except KeyboardInterrupt:
                       print('Control-C seen. Terminating. Updated/Processed:', numUpdated, '/', numProcessed , sep='')
                       break
                   
-          #print('Saving queue...')  
+          print('Saving queue.....')
           uQ.saveQ()
+          print('Saving csv.....')
+          uS.save()
           return(True)            
             
+
+
 
 
       #
