@@ -59,7 +59,7 @@ class urlQueue:
                     print( utils.toString('ok.') if debug else '')
                     
               except Exception as rEx:
-                 print( utils.toString('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), 'Continuing with empty queue.\n') if debug else '', sep='', end='') 
+                 print( utils.toString('[DEBUG] Error loading queue from file ', self.qFile, ':', str(rEx), '. Continuing with empty queue.\n') if debug else '', sep='', end='') 
           else:    
               print( utils.toString('\t[DEBUG] Using NEW queue file [', self.qFile, ']\n') if debug else '', end='')
               

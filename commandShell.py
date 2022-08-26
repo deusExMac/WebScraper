@@ -612,6 +612,75 @@ class commandImpl:
 
 
 
+      #qF, oF, cfg, xR, nU, mr=False 
+      def updateBasedOnCSV(self, qF, csvF, xR, conf=None):
+
+          #if not os.path.exists(qF):
+          #   print('')   
+
+          uQ = urlQueue.urlQueue(startNewSession=False, qF=qF, sQ=True)
+          
+          if not os.path.exists(csvF):
+             print('CSV file [', csvF, '] not found. This is fatal in CSV mode. Terminating')
+             return(False)
+
+          uS = extractedDataSource.extractedDataFileCSVReader(csvF, sep=';')
+
+
+          numProcessed = 0
+          numUpdated = 0
+          while(True):
+                try:
+
+                   extractedData = uS.getNext()
+                   if extractedData is None:
+                      print('\tEmpty data. Terminating.')
+                      break
+
+                   targetUrl = extractedData['url']
+                   clrprint.clrprint( (numProcessed+1), '/', uS.getNumRows(), ') Updating [', targetUrl, ']....', clr='yellow', sep=''  )
+
+                   queueInfo = uQ.getByUrl( targetUrl )
+                   if not queueInfo:
+                      print('\t\t[DEBUG] Url [', targetUrl, '] NOT FOUND IN QUEUE! Adding to urlQueue')                   
+                      uQ.add( targetUrl )
+                   else:
+                      print('\t\t[DEBUG] Url [', targetUrl, '] FOUND IN QUEUE!')
+
+                      
+                   
+                   
+                   numProcessed += 1
+                   response = self.downloadURL(dUrl=targetUrl, rCookies = xR.requestCookies, uAgent=xR.requestUserAgent if xR.requestUserAgent != '' else None, renderPage=xR.renderPages, dynamicElem = xR.ruleDynamicElements, cfg = conf )
+                   
+                   if response.status != 200:
+                      continue   
+
+                   if response.get('Last-Modified', '') != '':
+                      if response.get('Last-Modified', '') == queueInfo.get('lastmodified', ''):
+                         print('\t\t[DEBUG] Date comparison: Not modified (', response.headers.get('Last-Modified', ''), ') (', qData['lastmodified'], ')')                      
+                         continue # Not changed
+
+                   newHash = utils.txtHash( response.text )
+                   print('\t\t[DEBUG] oldHash=[', queueInfo.get('hash', ''), '] newHash=[', newHash,']', sep='')
+                   if newHash == queueInfo.get('hash', ''):
+                      print('\t\t[DEBUG] No change.')   
+                      continue # Not changed
+
+                   # There was a change. Extract data now.
+                   pageData = xR.applyAllRules(targetUrl, response.html, conf.getboolean('DEBUG', 'debugging', fallback=False))
+                   clrprint.clrprint(extractedData, clr='red')
+                   print( pageData )
+
+                         
+                except KeyboardInterrupt:
+                      print('Control-C seen. Terminating. Updated/Processed:', numUpdated, '/', numProcessed , sep='')
+                      break
+                  
+          #print('Saving queue...')  
+          uQ.saveQ()
+          return(True)            
+            
 
 
       #
@@ -827,8 +896,11 @@ class commandImpl:
              print("#######################################################################")
              print("")
              print("")
-             time.sleep( delayValue )
-             self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages'), args['mirror'] )
+             #time.sleep( delayValue )
+
+             self.updateBasedOnCSV( args['queuefile'], args['outputcsvfile'], exRules, cmdConfigSettings)
+
+             #self.__updateCrawl( args['queuefile'], args['outputcsvfile'], cmdConfigSettings, exRules, args.get('numpages'), args['mirror'] )
              return(False)
 
 
