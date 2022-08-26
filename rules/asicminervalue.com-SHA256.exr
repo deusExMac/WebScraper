@@ -67,9 +67,9 @@
                            "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(6) td"
                           },
                           {
-			               "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) th" 
-			               "ecTextCondition" : "Also known as"
-			                "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) td"
+			   "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) th" 
+			   "ecTextCondition" : "Also known as"
+			   "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(7) td"
                           }
                        ]
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(3) td"
@@ -84,7 +84,44 @@
 {
  "ruleName": "releaseDate"
  "ruleDescription": "Release date"
- "ruleURLActivationCondition": ["/miners/", "testPages"] 
+ "ruleURLActivationCondition": ["/miners/", "testPages"]
+ "rulePreconditionType": "Any"
+  "rulePreconditions" : [ 
+                           {
+                             "ecCSSSelector" : "tr:nth-child(3) th" 
+                             "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(3) td"
+                           },
+                           
+                           {
+                             "ecCSSSelector" : "tr:nth-child(4) th" 
+                             "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(4) td"
+                           },
+  
+                          {
+                            "ecCSSSelector" : "tr:nth-child(5) th" 
+			    "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(5) td"
+                           },
+  
+                          {
+                            "ecCSSSelector" : "tr:nth-child(6) th" 
+			     "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(6) td"
+                           },
+                          {
+                            "ecCSSSelector" : "tr:nth-child(7) th" 
+			    "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(7) td"
+                           },
+                           {
+ 			     "ecCSSSelector" : "tr:nth-child(8) th" 
+			     "ecTextCondition" : "(?i)(Release)"
+                             "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(8) td"
+                           }
+                       ]
+                       
  "ruleCSSSelector": "div.col-sm-8 table.table tr:nth-child(4) td"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
@@ -287,7 +324,7 @@
 {
  "ruleName": "getLinks"
  "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["www\.asicminervalue\.com/$"]
+ "ruleURLActivationCondition": ["www\.asicminervalue\.com/?$"]
  
  "ruleCSSSelector": "tr"
  "ruleMatchPreconditionType":"Any"

@@ -135,7 +135,11 @@ class urlQueue:
                self.queue = pd.concat([self.queue, pd.DataFrame.from_records([ d ])], ignore_index=True )
 
             # TODO: Do we really need next line???
-            self.queue['status']=self.queue['status'].astype('Int64') 
+            try:
+               self.queue['status']=self.queue['status'].astype('Int64')
+            except Exception as cdtEx:
+               print('Error. Exception during change of datatype of status:', str(cdtEx))
+               
             return(True)
       
           except Exception as ex:
