@@ -677,6 +677,7 @@ class commandImpl:
                       print('\t\t[DEBUG] Date comparison: NEW=(', response.get('Last-Modified', ''), ') OLD=(', queueInfo['lastmodified'], ')')   
                       if response.get('Last-Modified', '') == queueInfo.get('lastmodified', ''):
                          #print('\t\t[DEBUG] Date comparison: Not modified (', response.get('Last-Modified', ''), ') (', queueInfo['lastmodified'], ')')                      
+                         print('\t\t[DEBUG] No change.')
                          continue # Not changed
 
                    newHash = utils.txtHash( response.text )
@@ -686,7 +687,7 @@ class commandImpl:
                       continue # Not changed
 
 
-                   print('\t\t[DEBUG] MODIFIED [', targetUrl, ']', sep='')
+                   print('\t\t[DEBUG] Change detected [', targetUrl, ']', sep='')
                    
                    # There was a change. Extract data now.
                    pageData = xR.applyAllRules(targetUrl, response.html, conf.getboolean('DEBUG', 'debugging', fallback=False))
