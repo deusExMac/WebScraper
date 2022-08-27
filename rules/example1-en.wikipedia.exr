@@ -1,10 +1,10 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating application of a simple rule on only one web page.
+# Example library 1: Demonstrating application of one simple rule on only one web page.
 # 
-# This library scraps/extracts only the title of english wikipedia articles that are given as argument. 
-# It does not extract or follow any links found in these articles. 
+# This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
+# It does not extract nor does it follow any links found inside downloaded articles. 
 # Notice that special rule named "getLinks" is missing meaning no links are processed/harvested.
 # 
 # How to apply this rule:
@@ -17,6 +17,7 @@
 # v0.1@5/8/2022
 #
 ########################################################################################################################################################
+
 
 
 {

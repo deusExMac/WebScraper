@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 4: Demonstrating the use of page precondition before applying css selectors. This example 
+# Example library 4: Demonstrating the use of page precondition before applying a rule i.e. the css selector. This example 
 #                    features a rule with only one (1) page precondition.
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
@@ -9,7 +9,7 @@
 # seen on the team's wikipedia page https://en.wikipedia.org/wiki/Barnsley_F.C.
 # This library demonstrates the use of page rule preconditions that allows extracting the data specified in ruleCSSSelector only if the precondition(s) 
 # hold. If present, page preconditions are always checked BEFORE applying ruleCCSSelector. If precondition(s) do not hold, ruleCSSSelector is not applied
-# to the page content and hence no data is extracted. I.e. in such case, the rule is ignored.
+# to the page content and hence no data is extracted. I.e. in such case, the rule is ignored. Page precondition may refer and check any element of the page.
 #
 # The library contains rule "getLinks" for harvesting links.
 # 
@@ -172,8 +172,8 @@
  # found on the downloaded page.
  # This rule contains only one page precondition. It requires the ninth row 
  # of the infobox to have a value of Manager or Head coach. If the ninth row matches
- # regular condition (i.e. returns True) the selector in ruleCSSSelector is applied. If not
- # selector in ruleCSSSelector is not applied.
+ # regular condition (i.e. returns True) the selector in ruleCSSSelector is applied. If not,
+ # the selector in ruleCSSSelector is not applied.
  #
  # More preconditions can be set for the same page along with boolean modifiers specifying
  # if any or all of the preconditions must hold.

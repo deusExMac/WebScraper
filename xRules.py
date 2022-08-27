@@ -540,6 +540,12 @@ class ruleLibrary:
       # be formatted as a line when storing results in csv format
       csvLineFormat: List[str] = field( default_factory=lambda:[] )
 
+      # Minimum percentage of non empty rules in extracted data allowed,
+      # to consider the extraction a success. Below this pct, no
+      # data is added to the csv file.
+      # Values in range [0, 1]
+      allowedMinimumFilled: float = 1
+
       # Whether or not downloaded pages should be rendered using HTMLSession's .render() method
       # If set to True, all downloaded pages will be rendered
       # TODO: Seems to be very, very slow. Be careful when setting is to true.
@@ -635,8 +641,13 @@ class ruleLibrary:
               if xD[nm] != '':
                  nonEmpty += 1
 
-          # Check if        
+          # Check if minimum amount is empty       
           print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
+
+          # Special case in minFilled is 0
+          if nonEmpty == 0:
+             return( {} )
+            
           if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
           #if nonEmpty == 0:
              print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  

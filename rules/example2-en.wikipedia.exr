@@ -1,12 +1,13 @@
 
 ########################################################################################################################################################
 #
-# Example library 2: Demonstrating the application of two rules, one extracting the title and one extracting hyperlinks of pages. 
-# Inside libraries a rule with the name getLinks always extracts hyperlinks. The name getLinks is a reserved word. Extracted
-# hyperlinks are followed and pages they point to are processed in the same way (i.e. extracting their title). 
+# Example library 2: Demonstrating the application of two rules on a single page: one extracting the title and one extracting hyperlinks of the page. 
+#                    Inside libraries a rule with the name getLinks always extracts hyperlinks. The name getLinks is a reserved word in the context of
+#                    WebScraper. Extracted hyperlinks are followed and pages they point to are processed by the same library (i.e. extracting their title). 
+#                    
 # 
 # This library scraps/extracts the title of all english wikipedia articles that will be encounterred as well as all hyperlinks that
-# that lead to wikipedia. Links leaving wikipedia are ignored. All extracted wikipedia links will be followed and processed in the
+# that lead to wikipedia. Links not pointing to wikipedia are ignored. All extracted wikipedia links will be followed and processed in the
 # same way.
 # It contains a special rule named "getLinks" which is a keyword and only rules harvesting links should be named like that.
 # 

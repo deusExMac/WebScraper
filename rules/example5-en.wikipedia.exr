@@ -1,16 +1,17 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions before applying css selectors (scraping data) and 
+# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
-#                    preconditions i.e. rule is applied if any of the specified preconditions is TRUE. 
+#                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE. 
 # 
 # This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
 #
 # https://en.wikipedia.org/wiki/Statistical_model  and
 # https://en.wikipedia.org/wiki/Polynomial
 #
-# this library extracts the title.
+# this library extracts the title. The way to determine whether an wikipedia article is about statistics or algebra requires
+# checking different parts/elements of the page.
 #
 # This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
 # be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
@@ -109,10 +110,12 @@
  #  PRECONDITION1 OR PRECONDITION2 OR PRECONITION3 ...
  #  If the above expression returns true, the rule is applied on the page.
  #
- #  Other values supported are: ALL, EVAL. 
- #  ALL: All preconditions MUST hold in order for the rules to be applied. Rule is applied
- # if the next expression is 
- #  EVAL: complicated logical expressions can be expressed i.e. (PRECONDITION1 OR PRECONDITION2) AND NOT PRECONDITION3
+ #   
+ #  Other values for rulePreconditionType supported are: ALL, EVAL which result in different
+ #  evaluation of preconditions:
+ #    - ALL: All preconditions MUST hold in order for the rules to be applied. Rule is applied
+ #           if the next expression is 
+ #    - EVAL: complicated logical expressions can be expressed i.e. (PRECONDITION1 OR PRECONDITION2) AND NOT PRECONDITION3
  #
  #  See documentation for more help on this.
  
@@ -128,7 +131,8 @@
  # 
  
  "rulePreconditions" : [ 
-                          # First precondition: Check if page is about statistics 
+                          # First precondition: Check if page is about statistics. This
+                          # is determined by checking if the page has an element with id #Statistics 
                           {
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the pages is
@@ -153,7 +157,9 @@
                           },
                           
                           
-                          # Second precondition: Check if page is about algebra.
+                          # Second precondition: Check if page is about algebra. This 
+                          # is determined by checking if the text of the element with id #mw-normal-catlinks 
+                          # contains algebra.
                           # NOTE: Checking the same element/method (see previous rule) does not 
                           # always work for all wikipedia articles
                         
@@ -174,7 +180,7 @@
                             #
                             # NOTE: case insensitive match specified
                                                         
-                            "ecTextCondition" : "(?i)algebra"
+                            "ecTextCondition" : "\b(?i)algebra\b"
                           }
  ],
  
