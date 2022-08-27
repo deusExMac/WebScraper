@@ -47,6 +47,7 @@
 
 "csvLineFormat":["articleTitle"],
 
+"requiredFilled": ["articleTitle"],
 
 
 # How should the downloaded html page be rendered.

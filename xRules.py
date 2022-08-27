@@ -544,8 +544,15 @@ class ruleLibrary:
       # to consider the extraction a success. Below this pct, no
       # data is added to the csv file.
       # Values in range [0, 1]
-      allowedMinimumFilled: float = 1
+      allowedMinimumFilled: float = -1.0
 
+      # Extracted field names that MUST all be non-empty i.e. filled
+      # to consider the extraction process a success and 
+      # the data be written to the csv file.
+      requiredFilled: List[str] = field( default_factory=lambda:[] )
+
+
+      
       # Whether or not downloaded pages should be rendered using HTMLSession's .render() method
       # If set to True, all downloaded pages will be rendered
       # TODO: Seems to be very, very slow. Be careful when setting is to true.
@@ -619,13 +626,13 @@ class ruleLibrary:
       ''' 
 
 
-      def CSVFields(self, xD, minFilled=0, debug=False) -> dict:
-          return( self.toDict(xD, minFilled, debug) )
+      def CSVFields(self, xD, reqFilled=[], minFilled=-1, debug=False) -> dict:
+          return( self.toDict(xD, reqFilled, minFilled, debug) )
 
 
       # minFilled: percentage of keys that must not be empty in order
       # to consider an extraction to have succeeded.
-      def toDict(self, xD, minFilled=0, debug=False) -> dict:
+      def toDict(self, xD, reqFilled=[], minFilled=-1, debug=False) -> dict:
           dct = {}
           nonEmpty = 0
           if minFilled > 1:
@@ -637,19 +644,27 @@ class ruleLibrary:
               if xD.get(nm) is None:
                  continue
             
-              dct[nm] = xD[nm]
-              if xD[nm] != '':
+              dct[nm] = xD[nm].strip()
+              if xD[nm].strip() != '':
                  nonEmpty += 1
 
+
+                  
           # Check if minimum amount is empty       
           print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
 
+          # Now check if there are any constraints.
+          
+          if reqFilled:
+             for k in reqFilled:
+                 if dct.get(k, '') == '':
+                    return({})
+
           # Special case in minFilled is 0
-          if nonEmpty == 0:
-             return( {} )
+          #if nonEmpty == 0:
+          #   return( {} )
             
           if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
-          #if nonEmpty == 0:
              print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  
              return( {} )
             
