@@ -1,10 +1,10 @@
 
 ########################################################################################################################################################
 #
-# Example library 6: Demonstrating the use of more than one page preconditions that also overwrite/change the rule's specified 
+# Example library 6: Demonstrating the use of more than one page preconditions in rules that moreover overwrite/change the rule's specified 
 #                    ruleCSSSelector selector. 
 #                    i.e. the css selector for scrapping data specified in ruleCSSSelector changes based on which page
-#                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType is ANY. If more
+#                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
 #                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
 #                    ecRuleCSSSelector is not empty.  
 #                    changes based on which page precondition holds. 
@@ -33,9 +33,9 @@
 #         change ruleCSSSelector to ecRuleCSSSelector of precondition2
 # ELSE IF PRECONDITION3 is TRUE
 #         change ruleCSSSelector to ecRuleCSSSelector of precondition3
-# ...
+# etc
 # 
-# In a rule, not all precondtions need to define  a ecRuleCSSSelector. If some preconditions do not define ecRuleCSSSelector and are true, the ruleCSSSelector
+# In a rule, not all precondtions need to define a ecRuleCSSSelector. If some preconditions do not define ecRuleCSSSelector and are true, the ruleCSSSelector
 # applied.
 #
 # This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
@@ -47,7 +47,7 @@
 # 
 # How to apply this rule:
 #
-# crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+# crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs
 #
 # NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
 # option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
@@ -72,7 +72,10 @@
 
 "csvLineFormat":["teamName", "manager"],
 
+"requiredFilledFields": ["teamName", "manager"],
+
 "allowedMinimumFilled" : 0.8
+
 
 # How should the downloaded html page be rendered.
 # WebScraper supports two modes of URL downloads:
