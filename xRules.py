@@ -345,7 +345,9 @@ class extractionRule:
         preconStatus = self.evalPreconditions(htmlContent)
         print( utils.toString('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', str(preconStatus['status']).upper(), '\n') if debug else '', end='' )
         if not preconStatus['status']:
-           # TODO: Should we remove next line? Is it required?  
+           # TODO: Since precondition does not hold,
+           #       an empty value is assigned to key ruleName.
+           #       Should we return an empty dictionary instead?  
            exTractedData[self.ruleName] = ''
            return(exTractedData)
 
@@ -626,11 +628,12 @@ class ruleLibrary:
       ''' 
 
 
-      #
-      # Extract from xD the fields/keys that are mentioned in the rule's csvLineFormat
-      # to produce the data for one csv line. Checks also if extracted data
-      # meets the library's constraints that determine if the extraction process was
-      # successful.
+
+      # Filter from xD (the data extracted by rules)
+      # the fields/keys that are mentioned in the rule's csvLineFormat
+      # to produce the data that is to be added to the csv file as one line.
+      # Checks also if extracted data meets the library's constraints that
+      # determine if the extraction process was successful.
       #
       # xD: dictionary with extracted data as they originated by applying all rules.
       # reqFilled: List of required fields that must be non-empty (get value from

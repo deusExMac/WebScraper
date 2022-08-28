@@ -47,8 +47,22 @@
 
 "csvLineFormat":["articleTitle"],
 
+
+# The list of ruleNames that must return non-empty value
+# to consider the extraction successful. If at least one 
+# of the ruleName(s) receive an empty value, the extracted
+# data is not added to the csv file. 
+# An empty list means no required keys must be non-empty i.e. filled.
+
 "requiredFilledFields": ["articleTitle"],
 
+
+# Minimum percentage of ruleName that must return non-empty
+# data during their application in order to consider the extraction process
+# a success.
+# Allowed values: floats in range [0, 1]. A negative value means no minimum percentage.
+
+"allowedMinimumFilled" : -1.0
 
 # How should the downloaded html page be rendered.
 # WebScraper supports two modes of URL downloads:
