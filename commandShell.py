@@ -1403,13 +1403,13 @@ class commandImpl:
                  #break
 
 
-          print( utils.toString('[DEBUG] Saving extracted data to [', args['outputcsvfile'], ']...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+          print('\nSaving extracted data to [', args['outputcsvfile'], '] (', xDataDF.shape[0] if xDataDF is not None else '???',')...', sep='', end='')
           if xDataDF is not None:
             try:    
              xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
-             print( utils.toString('ok\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+             print( 'done.')
             except Exception as scsvEx:
-                  print( utils.toString('Error.', str(scsvEx), '\n'), end='')
+                  print('Error:', str(scsvEx),)
           
           if uQ.qSave: 
              print( utils.toString('[DEBUG] Saving queue...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')       
