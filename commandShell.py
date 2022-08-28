@@ -1312,7 +1312,7 @@ class commandImpl:
                     # Get extracted data to generate csv line.
                     # We generate a line only if a minimum percentage of
                     # extracted keys in pageData do have a value i.e. are non empty.
-                    xdt = exRules.CSVFields(pageData, debug=cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False), reqFilled=exRules.requiredFilled, minFilled=exRules.allowedMinimumFilled)
+                    xdt = exRules.CSVFields(pageData, debug=cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False), reqFilled=exRules.requiredFilledFields, minFilled=exRules.allowedMinimumFilled)
                     if xdt:
                        xdt['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')  
                        xdt['url'] = currentUrl
