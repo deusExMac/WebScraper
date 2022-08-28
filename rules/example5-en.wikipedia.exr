@@ -48,11 +48,11 @@
 "csvLineFormat":["articleTitle"],
 
 
-# The list of ruleNames that must return non-empty value
-# to consider the extraction successful. If at least one 
-# of the ruleName(s) receive an empty value, the extracted
+# The list of ruleNames that must return non-empty values
+# to consider the extraction successful and the data be written to the csv file. 
+# If at least one  of the ruleName(s) receive an empty value, the extracted
 # data is not added to the csv file. 
-# An empty list means no required keys must be non-empty i.e. filled.
+# An empty list here means no keys must be non-empty i.e. filled.
 
 "requiredFilledFields": ["articleTitle"],
 

@@ -655,7 +655,7 @@ class ruleLibrary:
           else:
               minPctFilled = minFilled
 
-          found=0    
+          found=0 # number of fields found in extracted data
           for i, nm in enumerate(self.csvLineFormat):
               if xD.get(nm) is None:
                  continue
@@ -680,19 +680,13 @@ class ruleLibrary:
                     print( utils.toString('\t[DEBUG] Required field [', k, '] empty. Returning empty data.\n') if debug else '', end='', sep=''  )   
                     return({})
 
-          # Special case in minFilled is 0
-          #if nonEmpty == 0:
-          #   return( {} )
+          
 
-          # Check if minimum amount is empty
-          #if i == -1:
-          #   print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled: 0', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )   
-          #else:      
-          print( utils.toString('\t[DEBUG] Total of ', found, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)) if i != -1 else '---', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
+          # Check if minimum amount is empty      
+          print( utils.toString('\t[DEBUG] Total of ', found, ' fields found. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/found) if found != 0 else '---', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
   
-          if float('{:.2}'.format(nonEmpty/found) if found !=0 else -666 ) < minFilled:
-             #print(i)    
-             print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  
+          if float('{:.2}'.format(nonEmpty/found) if found !=0 else -666 ) < minFilled:    
+             print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/found) if found != 0 else '---', ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  
              return( {} )
             
           return(dct)    
