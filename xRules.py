@@ -682,7 +682,7 @@ class ruleLibrary:
 
           
 
-          # Check if minimum amount is empty      
+          # Check if minimum amount of keys is filled      
           print( utils.toString('\t[DEBUG] Total of ', found, ' fields found. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/found) if found != 0 else '---', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
   
           if float('{:.2}'.format(nonEmpty/found) if found !=0 else -666 ) < minFilled:    
