@@ -545,7 +545,7 @@ class ruleLibrary:
       # Minimum percentage of non empty rules in extracted data allowed,
       # to consider the extraction a success. Below this pct, no
       # data is added to the csv file.
-      # Values in range [0, 1]
+      # Valid values must be in range [0, 1]
       allowedMinimumFilled: float = -1.0
 
       # Extracted field names that MUST all be non-empty i.e. filled
@@ -654,34 +654,44 @@ class ruleLibrary:
              minPctFilled = 1
           else:
               minPctFilled = minFilled
-              
+
+          found=0    
           for i, nm in enumerate(self.csvLineFormat):
               if xD.get(nm) is None:
                  continue
-            
+
+              found += 1
               dct[nm] = xD[nm].strip()
               if xD[nm].strip() != '':
                  nonEmpty += 1
-
+          
+          
 
                   
-          
+          print( utils.toString('\t[DEBUG] Checking if data ', dct, ' meets constraints.\n') if debug else '', sep='', end='' )
+
           # Now check if there are any constraints.
           print( utils.toString('\t[DEBUG] Required non-empty fields: ', reqFilled, '\n') if debug else '', end='', sep='' )
+
+          # First, check if required fields are non empty.
           if reqFilled:
              for k in reqFilled:
                  if dct.get(k, '') == '':
-                    print( utils.toString('[DEBUG] Required field [', k, '] empty. Returning empty data.\n') if debug else '', end='', sep=''  )   
+                    print( utils.toString('\t[DEBUG] Required field [', k, '] empty. Returning empty data.\n') if debug else '', end='', sep=''  )   
                     return({})
 
           # Special case in minFilled is 0
           #if nonEmpty == 0:
           #   return( {} )
 
-          # Check if minimum amount is empty       
-          print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
+          # Check if minimum amount is empty
+          #if i == -1:
+          #   print( utils.toString('\t[DEBUG] Total of ', i + 1, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled: 0', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )   
+          #else:      
+          print( utils.toString('\t[DEBUG] Total of ', found, ' fields. NonEmpty:', str(nonEmpty), ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)) if i != -1 else '---', ') min:', str(minFilled), '\n' ) if debug else '', end='', sep='' )
   
-          if float('{:.2}'.format(nonEmpty/(i+1))) < minFilled: 
+          if float('{:.2}'.format(nonEmpty/found) if found !=0 else -666 ) < minFilled:
+             #print(i)    
              print( utils.toString('\t[DEBUG] Not adding ', dct, ' (pct filled:', '{:.2}'.format(nonEmpty/(i+1)), ' minFilled:', str(minFilled), ')\n') if debug else '', sep='', end=''  )  
              return( {} )
             
