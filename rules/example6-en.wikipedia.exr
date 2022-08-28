@@ -11,7 +11,7 @@
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
 #                    preconditions i.e. rule is applied if any of the specified preconditions is TRUE. 
 # 
-# This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia about premier league teams. 
+# This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia pages about premier league teams. 
 # The rules in file example4-en.wikipedia.exr makes the assumption that the manager's name is always at a very specific
 # position in the infobox (8th position of the field list). However this might not always be the case. See e.g.
 # 
@@ -19,10 +19,12 @@
 # and
 #   https://en.wikipedia.org/wiki/Aston_Villa_F.C. where the coach/manager is at the 9th position of the field list inside the infobox.
 # 
-# Using overwriting of the rule's ruleCSSSelector the rule may not only check different parts of the page to locate the information it is looking for
-# but also to use different selectors to extract the information based on the precondition. These precondition level selectors are defined in the 
-# fild ecRuleCSSSelector available in each preconditions. If this field is empty (default), no overwritting is enforced. If a precondition is true
-# has a non empty CSS selector in the field ecRuleCSSSelector, then this selector will replace ruleCSSSelector.
+# Using overwriting of the rule's ruleCSSSelector, a rule may not only check different parts of the page to locate the information it is looking for
+# but also allows it to use different selectors to extract the information based on which precondition was evaluated as true.
+# These precondition level selectors are defined in the  field ecRuleCSSSelector available in each precondition that
+# overwrite, if present, the rule's ruleCSSSelector. 
+# If this field is empty (default), no overwritting is enforced. If more than one preconditions are true, ruleCSSSelector is
+# replaced by the value of ecRuleCSSSelector of the first precodnition evaluated as true.
 #
 # In essense, by overwriting the rule's ruleCSSSelector, the ruleCSSSelector is not static but conditionally defined based on the precondition. 
 # This means that preconditions will function like this:
@@ -38,14 +40,8 @@
 # In a rule, not all precondtions need to define a ecRuleCSSSelector. If some preconditions do not define ecRuleCSSSelector and are true, the ruleCSSSelector
 # applied.
 #
-# This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
-# be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
-# processed.
-# If evaluation of preconditions returns FALSE, the rule is not applied.
-#
-# The library contains rule "getLinks" for harvesting links.
 # 
-# How to apply this rule:
+# How to use this rule:
 #
 # crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs
 #
@@ -63,7 +59,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title of english wikipedia articles related to statistics OR algebra.",
+"libraryDescription": "Library to extract the team and manager name from english wikipedia articles on to premier league clubs",
 
 
 
@@ -72,7 +68,14 @@
 
 "csvLineFormat":["teamName", "manager"],
 
+# The list of ruleNames that must return non-empty values
+# to consider the extraction successful and the data be written to the csv file. 
+
 "requiredFilledFields": ["teamName", "manager"],
+
+# Minimum percentage of ruleName that must return non-empty
+# data during their application in order to consider the extraction process
+# a success and hence add the extracted data to the csv file.
 
 "allowedMinimumFilled" : 0.8
 
@@ -119,7 +122,7 @@
  
  # Short description
  
- "ruleDescription": "Extracts the team and manager name from wikipedia article to premier league pages",
+ "ruleDescription": "Extracts the team name from wikipedia article to premier league pages",
  
  
  
@@ -165,12 +168,14 @@
 
 
 
-# Rule to extract/scrape the name of the team's manager inside the infobox.
+# Rule to extract/scrape the name of the team's manager from the infobox.
+# This rule features preconditions with elector overwriting. 
+
 
 {
 
  # If no ruleName is specified, the extracted data of this rule cannot be used
- # in  the csvLineFormat attribute.
+ # in the csvLineFormat attribute.
  
  "ruleName": "manager",
  
@@ -218,8 +223,8 @@
                           # First precondition: Check if manager is at this part of the page
                           {
                              # The precondition selector i.e. the element to be
-                             # checked. This precondition checks if the pages is
-                             # about Statistics
+                             # checked. This precondition examines if the 9th row in 
+                             # the infobox has the value Manager or Head coach.
                         
                              "ecCSSSelector" : "tr:nth-child(9) .infobox-label", 
                             
@@ -240,7 +245,8 @@
                             
                             # If the 9th child in the infobox has as text manager or head coach
                             # then replace the rule's ruleCSSSelector with the value of 
-                            # ecRuleCSSSelector in this precondition.
+                            # ecRuleCSSSelector in this precondition. I.e. use this
+                            # selector, overwriting ruleCSSSelector, to get the manager's name
                             
                             "ecRuleCSSSelector" : "tr:nth-child(9) .agent"
                           },
@@ -248,33 +254,34 @@
                           
                           # Second precondition: Check if manager is at a different position
                           # of the infobox
-			    {
-			       # The precondition selector i.e. the element to be
-			       # checked. This precondition checks if the pages is
-			       # about Statistics
+			              {
+			                # The precondition selector i.e. the element to be
+                            # checked. This precondition examines if the 10th row in 
+                            # the infobox has the value Manager or Head coach.
 
-			       "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
+			                "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
 
 
-			      # Regular expression the text property of the element 
-			      # in ecCSSSelector must match. Only text property is currently 
-			      # supported. If element matches regular expression, the 
-			      # precondition holds and the ruleCSSSelector is applied.
-			      #
-			      # An empty value (the default if ecTextCondition is missing) 
-			      # means that this precondition holds if the element 
-			      # specified in ecCSSSelector exists on the page currently processed.
-			      # 
-			      # REMEMBER: If you would like to specify a case INsensitive match,
-			      # you may add the (?i) flag                              
+			                # Regular expression the text property of the element 
+			                # in ecCSSSelector must match. Only text property is currently 
+			                # supported. If element matches regular expression, the 
+			                # precondition holds and the ruleCSSSelector is applied.
+			                #
+			                # An empty value (the default if ecTextCondition is missing) 
+			                # means that this precondition holds if the element 
+			                # specified in ecCSSSelector exists on the page currently processed.
+			                #  
+			                # REMEMBER: If you would like to specify a case INsensitive match,
+			                # you may add the (?i) flag                              
 
-			      "ecTextCondition" : "(?i)(Manager|Head coach)",
+			                "ecTextCondition" : "(?i)(Manager|Head coach)",
 
-			      # If the 10th child in the infobox has as text manager or head coach
-			      # then replace the rule's ruleCSSSelector with the value of 
-			      # ecRuleCSSSelector in this precondition.
-			      "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
-                          },
+			                # If the 10th child in the infobox has as text manager or head coach
+			                # then replace the rule's ruleCSSSelector with the value of 
+			                # ecRuleCSSSelector in this precondition.
+			                
+			                "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
+                          }
                           
                           # NOTE: You may add here more preconditions with overwriting the ruleCSSSelector
                           #       if you would like to check other positions of the infobox for the same 

@@ -59,7 +59,7 @@
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
-# a success.
+# a success and hence add the extracted data to the csv file.
 # Allowed values: floats in range [0, 1]. A negative value means no minimum percentage.
 
 "allowedMinimumFilled" : -1.0
