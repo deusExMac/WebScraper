@@ -20,8 +20,8 @@
 
 		 {
 		     "dpcType":"scroll",
-		     "dpcPageElement":"div[data-testid='pdp-reviews-modal-scrollable-panel']",
-		     "dpcScrolldown":10,
+		     "dpcPageElement":"div[data-testid='pdp-reviews-modal-scrollable-panel']",		     
+		     "dpcScrolldown":2,
 		     "dpcWaitFor":""
 		 }
  
