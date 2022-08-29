@@ -101,23 +101,23 @@
   
                           {
                             "ecCSSSelector" : "tr:nth-child(5) th" 
-			    "ecTextCondition" : "(?i)(Release)"
+			          "ecTextCondition" : "(?i)(Release)"
                              "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(5) td"
                            },
   
                           {
                             "ecCSSSelector" : "tr:nth-child(6) th" 
-			     "ecTextCondition" : "(?i)(Release)"
+			          "ecTextCondition" : "(?i)(Release)"
                              "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(6) td"
                            },
                           {
                             "ecCSSSelector" : "tr:nth-child(7) th" 
-			    "ecTextCondition" : "(?i)(Release)"
+			          "ecTextCondition" : "(?i)(Release)"
                              "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(7) td"
                            },
                            {
- 			     "ecCSSSelector" : "tr:nth-child(8) th" 
-			     "ecTextCondition" : "(?i)(Release)"
+ 			           "ecCSSSelector" : "tr:nth-child(8) th" 
+			           "ecTextCondition" : "(?i)(Release)"
                              "ecRuleCSSSelector" : ".col-sm-8 tr:nth-child(8) td"
                            }
                        ]
@@ -160,34 +160,34 @@
                            "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(9) td"
                           },
                           {
-			  "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) th" 
-			  "ecTextCondition" : "Power"
-			  "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) td"
+			    "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) th" 
+			    "ecTextCondition" : "Power"
+			    "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(10) td"
                           },
                           {
-			        "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) th" 
-			        "ecTextCondition" : "Power"
-			        "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) td"
+			    "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) th" 
+			    "ecTextCondition" : "Power"
+			    "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(11) td"
                           },
                           {
-			        "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) th" 
-			        "ecTextCondition" : "Power"
-			        "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) td"
+			     "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) th" 
+			     "ecTextCondition" : "Power"
+			     "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(12) td"
                           },
                           {
-			        "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) th" 
-			        "ecTextCondition" : "Power"
-			        "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) td"
+			     "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) th" 
+			     "ecTextCondition" : "Power"
+			     "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(13) td"
                           },
                           {
-			        "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) th" 
-			        "ecTextCondition" : "Power"
-			        "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) td"
+			     "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) th" 
+			     "ecTextCondition" : "Power"
+			     "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(14) td"
                           },
                           {
-			        "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(15) th" 
-			        "ecTextCondition" : "Power"
-			        "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(15) td"
+			     "ecCSSSelector" : "div.col-sm-8 table.table tr:nth-child(15) th" 
+			     "ecTextCondition" : "Power"
+			     "ecRuleCSSSelector" : "div.col-sm-8 table.table tr:nth-child(15) td"
                           }
                        ]
  
@@ -205,7 +205,7 @@
  "ruleName": "incomePerDay"
  "ruleDescription": "Income per day"
  "ruleURLActivationCondition": ["/miners/", "testPages"] 
- "ruleCSSSelector": "table.rentability tr:nth-child(1) td:nth-child(2)"
+ "ruleCSSSelector": "table.rentability tr:nth-child(1) td.text-right:nth-child(2)"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
@@ -218,7 +218,7 @@
  "ruleName": "electricityPerDay"
  "ruleDescription": "Electricity per day"
  "ruleURLActivationCondition": ["/miners/", "testPages"] 
- "ruleCSSSelector": "table.rentability tr:nth-child(2) td:nth-child(2)"
+ "ruleCSSSelector": "table.rentability tr:nth-child(2) td.text-right:nth-child(2)"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
