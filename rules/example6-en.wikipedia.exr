@@ -7,9 +7,6 @@
 #                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
 #                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
 #                    ecRuleCSSSelector is not empty.  
-#                    changes based on which page precondition holds. 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
-#                    preconditions i.e. rule is applied if any of the specified preconditions is TRUE. 
 # 
 # This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia pages about premier league teams. 
 # The rules in file example4-en.wikipedia.exr makes the assumption that the manager's name is always at a very specific
@@ -19,9 +16,9 @@
 # and
 #   https://en.wikipedia.org/wiki/Aston_Villa_F.C. where the coach/manager is at the 9th position of the field list inside the infobox.
 # 
-# Using overwriting of the rule's ruleCSSSelector, a rule may not only check different parts of the page to locate the information it is looking for
+# Using overwriting of the rule's ruleCSSSelector, a rule may not only simply CHECK different parts of the page to locate the information it is looking for
 # but also allows it to use different selectors to extract the information based on which precondition was evaluated as true.
-# These precondition level selectors are defined in the  field ecRuleCSSSelector available in each precondition that
+# These precondition level selectors are defined in the field ecRuleCSSSelector available in each precondition that
 # overwrite, if present, the rule's ruleCSSSelector. 
 # If this field is empty (default), no overwritting is enforced. If more than one preconditions are true, ruleCSSSelector is
 # replaced by the value of ecRuleCSSSelector of the first precodnition evaluated as true.
@@ -216,11 +213,45 @@
  # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
  # in order to apply the selector in ruleCSSSelector. 
  # The next preconditions feature all an non-empty ecRuleCSSSelector that overwrites the rule's ruleCSSSelector
- # by the first precondition that is evaluated as true.
+ # by the first precondition that is evaluated as true. 
  # 
+ # These preconditions check if information on the manager is at 8th, 9th, 10th or 11th row
+ # in the infobox. Depending on which row contains the manager, a different selector is used
+ # to extract the manager. 
  
  "rulePreconditions" : [ 
                           # First precondition: Check if manager is at this part of the page
+                          {
+                             # The precondition selector i.e. the element to be
+                             # checked. This precondition examines if the 9th row in 
+                             # the infobox has the value Manager or Head coach.
+                        
+                             "ecCSSSelector" : "tr:nth-child(8) .infobox-label", 
+                            
+                            
+                            # Regular expression the text property of the element 
+                            # in ecCSSSelector must match. Only text property is currently 
+                            # supported. If element matches regular expression, the 
+                            # precondition holds and the ruleCSSSelector is applied.
+                            #
+                            # An empty value (the default if ecTextCondition is missing) 
+                            # means that this precondition holds if the element 
+                            # specified in ecCSSSelector exists on the page currently processed.
+                            # 
+                            # REMEMBER: If you would like to specify a case INsensitive match,
+                            # you may add the (?i) flag                              
+                            
+                            "ecTextCondition" : "(?i)(Manager|Head coach)",
+                            
+                            # If the 9th child in the infobox has as text manager or head coach
+                            # then replace the rule's ruleCSSSelector with the value of 
+                            # ecRuleCSSSelector in this precondition. I.e. use this
+                            # selector, overwriting ruleCSSSelector, to get the manager's name
+                            
+                            "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
+                          },
+                          
+                          # Second precondition: Check if manager is at this part of the page
                           {
                              # The precondition selector i.e. the element to be
                              # checked. This precondition examines if the 9th row in 
@@ -252,35 +283,66 @@
                           },
                           
                           
-                          # Second precondition: Check if manager is at a different position
+                          # Third precondition: Check if manager is at a different position
                           # of the infobox
-			              {
-			                # The precondition selector i.e. the element to be
-                            # checked. This precondition examines if the 10th row in 
-                            # the infobox has the value Manager or Head coach.
+			  {
+			     # The precondition selector i.e. the element to be
+                             # checked. This precondition examines if the 10th row in 
+                             # the infobox has the value Manager or Head coach.
 
-			                "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
+			     "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
 
 
-			                # Regular expression the text property of the element 
-			                # in ecCSSSelector must match. Only text property is currently 
-			                # supported. If element matches regular expression, the 
-			                # precondition holds and the ruleCSSSelector is applied.
-			                #
-			                # An empty value (the default if ecTextCondition is missing) 
-			                # means that this precondition holds if the element 
-			                # specified in ecCSSSelector exists on the page currently processed.
-			                #  
-			                # REMEMBER: If you would like to specify a case INsensitive match,
-			                # you may add the (?i) flag                              
+			     # Regular expression the text property of the element 
+			     # in ecCSSSelector must match. Only text property is currently 
+			     # supported. If element matches regular expression, the 
+			     # precondition holds and the ruleCSSSelector is applied.
+			     #
+			     # An empty value (the default if ecTextCondition is missing) 
+			     # means that this precondition holds if the element 
+			     # specified in ecCSSSelector exists on the page currently processed.
+			     #  
+			     # REMEMBER: If you would like to specify a case INsensitive match,
+			     # you may add the (?i) flag                              
 
-			                "ecTextCondition" : "(?i)(Manager|Head coach)",
+			     "ecTextCondition" : "(?i)(Manager|Head coach)",
 
-			                # If the 10th child in the infobox has as text manager or head coach
-			                # then replace the rule's ruleCSSSelector with the value of 
-			                # ecRuleCSSSelector in this precondition.
+			     # If the 10th child in the infobox has as text manager or head coach
+			     # then replace the rule's ruleCSSSelector with the value of 
+			     # ecRuleCSSSelector in this precondition.
 			                
-			                "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
+			     "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
+                          },
+                          
+                          # Forth precondition: Check if manager is at this part of the page
+			  {
+			     # The precondition selector i.e. the element to be
+			     # checked. This precondition examines if the 11th row in 
+			     # the infobox has the value Manager or Head coach.
+
+			     "ecCSSSelector" : "tr:nth-child(11) .infobox-label", 
+
+
+			     # Regular expression the text property of the element 
+			     # in ecCSSSelector must match. Only text property is currently 
+			     # supported. If element matches regular expression, the 
+			     # precondition holds and the ruleCSSSelector is applied.
+			     #
+			     # An empty value (the default if ecTextCondition is missing) 
+			     # means that this precondition holds if the element 
+			     # specified in ecCSSSelector exists on the page currently processed.
+			     # 
+			     # REMEMBER: If you would like to specify a case INsensitive match,
+			     # you may add the (?i) flag                              
+
+			     "ecTextCondition" : "(?i)(Manager|Head coach)",
+
+			     # If the 11th row in the infobox has as text manager or head coach
+			     # then replace the rule's ruleCSSSelector with the value of 
+			     # ecRuleCSSSelector in this precondition. I.e. use this
+			     # selector, overwriting ruleCSSSelector, to get the manager's name
+
+			     "ecRuleCSSSelector" : "tr:nth-child(11) .agent"
                           }
                           
                           # NOTE: You may add here more preconditions with overwriting the ruleCSSSelector
@@ -294,7 +356,6 @@
  # Since the above preconditions may overwrite this selector, this
  # selector is only used in cases when preconditions do not specify
  # ecRuleCSSSelector i.e. do not overwrite this selector.
- # NOTE: the CSS selector may return more than one matching element.
  
  "ruleCSSSelector": "tr:nth-child(9) .agent",
  
