@@ -20,7 +20,7 @@
 
 		 {
 		     "dpcType":"scroll",
-		     "dpcPageElement":"div[data-testid='pdp-reviews-modal-scrollable-panel']",		     
+		     "dpcPageElement":"div.r1are2x1",		     
 		     "dpcScrolldown":2,
 		     "dpcWaitFor":""
 		 }
