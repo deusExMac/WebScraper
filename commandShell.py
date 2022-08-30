@@ -293,16 +293,13 @@ class httpResponse:
 
 
           
-      def setHeaders(self, hdr):
+      def setHeaders(self, hdr): 
           self.__headers = {k.lower(): v for k, v in hdr.items()}
 
 
           
 
       def get(self, key, default=''):
-          #print('Calling get with key [', key, ']', sep='')
-          #print( type(self.requestResponse.headers ) )
-          #print( self.requestResponse.headers )
           if  self.__headers is None:
               return(default)
             
@@ -1115,6 +1112,7 @@ class commandImpl:
                  # NOTE: Content-length for textual data is calculated differently from
                  #       binary data.
                  pHash = ''
+                 #TODO: Check WTF .get() is cast to int?????? What  were i thinking???
                  pageContentLength = int( response.get('Content-Length', '-2') )      
                  if utils.isText( response.get('Content-Type', '')  ):
                     # This is text data.
@@ -1764,7 +1762,7 @@ class commandImpl:
              with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
                   exRules = xRules.loadLibrary(f.read())
 
-          ccc = []
+          ccc = {}
           if exRules is not None:
              ccc = exRules.requestCookies
              
@@ -1775,6 +1773,7 @@ class commandImpl:
             print('\tSession: Status=', respS.status)
             print('\tSession: content-type=', respS.get('Content-tYpe', '????') )
             print('\tSession: content-length=', respS.get('content-length', '-1') )
+            print('\t\tData-type:', type(respS.get('content-length')))
             print('\tSession: Last-Modified=', respS.get('Last-Modified', '-1') )
             print('\tSession: Date=', respS.get('date', '-1') )
             print('\tSession: Set-Cookie=', respS.get('Set-Cookie', '-1') )
