@@ -343,7 +343,7 @@ class extractionRule:
         '''
         # Check if the PAGE preconditions hold
         preconStatus = self.evalPreconditions(htmlContent)
-        print( utils.toString('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] returned: ', str(preconStatus['status']).upper(), '\n') if debug else '', end='' )
+        print( utils.toString('\t[DEBUG] evaluation of PAGE preconditions for [', self.ruleName, '] (mode:', self.rulePreconditionType.upper(),') returned: ', str(preconStatus['status']).upper(), '\n') if debug else '', end='' )
         if not preconStatus['status']:
            # TODO: Since precondition does not hold,
            #       an empty value is assigned to key ruleName.

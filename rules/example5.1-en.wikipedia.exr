@@ -2,8 +2,8 @@
 ########################################################################################################################################################
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
-#                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE. 
+#                    how these preconditions are evaluated. This example demonstrates evaluation using the AND operator between
+#                    preconditions i.e. rule is applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
 # 
 # This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
 #
@@ -18,11 +18,7 @@
 # processed.
 # If evaluation of preconditions returns FALSE, the rule is not applied.
 #
-# In essence, using the ANY operator, the following boolean expression is evaluated:
-#
-# PRECONDITION1 OR PRECONDITION2 OR PRECONDITION3 OR ...
-#
-# The ruleCSSSelector is applied if the above expression evaluated to True. If not, ruleCSSSelector is not applied to the page.
+# The library contains rule "getLinks" for harvesting links.
 # 
 # How to apply this rule:
 #
@@ -138,7 +134,7 @@
  #
  #  See documentation for more help on this.
  
- "rulePreconditionType": "ANY",
+ "rulePreconditionType": "ALL",
  
  
  
@@ -150,14 +146,16 @@
  # 
  
  "rulePreconditions" : [ 
-                          # First precondition: Check if page is about statistics. This
-                          # is determined by checking if the page has an element with id #Statistics 
+ 
+                          # First precondition: Check that the page is about a physicist. This
+                          # is determined by checking the page categories found in the bottom 
+                          # of the page
                           {
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the pages is
                              # about Statistics
                         
-                             "ecCSSSelector" : "#Statistics", 
+                             "ecCSSSelector" : "#mw-normal-catlinks", 
                             
                             
                             # Regular expression the text property of the element 
@@ -172,11 +170,36 @@
                             # REMEMBER: If you would like to specify a case INsensitive match,
                             # you may add the (?i) flag                              
                             
-                            "ecTextCondition" : ""
+                            "ecTextCondition" : "(?i)\bphysicists\b"
+                          },
+                          
+                          # Second precondition: Check if page is about statistics. This
+                          # is determined by checking if the page has an element with id #Statistics 
+                          {
+                             # The precondition selector i.e. the element to be
+                             # checked. This precondition checks if the pages is
+                             # about Statistics
+                        
+                             "ecCSSSelector" : "tr:nth-child(3) .infobox-data", 
+                            
+                            
+                            # Regular expression the text property of the element 
+                            # in ecCSSSelector must match. Only text property is currently 
+                            # supported. If element matches regular expression, the 
+                            # precondition holds and the ruleCSSSelector is applied.
+                            #
+                            # An empty value (the default if ecTextCondition is missing) 
+                            # means that this precondition holds if the element 
+                            # specified in ecCSSSelector exists on the page currently processed.
+                            # 
+                            # REMEMBER: If you would like to specify a case INsensitive match,
+                            # you may add the (?i) flag                              
+                            
+                            "ecTextCondition" : "(?i)\b(may|january|march|october)\b"
                           },
                           
                           
-                          # Second precondition: Check if page is about algebra. This 
+                          # Third precondition: Check if page is about algebra. This 
                           # is determined by checking if the text of the element with id #mw-normal-catlinks 
                           # contains algebra.
                           # NOTE: Checking the same element/method (see previous rule) does not 
@@ -187,7 +210,7 @@
                              # checked. This precondition checks if the page being processed 
                              # is about Algebra
                         
-                             "ecCSSSelector" : "#mw-normal-catlinks", 
+                             "ecCSSSelector" : "tr:nth-child(5) .infobox-data", 
                             
                             
                             # Regular expression the text property of the element 
@@ -199,7 +222,7 @@
                             #
                             # NOTE: case insensitive match specified
                                                         
-                            "ecTextCondition" : "\b(?i)algebra\b"
+                            "ecTextCondition" : "(?i)\b(united states|american)\b"
                           }
  ],
  
