@@ -146,21 +146,7 @@ class htmlRenderer:
 
 
 
-      # This is a different implementation for scrolling down the
-      # page. This works on MacOS.
-      # TODO: Does this also work on windows and other OSs?
-      async def scrollPageDown(self, pg):
-            await pg.evaluate('window.scrollBy(0,window.innerHeight)')
-            #document.body.scrollHeight
-            #window.innerHeight
-            '''
-            await pg.keyboard.down('Fn')
-            await pg.keyboard.down('Shift')
-            await pg.keyboard.press('ArrowDown')
-            await pg.keyboard.up('Shift')
-            await pg.keyboard.up('fn')
-            '''
-
+      
 
       #
       # TODO: directive scroll does not work
@@ -184,10 +170,7 @@ class htmlRenderer:
                 result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')    
             elif dElem.dpcType == 'scroll':
 
-                 print('\t\tGetting SCROLL PARENT of [', dElem.dpcPageElement, ']') 
-                 scrP = await self.getScrollParent(pg, dElem.dpcPageElement)
-                 print('\t\t===>SCROLL PARENT:[', scrP, ']')
-                 
+                 # Check if element is scrollable
                  if not await self.elementIsScrollable(pg, dElem.dpcPageElement):
                     print(f'\t\t[DEBUG] Element {dElem.dpcPageElement} is not scrollable.')
                     return(-5)
@@ -195,24 +178,26 @@ class htmlRenderer:
                  selector = dElem.dpcPageElement
                  currentPosition = 0
                  for _ in range(dElem.dpcScrolldown):
-                     #document.querySelectorAll
-
-                     # TODO: check if this works somehow.
+                                          
                      try:                        
-                        #await pg.evaluate('{window.scrollTo(0, document.body.scrollHeight);}')
-                        currentPosition= await pg.evaluate('''(selector, currentPosition) => {
-                             
-                             const element = document.querySelector(selector);
-                             if ( element ) {
-                                  scrollAmount = currentPosition + 70
-                                  element.scroll(0, scrollAmount);
-                                  console.error(`Scrolled to selector ${selector}`);
-                                  return(scrollAmount)
-                             } else {
-                                       console.error(`cannot find selector ${selector}`);
-                                       return(-4)
-                             }
-                               }''', selector, currentPosition)   
+                        currentPosition = await self.scrollElement(pg, dElem.dpcPageElement, currentPosition, 203  )
+                        if currentPosition < 0:
+                           print('Error [', currentPosition,  '] during scrolling of element [', dElem.dpcPageElement, ']. Stopping', sep='')
+                           break
+
+                      #  currentPosition= await pg.evaluate('''(selector, currentPosition) => {
+                      #       const element = document.querySelector(selector);
+                      #       if ( element ) {
+                      #            scrollAmount = currentPosition + 70
+                      #            element.scroll(0, scrollAmount);
+                      #            console.error(`Scrolled to selector ${selector}`);
+                      #            return(scrollAmount)
+                      #       } else {
+                      #                 console.error(`cannot find selector ${selector}`);
+                      #                 return(-4)
+                      #       }
+                      #         }''', selector, currentPosition)
+                      
                      except Exception as scrEx:
                         print('\t[DEBUG] Error during element scrolling', str(scrEx)) 
                         return(None) 
@@ -241,6 +226,46 @@ class htmlRenderer:
             
 
 
+
+      # This scrolls the browser's window down.
+      # Works on MacOS.
+      # TODO: Does this also work on windows and other OSs?
+      async def scrollPageDown(self, pg):
+            await pg.evaluate('window.scrollBy(0,window.innerHeight)')
+            #document.body.scrollHeight
+            #window.innerHeight
+            '''
+            await pg.keyboard.down('Fn')
+            await pg.keyboard.down('Shift')
+            await pg.keyboard.press('ArrowDown')
+            await pg.keyboard.up('Shift')
+            await pg.keyboard.up('fn')
+            '''
+
+     
+      # This scrolls the content of an html element down.
+      # E.g. a scrollable div
+      # This method assumes that element exists and is actually
+      # scrollable (see elementExists() and elementIsScrollable())             
+      async def scrollElement(self, pg, elem, currentPos, scrollBy=30):
+          
+                return ( await pg.evaluate('''(elem, currentPos, scrollBy) => {
+                             
+                             const element = document.querySelector(elem);
+                             if ( element ) {
+                                  scrollAmount = currentPos + scrollBy
+                                  element.scroll(0, scrollAmount);
+                                  console.error(`Scrolled to selector ${elem}`);
+                                  return(scrollAmount)
+                             } else {
+                                       console.error(`cannot find selector ${elem}`);
+                                       return(-4)
+                             }
+                               }''', elem, currentPos, scrollBy)
+                        ) 
+          
+
+
       # Check if element exists on page
       async def elementExists(self, pg, elemSel):          
           selector = elemSel
@@ -261,11 +286,10 @@ class htmlRenderer:
 
 
       async def  elementIsScrollable(self, pg, elem):
-            print('\t\t[DEBUG] Checking if element [', elem, '] is scrollable..')
-            selector = elem
+            print('\t\t[DEBUG] Checking if element [', elem, '] is scrollable....', end='')            
             scrollable = await pg.evaluate(
-                                 '''selector => {
-                                                    const node = document.querySelector(selector);
+                                 '''elem => {
+                                                    const node = document.querySelector(elem);
                                                     if (!node){
                                                          return {vertical:False, horizontal:False}
                                                     }
@@ -275,67 +299,18 @@ class htmlRenderer:
                                                         vertical: (overflowY === 'scroll' || overflowY === 'auto') && node.scrollHeight > node.clientHeight,
                                                         horizontal: (overflowX === 'scroll' || overflowX === 'auto') && node.scrollWidth > node.clientWidth,
                                                     };
-                                  }''', selector
-                                );
-
-
-            #param = elem
-            #scrollable = await pg.evaluate( '''(param) => {
-            #                                 var res = isScrollable(param);
-            #                                 return(res.vertical)
-            #                              }''', param);
-
-            print('\t\t[DEBUG] elementIsScrollable returned ', scrollable)
-            return(scrollable['vertical'])
-
-
-
-      async def  getScrollParent(self, pg, elem):
-            #print('\t\t[DEBUG] Checking if element [', elem, '] is scrollable..')
-            selector="div.r1are2x1"
-            scrollableParent = await pg.evaluate(
-                                 '''selector => {
-                                    
-                                    const element = document.querySelector(selector);
-                                    if (!element) {
-                                        return('?????') 
-                                    }
-
-                                    var includeHidden = true
-                                    var style = getComputedStyle(element);
-                                    var excludeStaticParent = style.position === "absolute";
-                                    var overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
-
-                                    if (style.position === "fixed") return document.body;
-                                    for (var parent = element; (parent = parent.parentElement);) {
-                                        style = getComputedStyle(parent);
-                                        if (excludeStaticParent && style.position === "static") {
-                                            continue;
-                                        }
-                                        if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) return parent;
-                                    }
-
-                                    return(document.body);
-                                  
-                                  
-                                  }''', selector
+                                  }''', elem
                                 );
 
             
-            #param = elem
-            #scrollableParent = await pg.evaluate( '''(param) => {
-            #                                 var res = getScrollParent(param);
-            #                                 return(res)
-            #                              }''', param);
-             
-            print('\t\t[DEBUG] Scrollable parent element is [', scrollableParent, ']')
-            return(scrollableParent)
+
+            print('', 'YES' if scrollable else 'NO')
+            return(scrollable['vertical'])
+
 
         
-
-
-
-
+      
+        
 
 
 
