@@ -20,10 +20,10 @@
 # but also allows it to use different selectors to extract the information based on which precondition was evaluated as true.
 # These precondition level selectors are defined in the field ecRuleCSSSelector available in each precondition that
 # overwrite, if present, the rule's ruleCSSSelector. 
-# If this field is empty (default), no overwritting is enforced. If more than one preconditions are true, ruleCSSSelector is
-# replaced by the value of ecRuleCSSSelector of the first precodnition evaluated as true.
+# If this field is empty (default), no overwritting is carried out. If more than one preconditions are true, ruleCSSSelector is
+# replaced by the value of ecRuleCSSSelector of the first precondition evaluated as true.
 #
-# In essense, by overwriting the rule's ruleCSSSelector, the ruleCSSSelector is not static but conditionally defined based on the precondition. 
+# In essense, by overwriting the rule's ruleCSSSelector, the ruleCSSSelector is not static but can be conditionally defined based on the precondition. 
 # This means that preconditions will function like this:
 #
 # IF PRECONDITION1 is TRUE:
@@ -100,7 +100,7 @@
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
 # This library consists of one rule only, named articleTitle. The value extracted by this rule
 # will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+# These keys/variables can be references inside the rule file e.g. see csvLineFormat field above.
 
 "library": [
 
