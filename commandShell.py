@@ -821,6 +821,7 @@ class commandImpl:
                    print( utils.toString('\t[DEBUG] Cookies:', cks) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                    
                 htmlRndr = htmlRendering.htmlRenderer()
+                htmlRndr.setDebugMode( cfg.getboolean('DEBUG', 'debugging', fallback=False) )
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
                    return(None)

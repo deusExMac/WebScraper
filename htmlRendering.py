@@ -33,10 +33,14 @@ class htmlRenderer:
           self.page = None
           self.headers = None
           self.response = None
+          self.debug = False
 
 
+      # dv: debug value: True or False
+      def setDebugMode(self, dv):
+          self.debug = dv
 
-      
+
         
       def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[]):
           return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements)) )
@@ -49,19 +53,19 @@ class htmlRenderer:
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
        if self.browser is None:
-          print('\t[DEBUG] Creating new BROWSER')
+          print( utils.toString('\t[DEBUG] Creating new BROWSER\n') if self.debug else '', sep='', end=''  )
           # launches a browser in headless mode. Headless means WITHOUT UI.
           self.browser = await pyppeteer.launch()
        else:
-            print('\t[DEBUG] Reusing existing BROWSER')
+            print( utils.toString('\t[DEBUG] Reusing existing BROWSER\n') if self.debug else '', sep='', end='' )
             
        if self.page is None:
-          print('\t[DEBUG] Creating new PAGE') 
+          print( utils.toString('\t[DEBUG] Creating new PAGE\n') if self.debug else '', sep='', end=''  )
           self.page = await self.browser.newPage()
           # Uncomment next line if you would like to intercept responses
           #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) )         
        else:
-          print('\t[DEBUG] Reusing existing PAGE') 
+          print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
         
        if userAgent is not None:
           await self.page.setUserAgent(userAgent);
@@ -69,7 +73,7 @@ class htmlRenderer:
        for c in requestCookies:
             await self.page.setCookie( c )
 
-       print('\t[DEBUG] Loading URL', url)
+       #print('\t[DEBUG] Loading URL', url)
        await self.page.setViewport( {'width':1920, 'height':1080} )
        await self.page.setJavaScriptEnabled(enabled=True)
 
@@ -79,7 +83,7 @@ class htmlRenderer:
        while True:
 
            if numTries >= maxRetries:
-              print(f'\t\t[DEBUG] Reached maximum number of retries {maxRetries}. Giving up.')      
+              print( utils.toString(f'\t\t[DEBUG] Reached maximum number of retries {maxRetries}. Giving up.\n') if self.debug else '', sep='', end=''     )
               return(None)
             
            try:
@@ -88,15 +92,15 @@ class htmlRenderer:
               attemptEnd = time.perf_counter() 
               break
            except Exception as fetchException:
-               print('\t\t[DEBUG] (', numTries, ') Excpetion ', str(fetchException), sep='' )
+               print( utils.toString('\t\t[DEBUG] (', numTries, ') Excpetion ', str(fetchException), '\n' ) if self.debug else '', sep='', end='' )
                numTries += 1
 
        #print(origResponse.headers)
        # TODO: Remove me?
        self.headers = None #origResponse.headers
        
-       print('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart))       
-       print('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm))    
+       print( utils.toString('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart), '\n' ) if self.debug else '', sep='', end='' )       
+       print( utils.toString('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm), '\n') if self.debug else '', sep='', end='' )    
 
        
        '''
@@ -129,12 +133,12 @@ class htmlRenderer:
               # TODO: Investigate closer the execution dynamic of pyppeteer
               await asyncio.sleep(2.1)
        else:
-             print('\t[DEBUG] No dynamic element on page to be executed')
+             print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' )
 
        
 
        #'screenShot.png'
-       print('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url))      
+       print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url), '\n' ) if self.debug else '', end='' )      
        await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url) + '.png' })
        content = await self.page.content()
                 
@@ -156,13 +160,13 @@ class htmlRenderer:
             if dElem is None:
                return(None)
 
-            print('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, sep='')
-            print('\t\t[DEBUG] Chacking if element [', dElem.dpcPageElement, '] exists.....',  sep='', end='')
+            print( utils.toString('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, '\n') if self.debug else '', sep='', end='')
+            print( utils.toString('\t\t[DEBUG] Checking if element [', dElem.dpcPageElement, '] exists.....'),  sep='', end='')
             if not await self.elementExists(pg, dElem.dpcPageElement):
-               print(f'\t\t[DEBUG] Element {dElem.dpcPageElement} does not exist on page. Not executing any bahavior.')
+               print( utils.toString(f'\t\t[DEBUG] Element {dElem.dpcPageElement} does not exist on page. Not dynamic element.\n') if self.debug else '', sep='', end='' )
                return(None) 
 
-            print('YES.') 
+            print( utils.toString('YES.\n') if self.debug else '', end='') 
 
             if dElem.dpcType == 'button':   
                await pg.click(dElem.dpcPageElement)
@@ -172,7 +176,7 @@ class htmlRenderer:
 
                  # Check if element is scrollable
                  if not await self.elementIsScrollable(pg, dElem.dpcPageElement):
-                    print(f'\t\t[DEBUG] Element {dElem.dpcPageElement} is not scrollable.')
+                    print( utils.toString(f'\t\t[DEBUG] Element {dElem.dpcPageElement} is NOT scrollable.\n') if self.debug else '', sep='', end='' )
                     return(-5)
                 
                  selector = dElem.dpcPageElement
@@ -182,7 +186,7 @@ class htmlRenderer:
                      try:                        
                         currentPosition = await self.scrollElement(pg, dElem.dpcPageElement, currentPosition, 203  )
                         if currentPosition < 0:
-                           print('Error [', currentPosition,  '] during scrolling of element [', dElem.dpcPageElement, ']. Stopping', sep='')
+                           print( utils.toString('Error [', currentPosition,  '] during scrolling of element [', dElem.dpcPageElement, ']. Stopping\n') if self.debug else '', sep='')
                            break
 
                       #  currentPosition= await pg.evaluate('''(selector, currentPosition) => {
@@ -199,7 +203,7 @@ class htmlRenderer:
                       #         }''', selector, currentPosition)
                       
                      except Exception as scrEx:
-                        print('\t[DEBUG] Error during element scrolling', str(scrEx)) 
+                        print( utils.toString('\t[DEBUG] Error during element scrolling', str(scrEx), '\n') if self.debug else '', end='', sep='' ) 
                         return(None) 
                      
                      #await pg.evaluate('''selector => {
@@ -214,6 +218,7 @@ class htmlRenderer:
                      #        }
                      #          }''', selector);
             else:
+                 print('[ERROR] Directive [', dElem.dpcType,  '] invalid.', sep='')
                  return(None) # not supported directive
 
 
@@ -286,7 +291,7 @@ class htmlRenderer:
 
 
       async def  elementIsScrollable(self, pg, elem):
-            print('\t\t[DEBUG] Checking if element [', elem, '] is scrollable....', end='')            
+            print( utils.toString('\t\t[DEBUG] Checking if element [', elem, '] is scrollable....') if self.debug else '', end='')            
             scrollable = await pg.evaluate(
                                  '''elem => {
                                                     const node = document.querySelector(elem);
@@ -304,7 +309,7 @@ class htmlRenderer:
 
             
 
-            print('', 'YES' if scrollable else 'NO')
+            print('', 'YES' if scrollable and self.debug else 'NO' if not scrollable and self.debug else '')
             return(scrollable['vertical'])
 
 
@@ -319,11 +324,11 @@ class htmlRenderer:
           
           
       async def __close(self):
-          print('\t[DEBUG] Freeing resources')
+          print( utils.toString('\t[DEBUG] Freeing resources\n')  if self.debug else '', end='', sep='' )
           try:
             await self.browser.close()
           except Exception as cEx:
-                 print('\t[DEBUG] Exception during closing of browser.')
+                 print( utils.toString('\t[DEBUG] Exception during closing of browser.\n')  if self.debug else '', end='', sep='' )
                  
           self.browser = None
           self.page = None
