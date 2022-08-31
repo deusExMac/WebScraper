@@ -18,6 +18,9 @@ class extractionCondition:
          selected element needs to match.         
          TODO: Error checking
       """
+      # Condition name. Optional. Usually used to reference this condition
+      # to build EVAL expressions.
+      ecName: str = ''
       # ecBooleanOperator specifies the boolean operator to apply to this
       # condition.
       # TODO: This MUST be improved!
@@ -99,6 +102,7 @@ class extractionRule:
 
     # Preconditions applied to the ENTIRE PAGE
     rulePreconditionType: str = 'ANY'
+    rulePreconditionEVALExpression: str = ''
     rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
     # TODO: Do we need this????
@@ -241,10 +245,15 @@ class extractionRule:
         if self.rulePreconditionType.lower() == 'eval':
                
            tokens = []
+           evalExpression = self.rulePreconditionEVALExpression.lower()
+           print('>>> Expression:', evalExpression)
            for pc in self.rulePreconditions:
                #if pc.ecBooleanOperator == '':
                #   return(None)
 
+               preconditionEval = pc.conditionHolds(htmlContent)
+               evalExpression = evalExpression.replace( pc.ecName.lower(), str(preconditionEval) )
+               '''
                if '(' in pc.ecBooleanOperator  or pc.ecBooleanOperator == ')':
                   tokens.append( pc.ecBooleanOperator)
                   continue
@@ -253,10 +262,13 @@ class extractionRule:
                   tokens.append( pc.ecBooleanOperator)
                   
                tokens.append( str(pc.conditionHolds(htmlContent)))
-
-           # We built the expression. Evaluate it now. 
-           print('\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)  
-           return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
+               '''
+           print('>>> Expression after replacement:', evalExpression)
+           print('>>> Precondition EVAL result:', booleanEvaluation.evaluateBooleanExpressionString(evalExpression))
+           # We built the expression. Evaluate it now.
+           #print('\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)
+           return( {'status': booleanEvaluation.evaluateBooleanExpressionString(evalExpression), 'cssselector':''} )
+           #return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
                
 
                
