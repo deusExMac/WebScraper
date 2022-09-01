@@ -21,30 +21,45 @@ class extractionCondition:
       # Condition name. Optional. Usually used to reference this condition
       # to build EVAL expressions.
       ecName: str = ''
+      
       # ecBooleanOperator specifies the boolean operator to apply to this
       # condition.
       # TODO: This MUST be improved!
-      ecBooleanOperator: str =''
+      #ecBooleanOperator: str =''
+
       ecCSSSelector: str = ''
       ecTextCondition: str = ''  # Regular expression
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
 
+      ecAppliedCount: int = 0
+      ecExistenceCount: int = 0
+      ecTrueCount: int = 0
+      ecFalseCount: int = 0
+      
       def conditionHolds(self, htmlContent) -> bool:
+          self.ecAppliedCount += 1  
           res = htmlContent.find(self.ecCSSSelector, first=False)          
           if len(res) <= 0:
+             self.ecFalseCount += 1   
              return(False)
+
+          # Element found.
+          self.ecExistenceCount += 1 
 
           # if no regular expression is present to match text but
           # element exists, assume that condition holds.
           if self.ecTextCondition.strip() == '':
+             self.ecTrueCount += 1   
              return(True)
 
             
           # NOTE: Case sensitive support is specified at the regex level i.e.
           # using the (?i) flag  
           if re.search(self.ecTextCondition, res[0].text) is None:
+             self.ecFalseCount += 1   
              return(False)
           else:
+             self.ecTrueCount += 1    
              return(True) 
 
 
@@ -264,10 +279,15 @@ class extractionRule:
                tokens.append( str(pc.conditionHolds(htmlContent)))
                '''
            print('>>> Expression after replacement:', evalExpression)
-           print('>>> Precondition EVAL result:', booleanEvaluation.evaluateBooleanExpressionString(evalExpression))
+           
+           bResult = booleanEvaluation.evaluateBooleanExpressionString(evalExpression)
+           print('>>> Precondition EVAL result:', bResult)
+           if not bResult:
+              self.rulePreconditionFailedCount += 1
+              
            # We built the expression. Evaluate it now.
            #print('\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)
-           return( {'status': booleanEvaluation.evaluateBooleanExpressionString(evalExpression), 'cssselector':''} )
+           return( {'status': bResult, 'cssselector':''} )
            #return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
                
 
@@ -710,9 +730,17 @@ class ruleLibrary:
           for xr in self.library:
               print('Rule:', xr.ruleName)
               print('\tMatched URLs count:', xr.ruleMatchedUrlsCount)
+              print('\tRule applied count:', xr.ruleAppliedCount)
+              print('\tRule match count:', xr.ruleMatchCount)
               print('\tFailed precondition count:', xr.rulePreconditionFailedCount)
-              print('\tApplied count:', xr.ruleAppliedCount)
-              print('\tMatch count:', xr.ruleMatchCount)
+              print('\tPreconditions:')
+              for i, r in enumerate(xr.rulePreconditions):
+                  if r.ecName == '':  
+                     print('\t\tPrecondition ', i, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
+                  else:
+                     print('\t\tPrecondition ', r.ecName, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
+                     
+              
 
           return(False)    
 
