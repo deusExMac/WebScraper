@@ -2,8 +2,10 @@
 ########################################################################################################################################################
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the AND operator between
-#                    preconditions i.e. rule is applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
+#                    how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
+#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT etc) using
+#                    as operands the truth value of each precondition. If the boolean expression evaluates to True, the rule is applied. If not
+#                    the rule is not applied.
 # 
 # This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
 #

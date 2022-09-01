@@ -3,15 +3,23 @@
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the AND operator between
-#                    preconditions i.e. rule is applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
+#                    preconditions i.e. rule is only applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
 # 
-# This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
+# This library scraps/extracts the name of scientists from wikipedia articles, that meet the all the next requirements:
+#  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality. 
 #
-# https://en.wikipedia.org/wiki/Statistical_model  and
-# https://en.wikipedia.org/wiki/Polynomial
+# For example the preconditions should return True for page
 #
-# this library extracts the title. The way to determine whether an wikipedia article is about statistics or algebra requires
-# checking different parts/elements of the page.
+# https://en.wikipedia.org/wiki/Jules_Aarons
+#
+# and extract the article's title, which is the physicists name for this name
+# 
+# but should return False for page
+#
+# https://en.wikipedia.org/wiki/Andr%C3%A9-Marie_Amp%C3%A8re
+#
+# because, while a physicist and born in january, the physicist's nationality if french.
+#
 #
 # This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
 # be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
@@ -22,13 +30,12 @@
 # 
 # How to apply this rule:
 #
-# crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+#    crawl -M -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/USPysicistsBornJanMarMayOct.csv https://en.wikipedia.org/wiki/List_of_physicists
 #
-# NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
-# option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
+# https://en.wikipedia.org/wiki/List_of_physicists is a list of physicist to make application of library more apparent and easier to check.
 #
 # 
-# v0.1@14/8/2022
+# v0.1@01/9/2022
 #
 ########################################################################################################################################################
 
@@ -119,20 +126,15 @@
  
  
  # rulePreconditionType specifies how to evaluate preconditions, if more than one is
- # present. ANY means that if any of the preconditions returns TRUE, precondition hold and
- # the rule is applied. You may consider value ANY as evaluating the logical expression:
+ # present. Value ALL means that all of the preconditions must return TRUE, in order
+ # to apply the rule. You may consider value AND in rulePreconditionType as evaluating the logical expression:
  #
- #  PRECONDITION1 OR PRECONDITION2 OR PRECONITION3 ...
- #  If the above expression returns true, the rule is applied on the page.
+ #  PRECONDITION1 AND PRECONDITION2 AND PRECONITION3 ...
  #
- #   
- #  Other values for rulePreconditionType supported are: ALL, EVAL which result in different
- #  evaluation of preconditions:
- #    - ALL: All preconditions MUST hold in order for the rules to be applied. Rule is applied
- #           if the next expression is 
- #    - EVAL: complicated logical expressions can be expressed i.e. (PRECONDITION1 OR PRECONDITION2) AND NOT PRECONDITION3
+ #  If the above expression returns True for the currently processed page, the rule is applied on the page.
  #
- #  See documentation for more help on this.
+ #  Other values for rulePreconditionType supported are: ANY, EVAL which result in different
+ #  evaluation of preconditions. Seel documentation and/or other examples for a demonstration of these values.
  
  "rulePreconditionType": "ALL",
  
@@ -140,10 +142,9 @@
  
  # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
  # in order to apply the selector in ruleCSSSelector. 
- # This rule contains two page preconditions. rulePreconditionType specifies how the preconditions
- # must be evaluated. Value ANY means that any of the preconditions is enough to be TRUE in 
- # order to apply the rule.
- # 
+ # This rule contains three page preconditions that all must be true in order
+ # to apply the selector (see ALL value in rulePreconditionType)
+ 
  
  "rulePreconditions" : [ 
  
@@ -173,8 +174,10 @@
                             "ecTextCondition" : "(?i)\bphysicists\b"
                           },
                           
-                          # Second precondition: Check if page is about statistics. This
-                          # is determined by checking if the page has an element with id #Statistics 
+                          # Second precondition: Check if page mentions that physicist is born
+                          # in either january or march or may or october. 
+                          # This is determined by checking a specific field/row in the infobox.                           
+                          # The disjunctive condition is "encoded" in the regular expression. 
                           {
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the pages is
@@ -199,11 +202,10 @@
                           },
                           
                           
-                          # Third precondition: Check if page is about algebra. This 
-                          # is determined by checking if the text of the element with id #mw-normal-catlinks 
-                          # contains algebra.
-                          # NOTE: Checking the same element/method (see previous rule) does not 
-                          # always work for all wikipedia articles
+                          # Third precondition: Check if page mentions that physicist has america (us)
+                          # nationality.
+                          # This is determined by checking if a specific field/row in the infobox 
+                          # contains united states or american.                          
                         
                           {
                              # The precondition selector i.e. the element to be
@@ -228,8 +230,9 @@
  
  
  
- # A CSS selector specifying the element on the page to scrape.
- # NOTE: the CSS selector may return more than one matching element.
+ # A CSS selector specifying the element on the page to scrape. For pages
+ # matching the preconditions, the title will have the physicists name.
+ 
  
  "ruleCSSSelector": "#firstHeading",
  
