@@ -7,24 +7,41 @@
 #                    as operands the truth value of each precondition. If the boolean expression evaluates to True, the rule is applied. If not
 #                    the rule is not applied.
 # 
-# This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
+# This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
+# that meet the follwing requirements:
+#  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality.
 #
-# https://en.wikipedia.org/wiki/Statistical_model  and
-# https://en.wikipedia.org/wiki/Polynomial
+# In contrast to the rules in the file example5.1-en.wikipedic.ext, this rule set does not assume 
+# that the data is always in very specific positions. This set of rules makes the assumption that
+# the data to check can be found in different parts of the infobox. For example, this set
+# of rules does not assume that nationality is found in the 5th row. Some pages may have
+# this information in a different row. This set of rules attempts to address this by 
+# using a boolean expression down to evaluate the preconditions. The boolean expression
+# has as operands the result of the evaluation of preconditions (referenced by their name) and
+# can use any valid logical operator. The boolean expression that this rule evaluates takes
+# the form
 #
-# this library extracts the title. The way to determine whether an wikipedia article is about statistics or algebra requires
-# checking different parts/elements of the page.
+# precondition1 AND preconditio2 AND ( (predondition3 AND precondition4) OR (predondition5 AND precondition6) OR (predondition7 AND precondition8) ...)
 #
-# This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
-# be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
-# processed.
-# If evaluation of preconditions returns FALSE, the rule is not applied.
+# where:
+#    precondition1 the precondition that checks if the page talks about a physicist
+#    precondition2 the precondition that checks if physicist was born on january or march
+#    or may or october
+#    (precondition3 AND precondition4) an expression that checks if the fifth line is
+#     about the nationality (precondition3) and has value united states or american (precondition4)
+#     (precondition5 AND precondition6) an expression that checks if the sixth line is
+#     about the nationality (precondition3) and has value united states or american (precondition4)
+#     etc...
+# i.e. each expression (preconditionX AND precondition(x+1)) checks in a line is about nationality
+# its value is united states or american. Each such conjunction checks a different line in the
+# infobox. This boolean expression tests 3 lines but more can be added.
 #
-# The library contains rule "getLinks" for harvesting links.
+#
+#
 # 
 # How to apply this rule:
 #
-# crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+# crawl -M -n -1 -r rules/example5.2-en.wikipedia.exr -o csv/example5.2.csv https://en.wikipedia.org/wiki/List_of_physicists
 #
 # NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
 # option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
