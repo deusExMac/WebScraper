@@ -3,7 +3,7 @@
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
-#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT etc) using
+#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT etc as well as parentheses) using
 #                    as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
 #                    the rule is not applied. 
 # 
