@@ -117,7 +117,7 @@ class extractionRule:
 
     # Preconditions applied to the ENTIRE PAGE
     rulePreconditionType: str = 'ANY'
-    rulePreconditionEVALExpression: str = ''
+    rulePreconditionExpression: str = ''
     rulePreconditions: List[extractionCondition] = field(default_factory=lambda:[])
 
     # TODO: Do we need this????
@@ -258,26 +258,19 @@ class extractionRule:
 
         # TODO: 05/07/2022: This has not been tested!
         if self.rulePreconditionType.lower() == 'eval':
-               
-           tokens = []
-           evalExpression = self.rulePreconditionEVALExpression.lower()
-           print('>>> Expression:', evalExpression)
-           for pc in self.rulePreconditions:
-               #if pc.ecBooleanOperator == '':
-               #   return(None)
 
+           # No boolean expression given although EVAL is specified.
+           # This is considered as an error and False is returned.
+           if self.rulePreconditionExpression.strip() == '':
+              print('[WARNING] EVAL precondition type but empty expression.')   
+              return(False)
+                       
+           evalExpression = self.rulePreconditionExpression.lower()
+           print('>>> Expression:', evalExpression)
+           for pc in self.rulePreconditions:            
                preconditionEval = pc.conditionHolds(htmlContent)
                evalExpression = evalExpression.replace( pc.ecName.lower(), str(preconditionEval) )
-               '''
-               if '(' in pc.ecBooleanOperator  or pc.ecBooleanOperator == ')':
-                  tokens.append( pc.ecBooleanOperator)
-                  continue
-            
-               if pc.ecBooleanOperator != '':
-                  tokens.append( pc.ecBooleanOperator)
-                  
-               tokens.append( str(pc.conditionHolds(htmlContent)))
-               '''
+               
            print('>>> Expression after replacement:', evalExpression)
            
            bResult = booleanEvaluation.evaluateBooleanExpressionString(evalExpression)
@@ -285,10 +278,9 @@ class extractionRule:
            if not bResult:
               self.rulePreconditionFailedCount += 1
               
-           # We built the expression. Evaluate it now.
-           #print('\t[DEBUG] [Mode EVAL] Evaluating boolean expression: ', tokens)
+           
            return( {'status': bResult, 'cssselector':''} )
-           #return( {'status': booleanEvaluation.evaluateBooleanExpressionList(tokens), 'cssselector':''} )
+           
                
 
                

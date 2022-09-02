@@ -139,7 +139,7 @@
  #  See documentation for more help on this.
  
  "rulePreconditionType": "EVAL",
- "rulePreconditionEVALExpression": "(not Precondition1) OR (Precondition2 AND NOT Precondition3)"
+ "rulePreconditionExpression": "(not Precondition1) OR (Precondition2 AND NOT Precondition3)"
  
  
  # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   

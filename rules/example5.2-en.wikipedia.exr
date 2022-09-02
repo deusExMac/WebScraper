@@ -155,7 +155,7 @@
  #  See documentation for more help on this.
  
  "rulePreconditionType": "EVAL",
- "rulePreconditionEVALExpression": "p1 AND p2 AND (p3 OR p4 OR p5 OR p6 OR p7 OR p8)",
+ "rulePreconditionExpression": "p1 AND p2 AND (p3 OR p4 OR p5 OR p6 OR p7 OR p8)",
  
  
  # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
