@@ -1,15 +1,20 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
+# Example library 5: Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
 #                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT etc) using
-#                    as operands the truth value of each precondition. If the boolean expression evaluates to True, the rule is applied. If not
-#                    the rule is not applied.
+#                    as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
+#                    the rule is not applied. 
 # 
 # This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
 # that meet the follwing requirements:
 #  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality.
+#
+# While the rules in example5.1-en.wikipedic.exr do the same, the rules defined there have the following
+# issues:
+#   1) they do not make sure that the value checked is really the birthmonth 
+#   2) they do not make sure that the value checked is really the nationality
 #
 # In contrast to the rules in the file example5.1-en.wikipedic.ext, this rule set does not assume 
 # that the data is always in very specific positions. This set of rules makes the assumption that
@@ -155,7 +160,7 @@
  #  See documentation for more help on this.
  
  "rulePreconditionType": "EVAL",
- "rulePreconditionExpression": "p1 AND p2 AND (p3 OR p4 OR p5 OR p6 OR p7 OR p8)",
+ "rulePreconditionExpression": "p1 AND (p2 AND p3) AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) )",
  
  
  # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
@@ -196,10 +201,38 @@
                             "ecTextCondition" : "(?i)\bphysicists\b"
                           },
                           
+                            # Second precondition: Check if page is about statistics. This
+			    # is determined by checking if the page has an element with id #Statistics 
+			    {
+			       "ecName": "p2",
+
+			       # The precondition selector i.e. the element to be
+			       # checked. This precondition checks if the pages is
+			       # about Statistics
+
+			       "ecCSSSelector" : "tr:nth-child(3) .infobox-label", 
+
+
+			      # Regular expression the text property of the element 
+			      # in ecCSSSelector must match. Only text property is currently 
+			      # supported. If element matches regular expression, the 
+			      # precondition holds and the ruleCSSSelector is applied.
+			      #
+			      # An empty value (the default if ecTextCondition is missing) 
+			      # means that this precondition holds if the element 
+			      # specified in ecCSSSelector exists on the page currently processed.
+			      # 
+			      # REMEMBER: If you would like to specify a case INsensitive match,
+			      # you may add the (?i) flag                              
+
+			      "ecTextCondition" : "(?i)\bborn\b"
+                          },
+                          
+                          
                           # Second precondition: Check if page is about statistics. This
                           # is determined by checking if the page has an element with id #Statistics 
                           {
-                             "ecName": "p2",
+                             "ecName": "p3",
                              
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the pages is
@@ -231,13 +264,13 @@
                           # always work for all wikipedia articles
                         
                           {
-                             "ecName": "p3",
+                             "ecName": "p4",
                              
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the page being processed 
                              # is about Algebra
                         
-                             "ecCSSSelector" : "tr:nth-child(5) .infobox-data", 
+                             "ecCSSSelector" : "tr:nth-child(5) .infobox-label", 
                             
                             
                             # Regular expression the text property of the element 
@@ -249,17 +282,76 @@
                             #
                             # NOTE: case insensitive match specified
                                                         
-                            "ecTextCondition" : "(?i)\b(united states|american)\b"
+                            "ecTextCondition" : "(?i)\b(nationality|citizenship)\b"
                           },
                           
-                           # Third precondition: Check if page is about algebra. This 
+                          
+                            # Third precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
 			    # always work for all wikipedia articles
 
 			    {
-			       "ecName": "p4",
+			       "ecName": "p5",
+
+			       # The precondition selector i.e. the element to be
+			       # checked. This precondition checks if the page being processed 
+			       # is about Algebra
+
+			       "ecCSSSelector" : "tr:nth-child(5) .infobox-data", 
+
+
+			      # Regular expression the text property of the element 
+			      # in ecCSSSelector must match. Only text property is currently 
+			      # supported. If element matches regular expression, the 
+			      # precondition holds and based on the  rulePreconditionType the
+			      # preconditions are evaluated. If these return TRUE the 
+			      # ruleCSSSelector is applied on the page currently being processed.
+			      #
+			      # NOTE: case insensitive match specified
+
+			      "ecTextCondition" : "(?i)\b(united states|american)\b"
+                          },
+                          
+                          
+                          
+                            # Third precondition: Check if page is about algebra. This 
+			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
+			    # contains algebra.
+			    # NOTE: Checking the same element/method (see previous rule) does not 
+			    # always work for all wikipedia articles
+
+			    {
+			       "ecName": "p6",
+
+			       # The precondition selector i.e. the element to be
+			       # checked. This precondition checks if the page being processed 
+			       # is about Algebra
+
+			       "ecCSSSelector" : "tr:nth-child(6) .infobox-label", 
+
+
+			      # Regular expression the text property of the element 
+			      # in ecCSSSelector must match. Only text property is currently 
+			      # supported. If element matches regular expression, the 
+			      # precondition holds and based on the  rulePreconditionType the
+			      # preconditions are evaluated. If these return TRUE the 
+			      # ruleCSSSelector is applied on the page currently being processed.
+			      #
+			      # NOTE: case insensitive match specified
+
+			      "ecTextCondition" : "(?i)\b(nationality|citizenship)\b"
+                          },
+                          
+                            # Third precondition: Check if page is about algebra. This 
+			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
+			    # contains algebra.
+			    # NOTE: Checking the same element/method (see previous rule) does not 
+			    # always work for all wikipedia articles
+
+			    {
+			       "ecName": "p7",
 
 			       # The precondition selector i.e. the element to be
 			       # checked. This precondition checks if the page being processed 
@@ -280,14 +372,44 @@
 			      "ecTextCondition" : "(?i)\b(united states|american)\b"
                           },
                           
-                          # Third precondition: Check if page is about algebra. This 
+                          
+                          
+                            # Third precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
 			    # always work for all wikipedia articles
 
 			    {
-			       "ecName": "p5",
+			       "ecName": "p8",
+
+			       # The precondition selector i.e. the element to be
+			       # checked. This precondition checks if the page being processed 
+			       # is about Algebra
+
+			       "ecCSSSelector" : "tr:nth-child(7) .infobox-label", 
+
+
+			      # Regular expression the text property of the element 
+			      # in ecCSSSelector must match. Only text property is currently 
+			      # supported. If element matches regular expression, the 
+			      # precondition holds and based on the  rulePreconditionType the
+			      # preconditions are evaluated. If these return TRUE the 
+			      # ruleCSSSelector is applied on the page currently being processed.
+			      #
+			      # NOTE: case insensitive match specified
+
+			      "ecTextCondition" : "(?i)\b(nationality|citizenship)\b"
+			      },
+
+			    # Third precondition: Check if page is about algebra. This 
+			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
+			    # contains algebra.
+			    # NOTE: Checking the same element/method (see previous rule) does not 
+			    # always work for all wikipedia articles
+
+			    {
+			       "ecName": "p9",
 
 			       # The precondition selector i.e. the element to be
 			       # checked. This precondition checks if the page being processed 
@@ -306,93 +428,7 @@
 			      # NOTE: case insensitive match specified
 
 			      "ecTextCondition" : "(?i)\b(united states|american)\b"
-                          },
-                          
-                          # Third precondition: Check if page is about algebra. This 
-			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
-			    # contains algebra.
-			    # NOTE: Checking the same element/method (see previous rule) does not 
-			    # always work for all wikipedia articles
-
-			    {
-			       "ecName": "p6",
-
-			       # The precondition selector i.e. the element to be
-			       # checked. This precondition checks if the page being processed 
-			       # is about Algebra
-
-			       "ecCSSSelector" : "tr:nth-child(8) .infobox-data", 
-
-
-			      # Regular expression the text property of the element 
-			      # in ecCSSSelector must match. Only text property is currently 
-			      # supported. If element matches regular expression, the 
-			      # precondition holds and based on the  rulePreconditionType the
-			      # preconditions are evaluated. If these return TRUE the 
-			      # ruleCSSSelector is applied on the page currently being processed.
-			      #
-			      # NOTE: case insensitive match specified
-
-			      "ecTextCondition" : "(?i)\b(united states|american)\b"
-                          },
-                          
-                          # Third precondition: Check if page is about algebra. This 
-			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
-			    # contains algebra.
-			    # NOTE: Checking the same element/method (see previous rule) does not 
-			    # always work for all wikipedia articles
-
-			    {
-			       "ecName": "p7",
-
-			       # The precondition selector i.e. the element to be
-			       # checked. This precondition checks if the page being processed 
-			       # is about Algebra
-
-			       "ecCSSSelector" : "tr:nth-child(9) .infobox-data", 
-
-
-			      # Regular expression the text property of the element 
-			      # in ecCSSSelector must match. Only text property is currently 
-			      # supported. If element matches regular expression, the 
-			      # precondition holds and based on the  rulePreconditionType the
-			      # preconditions are evaluated. If these return TRUE the 
-			      # ruleCSSSelector is applied on the page currently being processed.
-			      #
-			      # NOTE: case insensitive match specified
-
-			      "ecTextCondition" : "(?i)\b(united states|american)\b"
-                          },
-                          
-                          # Third precondition: Check if page is about algebra. This 
-			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
-			    # contains algebra.
-			    # NOTE: Checking the same element/method (see previous rule) does not 
-			    # always work for all wikipedia articles
-
-			    {
-			       "ecName": "p8",
-
-			       # The precondition selector i.e. the element to be
-			       # checked. This precondition checks if the page being processed 
-			       # is about Algebra
-
-			       "ecCSSSelector" : "tr:nth-child(10) .infobox-data", 
-
-
-			      # Regular expression the text property of the element 
-			      # in ecCSSSelector must match. Only text property is currently 
-			      # supported. If element matches regular expression, the 
-			      # precondition holds and based on the  rulePreconditionType the
-			      # preconditions are evaluated. If these return TRUE the 
-			      # ruleCSSSelector is applied on the page currently being processed.
-			      #
-			      # NOTE: case insensitive match specified
-
-			      "ecTextCondition" : "(?i)\b(united states|american)\b"
                           }
-                          
-                          
                           
  ],
  

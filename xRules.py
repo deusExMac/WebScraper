@@ -262,17 +262,21 @@ class extractionRule:
            # No boolean expression given although EVAL is specified.
            # This is considered as an error and False is returned.
            if self.rulePreconditionExpression.strip() == '':
+              self.rulePreconditionFailedCount += 1   
               print('[WARNING] EVAL precondition type but empty expression.')   
               return(False)
                        
-           evalExpression = self.rulePreconditionExpression.lower()
+           evalExpression = self.rulePreconditionExpression.strip().lower()
            print('>>> Expression:', evalExpression)
+           # iterated over preconditions, evaluate them and replace the
+           # precondition name with its evaluation valud
            for pc in self.rulePreconditions:            
-               preconditionEval = pc.conditionHolds(htmlContent)
+               preconditionEval = pc.conditionHolds(htmlContent)                 
                evalExpression = evalExpression.replace( pc.ecName.lower(), str(preconditionEval) )
                
            print('>>> Expression after replacement:', evalExpression)
-           
+
+           # Keep in variable for debugging purposes ONLY!
            bResult = booleanEvaluation.evaluateBooleanExpressionString(evalExpression)
            print('>>> Precondition EVAL result:', bResult)
            if not bResult:
