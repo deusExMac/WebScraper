@@ -24,15 +24,16 @@
 # precondition1 AND preconditio2 AND ( (predondition3 AND precondition4) OR (predondition5 AND precondition6) OR (predondition7 AND precondition8) ...)
 #
 # where:
-#    precondition1 the precondition that checks if the page talks about a physicist
-#    precondition2 the precondition that checks if physicist was born on january or march
+#    precondition1: the precondition that checks if the page talks about a physicist
+#    precondition2 :the precondition that checks if physicist was born on january or march
 #    or may or october
-#    (precondition3 AND precondition4) an expression that checks if the fifth line is
-#     about the nationality (precondition3) and has value united states or american (precondition4)
-#     (precondition5 AND precondition6) an expression that checks if the sixth line is
-#     about the nationality (precondition3) and has value united states or american (precondition4)
-#     etc...
-# i.e. each expression (preconditionX AND precondition(x+1)) checks in a line is about nationality
+#    (precondition3 AND precondition4): an expression that checks if the fifth line is
+#    about the nationality (precondition3) and has value united states or american (precondition4)
+#    (precondition5 AND precondition6): an expression that checks if the sixth line is
+#    about the nationality (precondition3) and has value united states or american (precondition4)
+#    etc...
+#
+# i.e. each expression (preconditionX AND precondition(x+1)) checks if a line is about nationality
 # its value is united states or american. Each such conjunction checks a different line in the
 # infobox. This boolean expression tests 3 lines but more can be added.
 #
@@ -47,7 +48,7 @@
 # option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
 #
 # 
-# v0.1@14/8/2022
+# v0.1@01/09/2022
 #
 ########################################################################################################################################################
 
@@ -57,7 +58,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title of english wikipedia articles related to statistics OR algebra.",
+"libraryDescription": "Library to extract the title of english wikipedia articles of physicists born either january, or march, or may or october. have an american nationality (united states)",
 
 
 
