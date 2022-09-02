@@ -733,7 +733,7 @@ class ruleLibrary:
               print('\tRule applied count:', xr.ruleAppliedCount)
               print('\tRule match count:', xr.ruleMatchCount)
               print('\tFailed precondition count:', xr.rulePreconditionFailedCount)
-              print('\tPreconditions:')
+              print('\tPreconditions (total:', len(xr.rulePreconditions),', mode:', xr.rulePreconditionType, '):', sep='' )
               for i, r in enumerate(xr.rulePreconditions):
                   if r.ecName == '':  
                      print('\t\tPrecondition ', i, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
