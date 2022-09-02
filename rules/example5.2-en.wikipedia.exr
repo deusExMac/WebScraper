@@ -3,7 +3,7 @@
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
-#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT etc as well as parentheses) using
+#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT as well as parentheses) using
 #                    as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
 #                    the rule is not applied. 
 # 
@@ -13,8 +13,8 @@
 #
 # While the rules in example5.1-en.wikipedic.exr do the same, the rules defined there have the following
 # issues:
-#   1) they do not make sure that the value checked is really the birthmonth 
-#   2) they do not make sure that the value checked is really the nationality
+#   1) they do not make sure that the value checked refers to birthmonth 
+#   2) they do not make sure that the value checked refers to nationality
 #
 # In contrast to the rules in the file example5.1-en.wikipedic.ext, this rule set does not assume 
 # that the data is always in very specific positions. This set of rules makes the assumption that
@@ -63,7 +63,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title of english wikipedia articles of physicists born either january, or march, or may or october. have an american nationality (united states)",
+"libraryDescription": "Library to extract the title of english wikipedia articles of physicists born either january, or march, or may or october and have an american nationality (united states)",
 
 
 
@@ -77,7 +77,7 @@
 # to consider the extraction successful and the data be written to the csv file. 
 # If at least one  of the ruleName(s) receive an empty value, the extracted
 # data is not added to the csv file. 
-# An empty list here means no keys must be non-empty i.e. filled.
+# An empty list here means no keys required be non-empty i.e. filled.
 
 "requiredFilledFields": ["articleTitle"],
 
@@ -87,7 +87,8 @@
 # a success and hence add the extracted data to the csv file.
 # Allowed values: floats in range [0, 1]. A negative value means no minimum percentage.
 
-"allowedMinimumFilled" : -1.0
+"allowedMinimumFilled" : -1.0,
+
 
 # How should the downloaded html page be rendered.
 # WebScraper supports two modes of URL downloads:
@@ -144,30 +145,30 @@
  
  
  # rulePreconditionType specifies how to evaluate preconditions, if more than one is
- # present. ANY means that if any of the preconditions returns TRUE, precondition hold and
- # the rule is applied. You may consider value ANY as evaluating the logical expression:
- #
- #  PRECONDITION1 OR PRECONDITION2 OR PRECONITION3 ...
- #  If the above expression returns true, the rule is applied on the page.
- #
- #   
- #  Other values for rulePreconditionType supported are: ALL, EVAL which result in different
- #  evaluation of preconditions:
- #    - ALL: All preconditions MUST hold in order for the rules to be applied. Rule is applied
- #           if the next expression is 
- #    - EVAL: complicated logical expressions can be expressed i.e. (PRECONDITION1 OR PRECONDITION2) AND NOT PRECONDITION3
- #
- #  See documentation for more help on this.
- 
+ # present. Value of this field here is EVAL which means that a boolean expression specified in
+ # field rulePreconditionExpression, referencing preconditions, will be evaluated and depending on its truth-value the
+ # rule will be applied or not.
+  
  "rulePreconditionType": "EVAL",
- "rulePreconditionExpression": "p1 AND (p2 AND p3) AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) )",
  
  
- # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
- # in order to apply the selector in ruleCSSSelector. 
- # This rule contains two page preconditions. rulePreconditionType specifies how the preconditions
- # must be evaluated. Value ANY means that any of the preconditions is enough to be TRUE in 
- # order to apply the rule.
+ # rulePreconditionExpression a string specifying a boolean/logical expression that will be evaluated.
+ # The boolean expression must have precondition names (see field ecName in preconditions) as operants related with
+ # logical/boolean operators such as OR, AND, NOT and parentheses () and must return the values True or False.  
+ # This field must be non-empty if rulePreconditionType has value EVAL. It is ignored if rulePreconditionType
+ # has any other value.
+ # The precondition names are replaced by the precondition's evaluation having the same name.
+ # If the boolean expression is not valid, False is returned.
+ 
+ "rulePreconditionExpression": "p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) )",
+ 
+ 
+ 
+ # Page rule preconditions, i.e. preconditions that are referenced in the logical expression
+ # mentioned in rulePreconditionExpression via their name.  Precondition names  are specified in
+ # field name ecName.
+ # This rule contains a total of 9 preconditions. Since the rulePreconditionType has value EVAL, 
+ # precondition names are mandantory. If a precondition does not have a name (empty ecName field), it is ignored.
  # 
  
  "rulePreconditions" : [ 

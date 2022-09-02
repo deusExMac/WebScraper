@@ -256,7 +256,7 @@ class extractionRule:
         if  len(self.rulePreconditions) == 0:
             return({'status':True, 'cssselector':''})
 
-        # TODO: 05/07/2022: This has not been tested!
+        
         if self.rulePreconditionType.lower() == 'eval':
 
            # No boolean expression given although EVAL is specified.
@@ -267,18 +267,23 @@ class extractionRule:
               return(False)
                        
            evalExpression = self.rulePreconditionExpression.strip().lower()
-           print('>>> Expression:', evalExpression)
+           #print('>>> Expression:', evalExpression)
            # iterated over preconditions, evaluate them and replace the
            # precondition name with its evaluation valud
-           for pc in self.rulePreconditions:            
+           for pc in self.rulePreconditions:
+                 
+               if pc.ecName.strip() == '':
+                  print('[WARNING] precondition with empty name detected in EVAL type. Ignoring precondition.')
+                  continue
+            
                preconditionEval = pc.conditionHolds(htmlContent)                 
                evalExpression = evalExpression.replace( pc.ecName.lower(), str(preconditionEval) )
                
-           print('>>> Expression after replacement:', evalExpression)
+           #print('>>> Expression after replacement:', evalExpression)
 
            # Keep in variable for debugging purposes ONLY!
            bResult = booleanEvaluation.evaluateBooleanExpressionString(evalExpression)
-           print('>>> Precondition EVAL result:', bResult)
+           #print('>>> Precondition EVAL result:', bResult)
            if not bResult:
               self.rulePreconditionFailedCount += 1
               
