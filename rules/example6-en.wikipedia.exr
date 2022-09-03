@@ -2,7 +2,7 @@
 ########################################################################################################################################################
 #
 # Example library 6: Demonstrating the use of more than one page preconditions in rules that moreover overwrite/change the rule's specified 
-#                    ruleCSSSelector selector. 
+#                    ruleCSSSelector selector using the precondition field ecRuleCSSSelector. 
 #                    i.e. the css selector for scrapping data specified in ruleCSSSelector changes based on which page
 #                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
 #                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if

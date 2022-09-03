@@ -15,8 +15,49 @@
 {
  "ruleName": "professorName"
  "ruleDescription": "Extracts professors name"
- "ruleURLActivationCondition": ["www\.econ\.upatras\.gr/el/people/teaching-staff/.*$"]
- "ruleCSSSelector": "div > h1.title"
+ "ruleURLActivationCondition": ["www\.econ\.upatras\.gr/el/people/teaching-staff/.*$"],
+ 
+ "rulePreconditionType": "EVAL",
+ 
+ "rulePreconditionExpression": "not p1",
+ 
+ 
+ "rulePreconditions" : [ 
+  
+                           # First precondition: Check that the page is about a physicist. This
+                           # is determined by checking the page categories found in the bottom 
+                           # of the page
+                           {
+                           
+                              "ecName": "p1",
+                              
+                              # The precondition selector i.e. the element to be
+                              # checked. This precondition checks if the pages is
+                              # about Statistics
+                         
+                              "ecCSSSelector" : "#page-title", 
+                             
+                             
+                             # Regular expression the text property of the element 
+                             # in ecCSSSelector must match. Only text property is currently 
+                             # supported. If element matches regular expression, the 
+                             # precondition holds and the ruleCSSSelector is applied.
+                             #
+                             # An empty value (the default if ecTextCondition is missing) 
+                             # means that this precondition holds if the element 
+                             # specified in ecCSSSelector exists on the page currently processed.
+                             # 
+                             # REMEMBER: If you would like to specify a case INsensitive match,
+                             # you may add the (?i) flag                              
+                             
+                             # TODO: Check greek words!!!
+                             "ecTextCondition" : "\b(?i)(ששש)\b"
+                          }
+                       ], 
+ 
+ 
+ # "div > h1.title"
+ "ruleCSSSelector": "#page-title"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False

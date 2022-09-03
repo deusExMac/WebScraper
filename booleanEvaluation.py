@@ -9,6 +9,7 @@
 
 def evaluateBooleanExpressionString( bExp ):
     try:
+         #print('EVAL Expression to evaluate:', bExp)
          return( eval(bExp) )
     except Exception as eEx:
            print('[WARNING] Error during evaluation of boolean expression [', bExp, ']: ', str(eEx), ')', sep='' )

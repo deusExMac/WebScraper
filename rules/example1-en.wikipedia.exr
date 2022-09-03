@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating application of one simple rule on only one web page.
+# Example library 1: Demonstrating application of one simple rule, scraping/etracting one specific element from only one web page.
 # 
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract nor does it follow any links found inside downloaded articles. 
@@ -11,7 +11,7 @@
 #
 # v0.05a){1}WebScraper >> crawl  -r rules/example1-en.wikipedia.exr -o csv/example1.csv https://en.wikipedia.org/wiki/Python_(programming_language)
 #
-# This will extract the title of only one article page from wikipedia https://en.wikipedia.org/wiki/Python_(programming_language), 
+# This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
 # save it in the specified csv file and terminate.
 # 
 # v0.1@5/8/2022
@@ -24,7 +24,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title from wikipedia articles ignoring links",
+"libraryDescription": "Library to extract the title from one wikipedia article ignoring links",
 
 
 

@@ -275,8 +275,9 @@ class extractionRule:
                if pc.ecName.strip() == '':
                   print('[WARNING] precondition with empty name detected in EVAL type. Ignoring precondition.')
                   continue
-            
-               preconditionEval = pc.conditionHolds(htmlContent)                 
+
+               
+               preconditionEval = pc.conditionHolds(htmlContent)               
                evalExpression = evalExpression.replace( pc.ecName.lower(), str(preconditionEval) )
                
            #print('>>> Expression after replacement:', evalExpression)
@@ -287,7 +288,7 @@ class extractionRule:
            if not bResult:
               self.rulePreconditionFailedCount += 1
               
-           
+           #print('>>>>Returning:', {'status': bResult, 'cssselector':''})
            return( {'status': bResult, 'cssselector':''} )
            
                
