@@ -51,7 +51,7 @@
                              # you may add the (?i) flag                              
                              
                              # TODO: Check greek words!!!
-                             "ecTextCondition" : "\b(?i)(���)\b"
+                             "ecTextCondition" : "(?i)\b(παρθενίου)\b"
                           }
                        ], 
  
