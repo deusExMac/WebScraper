@@ -4,6 +4,7 @@ import os.path
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
 import requests
+import codecs
 
 import hashlib
 import http.cookies
@@ -147,6 +148,26 @@ def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
     except Exception as pcEx:
            print('\tERROR creating directories or creating file ', targetName, str(pcEx))
            return(False)
+
+
+
+# Check if file is in UTF-8
+# TODO: Testing.
+def fileIsUTF8(filename):
+    try:
+        with codecs.open(filename, encoding='utf-8', errors='strict') as f:
+            for line in f:
+                pass
+        return 0
+    except IOError as e:
+        print('No UTF-8')
+        return(-3)
+    except UnicodeDecodeError:
+        print('No UTF-8')
+        return(-4)
+
+    return(-5)
+
 
 
 
