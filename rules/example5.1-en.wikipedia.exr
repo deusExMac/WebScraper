@@ -1,9 +1,9 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the ALL operator between
-#                    preconditions i.e. rule is only applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
+# Example library 5.1: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
+#                      how these preconditions are evaluated. This example demonstrates evaluation using the ALL operator between
+#                      preconditions i.e. rule is only applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
 # 
 # This library scraps/extracts the name of scientists from wikipedia articles, that meet the all the next requirements:
 #  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality. 
