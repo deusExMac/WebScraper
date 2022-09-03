@@ -2,7 +2,7 @@
 ########################################################################################################################################################
 #
 # Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the AND operator between
+#                    how these preconditions are evaluated. This example demonstrates evaluation using the ALL operator between
 #                    preconditions i.e. rule is only applied if ALL of the specified page rule preconditions are evaluated as TRUE. 
 # 
 # This library scraps/extracts the name of scientists from wikipedia articles, that meet the all the next requirements:
@@ -21,12 +21,8 @@
 # because, while a physicist and born in january, the physicist's nationality if french.
 #
 #
-# This library demonstrates the use of more than one page preconditions and how these are evaluated to determine if the rule should
-# be applied or not. If the evaluation of preconditions return the value TRUE, ruleCSSSelector is applied on the page currently 
-# processed.
-# If evaluation of preconditions returns FALSE, the rule is not applied.
+# This library demonstrates the use of the rulePreconditionType ALL in preconditions.
 #
-# The library contains rule "getLinks" for harvesting links.
 # 
 # How to apply this rule:
 #
