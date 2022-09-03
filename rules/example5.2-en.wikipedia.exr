@@ -202,8 +202,10 @@
                             "ecTextCondition" : "(?i)\bphysicists\b"
                           },
                           
-                            # Second precondition: Check if page is about statistics. This
-			    # is determined by checking if the page has an element with id #Statistics 
+                          
+                          
+                            # Second precondition: Check if third row of infobox is about
+			    # birthdate.
 			    {
 			       "ecName": "p2",
 
@@ -230,8 +232,11 @@
                           },
                           
                           
-                          # Second precondition: Check if page is about statistics. This
-                          # is determined by checking if the page has an element with id #Statistics 
+                          
+                          
+                          
+                          # Third precondition: Check if third row of infobox mentions the
+                          # desired month.   
                           {
                              "ecName": "p3",
                              
@@ -258,7 +263,10 @@
                           },
                           
                           
-                          # Third precondition: Check if page is about algebra. This 
+                          
+                          
+                          
+                          # Forth precondition: Check if page is about algebra. This 
                           # is determined by checking if the text of the element with id #mw-normal-catlinks 
                           # contains algebra.
                           # NOTE: Checking the same element/method (see previous rule) does not 
@@ -287,7 +295,7 @@
                           },
                           
                           
-                            # Third precondition: Check if page is about algebra. This 
+                            # Fifth precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
@@ -317,7 +325,8 @@
                           
                           
                           
-                            # Third precondition: Check if page is about algebra. This 
+                          
+                            # Sixth precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
@@ -345,7 +354,10 @@
 			      "ecTextCondition" : "(?i)\b(nationality|citizenship)\b"
                           },
                           
-                            # Third precondition: Check if page is about algebra. This 
+                          
+                          
+                          
+                            # Seventh precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
@@ -375,7 +387,7 @@
                           
                           
                           
-                            # Third precondition: Check if page is about algebra. This 
+                            # Eight precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
@@ -403,7 +415,10 @@
 			      "ecTextCondition" : "(?i)\b(nationality|citizenship)\b"
 			      },
 
-			    # Third precondition: Check if page is about algebra. This 
+
+
+
+			    # Ninth precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 
