@@ -754,7 +754,7 @@ def loadRule( r ):
     rl = dataconf.loads(r, extractionRule)
     return(rl)
 
-def loadLibrary(r):
+def loadLibrary(r):      
     return( dataconf.loads(r, ruleLibrary) )
 
 

@@ -29,7 +29,7 @@
  
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.econ\.upatras\.gr/\.*(?!announcements).*$"
+ "ruleContentCondition": "www\.econ\.upatras\.gr/\.*(?!announcements).Γα*$"
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False

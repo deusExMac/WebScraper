@@ -95,7 +95,7 @@ def main():
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
-     with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
+     with open(args['rules'],  encoding='utf-8',  mode='r', errors='ignore') as f:          
           ruleLibrary = xRules.loadLibrary(f.read())
                     
      print('done')
