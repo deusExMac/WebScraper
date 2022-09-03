@@ -450,7 +450,8 @@
  
  
  
- # A CSS selector specifying the element on the page to scrape.
+ # A CSS selector specifying the element on the page to scrape if evaluation of
+ # preconditions return True.
  # NOTE: the CSS selector may return more than one matching element.
  
  "ruleCSSSelector": "#firstHeading",
