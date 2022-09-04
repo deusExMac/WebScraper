@@ -12,7 +12,7 @@ from pathlib import Path
 import appConstants
 import xRules
 import commandShell
-import utils
+#import utils
 
 # Generate an empty configuration setting, with only the sections.
 # Used when no valid configuration file is given or found.
@@ -96,9 +96,11 @@ def main():
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:
      # Check if .exr file is in UTF-8.
-     # TODO: testing
-     #res = utils.fileIsUTF8(args['rules'])
-     #print('UTF-8 check returned', res)
+     #u = utils.fileIsUTF8(args['rules'])
+     #if not u:
+     #   print('[WARNING] file does not seem to be utf-8.')
+        
+     
      
      with open(args['rules'],  encoding='utf-8',  mode='r', errors='ignore') as f:          
           ruleLibrary = xRules.loadLibrary(f.read())
