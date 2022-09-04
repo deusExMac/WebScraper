@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating application of one simple rule, scraping/etracting one specific element from only one web page.
+# Example library 1: Demonstrating application of one simple rule, scraping/etracting one specific value from one web page.
 # 
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract nor does it follow any links found inside downloaded articles. 

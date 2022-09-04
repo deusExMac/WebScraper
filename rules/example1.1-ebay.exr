@@ -1,7 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating application of one simple rule, scraping/etracting one specific element from only one web page.
+# Example library 1.1: Demonstrating application of one rule, that extracts more than one value from one web page.
+#                      This example demonstrates how these values are stored as a list.
 # 
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract nor does it follow any links found inside downloaded articles. 
@@ -9,7 +10,7 @@
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl  -r rules/example1-en.wikipedia.exr -o csv/example1.csv https://en.wikipedia.org/wiki/Python_(programming_language)
+# v0.05a){1}WebScraper >> crawl  -r rules/example1.1-ebay.exr -o csv/example1.1.csv https://www.ebay.com/
 #
 # This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
 # save it in the specified csv file and terminate.
@@ -24,7 +25,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library with rule extracting more than one value from page.",
+"libraryDescription": "Library with rule that extracts more than one value from page.",
 
 
 
@@ -32,7 +33,7 @@
 # mentioned meaning that only the result of the rule named articleTitle should be stored in the csv file.
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["boldElements"],
+"csvLineFormat":["popularBrandCategories"],
 
 
 
@@ -63,20 +64,27 @@
 
 "library": [
 
+# Rule named popularBrandCategories extracts the title of all categories
+# that are featured in the section 'Explore popular brands' on ebay's
+# home page. This means that rule popularBrandCategories will not return one
+# value but a list of values.
+
 {
- "ruleName": "boldElements",
- "ruleDescription": "Extracts only the bold strings from the body of wikipedia page. ++++ ASSUMPTIUONS????",
+ "ruleName": "popularBrandCategories",
+ "ruleDescription": "Extracts popular brands categories from ebay's home page.",
  
  # Regular expression specifying which URL pattern will trigger the
  # execution of this rule. 
  # This is a list ([]) meaning you may add many disjunctive regular expressions
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki", "lse.ac.uk", "mit.edu", "amazon.de", "ebay.com"],
+ "ruleURLActivationCondition": ["ebay\.com"],
  
- # A CSS selector specifying the element on the page to scrape.
+ # A CSS selector specifying the element on the page to scrape. 
+ # Title of the categories are all h3 elements inside a div with id destinations_list1
+ # (this was valid 04/09/2022 and might change) 
  # NOTE: the CSS selector may return more than one mathing element.
- "ruleCSSSelector": "h3",
+ "ruleCSSSelector": "#destinations_list1 h3",
  
  # Once the CSS selector element in  ruleCSSSelector has been found, what 
  # exactly to extract from element: the text or some other attribute. 
@@ -92,7 +100,7 @@
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.
- "ruleReturnedMatchPos": 0,
+ "ruleReturnedMatchPos": -1,
  
  # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
  # an error?
