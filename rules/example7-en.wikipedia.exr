@@ -24,7 +24,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title from one wikipedia article ignoring links",
+"libraryDescription": "Library with rule extracting more than one value from page.",
 
 
 
@@ -72,11 +72,11 @@
  # This is a list ([]) meaning you may add many disjunctive regular expressions
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
+ "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki", "lse.ac.uk", "mit.edu", "amazon.de", "ebay.com"],
  
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
- "ruleCSSSelector": "b",
+ "ruleCSSSelector": "h3",
  
  # Once the CSS selector element in  ruleCSSSelector has been found, what 
  # exactly to extract from element: the text or some other attribute. 
