@@ -695,10 +695,16 @@ class ruleLibrary:
                  continue
 
               found += 1
-              dct[nm] = xD[nm].strip()
-              if xD[nm].strip() != '':
-                 nonEmpty += 1
-          
+              if isinstance(xD[nm], str):
+                 dct[nm] = xD[nm].strip()
+                 if dct[nm] != '':
+                    nonEmpty += 1
+              else:
+                   # Assuming its a list.
+                   # Only 2 data types valid here: str or list
+                   dct[nm] = xD[nm]
+                   if dct[nm]:
+                      nonEmpty += 1   
           
 
                   
