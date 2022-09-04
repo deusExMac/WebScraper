@@ -3,7 +3,10 @@
 #
 # Example library 1.1: Demonstrating application of one rule, that extracts more than one value from one web page.
 #                      This example demonstrates how these values are stored as a list.
-# 
+#
+# Related fields: ruleCSSSelector, ruleReturnsMore, ruleReturnedMatchPos
+#
+#
 # This library contains only one rule that scraps/extracts the text inside elements that match a CSS selector. 
 # Since more than one matching elements can be found on the page, the rule returns these elements as a list.  
 # Links are not extracted. 
