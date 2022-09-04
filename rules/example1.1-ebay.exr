@@ -4,16 +4,20 @@
 # Example library 1.1: Demonstrating application of one rule, that extracts more than one value from one web page.
 #                      This example demonstrates how these values are stored as a list.
 # 
-# This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
-# It does not extract nor does it follow any links found inside downloaded articles. 
-# Notice that special rule named "getLinks" is missing meaning no links are processed/harvested.
+# This library contains only one rule that scraps/extracts the text inside elements that match a CSS selector. 
+# Since more than one matching elements can be found on the page, the rule returns these elements as a list.  
+# Links are not extracted. 
+# The rule extracts title of all categories featured in the popular brands section on the
+# home page of ebay, (NOTE: this rule assumes a specific web page design that was seen
+# 4th Sept 2022. If main pages changes, the rule may not do its purpose and the CSS selector 
+# needs to change)
 # 
-# How to apply this rule:
+# How to apply this library:
 #
-# v0.05a){1}WebScraper >> crawl  -r rules/example1.1-ebay.exr -o csv/example1.1.csv https://www.ebay.com/
+# v0.05a){1}WebScraper >> crawl  -n 1 -r rules/example1.1-ebay.exr -o csv/example1.1.csv https://www.ebay.com/
 #
-# This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
-# save it in the specified csv file and terminate.
+# Once executed, the file example1.1,csv should contain one line with the category names of the popular brands section,
+# on ebay;s main page. 
 # 
 # v0.1@5/8/2022
 #
@@ -25,7 +29,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library with rule that extracts more than one value from page.",
+"libraryDescription": "Library with rule that extracts all category names of sections popular brands on ebay's homepage (04/09/2022).",
 
 
 
@@ -35,6 +39,7 @@
 
 "csvLineFormat":["popularBrandCategories"],
 
+"requiredFilledFields": ["popularBrandCategories"],
 
 
 # How should the downloaded html page be rendered.
@@ -78,7 +83,7 @@
  # This is a list ([]) meaning you may add many disjunctive regular expressions
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
- "ruleURLActivationCondition": ["ebay\.com"],
+ "ruleURLActivationCondition": ["ebay\.com", "amazon\.com"],
  
  # A CSS selector specifying the element on the page to scrape. 
  # Title of the categories are all h3 elements inside a div with id destinations_list1

@@ -716,6 +716,11 @@ class ruleLibrary:
           # First, check if required fields are non empty.
           if reqFilled:
              for k in reqFilled:
+                 # if field is a list, the list must be non empty.
+                 if isinstance(dct.get(k, ''), list):
+                    if not dct[k]:
+                       return( {} )
+                  
                  if dct.get(k, '') == '':
                     print( utils.toString('\t[DEBUG] Required field [', k, '] empty. Returning empty data.\n') if debug else '', end='', sep=''  )   
                     return({})
