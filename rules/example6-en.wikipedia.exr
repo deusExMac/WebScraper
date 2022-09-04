@@ -2,8 +2,8 @@
 ########################################################################################################################################################
 #
 # Example library 6: Demonstrating the use of more than one page preconditions in rules that moreover overwrite/change the rule's specified 
-#                    ruleCSSSelector selector using the precondition field ecRuleCSSSelector. 
-#                    i.e. the css selector for scrapping data specified in ruleCSSSelector changes based on which page
+#                    ruleCSSSelector selector using the  field ecRuleCSSSelector in preconditions. 
+#                    This means that the css selector for scrapping data specified in ruleCSSSelector changes based on which page
 #                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
 #                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
 #                    ecRuleCSSSelector is not empty.  
@@ -314,7 +314,10 @@
 			     "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
                           },
                           
-                          # Forth precondition: Check if manager is at this part of the page
+                
+                
+                
+             # Forth precondition: Check if manager is at this part of the page
 			  {
 			     # The precondition selector i.e. the element to be
 			     # checked. This precondition examines if the 11th row in 
