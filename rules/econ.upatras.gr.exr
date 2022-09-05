@@ -9,6 +9,8 @@
 {
 "libraryDescription": "Library to extract data from econ.upatras.gr pages",
 "csvLineFormat":["professorName"],
+"requiredFilledFields":["professorName"],
+
 "library": [
 
 
@@ -51,7 +53,7 @@
                              # you may add the (?i) flag                              
                              
                              # TODO: Check greek words!!!
-                             "ecTextCondition" : "(?i)\b(παρθενίου)\b"
+                             "ecTextCondition" : "(?i)\b(παρθενίου|βαγιανός|σταυρόπουλος|ροκοπάνος|ραυτοπούλου|στεργίου|τσαρσιταλίδου)\b"
                           }
                        ], 
  

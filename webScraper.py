@@ -47,6 +47,7 @@ def main():
    cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
+   cmdArgParser.add_argument('-J', '--joke',  default='neutral')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    
    args = vars( cmdArgParser.parse_args() )
@@ -111,12 +112,14 @@ def main():
    except Exception as readEx:
        print('Error.', str(readEx))
 
-
+   
 
    # Check how to start: Interactive or batch mode
 
    if not args.get('batch', False):
       print("Starting interactive mode\n")
+
+      
       # Start the interactive shell. This shell
       # allows the user to issue and execute a specified set
       # of commands.
