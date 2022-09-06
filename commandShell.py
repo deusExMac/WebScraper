@@ -1147,7 +1147,7 @@ class commandImpl:
                  # If not, continue to hext url.
                  # NOTE: current version processes only html/text content types
                  if 'html' not in response.get('Content-Type', ''):
-                    print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' ), end='')   
+                    print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' )if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' , end='')   
                     # Update status just to signify that this resource
                     # was downloaded, but ignored i.e. not processed because of
                     # incompatible content-type

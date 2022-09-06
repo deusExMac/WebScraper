@@ -8,15 +8,15 @@
 
 {
 "libraryDescription": "Library to extract data from econ.upatras.gr pages",
-"csvLineFormat":["professorName"],
-"requiredFilledFields":["professorName"],
+"csvLineFormat":["professorName", "profPhoneNumber"],
+"requiredFilledFields":["professorName", "profPhoneNumber"],
 
 "library": [
 
 
 {
  "ruleName": "professorName"
- "ruleDescription": "Extracts professors name"
+ "ruleDescription": "Extracts professors name",
  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr/el/people/teaching-staff/.*$"],
  
  "rulePreconditionType": "EVAL",
@@ -67,6 +67,22 @@
  "ruleReturningMoreIsError": False
  
 },
+
+
+
+#.field-name-field-telephone a
+{
+  "ruleName":"profPhoneNumber",  
+  "ruleDescription": "Extracts professors name",
+  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr/el/people/teaching-staff/.*$"],
+  "ruleCSSSelector": ".field-name-field-telephone a",
+  "ruleTargetAttribute": "text",
+  "ruleContentCondition": "",
+  "ruleReturnsMore": False,
+  "ruleReturnedMatchPos": 0,
+  "ruleReturningMoreIsError": False
+},
+
 
 
 {
