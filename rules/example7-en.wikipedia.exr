@@ -1,8 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 6: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the result
-#                    of the 
+# Example library 6: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the result of ruleCSSSelector
+#                    in order to appl 
 #                    +++ UNIFINISHED +++
 #                    ruleCSSSelector selector using the field ecRuleCSSSelector in preconditions, if precondition is True. 
 #                    This means that the css selector for scrapping data specified in ruleCSSSelector changes based on which page
