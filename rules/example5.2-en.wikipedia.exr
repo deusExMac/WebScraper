@@ -1,12 +1,15 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and 
-#                    how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
-#                    preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT as well as parentheses) using
-#                    as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
-#                    the rule is not applied. 
+# Example library 5.2: Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and 
+#                      how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
+#                      preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT as well as parentheses) using
+#                      as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
+#                      the rule is not applied. 
 # 
+# Related fields: rulePreconditionType, rulePreconditionExpression, rulePreconditions
+#
+#
 # This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
 # that meet the follwing requirements:
 #  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality.
@@ -29,12 +32,12 @@
 # precondition1 AND preconditio2 AND ( (predondition3 AND precondition4) OR (predondition5 AND precondition6) OR (predondition7 AND precondition8) ...)
 #
 # where:
-#    precondition1: the precondition that checks if the page talks about a physicist
-#    precondition2 :the precondition that checks if physicist was born on january or march
+#    * precondition1: the precondition that checks if the page talks about a physicist
+#    * precondition2 :the precondition that checks if physicist was born on january or march
 #    or may or october
-#    (precondition3 AND precondition4): an expression that checks if the fifth line is
+#    * (precondition3 AND precondition4): an expression that checks if the fifth line is
 #    about the nationality (precondition3) and has value united states or american (precondition4)
-#    (precondition5 AND precondition6): an expression that checks if the sixth line is
+#    * (precondition5 AND precondition6): an expression that checks if the sixth line is
 #    about the nationality (precondition3) and has value united states or american (precondition4)
 #    etc...
 #
