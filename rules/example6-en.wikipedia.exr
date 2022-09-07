@@ -8,6 +8,8 @@
 #                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
 #                    ecRuleCSSSelector is not empty.  
 # 
+# Related fields: ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)  
+#
 # This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia pages about premier league teams. 
 # The rules in file example4-en.wikipedia.exr makes the assumption that the manager's name is always at a very specific
 # position in the infobox (8th position of the field list). However this might not always be the case. See e.g.

@@ -5,6 +5,8 @@
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
 #                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE. 
 # 
+# Related fields: rulePreconditionType (ANY), rulePreconditions
+#
 # This library scraps/extracts the title of english wikipedia articles that are about statistics OR algebra.  E.g. for pages like
 #
 # https://en.wikipedia.org/wiki/Statistical_model  and

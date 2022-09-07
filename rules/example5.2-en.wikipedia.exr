@@ -7,7 +7,7 @@
 #                      as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
 #                      the rule is not applied. 
 # 
-# Related fields: rulePreconditionType, rulePreconditionExpression, rulePreconditions
+# Related fields: rulePreconditionType (EVAL), rulePreconditionExpression, rulePreconditions
 #
 #
 # This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
