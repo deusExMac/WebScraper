@@ -5,6 +5,7 @@
 #                    Inside libraries a rule with the name getLinks always extracts hyperlinks. The name getLinks is a reserved word in the context of
 #                    WebScraper. Extracted hyperlinks are followed and pages they point to are processed by the same library (i.e. extracting their title). 
 #                    
+# Related fields: library, ruleCSSSelector, getLinks
 # 
 # This library scraps/extracts the title of all english wikipedia articles that will be encounterred as well as all hyperlinks that
 # that lead to wikipedia. Links not pointing to wikipedia are ignored. All extracted wikipedia links will be followed and processed in the

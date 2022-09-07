@@ -3,6 +3,8 @@
 #
 # Example library 4: Demonstrating the use of page precondition before applying a rule i.e. the css selector. This example 
 #                    features a rule with only one (1) page precondition.
+#
+# Related fields: rulePreconditions
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
 # for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be
