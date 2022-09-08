@@ -333,13 +333,13 @@ class extractionRule:
 
 
     def evalMatchPreconditions(self, record, debug=False):
-        #print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
+        print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
         if len(self.ruleMatchPreconditions) <= 0:
            return({'status':True, 'cssselector':''})   
 
 
         for rpc in self.ruleMatchPreconditions:
-            print( utils.toString('\t\t[DEBUG] Evaluating MATCH precondition [', rpc.ecCSSSelector, ']....') if debug else '', end='')
+            print( utils.toString('\t\t[DEBUG] Evaluating MATCH precondition [', rpc.ecCSSSelector, '] to [', record.text,'] ....') if debug else '', end='')
             #print('\t\t\t[DEBUG] for record', record)
             if rpc.conditionHolds( record ):
                print( utils.toString('YES. Returning [', rpc.ecRuleCSSSelector, ']\n') if debug else '', end='' )
@@ -405,6 +405,7 @@ class extractionRule:
         
         # Apply the actual CSS selector        
         if preconStatus['cssselector'] == '':
+           print( utils.toString('\t\t[DEBUG] Applying selector ', self.ruleCSSSelector,'...\n') if debug else '', end='')     
            res = htmlContent.find(self.ruleCSSSelector, first=False)
         else:   
             res = htmlContent.find(preconStatus['cssselector'], first=False)
@@ -415,6 +416,8 @@ class extractionRule:
         
         #print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH (', len(self.ruleMatchPreconditions), ' MATCH preconditions)', sep='' )
         if len(self.ruleMatchPreconditions) > 0:
+            print( utils.toString('\t\t[DEBUG] rule MATCH Preconditions ', len(self.ruleMatchPreconditions),'\n') if debug else '', end='')
+            print( utils.toString('\t\t[DEBUG] Total of ', len(res),' matches...\n') if debug else '', end='')  
             pRes = []   
             for e in res:                
                 pStatus = self.evalMatchPreconditions(e, debug)

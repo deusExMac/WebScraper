@@ -1,9 +1,10 @@
 
 ########################################################################################################################################################
 #
-# Example library 6: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the result of ruleCSSSelector
-#                    in order to appl 
-#                    +++ UNIFINISHED +++
+# Example library 6: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the elements returned by ruleCSSSelector
+#                    (or ecRuleCSSSelector) and before returning the results. These match preconditions are applied individually to each returned element.
+#                    Match preconditions allow to filter out elements matching ruleCSSSelector (or ecRuleCSSSelector).
+#                    +++ UNIFINISHED +++ USE THIS! h3+ .jquery-tablesorter tbody tr > *
 #                    ruleCSSSelector selector using the field ecRuleCSSSelector in preconditions, if precondition is True. 
 #                    This means that the css selector for scrapping data specified in ruleCSSSelector changes based on which page
 #                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
@@ -67,12 +68,12 @@
 # List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["teamName", "manager"],
+"csvLineFormat":["teamNameWonMoreThan2UCL"],
 
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["teamName", "manager"],
+"requiredFilledFields": ["teamNameWonMoreThan2UCL"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -97,7 +98,7 @@
 # Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
-"renderPages":False,
+"renderPages":True,
 
 
 
@@ -118,12 +119,12 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamName",
+ "ruleName": "teamNameWonMoreThan2UCL",
  
  
  # Short description
  
- "ruleDescription": "Extracts the team name from wikipedia article to premier league pages",
+ "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
  
  
  
@@ -139,233 +140,16 @@
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "#firstHeading",
+ "ruleCSSSelector": "table.wikitable.sortable.plainrowheaders.jquery-tablesorter tr",
  
- 
- # Once the CSS selector element in  ruleCSSSelector has been found, what 
- # exactly to extract from element: the text or some other attribute. 
- # text means simply return the text of the scraped element.
- "ruleTargetAttribute": "text",
- 
- # Regular expression that specifies the condition the extracted text or attribute value has to
- # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
- "ruleContentCondition": "",
- 
- # Does this rule return more than one result?
- "ruleReturnsMore": False,
- 
- # If the rule returns more than one result, which result to return. Negative means all elements. 
- # This takes only effect if ruleReturnsMore is set to True.
- "ruleReturnedMatchPos": 0,
- 
- # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
- # an error?
- "ruleReturningMoreIsError": False,
- 
- # List of characters to remove from the extracted value (text or attribute)
- "ruleRemoveChars": [],
-},
-
-
-
-
-# Rule to extract/scrape the name of the team's manager from the infobox.
-# This rule features preconditions with elector overwriting. 
-
-
-{
-
- # If no ruleName is specified, the extracted data of this rule cannot be used
- # in the csvLineFormat attribute.
- 
- "ruleName": "manager",
- 
- 
- # Short description
- 
- "ruleDescription": "Extracts a team's manager from wikipedia articles",
- 
- 
- 
- # Regular expression specifying which URL pattern will trigger the
- # execution of this rule. 
- # This is a list ([]) meaning you may add many disjunctive regular expressions
- # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
- # Special regular expression metacharacters (.) are escaped.
- 
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
- 
- 
- # rulePreconditionType specifies how to evaluate preconditions, if more than one is
- # present. ANY means that if any of the preconditions returns TRUE, precondition hold and
- # the rule is applied. You may consider value ANY as evaluating the logical expression:
- #
- #  PRECONDITION1 OR PRECONDITION2 OR PRECONITION3 ...
- #  If the above expression returns true, the rule is applied on the page.
- #
- #  Other values supported are: ALL, EVAL. 
- #  ALL: All preconditions MUST hold in order for the rules to be applied. Rule is applied
- # if the next expression is 
- #  EVAL: complicated logical expressions can be expressed i.e. (PRECONDITION1 OR PRECONDITION2) AND NOT PRECONDITION3
- #
- #  See documentation for more help on this.
- 
- "rulePreconditionType": "ANY",
- 
- 
- 
- # Page rule preconditions, i.e. preconditions that must hold for the PAGE currently processed   
- # in order to apply the selector in ruleCSSSelector. 
- # The next preconditions feature all an non-empty ecRuleCSSSelector that overwrites the rule's ruleCSSSelector
- # by the first precondition that is evaluated as true. 
- # 
- # These preconditions check if information on the manager is at 8th, 9th, 10th or 11th row
- # in the infobox. Depending on which row contains the manager, a different selector is used
- # to extract the manager. 
- 
- "rulePreconditions" : [ 
-                          # First precondition: Check if manager is at this part of the page
-                          {
-                             # The precondition selector i.e. the element to be
-                             # checked. This precondition examines if the 9th row in 
-                             # the infobox has the value Manager or Head coach.
-                        
-                             "ecCSSSelector" : "tr:nth-child(8) .infobox-label", 
-                            
-                            
-                            # Regular expression the text property of the element 
-                            # in ecCSSSelector must match. Only text property is currently 
-                            # supported. If element matches regular expression, the 
-                            # precondition holds and the ruleCSSSelector is applied.
-                            #
-                            # An empty value (the default if ecTextCondition is missing) 
-                            # means that this precondition holds if the element 
-                            # specified in ecCSSSelector exists on the page currently processed.
-                            # 
-                            # REMEMBER: If you would like to specify a case INsensitive match,
-                            # you may add the (?i) flag                              
-                            
-                            "ecTextCondition" : "(?i)(Manager|Head coach)",
-                            
-                            # If the 9th child in the infobox has as text manager or head coach
-                            # then replace the rule's ruleCSSSelector with the value of 
-                            # ecRuleCSSSelector in this precondition. I.e. use this
-                            # selector, overwriting ruleCSSSelector, to get the manager's name
-                            
-                            "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
-                          },
-                          
-                          # Second precondition: Check if manager is at this part of the page
-                          {
-                             # The precondition selector i.e. the element to be
-                             # checked. This precondition examines if the 9th row in 
-                             # the infobox has the value Manager or Head coach.
-                        
-                             "ecCSSSelector" : "tr:nth-child(9) .infobox-label", 
-                            
-                            
-                            # Regular expression the text property of the element 
-                            # in ecCSSSelector must match. Only text property is currently 
-                            # supported. If element matches regular expression, the 
-                            # precondition holds and the ruleCSSSelector is applied.
-                            #
-                            # An empty value (the default if ecTextCondition is missing) 
-                            # means that this precondition holds if the element 
-                            # specified in ecCSSSelector exists on the page currently processed.
-                            # 
-                            # REMEMBER: If you would like to specify a case INsensitive match,
-                            # you may add the (?i) flag                              
-                            
-                            "ecTextCondition" : "(?i)(Manager|Head coach)",
-                            
-                            # If the 9th child in the infobox has as text manager or head coach
-                            # then replace the rule's ruleCSSSelector with the value of 
-                            # ecRuleCSSSelector in this precondition. I.e. use this
-                            # selector, overwriting ruleCSSSelector, to get the manager's name
-                            
-                            "ecRuleCSSSelector" : "tr:nth-child(9) .agent"
-                          },
-                          
-                          
-                          # Third precondition: Check if manager is at a different position
-                          # of the infobox
-			  {
-			     # The precondition selector i.e. the element to be
-                             # checked. This precondition examines if the 10th row in 
-                             # the infobox has the value Manager or Head coach.
-
-			     "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
-
-
-			     # Regular expression the text property of the element 
-			     # in ecCSSSelector must match. Only text property is currently 
-			     # supported. If element matches regular expression, the 
-			     # precondition holds and the ruleCSSSelector is applied.
-			     #
-			     # An empty value (the default if ecTextCondition is missing) 
-			     # means that this precondition holds if the element 
-			     # specified in ecCSSSelector exists on the page currently processed.
-			     #  
-			     # REMEMBER: If you would like to specify a case INsensitive match,
-			     # you may add the (?i) flag                              
-
-			     "ecTextCondition" : "(?i)(Manager|Head coach)",
-
-			     # If the 10th child in the infobox has as text manager or head coach
-			     # then replace the rule's ruleCSSSelector with the value of 
-			     # ecRuleCSSSelector in this precondition.
-			                
-			     "ecRuleCSSSelector" : "tr:nth-child(10) .agent"
-                          },
-                          
-                
-                
-                
-             # Forth precondition: Check if manager is at this part of the page
-			  {
-			     # The precondition selector i.e. the element to be
-			     # checked. This precondition examines if the 11th row in 
-			     # the infobox has the value Manager or Head coach.
-
-			     "ecCSSSelector" : "tr:nth-child(11) .infobox-label", 
-
-
-			     # Regular expression the text property of the element 
-			     # in ecCSSSelector must match. Only text property is currently 
-			     # supported. If element matches regular expression, the 
-			     # precondition holds and the ruleCSSSelector is applied.
-			     #
-			     # An empty value (the default if ecTextCondition is missing) 
-			     # means that this precondition holds if the element 
-			     # specified in ecCSSSelector exists on the page currently processed.
-			     # 
-			     # REMEMBER: If you would like to specify a case INsensitive match,
-			     # you may add the (?i) flag                              
-
-			     "ecTextCondition" : "(?i)(Manager|Head coach)",
-
-			     # If the 11th row in the infobox has as text manager or head coach
-			     # then replace the rule's ruleCSSSelector with the value of 
-			     # ecRuleCSSSelector in this precondition. I.e. use this
-			     # selector, overwriting ruleCSSSelector, to get the manager's name
-
-			     "ecRuleCSSSelector" : "tr:nth-child(11) .agent"
-                          }
-                          
-                          # NOTE: You may add here more preconditions with overwriting the ruleCSSSelector
-                          #       if you would like to check other positions of the infobox for the same 
-                          #       data as well.
- ],
- 
- 
- 
- # A CSS selector specifying the element on the page to scrape. 
- # Since the above preconditions may overwrite this selector, this
- # selector is only used in cases when preconditions do not specify
- # ecRuleCSSSelector i.e. do not overwrite this selector.
- 
- "ruleCSSSelector": "tr:nth-child(9) .agent",
- 
+ "ruleMatchPreconditions": [
+                                {
+                                  "ecCSSSelector" : "td:nth-child(3)" 
+                                  "ecTextCondition" : "7"
+                                  "ecRuleCSSSelector" : "td:nth-child(1)"
+                                }
+    
+                             ],
  
  # Once the CSS selector element in  ruleCSSSelector has been found, what 
  # exactly to extract from element: the text or some other attribute. 
@@ -377,69 +161,24 @@
  "ruleContentCondition": "",
  
  # Does this rule return more than one result?
- "ruleReturnsMore": False,
- 
- # If the rule returns more than one result, which result to return. Negative means all elements. 
- # This takes only effect if ruleReturnsMore is set to True.
- "ruleReturnedMatchPos": 0,
- 
- # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
- # an error?
- "ruleReturningMoreIsError": False,
- 
- # List of characters to remove from the extracted value (text or attribute)
- "ruleRemoveChars": [],
-},
-
-
-#],
-                          
- 
-
-# Rule for extracting links from the page
-# A the name getLinks is a keyword signifying a rule that extracts
-# hyperlinks found on the page what match the specified conditions.
-#
-# When you would like to extract and follow hyperlinks found on a webpage,
-# you must name the respective rule extracting these hyperlins getLinks. 
-# This is because the extracted links are handled differently from other 
-# extracted data (e.g. they must be added to the queue).
-
-
-{
-
- # Name of rule. Remember getLinks is a reserved word implying
- # a very specific behavior.
- "ruleName": "getLinks",
- 
- "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
- 
- # Regular expression specifying for which URLs/pages to activate this rule.
- "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
- 
- # CSS selector containing the information (hyperlink) to extract
- "ruleCSSSelector": "a[href]",
- 
- # From the specified selector, we are interested only in the value of the
- # attribute href, which contains the hyperlink.
- # NOTICE: WebScraper takes care of relative links
- "ruleTargetAttribute": "href",
- 
- # Once we got the value of the target attribute, this regular expression
- # specifies a condition that the value has to meet. Here, we are interested 
- # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
- # of the english wikipedia site will not be extracted and hence won't be followed.
- "ruleContentCondition": "en\.wikipedia\.org/.*$",
- 
- # This signifies that this rule will not return only one chunk of information, but
- # a list of chunkc since a web page may have many <a href= > tags.
  "ruleReturnsMore": True,
  
- # -1 means return all matched
+ # If the rule returns more than one result, which result to return. Negative means all elements. 
+ # This takes only effect if ruleReturnsMore is set to True.
  "ruleReturnedMatchPos": -1,
  
- "ruleReturningMoreIsError": False 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
 }
+
+
+
+
+
 
 ]
 
