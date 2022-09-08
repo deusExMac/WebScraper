@@ -144,8 +144,8 @@
  
  "ruleMatchPreconditions": [
                                 {
-                                  "ecCSSSelector" : "td:nth-child(1)" 
-                                  "ecTextCondition" : "Paris"
+                                  "ecCSSSelector" : "tr" 
+                                  "ecTextCondition" : "Real"
                                   "ecRuleCSSSelector" : "td:nth-child(2)"
                                 }
     
