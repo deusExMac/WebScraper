@@ -40,6 +40,7 @@ class extractionCondition:
           self.ecAppliedCount += 1  
           res = htmlContent.find(self.ecCSSSelector, first=False)          
           if len(res) <= 0:
+             print('[DEBUG] ConditionHolds: selector NOT FOUND')   
              self.ecFalseCount += 1   
              return(False)
 
@@ -506,6 +507,8 @@ class extractionRule:
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []
                       for m in res:
+                          if not m:
+                             continue   
                           #print('\t\t[DEBUG] Appending ', m.text)  
                           rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
 

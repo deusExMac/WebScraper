@@ -140,13 +140,13 @@
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "table.wikitable.sortable.plainrowheaders.jquery-tablesorter tr",
+ "ruleCSSSelector": "h3+ .jquery-tablesorter tr",
  
  "ruleMatchPreconditions": [
                                 {
-                                  "ecCSSSelector" : "td:nth-child(3)" 
-                                  "ecTextCondition" : "7"
-                                  "ecRuleCSSSelector" : "td:nth-child(1)"
+                                  "ecCSSSelector" : "td:nth-child(1)" 
+                                  "ecTextCondition" : "Paris"
+                                  "ecRuleCSSSelector" : "td:nth-child(2)"
                                 }
     
                              ],
