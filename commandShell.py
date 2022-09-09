@@ -875,7 +875,10 @@ class commandImpl:
              cmdArgs.add_argument('-H', '--humandelay', action='store_true' )             
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
              cmdArgs.add_argument('-D', '--dfs', action='store_true' )
-                          
+
+             # Use page pyppeteer to download page  
+             cmdArgs.add_argument('-R', '--render', action='store_true' )
+             
              cmdArgs.add_argument('-U', '--update', action='store_true' )
              cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
              
@@ -929,6 +932,9 @@ class commandImpl:
                 except Exception as flEx:
                        print(str(flEx) )
                        return(False)
+
+          if args['render']:
+             exRules.renderPages = True   
 
           if args['debug']:
                  cmdConfigSettings.set('DEBUG', 'debugging', 'True' )
@@ -1034,11 +1040,11 @@ class commandImpl:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
 
                   
-                 exHitRate = -1.0  # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
+                 exHitRate = 0.00 # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
                  if uQ.fetchedUrlsCount() != 0:
                     exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' Hit rate:', "{:.3f}".format(exHitRate) , ']', clr='yellow', sep='')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' Hit rate:', "{:.4f}".format(exHitRate) , ']', clr='yellow', sep='')
 
                  tmStart = time.perf_counter() # start counting time
 
@@ -1345,11 +1351,12 @@ class commandImpl:
                  # MaxPages
                  if cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) > 0:
                     if numProcessed >= cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1):
-                       print('Terminating. Reached page limit ', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1) ) 
+                       print('\nTerminating. Reached page limit of [', cmdConfigSettings.getint('Crawler', 'maxPages', fallback=-1), ']', sep='' ) 
                        break
 
                  # MinHitRate
                  if cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) > 0:
+                       
                     if exHitRate < cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0):
                        belowMinHitRateCount += 1
                        # if we go below hit rate 3 consecutive times,
@@ -1402,7 +1409,7 @@ class commandImpl:
                  #break
 
 
-          print('\nSaving extracted data to [', args['outputcsvfile'], '] (', xDataDF.shape[0] if xDataDF is not None else '???',')...', sep='', end='')
+          print('\nSaving extracted data to [', args['outputcsvfile'], '] (# rows:', xDataDF.shape[0] if xDataDF is not None else '???',')...', sep='', end='')
           if xDataDF is not None:
             try:    
              xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )

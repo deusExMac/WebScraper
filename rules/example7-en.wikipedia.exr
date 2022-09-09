@@ -98,7 +98,7 @@
 # Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
-"renderPages":True,
+"renderPages":False,
 
 
 
@@ -140,13 +140,13 @@
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "h3+ .jquery-tablesorter tr",
- 
+ "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ #.jquery-tablesorter 
  "ruleMatchPreconditions": [
                                 {
-                                  "ecCSSSelector" : "tr" 
-                                  "ecTextCondition" : "Real"
-                                  "ecRuleCSSSelector" : "td:nth-child(2)"
+                                  "ecCSSSelector" : "td:nth-child(2)", 
+                                  "ecTextCondition" : "([4-9]|\d{2,})",                                  
+                                  "ecRuleCSSSelector" : "th"
                                 }
     
                              ],

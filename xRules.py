@@ -40,7 +40,7 @@ class extractionCondition:
           self.ecAppliedCount += 1  
           res = htmlContent.find(self.ecCSSSelector, first=False)          
           if len(res) <= 0:
-             print('[DEBUG] ConditionHolds: selector NOT FOUND')   
+             #print('[DEBUG] ConditionHolds: selector NOT FOUND')   
              self.ecFalseCount += 1   
              return(False)
 
@@ -333,8 +333,8 @@ class extractionRule:
 
 
 
-    def evalMatchPreconditions(self, record, debug=False):
-        print('\t\t[DEBUG] Evaluating RECORD preconditions....')  
+    def evalMatchPreconditions(self, record, debug=False):        
+        print( utils.toString('\t\t[DEBUG] Evaluating MATCH preconditions. Total of [', len(self.ruleMatchPreconditions), ']\n') if debug else '', end='' )
         if len(self.ruleMatchPreconditions) <= 0:
            return({'status':True, 'cssselector':''})   
 
@@ -418,7 +418,7 @@ class extractionRule:
         #print('\t\t[DEBUG] Evaluating preconditions for EACH MATCH (', len(self.ruleMatchPreconditions), ' MATCH preconditions)', sep='' )
         if len(self.ruleMatchPreconditions) > 0:
             print( utils.toString('\t\t[DEBUG] rule MATCH Preconditions ', len(self.ruleMatchPreconditions),'\n') if debug else '', end='')
-            print( utils.toString('\t\t[DEBUG] Total of ', len(res),' matches...\n') if debug else '', end='')  
+            print( utils.toString('\t\t[DEBUG] Total of ', len(res),' ruleCSSSelector matches...\n') if debug else '', end='')  
             pRes = []   
             for e in res:                
                 pStatus = self.evalMatchPreconditions(e, debug)
@@ -514,7 +514,7 @@ class extractionRule:
 
                       exTractedData[self.ruleName] = rList
                       nM = len(rList)
-                      print(':::', exTractedData )
+                      #print(':::', exTractedData )
 
                  self.ruleMatchCount += nM     
                  return(exTractedData)
@@ -745,19 +745,19 @@ class ruleLibrary:
 
 
       def libStats(self) -> bool:
-
+          print('Library statistics for current run:')
           for xr in self.library:
-              print('Rule:', xr.ruleName)
-              print('\tMatched URLs count:', xr.ruleMatchedUrlsCount)
-              print('\tRule applied count:', xr.ruleAppliedCount)
-              print('\tRule match count:', xr.ruleMatchCount)
-              print('\tFailed precondition count:', xr.rulePreconditionFailedCount)
-              print('\tPreconditions (total:', len(xr.rulePreconditions),', mode:', xr.rulePreconditionType, '):', sep='' )
+              print('\tRule:', xr.ruleName)
+              print('\t\tMatched URLs count:', xr.ruleMatchedUrlsCount)
+              print('\t\tRule applied count:', xr.ruleAppliedCount)
+              print('\t\tRule match count:', xr.ruleMatchCount)
+              print('\t\tFailed precondition count:', xr.rulePreconditionFailedCount)
+              print('\t\tPreconditions (total:', len(xr.rulePreconditions),', mode:', xr.rulePreconditionType, '):', sep='' )
               for i, r in enumerate(xr.rulePreconditions):
                   if r.ecName == '':  
-                     print('\t\tPrecondition ', i, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
+                     print('\t\t\tPrecondition ', i, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
                   else:
-                     print('\t\tPrecondition ', r.ecName, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
+                     print('\t\t\tPrecondition ', r.ecName, ' :: Applied:', r.ecAppliedCount, ' Found:', r.ecExistenceCount, ' True count:', r.ecTrueCount, ' False count:', r.ecFalseCount, sep='')
                      
               
 
