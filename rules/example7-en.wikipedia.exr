@@ -1,57 +1,46 @@
 
 ########################################################################################################################################################
 #
-# Example library 6: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the elements returned by ruleCSSSelector
-#                    (or ecRuleCSSSelector) and before returning the results. These match preconditions are applied individually to each returned element.
-#                    Match preconditions allow to filter out elements matching ruleCSSSelector (or ecRuleCSSSelector).
-#                    +++ UNIFINISHED +++ USE THIS! h3+ .jquery-tablesorter tbody tr > *
-#                    ruleCSSSelector selector using the field ecRuleCSSSelector in preconditions, if precondition is True. 
-#                    This means that the css selector for scrapping data specified in ruleCSSSelector changes based on which page
-#                    precondition is true. ruleCSSSelector overwriting works ONLY when rulePreconditionType has value ANY. If more
-#                    than one preconditions are True, the first precondition evaluating to TRUE overwrites ruleCSSSelector if
-#                    ecRuleCSSSelector is not empty.  
+# Example library 7: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the elements returned after applying
+#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
+#                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
+#                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
+#                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
+#                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
+#                    the examined element.
 # 
-# Related fields: ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)  
+# Related fields: ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
 #
-# This library scraps/extracts the teams and coaches' (manager or Head coaches') name of english wikipedia pages about premier league teams. 
-# The rules in file example4-en.wikipedia.exr makes the assumption that the manager's name is always at a very specific
-# position in the infobox (8th position of the field list). However this might not always be the case. See e.g. (checked 7/9/2022)
-# 
-#   https://en.wikipedia.org/wiki/Arsenal_F.C. where the coach/manager is at the 8th position of the field list inside the infobox
-# and
-#   https://en.wikipedia.org/wiki/Aston_Villa_F.C. where the coach/manager is at the 9th position of the field list inside the infobox.
-# 
-# Using overwriting of the rule's ruleCSSSelector, a rule may not only simply CHECK different parts of the page to locate the information it is looking for
-# but also allows it to use different selectors to extract the information based on which precondition was evaluated as true.
-# These precondition level selectors are defined in the field ecRuleCSSSelector available in each precondition that
-# overwrite, if present, the rule's ruleCSSSelector. 
-# If this field is empty (default), no overwritting is carried out. If more than one preconditions are true, ruleCSSSelector is
-# replaced by the value of ecRuleCSSSelector of the first precondition evaluated as true.
+# When to use match preconditions:
+#      1) When you want to apply more checks to all the elements returned by ruleCSSSelector although this can also be
+#         effected by carefullt authoring CSS selector for ruleCSSSelector.
+#      2) When you want to extract subdata from each element based on value of the extracted data by ruleCSSSelector. You may for example
+#         achieve behaviors like: for each result, get the value of the 3rd td only if the the 5th td matches a specific regular expression.
 #
-# In essense, by overwriting the rule's ruleCSSSelector, the ruleCSSSelector is not static but can be conditionally defined based on the precondition. 
-# This means that preconditions will function like this:
+# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
+# It does this by downloading the wikipedia page 
 #
-# IF PRECONDITION1 is TRUE:
-#    change ruleCSSSelector to ecRuleCSSSelector of precondition1
-# ELSE IF PRECONDITION2 is TRUE
-#         change ruleCSSSelector to ecRuleCSSSelector of precondition2
-# ELSE IF PRECONDITION3 is TRUE
-#         change ruleCSSSelector to ecRuleCSSSelector of precondition3
-# etc
-# 
-# In a rule, not all preconditions need to define a ecRuleCSSSelector. If some preconditions do not define ecRuleCSSSelector and are true, the ruleCSSSelector
-# applied.
+#    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
+# and extracting data from the table with caption "Performances in the European Cup and UEFA Champions League by club".
+#
+# To achieve this, the rule does the following once the above wikipedia page has been downloaded:
+#
+# 1) Extracts all table rows of a specific table (tr) containing club names and the times they have won the Champions League
+# 2) Applies a match precondition on EACH tr element extracted in 1) that checks i) if a specific td, containing data on the number of times a 
+#    team has won, has value greater than 3 and ii) if i) holds, it returns the name of the team which is in a different part (a th) of the same table row (tr) by applying
+#    ecRuleCSSSelector on the tr element currently processed. 
+#
+# More than one match preconditions can be defined in the context of the same rule. Currently, only operator ANY is supported for these match preconditions.
+# If multiple match preconditions match, the first matching precondition's ecRuleCSSSelector is applied, if specified.
 # 
 # How to use this rule:
 #
-# crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs
+# crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
-# NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
-# option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.
 #
 # 
-# v0.1@14/8/2022
+# v0.1@09/09/2022
 #
 ########################################################################################################################################################
 
@@ -61,7 +50,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the team and manager name from english wikipedia articles on to premier league clubs",
+"libraryDescription": "Library to extract from a specific wikipedia page team names that have won the Champions League more than 3 times",
 
 
 
@@ -141,7 +130,7 @@
  # NOTE: the CSS selector may return more than one mathing element.
  
  "ruleCSSSelector": "h3 + .plainrowheaders tr",
- #.jquery-tablesorter 
+ 
  "ruleMatchPreconditions": [
                                 {
                                   "ecCSSSelector" : "td:nth-child(2)", 
