@@ -5,6 +5,7 @@
 #                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
 #                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
 #                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
+#                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
 #                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
 #                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
 #                    the examined element.
@@ -57,12 +58,12 @@
 # List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["teamNameWonMoreThan2UCL"],
+"csvLineFormat":["teamNamesWithMoreThan3UCLTitles"],
 
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["teamNameWonMoreThan2UCL"],
+"requiredFilledFields": ["teamNamesWithMoreThan3UCLTitles"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -108,7 +109,7 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamNameWonMoreThan2UCL",
+ "ruleName": "teamNamesWithMoreThan3UCLTitles",
  
  
  # Short description
@@ -131,10 +132,39 @@
  
  "ruleCSSSelector": "h3 + .plainrowheaders tr",
  
+ # List of match preconditions that will be applied
+ # to each and every result returned by ruleCSSSelector. Elements
+ # matching preconditions will be kept in result list, elements that
+ # don't match will be removed from the result set.
+ # If more than one match precondition is specified, these are
+ # combined using ANY operator.
+ # Currently, only ANY operator is supported.
  "ruleMatchPreconditions": [
+  
+                                # A match precondition. This precondition checks if each
+                                # row extracted by ruleCSSSelector has in the second td element
+                                # a number greater than 3. If so, the th element from the 
+                                # processed row is extracted and returned as the result.
+                                # This is done for all tr elements.
                                 {
+                                  # Element of tr to check. This CSS selector is applied to
+                                  # each and every tr element  
+                                  # returned by ruleCSSSelector.
+                                  
                                   "ecCSSSelector" : "td:nth-child(2)", 
-                                  "ecTextCondition" : "([4-9]|\d{2,})",                                  
+                                  
+                                  
+                                  # Condition ecCSSSelector has to match / condition. tr
+                                  # elements that do not match this condition will be
+                                  # removed from the extracted list.
+                                  
+                                  "ecTextCondition" : "([4-9]|\d{2,})",
+                                  
+                                  
+                                  # If a match, return this element from the examined
+                                  # tr element extracted. On this element ruleTargetAttribute 
+                                  # will be extracted and returned replacing the tr element. 
+                                                                    
                                   "ecRuleCSSSelector" : "th"
                                 }
     
