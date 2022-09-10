@@ -135,10 +135,16 @@
  # List of match preconditions that will be applied
  # to each and every result returned by ruleCSSSelector. Elements
  # matching preconditions will be kept in result list, elements that
- # don't match will be removed from the result set.
+ # don't match will be removed from the result set. The match precondition
+ # in this example specifies the ecRuleCSSSelector field which means that
+ # if the precondition holds for an element, a different part of the examined element is 
+ # extracted and returned. 
  # If more than one match precondition is specified, these are
  # combined using ANY operator.
  # Currently, only ANY operator is supported.
+ #
+ # NOTE: Match preconditions without ecRuleCSSSelector field has not been tested.
+ 
  "ruleMatchPreconditions": [
   
                                 # A match precondition. This precondition checks if each
