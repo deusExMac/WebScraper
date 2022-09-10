@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 7: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the elements returned after applying
+# Example library 7: Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
 #                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
 #                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
 #                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
