@@ -545,11 +545,19 @@ class extractionRule:
             numExtracted += 1
          else:
             #print(len(res), ' matches found')
+            #print(res)
             lst = []
             for item in res:
+                #print('\t\t\t\t[DEBUG] Doing', item)  
                 #lst.append( item.text )
-                lst.append( item.attrs.get(self.ruleTargetAttribute) )
+                if not item:
+                   continue
 
+                #print('\t\t\t[DEBUG] Getting attribute', self.ruleTargetAttribute, ' from item', item)  
+                lst.append( item.attrs.get(self.ruleTargetAttribute) )
+                #print('\t\t\t[DEBUG] Extracted:', item.attrs.get(self.ruleTargetAttribute) )
+
+            #print(lst) 
             exTractedData[self.ruleName] = lst    
             numExtracted += len(res)
 

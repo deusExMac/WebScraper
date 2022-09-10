@@ -551,7 +551,7 @@ class commandImpl:
                    uS.updateExtractedData(targetUrl, xdt)
                 else:
                      # Since this returned a recordList, iterate over
-                     # the individual records and add then to the data frame
+                     # the individual records and add them to the data frame
                      xdtList = pageData[xRules.getRecordListFieldName(pageData)]
                      print('\t[DEBUG] Removing all rows with URL [', targetUrl, ']',  sep='')
                      uS.removeExtractedData( targetUrl )
@@ -1330,8 +1330,13 @@ class commandImpl:
                  else:
                        recordList = pageData[xRules.getRecordListFieldName(pageData)]
                        for r in recordList:
+                           # Extract from dict fields that should be written to csv file  
                            csvr = exRules.CSVFields(r)
                            # TODO: check here is csvr is kinda empty
+                           if not csvr:
+                              print(utils.toString('\t[DEBUG] Recordlist/ csvFields returned empty dictionary.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
+                              continue   
+                                 
                            csvr['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
                            csvr['url'] = currentUrl
                            clrprint.clrprint('\t\t[DEBUG] (record list) Adding [', csvr, ']', clr='green')

@@ -1,16 +1,13 @@
 
 ########################################################################################################################################################
 #
-# Example library 7: Demonstrating the use of post match preconditions i.e. preconditions that are applied to the elements returned after applying
-#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
-#                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
-#                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
-#                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
-#                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
-#                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
-#                    the examined element.
+# Example library 7.1: Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated
+#                      conditions.
+#                      
 # 
-# Related fields: ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
+# Related fields: ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
+#
+# TODO: Update/fix content below this line
 #
 # When to use match preconditions:
 #      1) When you want to apply more checks to all the elements returned by ruleCSSSelector although this can also be
@@ -37,7 +34,7 @@
 # 
 # How to use this rule:
 #
-# crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+# crawl -n 1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
 #
 # 
@@ -58,12 +55,12 @@
 # List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["teamNamesWithMoreThan3UCLTitles"],
+"csvLineFormat":["teamName"],
 
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["teamNamesWithMoreThan3UCLTitles"],
+"requiredFilledFields": ["teamName"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -109,12 +106,12 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamNamesWithMoreThan3UCLTitles",
+ "ruleName": "teamName",
  
  
  # Short description
  
- "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
+ "ruleDescription": "Extracts the team name",
  
  
  
@@ -130,56 +127,11 @@
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ "ruleCSSSelector": "#firstHeading",
  
- # List of match preconditions that will be applied
- # to each and every result returned by ruleCSSSelector. Elements
- # matching preconditions will be kept in result list, elements that
- # don't match will be removed from the result set. The match precondition
- # in this example specifies the ecRuleCSSSelector field which means that
- # if the precondition holds for an element, a different part of the examined element is 
- # extracted and returned. 
- # If more than one match precondition is specified, these are
- # combined using ANY operator.
- # Currently, only ANY operator is supported.
- #
- # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
  
- "ruleMatchPreconditions": [
-  
-                                # A match precondition. This precondition checks if each
-                                # row extracted by ruleCSSSelector has in the second td element
-                                # a number greater than 3. If so, the th element from the 
-                                # processed row is extracted and returned as the result.
-                                # This is done for all tr elements.
-                                {
-                                  # Element of tr to check. This CSS selector is applied to
-                                  # each and every tr element  
-                                  # returned by ruleCSSSelector.
-                                  
-                                  "ecCSSSelector" : "td:nth-child(2)", 
-                                  
-                                  
-                                  # Condition the elements specified by ecCSSSelector have to match. 
-                                  # tr elements that do not match this condition will be
-                                  # removed from the extracted list.
-                                  # Here we check if td element td:nth-child(2), that keeps the number of titles, 
-                                  # contains a number that is greater than 3 (>3).
-                                  
-                                  "ecTextCondition" : "([4-9]|\d{2,})",
-                                  
-                                  
-                                  # If a match, i.e. number is > 3, return the next element from the examined
-                                  # tr element extracted, i.e. the table heading element. 
-                                  # 
-                                  # NOTE: this will result in returning a new element. On this new element 
-                                  # the data specified in ruleTargetAttribute will be returned. This will result 
-                                  # in a list of string values associated with the key with name ruleName.
-                                                                    
-                                  "ecRuleCSSSelector" : "th"
-                                }
-    
-                             ],
+
+ 
  
  # Once the CSS selector element in  ruleCSSSelector has been found, or data has been
  # extracted by ecRuleCSSSelector, what 
@@ -195,7 +147,7 @@
  "ruleContentCondition": "",
  
  # Does this rule return more than one result?
- "ruleReturnsMore": True,
+ "ruleReturnsMore": False,
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.
@@ -207,14 +159,98 @@
  
  # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": [],
+}, 
+
+
+
+
+
+
+
+
+
+{
+
+ # Name of rule. Remember getLinks is a reserved word implying
+ # a very specific behavior.
+ "ruleName": "getLinks",
+ 
+ "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
+ 
+ # Regular expression specifying for which URLs/pages to activate this rule.
+ "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
+ 
+ # CSS selector containing the information (hyperlink) to extract
+ "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ 
+ 
+ "ruleMatchPreconditions": [
+   
+                                 # A match precondition. This precondition checks if each
+                                 # row extracted by ruleCSSSelector has in the second td element
+                                 # a number greater than 3. If so, the th element from the 
+                                 # processed row is extracted and returned as the result.
+                                 # This is done for all tr elements.
+                                 {
+                                   # Element of tr to check. This CSS selector is applied to
+                                   # each and every tr element  
+                                   # returned by ruleCSSSelector.
+                                   
+                                   "ecCSSSelector" : "td:nth-child(2)", 
+                                   
+                                   
+                                   # Condition the elements specified by ecCSSSelector have to match. 
+                                   # tr elements that do not match this condition will be
+                                   # removed from the extracted list.
+                                   # Here we check if td element td:nth-child(2), that keeps the number of titles, 
+                                   # contains a number that is greater than 3 (>3).
+                                   
+                                   "ecTextCondition" : "([4-9]|\d{2,})",
+                                   
+                                   
+                                   # If a match, i.e. number is > 3, return the next element from the examined
+                                   # tr element extracted, i.e. the table heading element. 
+                                   # 
+                                   # NOTE: this will result in returning a new element. On this new element 
+                                   # the data specified in ruleTargetAttribute will be returned. This will result 
+                                   # in a list of string values associated with the key with name ruleName.
+                                                                     
+                                   "ecRuleCSSSelector" : "th span a[href]"
+                                 }
+     
+                             ],
+ 
+ 
+ 
+ 
+ 
+ 
+ # From the specified selector, we are interested only in the value of the
+ # attribute href, which contains the hyperlink.
+ # NOTICE: WebScraper takes care of relative links
+ "ruleTargetAttribute": "href",
+ 
+ # Once we got the value of the target attribute, this regular expression
+ # specifies a condition that the value has to meet. Here, we are interested 
+ # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
+ # of the english wikipedia site will not be extracted and hence won't be followed.
+ "ruleContentCondition": "en\.wikipedia\.org/.*$",
+ 
+ # This signifies that this rule will not return only one chunk of information, but
+ # a list of chunkc since a web page may have many <a href= > tags.
+ "ruleReturnsMore": True,
+ 
+ # -1 means return all matched
+ "ruleReturnedMatchPos": -1,
+ 
+ "ruleReturningMoreIsError": False 
 }
 
 
 
 
 
-
-]
+] # library
 
 
 }
