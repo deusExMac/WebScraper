@@ -15,19 +15,10 @@
 #      2) When you want to extract subdata from each element based on value of the extracted data by ruleCSSSelector. You may for example
 #         achieve behaviors like: for each result, get the value of the 3rd td only if the the 5th td matches a specific regular expression.
 #
-# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
-# It does this by downloading the wikipedia page 
-#
-#    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-#
-# and extracting data from the table with caption "Performances in the European Cup and UEFA Champions League by club".
-#
-# To achieve this, the rule does the following once the above wikipedia page has been downloaded:
-#
-# 1) Extracts all table rows of a specific table (tr) containing club names and the times they have won the Champions League
-# 2) Applies a match precondition on EACH tr element extracted in 1) that checks i) if a specific td, containing data on the number of times a 
-#    team has won, has value greater than 3 and ii) if i) holds, it returns the name of the team which is in a different part (a th) of the same table row (tr) by applying
-#    ecRuleCSSSelector on the tr element currently processed. 
+# The example rule below visits the URL https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals and
+# extracts and follows only these links leading to football teams wikipedia pages, that have won the
+# UEFA Champions League more than 3 time. These links are followed the team's name
+# is extracted.
 #
 # More than one match preconditions can be defined in the context of the same rule. Currently, only operator ANY is supported for these match preconditions.
 # If multiple match preconditions match, the first matching precondition's ecRuleCSSSelector is applied, if specified.
@@ -38,7 +29,7 @@
 #
 #
 # 
-# v0.1@09/09/2022
+# v0.1@11/09/2022
 #
 ########################################################################################################################################################
 
@@ -48,7 +39,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract from a specific wikipedia page team names that have won the Champions League more than 3 times",
+"libraryDescription": "Library to extract links leading to wikipedia pages of football clubs that have won UCL more than 3 times. The name of these clubs is extracted.",
 
 
 
@@ -138,8 +129,8 @@
  # exactly to extract from this element: the text or some other attribute. 
  # text means simply return the text of the scraped element.
  #
- # In ruleMatchPreconditions, ruleTargetAttribute will be applied to the newly extracted
- # elements.
+ # If more than one value is returned, this attribute is applied to each and every returned element. 
+ 
  "ruleTargetAttribute": "text",
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
@@ -175,12 +166,17 @@
  # a very specific behavior.
  "ruleName": "getLinks",
  
- "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
+ "ruleDescription": "Extracting hyperlinks from the downloaded webpage. This rule extracts only links to teams that have won the UCL more than 3 times.",
  
  # Regular expression specifying for which URLs/pages to activate this rule.
  "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
  
- # CSS selector containing the information (hyperlink) to extract
+ # CSS selector containing the information (hyperlink) to extract.
+ # This selector will return all table rows of the table with heading
+ # "Performances in the European Cup and UEFA Champions League by club."
+ # That table contains, in each row (tr): the times the club have won UCL as well 
+ # a link to the clubs name.
+ 
  "ruleCSSSelector": "h3 + .plainrowheaders tr",
  
  
