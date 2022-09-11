@@ -1044,7 +1044,7 @@ class commandImpl:
                  if uQ.fetchedUrlsCount() != 0:
                     exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' Hit rate:', "{:.4f}".format(exHitRate) , ']', clr='yellow', sep='')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]', clr='yellow', sep='')
 
                  tmStart = time.perf_counter() # start counting time
 
