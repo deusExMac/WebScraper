@@ -141,7 +141,9 @@ class extractionRule:
     
     # If more than one value is returned, the next field tells us under what
     # key to store the extracted values (i.e. the text of each element)
-    ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])    
+    ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])
+
+    
     ruleReturnedMatchPos: int  = 0    
     ruleReturningMoreIsError: bool  = False
 

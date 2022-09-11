@@ -58,12 +58,12 @@
 # List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["teamNamesWithMoreThan3UCLTitles"],
+"csvLineFormat":["name", "winnerCount"],
 
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["teamNamesWithMoreThan3UCLTitles"],
+"requiredFilledFields": ["name"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -176,7 +176,7 @@
                                   # the data specified in ruleTargetAttribute will be returned. This will result 
                                   # in a list of string values associated with the key with name ruleName.
                                                                     
-                                  "ecRuleCSSSelector" : "th"
+                                  #"ecRuleCSSSelector" : "th"
                                 }
     
                              ],
@@ -189,6 +189,12 @@
  # In ruleMatchPreconditions, ruleTargetAttribute will be applied to the newly extracted
  # elements.
  "ruleTargetAttribute": "text",
+ 
+ 
+ 
+ "rulePostCSSSelector" : ["th", "td:nth-child(2)"]
+ "ruleReturnedValueNames" : ["name", "winnerCount"]
+ 
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
