@@ -7,7 +7,7 @@
 #                    dictionaries containing new new keys that will be the value of the key with rule name.. 
 #                    
 # 
-# Related fields: rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector  
+# Related fields: rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields  
 #
 #
 #
@@ -17,6 +17,9 @@
 #
 # Allying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
 # returned simple records, i.e. list of key/value pairs where the value is a simple value or a list of string valued.
+# Each dict is saved as separate line in the csv file.
+# To save these dictionaries to the csv file, the fields csvLineFormat and requiredFilledFields need to be updated properly with the new
+# fields.
 #
 # TODO: Update next paragraphs.
 #
