@@ -208,14 +208,18 @@
                                    "ecTextCondition" : "([4-9]|\d{2,})",
                                    
                                    
-                                   # If a match, i.e. number is > 3, return the next element from the examined
-                                   # tr element extracted, i.e. the table heading element. 
-                                   # 
+                                   # If a match, i.e. number is > 3, return the link leading to
+                                   # the team's wikipedia page. This link is the second 
+                                   # a element in the table heading (th) inside the table row
+                                   # (tr) currently being processed. The first a element
+                                   # being a link to the teams football federation it belongs.
+                                   # Anchor is the flag. (11/09/2022)
+                                   #
                                    # NOTE: this will result in returning a new element. On this new element 
                                    # the data specified in ruleTargetAttribute will be returned. This will result 
                                    # in a list of string values associated with the key with name ruleName.
                                                                      
-                                   "ecRuleCSSSelector" : "th span a[href]"
+                                   "ecRuleCSSSelector" : "th a[href]:nth-child(2)"
                                  }
      
                              ],
