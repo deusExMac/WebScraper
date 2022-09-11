@@ -1,22 +1,24 @@
 
 ########################################################################################################################################################
 #
-# Example library 8: TODO - FIX THIS Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
-#                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
-#                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
-#                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
-#                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
-#                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
-#                    the examined element.
+# Example library 8: Demonstrating the use of (post) match CSS selectors with element breakdown i.e. 
+#                    selectors that are applied to each result of ruleCSSSelector breaking them apart and storing
+#                    each part as a new key. This results in returning a so called recordlist i.e. a list of
+#                    dictionaries containing new new keys that will be the value of the key with rule name.. 
+#                    
 # 
-# Related fields: ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
+# Related fields: rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector  
+#
+#
 #
 # When to use match preconditions:
-#      1) When you want to apply more checks to all the elements returned by ruleCSSSelector although this can also be
-#         effected by carefullt authoring CSS selector for ruleCSSSelector.
-#      2) When you want to extract subdata from each element based on value of the extracted data by ruleCSSSelector. You may for example
-#         achieve behaviors like: for each result, get the value of the 3rd td only if the the 5th td matches a specific regular expression.
+#      1) When the ruleCSSSelectors returns more than one result and
+#      2) You want to return from each result very specific parts.
+#
+# Allying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
+# returned simple records, i.e. list of key/value pairs where the value is a simple value or a list of string valued.
+#
+# TODO: Update next paragraphs.
 #
 # The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
 # It does this by downloading the wikipedia page 
