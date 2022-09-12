@@ -506,17 +506,25 @@ class extractionRule:
                        
                    nM = len(res) * len(self.ruleReturnedValueNames)    
                  else:
+                      print( utils.toString('\t\t\t[DEBUG] No ruleReturnedValueNames\n') if debug else '', end='') 
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
                       rList = []
                       for m in res:
                           if not m:
                              continue   
                           #print('\t\t[DEBUG] Appending ', m.text)  
-                          rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
+                          #rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
+                          #for r in self.ruleRemoveChars:
+                          # TODO: Make character removal work in all cases.
+                          # does not work for \n or \t
+                          t = m.text
+                          for r in self.ruleRemoveChars:
+                              t = t.replace(r, '')
+                              
+                          rList.append( t )
 
                       exTractedData[self.ruleName] = rList
-                      nM = len(rList)
-                      #print(':::', exTractedData )
+                      nM = len(rList)                      
 
                  self.ruleMatchCount += nM     
                  return(exTractedData)

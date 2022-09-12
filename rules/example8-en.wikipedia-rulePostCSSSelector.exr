@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 8: Demonstrating the use of (post) match CSS selectors with element breakdown i.e. 
+# Example library 8: Demonstrating the use of (post) match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. 
 #                    selectors that are applied to each result of ruleCSSSelector breaking them apart and storing
 #                    each part as a new key. This results in returning a so called recordlist i.e. a list of
 #                    dictionaries containing new new keys that will be the value of the key with rule name.. 
@@ -173,15 +173,8 @@
                                   
                                   "ecTextCondition" : "([4-9]|\d{2,})",
                                   
+                                  # NOTE: we don't need a ecRuleCSSSelector here
                                   
-                                  # If a match, i.e. number is > 3, return the next element from the examined
-                                  # tr element extracted, i.e. the table heading element. 
-                                  # 
-                                  # NOTE: this will result in returning a new element. On this new element 
-                                  # the data specified in ruleTargetAttribute will be returned. This will result 
-                                  # in a list of string values associated with the key with name ruleName.
-                                                                    
-                                  #"ecRuleCSSSelector" : "th"
                                 }
     
                              ],

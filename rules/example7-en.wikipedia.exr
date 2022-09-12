@@ -15,8 +15,9 @@
 # When to use match preconditions:
 #      1) When you want to apply more checks to all the elements returned by ruleCSSSelector although this can also be
 #         effected by carefullt authoring CSS selector for ruleCSSSelector.
-#      2) When you want to extract subdata from each element based on value of the extracted data by ruleCSSSelector. You may for example
-#         achieve behaviors like: for each result, get the value of the 3rd td only if the the 5th td matches a specific regular expression.
+#      2) When you want to extract subdata from each element based on the value of the extracted data returned by ruleCSSSelector. You may for example
+#         achieve behaviors like: for each result, extract/return the value of the 3rd td only if the the 5th td matches a specific regular expression (=post match
+#         precondition).
 #
 # The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
 # It does this by downloading the wikipedia page 
