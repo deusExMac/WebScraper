@@ -1,11 +1,17 @@
 
 ########################################################################################################################################################
 #
-# Example library 1: Demonstrating application of one simple rule, scraping/etracting one specific value from one web page.
+# Example library 1: Demonstrating application of one simple rule, scraping/extracting one specific value from one web page. The rule specifies
+#                    also which scraped data, identified by the rule name that extracted the data, to store inside the csv file.  
 # 
+# Related fields: ruleCSSSelector, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos
+#
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
-# It does not extract nor does it follow any links found inside downloaded articles. 
-# Notice that special rule named "getLinks" is missing meaning no links are processed/harvested.
+# It does not extract nor does it follow any links found inside downloaded articles. Notice that special rule named "getLinks" is missing 
+# meaning no links are processed/harvested.
+# It also specifies which of the scraped data to store inside the csv file which is specified in the csvLineFormat field.
+# 
+# 
 # 
 # How to apply this rule:
 #
@@ -30,6 +36,7 @@
 
 # List of rule names, whose results should be stored in the csv file. Here only articleTitle is
 # mentioned meaning that only the result of the rule named articleTitle should be stored in the csv file.
+# If a rule name is NOT included in this list, the data extracted by that rule is NOT stored in the csv file.
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
 "csvLineFormat":["articleTitle"],
