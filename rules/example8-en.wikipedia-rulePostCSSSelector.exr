@@ -7,21 +7,32 @@
 #                    dictionaries containing new new keys that will be the value of the key with rule name.. 
 #                    
 # 
-# Related fields: rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields  
+# Related fields: rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields, ruleMatchPreconditions  
 #
+#
+# This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" 
+# found on the page
+#
+#   https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+#
+# the name of the teams as well as the times they won the Champions League, and it does this only for teams that
+# have won the champions league title more than 3 times. Applying this set of rules will return more than one 
+# matching records (aka a recordlist) when applied to the aboce page.
+#
+# TODO: Update next paragraphs.
 #
 #
 # When to use match preconditions:
 #      1) When the ruleCSSSelectors returns more than one result and
 #      2) You want to return from each result very specific parts.
 #
-# Allying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
+# Aplying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
 # returned simple records, i.e. list of key/value pairs where the value is a simple value or a list of string valued.
 # Each dict is saved as separate line in the csv file.
 # To save these dictionaries to the csv file, the fields csvLineFormat and requiredFilledFields need to be updated properly with the new
 # fields.
 #
-# TODO: Update next paragraphs.
+# 
 #
 # The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
 # It does this by downloading the wikipedia page 
@@ -40,9 +51,9 @@
 # More than one match preconditions can be defined in the context of the same rule. Currently, only operator ANY is supported for these match preconditions.
 # If multiple match preconditions match, the first matching precondition's ecRuleCSSSelector is applied, if specified.
 # 
-# How to use this rule:
+# How to use this rule (NOTE: THIS IS CORRECT):
 #
-# crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+# crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
 #
 # 
@@ -189,9 +200,22 @@
  "ruleTargetAttribute": "text",
  
  
+ # List of css selectors to apply to each extracted element by ruleCSSSelector.
+ # From each extracted element, extract th and that specific td element.
+ # NOTE: It is assumed tha each of the selectors in rulePostCSSSelector, 
+ # will return at most one element. 
  
  "rulePostCSSSelector" : ["th", "td:nth-child(2)"]
+ 
+ 
+ # These will be the key names under which the extracted elements by
+ # rulePostCSSSelector will be stored. 
+ # NOTE: number of keys must be the same as number of css selectors in
+ # rulePostCSSSelector.
+ 
  "ruleReturnedValueNames" : ["name", "winnerCount"]
+ 
+ 
  
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
