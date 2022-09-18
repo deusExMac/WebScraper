@@ -65,6 +65,19 @@
 
 
 
+######################################################################################
+#
+#  List of rules that will be applied to every downloaded page starts here.
+#
+#  Rules are grouped into a library. All rules will be applied to the 
+#  downloaded page if some rule-specific conditions are met. If rule-specific
+#  conditions are not met, the rule is not applied. 
+#  Each rule extracts specific data or list of data from the (same) page. 
+#
+######################################################################################
+
+
+
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
 # This library consists of one rule only, named articleTitle. The value extracted by this rule
 # will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.

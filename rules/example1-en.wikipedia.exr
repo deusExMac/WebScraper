@@ -4,7 +4,7 @@
 # Example library 1: Demonstrating application of one simple rule, scraping/extracting one specific value from one web page. The rule specifies
 #                    also which scraped data, identified by the rule name that extracted the data, to store inside the csv file.  
 # 
-# Related fields: ruleCSSSelector, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos
+# Related fields: ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library
 #
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract nor does it follow any links found inside downloaded articles. Notice that special rule named "getLinks" is missing 
@@ -20,7 +20,7 @@
 # This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
 # save it in the specified csv file and terminate.
 # 
-# v0.1@5/8/2022
+# v0.1@18/09/2022
 #
 ########################################################################################################################################################
 
@@ -60,6 +60,19 @@
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
 "renderPages":False,
+
+
+
+######################################################################################
+#
+#  List of rules that will be applied to every downloaded page starts here.
+#
+#  Rules are grouped into a library. All rules will be applied to the 
+#  downloaded page if some rule-specific conditions are met. If rule-specific
+#  conditions are not met, the rule is not applied. 
+#  Each rule extracts specific data or list of data from the (same) page. 
+#
+######################################################################################
 
 
 

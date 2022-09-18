@@ -71,16 +71,16 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract from a specific wikipedia page all team names that have won the Champions League more than 3 times",
+"libraryDescription": "Library to extract from a specific wikipedia page all team names that have won the Champions League more than 3 times along with the times they won the title",
 
 
 
-# List of rule names, whose extracted data should be stored in the csv file. 
+# List of rule names (or ruleReturnedValueNames as is the case in this example), whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
 "csvLineFormat":["name", "winnerCount"],
 
-# The list of ruleNames that must return non-empty values
+# The list of ruleNames (or ruleReturnedValueNames) that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
 "requiredFilledFields": ["name"],
@@ -109,6 +109,17 @@
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
 "renderPages":False,
+
+
+
+
+
+######################################################################################
+#
+#  List of rules that will be applied on every downloaded page starts here
+#
+######################################################################################
+
 
 
 
