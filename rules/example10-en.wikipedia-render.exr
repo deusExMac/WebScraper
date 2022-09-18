@@ -1,11 +1,11 @@
 
 ########################################################################################################################################################
 #
-# Example library 10: Demonstrating the use of user agents and request cookies during retrieval of 
-#                     resources via HTTP.
-#                                   
+# Example library 9: Demonstrating the use of cookies html page rendering using the field renderPages i.e. 
+#                    html page rendering with a different engine using the browser module. 
+#                    
 # 
-# Related fields: requestUserAgent, requestCookies 
+# Related fields: renderPages 
 #
 #
 # TODO: Update next paragraph.

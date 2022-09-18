@@ -1,14 +1,20 @@
 
 ########################################################################################################################################################
 #
-# Example library 9: Demonstrating the use of html page rendering using the field renderPages i.e. 
-#                    html page rendering with a different engine using the browser module. 
-#                    
+# Example library 10: Demonstrating the use of user agent and request cookies during retrieval of 
+#                     resources via HTTP.
+#                                   
 # 
-# Related fields: renderPages 
+# Related fields: requestUserAgent, requestCookies 
 #
 #
 # TODO: Update next paragraph.
+#
+# To set cookies set the value of the field requestCookies. This field is a dictionary, containing
+# one or more key-value pairs where key is a cookie name and value the respective cookie-value. 
+# Cookies specified in this dictionary will be sent with HTTP GET and POST requests. Cookies
+# are specified at the library level and the specified cookies are sent along with any request
+# to the server. Currently, cookies cannot be specified per server in the same .exr file.
 #
 # This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" 
 # found on the page
