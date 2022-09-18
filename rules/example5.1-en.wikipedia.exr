@@ -30,7 +30,8 @@
 #
 #    crawl -M -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/USPysicistsBornJanMarMayOct.csv https://en.wikipedia.org/wiki/List_of_physicists
 #
-# https://en.wikipedia.org/wiki/List_of_physicists is a list of physicist to make application of library more apparent and easier to check.
+# https://en.wikipedia.org/wiki/List_of_physicists is a list of physicist to make application of the library more apparent and easier to check since
+# the library is considered to be applied on wikipedia pages related to physicists.
 #
 # 
 # v0.1@01/9/2022
@@ -90,9 +91,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+# This library consists of two rules, named articleTitle and getLinks. 
 
 "library": [
 

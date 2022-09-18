@@ -73,8 +73,8 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
+# This library consists of two rules, named articleTitle and getLinks. The value extracted by each rule
+# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle and getLinks.
 # These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
 
 "library": [

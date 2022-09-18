@@ -11,7 +11,7 @@
 #
 #
 # This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
-# that meet the follwing requirements:
+# that meet all following requirements:
 #  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality.
 #
 # While the rules in example5.1-en.wikipedic.exr do the same, the rules defined there have the following
@@ -114,9 +114,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+# This library consists of two rules, named articleTitle and getLinks. 
 
 "library": [
 
@@ -171,7 +169,8 @@
  # mentioned in rulePreconditionExpression via their name.  Precondition names  are specified in
  # field name ecName.
  # This rule contains a total of 9 preconditions. Since the rulePreconditionType has value EVAL, 
- # precondition names are mandantory. If a precondition does not have a name (empty ecName field), it is ignored.
+ # precondition names are mandantory (field ecName). If a precondition does not have a name (empty ecName field), 
+ # it will be ignored.
  # 
  
  "rulePreconditions" : [ 
@@ -180,8 +179,14 @@
                           # is determined by checking the page categories found in the bottom 
                           # of the page
                           {
-                          
+                             
+                             # If rulePreconditionType is EVAL, rulePreconditions
+                             # need to have a name to be referenced by the expression
+                             # rulePreconditionExpression
+                             
                              "ecName": "p1",
+                             
+                             
                              
                              # The precondition selector i.e. the element to be
                              # checked. This precondition checks if the pages is
@@ -207,7 +212,7 @@
                           
                           
                           
-                            # Second precondition: Check if third row of infobox is about
+                # Second precondition: Check if third row of infobox is about
 			    # birthdate.
 			    {
 			       "ecName": "p2",
@@ -298,7 +303,7 @@
                           },
                           
                           
-                            # Fifth precondition: Check if page is about algebra. This 
+                # Fifth precondition: Check if page is about algebra. This 
 			    # is determined by checking if the text of the element with id #mw-normal-catlinks 
 			    # contains algebra.
 			    # NOTE: Checking the same element/method (see previous rule) does not 

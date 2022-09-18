@@ -100,9 +100,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside the rule file e.g. see csvLineFormat field above.
+# This library consists of three rules, named teamName, manager and getLinks. 
 
 "library": [
 

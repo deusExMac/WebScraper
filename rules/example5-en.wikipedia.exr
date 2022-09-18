@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors (scraping data) and 
+# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
 #                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE. 
 # 
@@ -91,9 +91,8 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+# This library consists of two rules.
+
 
 "library": [
 
@@ -170,6 +169,7 @@
                             # An empty value (the default if ecTextCondition is missing) 
                             # means that this precondition holds if the element 
                             # specified in ecCSSSelector exists on the page currently processed.
+                            # In such cases, ecTextCondition is ignored.
                             # 
                             # REMEMBER: If you would like to specify a case INsensitive match,
                             # you may add the (?i) flag                              

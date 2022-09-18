@@ -70,10 +70,12 @@
 
 # The list of individual rules comprising this library and that will be applied to each page downloaded 
 # starts here. 
-# This library consists of two rules, one for extracting the team name, named teamName and
-# one for extracting the managers name, named manager. The value extracted by these rules
-# will be assigned to a special key/variable with the same name as the rule i.e. teamName and manager.
-# These keys/variables can be references inside this rule file e.g. see csvLineFormat field above.
+# This library consists of three rules, one for extracting the team name, named teamName,
+# one for extracting the managers name, named manager and one for extracting links, getLinks. The value extracted by these rules
+# will be assigned to a special key/variable with the same name as the rule i.e. teamName, manager and
+# getLinks.
+# These keys/variables can be references inside this rule file e.g. see csvLineFormat field above (except getLinks that
+# is handled in a special way).
 
 "library": [
 

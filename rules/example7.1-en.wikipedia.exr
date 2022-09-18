@@ -25,7 +25,7 @@
 # 
 # How to use this rule:
 #
-# crawl -n 1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+# crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
 #
 # 
@@ -81,9 +81,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
-# These keys/variables can be references inside the rule file e.g. see csvLineFormat field above.
+# This library consists of two rules, named teamName and getLinks. 
 
 "library": [
 
@@ -151,8 +149,6 @@
  # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": [],
 }, 
-
-
 
 
 
