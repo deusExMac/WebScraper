@@ -4,11 +4,11 @@
 # Example library 1.1: Demonstrating application of one rule, that extracts more than one value from one web page.
 #                      This example demonstrates how these values are stored as a list.
 #
-# Related fields: ruleCSSSelector, ruleReturnsMore, ruleReturnedMatchPos
+# Related fields: ruleCSSSelector, ruleReturnsMore, ruleReturnedMatchPos, library
 #
 #
 # This library contains only one rule that scraps/extracts the text inside elements that match a CSS selector. 
-# Since more than one matching elements can be found on the page, the rule returns these elements as a list.  
+# Since more than one matching elements can be found on the page, the rule returns these elements as a list of strings.  
 # Links are not extracted. 
 # The rule extracts title of all categories featured in the popular brands section on the
 # home page of ebay, (NOTE: this rule assumes a specific web page design that was seen
@@ -79,8 +79,8 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named articleTitle. The value extracted by this rule
-# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
+# This library consists of one rule only, named popularBrandCategories. The value extracted by this rule
+# will be assigned to a special key/variable with the same name as the rule i.e. popularBrandCategories.
 # These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
 
 "library": [
@@ -91,7 +91,15 @@
 # value but a list of values.
 
 {
+
+ # Rules must have a name, since these ruleNames will be the names of keys to store
+ # the extracted values by that rule. rules names must be unique in the context
+ # of the same library.
+ # Rule names can not contain the following characters: whitespace, -
+ 
  "ruleName": "popularBrandCategories",
+ 
+ 
  "ruleDescription": "Extracts popular brands categories from ebay's home page.",
  
  # Regular expression specifying which URL pattern will trigger the

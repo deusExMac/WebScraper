@@ -74,7 +74,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of three rule only, named teamName, teamFullName and getLinks. The values extracted by this rule
+# This library consists of three rules, named teamName, teamFullName and getLinks. The values extracted by this rule
 # will be assigned to a special key/variable with the same name as the rule i.e. teamName, teamFullName and
 # getLinks respectively.
 # These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.

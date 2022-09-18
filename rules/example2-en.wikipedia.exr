@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 2: Demonstrating the application of two rules on a single page: one extracting the title and one extracting hyperlinks of the page. 
+# Example library 2: Demonstrating the application of more than one (two rules) on a single page: one extracting the title and one extracting hyperlinks of the page. 
 #                    Inside libraries a rule with the name getLinks always extracts hyperlinks. The name getLinks is a reserved word in the context of
 #                    WebScraper. Extracted hyperlinks are followed and pages they point to are processed by the same library (i.e. extracting their title). 
 #                    
@@ -93,21 +93,35 @@
  # Special regular expression metacharacters (.) are escaped.
  "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
  
+ 
  # A CSS selector specifying the element on the page to scrape.
+ # This css element identifies the title of the article.
  # NOTE: the CSS selector may return more than one mathing element.
+ 
  "ruleCSSSelector": "#firstHeading",
+ 
+ 
  
  # Once the CSS selector element in  ruleCSSSelector has been found, what 
  # exactly to extract from element: the text or some other attribute. 
  # text means simply return the text of the scraped element.
+ 
  "ruleTargetAttribute": "text",
+ 
+ 
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ 
  "ruleContentCondition": "",
  
+ 
+ 
  # Does this rule return more than one result?
+ 
  "ruleReturnsMore": False,
+ 
+ 
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.

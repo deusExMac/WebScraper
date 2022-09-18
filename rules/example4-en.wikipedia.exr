@@ -1,17 +1,18 @@
 
 ########################################################################################################################################################
 #
-# Example library 4: Demonstrating the use of page precondition before applying a rule i.e. the css selector. This example 
+# Example library 4: Demonstrating the use of page precondition before applying a rule i.e. the rule's css selector. This example 
 #                    features a rule with only one (1) page precondition.
 #
-# Related fields: rulePreconditions
+# Related fields: rulePreconditions, ecCSSSelector, ecTextCondition
 # 
 # This library scraps/extracts the team's and team manager's name of pages related to english premier league clubs from wikipedia. For example,
 # for the football team Barnsley F. C, the team name is Barnsley F.C. and team's manager is Michael Duff (August 2022) as can be
 # seen on the team's wikipedia page https://en.wikipedia.org/wiki/Barnsley_F.C.
 # This library demonstrates the use of page rule preconditions that allows extracting the data specified in ruleCSSSelector only if the precondition(s) 
-# hold. If present, page preconditions are always checked BEFORE applying ruleCCSSelector. If precondition(s) do not hold, ruleCSSSelector is not applied
+# hold. If present, page preconditions are always checked BEFORE applying the rule's ruleCCSSelector. If the rule's precondition(s) do not hold, ruleCSSSelector is not applied
 # to the page content and hence no data is extracted. I.e. in such case, the rule is ignored. Page precondition may refer and check any element of the page.
+# In this example, rule name manager has one precondition.
 #
 # The library contains rule "getLinks" for harvesting links.
 # 

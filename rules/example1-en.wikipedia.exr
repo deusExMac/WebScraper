@@ -4,7 +4,7 @@
 # Example library 1: Demonstrating application of one simple rule, scraping/extracting one specific value from one web page. The rule specifies
 #                    also which scraped data, identified by the rule name that extracted the data, to store inside the csv file.  
 # 
-# Related fields: ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library
+# Related fields: ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library
 #
 # This library contains only one rule that scraps/extracts only the title of english wikipedia articles that are given as argument. 
 # It does not extract nor does it follow any links found inside downloaded articles. Notice that special rule named "getLinks" is missing 
@@ -84,8 +84,19 @@
 "library": [
 
 {
+ # Rules must have a name, since these ruleNames will be the names of keys to store
+ # the extracted values by that rule. rules names must be unique in the context
+ # of the same library.
+ # Rule names can not contain the following characters: whitespace, -
+ 
  "ruleName": "articleTitle",
+ 
+ 
+ # ruleDescription are optional. Helpful but optional.
+ 
  "ruleDescription": "Extracts the title of a wikipedia article",
+ 
+ 
  
  # Regular expression specifying which URL pattern will trigger the
  # execution of this rule. 
