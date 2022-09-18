@@ -71,7 +71,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract from a specific wikipedia page team names that have won the Champions League more than 3 times",
+"libraryDescription": "Library to extract from a specific wikipedia page all team names that have won the Champions League more than 3 times",
 
 
 
