@@ -17,7 +17,10 @@
 #
 # the name of the teams as well as the times they won the Champions League, and it does this only for teams that
 # have won the champions league title more than 3 times. Applying this set of rules will return more than one 
-# matching records (aka a recordlist) when applied to the aboce page.
+# matching records (i.e. a recordlist) when applied to the above page. Since from each match a new set of elements
+# is extracted with new key names, the fields csvLineFormat and requiredFilledFields need to be be updated
+# with the new key names.
+# 
 #
 # TODO: Update next paragraphs.
 #
@@ -34,7 +37,8 @@
 #
 # 
 #
-# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
+# The example rule below extracts the name of ALL football teams found on the page below
+# that have won the Champions league more than three times (>3) in their club history.
 # It does this by downloading the wikipedia page 
 #
 #    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
