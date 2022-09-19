@@ -12,7 +12,7 @@
 #
 # To set cookies set the value of the field requestCookies. This field is a dictionary, containing
 # one or more key-value pairs where key is a cookie name and value the respective cookie-value. 
-# Cookies specified in this dictionary will be sent with HTTP GET and POST requests. Cookies
+# Each key-value pair in this dictionary is a cookie and will be sent with eachHTTP GET and POST requests. Cookies
 # are specified at the library level and the specified cookies are sent along with any request
 # to the server. Currently, cookies cannot be specified per server in the same .exr file.
 #
