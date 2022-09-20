@@ -243,7 +243,7 @@ def isLinux():
 #            domain in cookie though, is not ok i.e. session is not recognized
 def cookiesFromDict( d, url ):
 
-    print(d)
+    #print(d)
     cookieList = []
     
     if url is None or url == '' :
