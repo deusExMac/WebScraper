@@ -116,10 +116,10 @@
 # Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
-"renderPages":True,
+"renderPages":False,
 
 "requestCookies": {
-                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
+                   #"CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
 },
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
