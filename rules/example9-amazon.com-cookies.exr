@@ -150,7 +150,7 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamNamesWithMoreThan3UCLTitles",
+ "ruleName": "getLinks",
  
  
  # Short description
@@ -165,13 +165,13 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
+ "ruleURLActivationCondition": ["127\.0\.0\.1"],
  
  
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ "ruleCSSSelector": "a[href]",
  
  # List of match preconditions that will be applied
  # to each and every result returned by ruleCSSSelector. Elements
@@ -186,34 +186,7 @@
  #
  # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
  
- "ruleMatchPreconditions": [
-  
-                                # A match precondition. This precondition checks if each
-                                # row extracted by ruleCSSSelector has in the second td element
-                                # a number greater than 3. If so, the th element from the 
-                                # processed row is extracted and returned as the result.
-                                # This is done for all tr elements.
-                                {
-                                  # Element of tr to check. This CSS selector is applied to
-                                  # each and every tr element  
-                                  # returned by ruleCSSSelector.
-                                  
-                                  "ecCSSSelector" : "td:nth-child(2)", 
-                                  
-                                  
-                                  # Condition the elements specified by ecCSSSelector have to match. 
-                                  # tr elements that do not match this condition will be
-                                  # removed from the extracted list.
-                                  # Here we check if td element td:nth-child(2), that keeps the number of titles, 
-                                  # contains a number that is greater than 3 (>3).
-                                  
-                                  "ecTextCondition" : "([4-9]|\d{2,})",
-                                  
-                                  # NOTE: we don't need a ecRuleCSSSelector here
-                                  
-                                }
-    
-                             ],
+ 
  
  # Once the CSS selector element in  ruleCSSSelector has been found, or data has been
  # extracted by ecRuleCSSSelector, what 
@@ -223,7 +196,7 @@
  # In ruleMatchPreconditions, ruleTargetAttribute will be applied to the newly extracted
  # elements.
  
- "ruleTargetAttribute": "text",
+ "ruleTargetAttribute": "href",
  
  
  
@@ -233,7 +206,7 @@
  # NOTE: It is assumed tha each of the selectors in rulePostCSSSelector, 
  # will return at most one element. 
  
- "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)"]
+ #"rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)"]
  
  
  # These will be the key names under which the extracted elements by
@@ -242,7 +215,7 @@
  # NOTE: number of keys must be the same as number of css selectors in
  # rulePostCSSSelector.
  
- "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon"]
+ #"ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon"]
  
  
  

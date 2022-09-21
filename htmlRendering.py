@@ -89,8 +89,16 @@ class htmlRenderer:
            try:
               attemptStart = time.perf_counter() # start counting request time
               self.response = await self.page.goto(url, options={'timeout': int(timeout * 1000)})
+
+
+              #try:
+              #  print('>>> COOKIES:', await self.page.cookies() )  
+              #except Exception as feee:
+              #    print('ERROR', str(feee))
+                  
               attemptEnd = time.perf_counter() 
               break
+            
            except Exception as fetchException:
                print( utils.toString('\t\t[DEBUG] (', numTries, ') Excpetion ', str(fetchException), '\n' ) if self.debug else '', sep='', end='' )
                numTries += 1

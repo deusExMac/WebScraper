@@ -290,7 +290,18 @@ def cookiesFromDict( d, url ):
     '''
         
 
+def cookieStringToDict(cs):
+    
+    cD = {}
+    cks = http.cookies.SimpleCookie()
+    #print('Loading Cookie:[', cs, ']', sep='')
+    cks.load(cs)
+    for k, v in cks.items():
+        #print('\tAdding ', k)
+        cD[k] = v.value
 
+    return( cD )    
+    #return( {key: value.value  for key, value in cookie.items()} )
 
 
 # Take one string of the form <cookie name>=<cookie value> and returns a dictionary

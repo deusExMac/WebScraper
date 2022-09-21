@@ -282,23 +282,52 @@ class httpResponse:
       def setFetchMethod(self, fm='static'):
           self.fetchMethod = fm
 
-          
-      def setResponse(self, resp):
+
+
+      # normalizeCookies: if True this makes sure that
+      # the format of cookies is a proper one to be parsed
+      # by SimpleCookie class.
+      # In particular, if more than one cookies are present in a response i.e. cookies in the form:
+      #   <cookie-name>=<cookie-value>; expires=XXX, YYYYY ZZZZ GMT; Max-Age=NNN; path=OOO; domain=MMM; secure
+      # then in some cases these are separated by a comma and in other situations by a newline.
+      # If these cookies are separated by a comma, these cannot be parsed by the SimpleCookie class.
+      # What normalizeCookies does is that it replaces the comma separating the coockies with a  newline character (\n)
+      # so that they can be parsed by SimpleCookie.
+      def setResponse(self, resp, normalizeCookies=False):
           if resp is None:
              return
             
           self.__requestResponse = resp
-          self.setHeaders( resp.headers )
+          self.setHeaders( resp.headers, normalizeCookies )
 
 
 
           
-      def setHeaders(self, hdr): 
+      def setHeaders(self, hdr, normalizeCookies=False):
+            
+          #for i,j in hdr.items():
+          #    if i.lower() == 'set-cookie':
+          #       print('\t', i, '=', j)
+                 
           self.__headers = {k.lower(): v for k, v in hdr.items()}
+          
+          # Normalizing cookies: We use a regular expression to
+          # replace only commas that are not part of the date.
+          # TODO: This does not guarantee correctness. Need to make sure
+          # that commmas are not as cookie values.
+          if normalizeCookies:
+             if not 'set-cookie' in self.__headers:
+                # this means there is no set-cookie directive.   
+                return
+            
+             self.__headers['set-cookie'] =  re.sub('(?<!Mon|Tue|Wed|Thu|Fri|Sat|Sun),', '\n', self.__headers['set-cookie'])  
 
 
           
-
+      def printHeaders(self):
+          print(self.__headers)
+ 
+            
       def get(self, key, default=''):
           if  self.__headers is None:
               return(default)
@@ -800,8 +829,12 @@ class commandImpl:
              else:    
                 print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )    
 
-             response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl)  )             
-             r.setResponse(response)
+                          
+             response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl)  )
+             
+             # The cookies will be separated by a comma ,. Hence we normalize these by replacing
+             # this comma with a newline character.
+             r.setResponse(response, normalizeCookies=True)
              try:
                 r.status = int(response.status_code)
              except Exception as statusEx:
@@ -1057,10 +1090,24 @@ class commandImpl:
                     uA = None
                     if exRules.requestUserAgent.strip() != "":
                        uA = exRules.requestUserAgent
+
                     
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
+                    
                      
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
+
+                    
+                    
+                    cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))
+                    
+                    if not exRules.requestCookies:
+                       print( utils.toString('\t[DEBUG] exr request cookies empty ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )   
+                       if cDict:
+                          exRules.requestCookies = cDict               
+                    else:
+                       print( utils.toString('\t[DEBUG] exr request cookies NOT empty: ', exRules.requestCookies, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+
                     break
                   
                   except requests.exceptions.SSLError as sslErr :
