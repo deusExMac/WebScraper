@@ -1098,16 +1098,22 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
 
                     cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))
-                    
-                    if not exRules.requestCookies:
-                       print( utils.toString('\t[DEBUG] exr request cookies empty ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )   
-                       if cDict:
-                          exRules.requestCookies = cDict               
-                    else:
-                       print( utils.toString('\t[DEBUG] exr request cookies NOT empty: ', exRules.requestCookies, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                       # TODO: Should we add here any response cookie that is not already in existing requestCookies?
-                       
 
+                    if not cmdConfigSettings.getboolean('Crawler', 'ignoreResponseCookies', fallback=True):
+                       if cDict:                          
+                          icL = [ckn.strip() for ckn in cmdConfigSettings.get('Crawler', 'ignoredCookies', fallback='').lower().split(',')]
+                          for k,v in cDict.items():
+
+                              if k.lower() in icL:
+                                 print( utils.toString('\t[DEBUG] Ignoring cookie ', k, '. In ignoredCookie list\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                                
+                                 continue
+                              
+                              if k not in exRules.requestCookies:
+                                   print( utils.toString('\t[DEBUG] ADDING cookie ', k, '.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
+                                   exRules.requestCookies[k] = v
+                                   
+                          print( utils.toString('\t[DEBUG] Response Cookies UPDATED: ', exRules.requestCookies, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                             
+                                        
                     break
                   
                   except requests.exceptions.SSLError as sslErr :
