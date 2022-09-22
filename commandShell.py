@@ -1468,7 +1468,9 @@ class commandImpl:
 
 
           print('\nSaving extracted data to [', args['outputcsvfile'], '] (# rows:', xDataDF.shape[0] if xDataDF is not None else '???',')...', sep='', end='')
-          if xDataDF is not None:
+          if xDataDF is None:
+             print('done (empty data frame)')   
+          else:      
             try:    
              xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
              print( 'done.')
