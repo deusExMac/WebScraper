@@ -1097,8 +1097,6 @@ class commandImpl:
                      
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
 
-                    
-                    
                     cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))
                     
                     if not exRules.requestCookies:
@@ -1107,6 +1105,8 @@ class commandImpl:
                           exRules.requestCookies = cDict               
                     else:
                        print( utils.toString('\t[DEBUG] exr request cookies NOT empty: ', exRules.requestCookies, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+                       # TODO: Should we add here any response cookie that is not already in existing requestCookies?
+                       
 
                     break
                   
@@ -1396,7 +1396,7 @@ class commandImpl:
                  if xDataDF is not None:
                     numExtracted = xDataDF.shape[0]
                  else:
-                    numExtracted = -1
+                    numExtracted = 0
 
                  # Check if some limits have been reached
 
