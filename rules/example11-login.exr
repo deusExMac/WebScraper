@@ -114,15 +114,10 @@
 
 "ruleDynamicElements": [ 
 
-                 {
-		     "dpcType":"checkurl",
-		     "dpcPageElement":"",
-		     "dpcScrolldown":-1,
-		     "dpcWaitFor":"",
-		     "dpcFillContent": "upatras.*login_form\.php$"
-		 },
+                
 		 
 		 {
+		     "dpcURLActivationCondition" : "upatras.*login_form\.php$",
 		     "dpcType":"fill",
 		     "dpcPageElement":".form-group:nth-child(1) .form-control",
 		     "dpcScrolldown":-1,
@@ -131,6 +126,7 @@
 		 },
 
 		 {
+		     "dpcURLActivationCondition" : "upatras.*login_form\.php$",
 		     "dpcType":"fill",
 		     "dpcPageElement":".form-group+ .form-group .form-control",		     
 		     "dpcScrolldown":-1,
@@ -139,6 +135,7 @@
 		 },
 		 
 		 {
+		     "dpcURLActivationCondition" : "upatras.*login_form\.php$",
 		     "dpcType":"click",
 		     "dpcPageElement":"button.btn",		     
 		     "dpcScrolldown":-1,

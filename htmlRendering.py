@@ -7,7 +7,7 @@ import asyncio
 import pyppeteer
 
 import utils
-
+import xRules
 
 
 async def intercept_network_response(response):
@@ -35,7 +35,7 @@ class htmlRenderer:
           self.headers = None
           self.response = None
           self.debug = False
-          self.sleepTime = 1.2 # in seconds
+          self.waitTime = 1.2 # in seconds
           self.takePageScreenshot = True # in seconds
           self.screenShotStoragePath = './' # Where to store screenshots
 
@@ -136,7 +136,7 @@ class htmlRenderer:
        
        # Check if dynamic elements should be executed. If yes, do it.
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
-
+       '''
        applyDynamicElements = True
        
        if not dynamicElements:
@@ -154,19 +154,27 @@ class htmlRenderer:
                  applyDynamicElements = False
              
           
+       ''' 
+       #if applyDynamicElements:
 
-       if applyDynamicElements:
-         print( utils.toString(f'\t[DEBUG] Url {url} does MATCH constraints. Applying dynamic elements to page\n' ) if self.debug else '', end='' )  
-
-         for de in  dynamicElements:
+       # Iterate over all dynamic element and first check if they should
+       # be applied (based on url pattern) to the page and if so, apply it.
+       for de in  dynamicElements:
              
-           if de.dpcType.lower() == 'checkurl':
-              continue # ignore. Has already been processed.
-                
+           #if de.dpcType.lower() == 'checkurl':
+           #   continue # ignore. Has already been processed.
+
+           # Should the dynamic element be applied to this page?
+           # Check url pattern to see if it should be applied.
+           if (de.dpcURLActivationCondition != '') and (re.search( de.dpcURLActivationCondition, url) is None):
+              print( utils.toString(f'\t[DEBUG] Url {url} does NOT MATCH dynamic element url pattern. NOT APPLYING\n' ) if self.debug else '', end='' ) 
+              continue
+
+           print( utils.toString(f'\t[DEBUG] Url {url} does MATCH dynamic element url pattern. APPLYING\n' ) if self.debug else '', end='' )   
            await self.executeDynamicElement(self.page, de)
            # This SEEMS to be required.
            # TODO: Investigate closer the execution dynamic of pyppeteer
-           await asyncio.sleep(self.sleepTime)
+           await asyncio.sleep(self.waitTime)
        
               
        if self.takePageScreenshot:       
@@ -200,7 +208,7 @@ class htmlRenderer:
 
             if dElem.dpcType == 'click':   
                await pg.click(dElem.dpcPageElement)
-               await asyncio.sleep(self.sleepTime) # TODO: Remove me
+               await asyncio.sleep(self.waitTime) # TODO: Remove me
             elif dElem.dpcType == 'js':
                 result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
             elif dElem.dpcType.lower() == 'fill':
@@ -211,7 +219,7 @@ class htmlRenderer:
                     #print( utils.toString(f'\t\t[DEBUG] Scroll: {sn}\n') if self.debug else '', sep='', end='' ) 
                     await self.scrollPageDown(pg)
 
-                 await asyncio.sleep(self.sleepTime) # TODO: decrease sleep time?
+                 await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
                  
             elif dElem.dpcType == 'scroll':
 

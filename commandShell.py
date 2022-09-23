@@ -859,8 +859,12 @@ class commandImpl:
                    
                 htmlRndr = htmlRendering.htmlRenderer()
                 htmlRndr.setDebugMode( cfg.getboolean('DEBUG', 'debugging', fallback=False) )
+                htmlRndr.asyncWaitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
+
+                # Fetch url
+                # TODO: timeout must be a setting
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
                    return(None)
