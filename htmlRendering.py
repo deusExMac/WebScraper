@@ -36,6 +36,8 @@ class htmlRenderer:
           self.response = None
           self.debug = False
           self.sleepTime = 1.2 # in seconds
+          self.takePageScreenshot = True # in seconds
+          self.screenShotStoragePath = './' # Where to store screenshots
 
 
       # dv: debug value: True or False
@@ -50,8 +52,8 @@ class htmlRenderer:
 
 
 
-
-
+      # TODO: This method needs serious refactoring.
+      #       Among others, scrolldown is now obsolete. 
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
        if self.browser is None:
@@ -71,7 +73,8 @@ class htmlRenderer:
         
        if userAgent is not None:
           await self.page.setUserAgent(userAgent);
-          
+
+       # Set request cookies   
        for c in requestCookies:
             await self.page.setCookie( c )
 
@@ -105,7 +108,7 @@ class htmlRenderer:
                print( utils.toString('\t\t[DEBUG] (', numTries, ') Excpetion ', str(fetchException), '\n' ) if self.debug else '', sep='', end='' )
                numTries += 1
 
-       #print(origResponse.headers)
+       
        # TODO: Remove me?
        self.headers = None #origResponse.headers
        
@@ -125,20 +128,17 @@ class htmlRenderer:
                await self.scrollPageDown(self.page) # test!
        '''     
 
-       # scroll entire browser page if required
-       '''
-       if scrolldown > 0:         
-        for _ in range(scrolldown):          
-          await self.scrollPageDown(self.page)
-
-       await asyncio.sleep(3.4) # TODO: decrease sleep time?
-       ''' 
+       
+       
 
 
        
-            
-       # Execute dynamic elements
+       
+       # Check if dynamic elements should be executed. If yes, do it.
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
+
+       applyDynamicElements = True
+       
        if not dynamicElements:
           print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' ) 
        else:    
@@ -149,29 +149,29 @@ class htmlRenderer:
           elem = dynamicElements[0]
           if elem.dpcType.lower() == 'checkurl':
              print( utils.toString('\t[DEBUG] Found checkurl constraint\n' ) if self.debug else '', end='' )       
-             if elem.dpcFillContent.strip() != '': 
-                if re.search( elem.dpcFillContent, url) is None:
-                   print( utils.toString(f'\t[DEBUG] Url {url} does not match constraints. Not applying dynamic elements to page\n' ) if self.debug else '', end='' )                    
-                   return(await self.page.content()) 
-                    
-          print( utils.toString(f'\t[DEBUG] Url {url} does MATCH constraints. Applying dynamic elements to page\n' ) if self.debug else '', end='' )
+             if (elem.dpcFillContent.strip() != '') and (re.search( elem.dpcFillContent, url) is None):
+                 print( utils.toString(f'\t[DEBUG] Url {url} does not match constraints. Not applying dynamic elements to page\n' ) if self.debug else '', end='' )
+                 applyDynamicElements = False
+             
           
-          for de in  dynamicElements:
-              if de.dpcType.lower() == 'checkurl':
-                 continue # ignore. Has already been processed.
+
+       if applyDynamicElements:
+         print( utils.toString(f'\t[DEBUG] Url {url} does MATCH constraints. Applying dynamic elements to page\n' ) if self.debug else '', end='' )  
+
+         for de in  dynamicElements:
+             
+           if de.dpcType.lower() == 'checkurl':
+              continue # ignore. Has already been processed.
                 
-              await self.executeDynamicElement(self.page, de)
-              # This SEEMS to be required.
-              # TODO: Investigate closer the execution dynamic of pyppeteer
-              await asyncio.sleep(self.sleepTime)
+           await self.executeDynamicElement(self.page, de)
+           # This SEEMS to be required.
+           # TODO: Investigate closer the execution dynamic of pyppeteer
+           await asyncio.sleep(self.sleepTime)
        
-       
-
-       
-
-       #'screenShot.png'
-       print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url), '\n' ) if self.debug else '', end='' )      
-       await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url) + '.png' })
+              
+       if self.takePageScreenshot:       
+          print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url), '\n' ) if self.debug else '', end='' )      
+          await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
 
        
        content = await self.page.content()
@@ -180,13 +180,10 @@ class htmlRenderer:
 
 
 
-
-
-
-      
+   
 
       #
-      # TODO: directive scroll does not work
+      # 
       #
       async def executeDynamicElement(self, pg, dElem):
 
@@ -273,6 +270,10 @@ class htmlRenderer:
                    
             return(0)   
             
+
+
+
+
 
 
 
