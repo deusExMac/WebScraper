@@ -48,7 +48,7 @@
 #     2) Open the WebScraper configuration file (default webscraper.conf) and make sure that option ignoreResponseCookies is set to True
 #     3) Deploy this exr file by executing the following command: 
 #
-#            crawl -M -n 1 -r rules/example9-en.wikipedia.exr -o csv/example9.csv  https://www.youtube.com/
+#            crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/
 #
 #        -M option is important as it will store all downloaded files on the disk, mirroring the remote website locally. Saved pages can be found in the directory
 #        specified by mirrorRoot in for configuration (.conf) file.
@@ -56,12 +56,12 @@
 #     5) What you'll see is youtube's cookie consent form ("Before you continue to YouTube") that must be confirmed by the user.
 #
 #  II) Execute library with CONSENT cookie
-#      1) Go to field requestCookies below and remove the comment from the line 
+#      1) Go to field requestCookies below and uncomment the line 
 #          #"CONSENT": "YES+cb.20211005-08-p0.en+FX+206"
-#         by removing the preceding # character. This means that during each request, the CONSENT cookie will now be send.
+#         by removing the preceding # character if it is commented out. This means that during each request, the CONSENT cookie will now be send.
 #      2) Deploy this exr file by executing the following command:
 #
-#             crawl -M -n 1 -r rules/example9-en.wikipedia.exr -o csv/example9.csv  https://www.youtube.com/
+#             crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/
 #
 #         -M option is important as it will store all downloaded files on the disk, mirroring the remote website locally. Saved pages can be found in the directory
 #         specified by mirrorRoot in for configuration (.conf) file.
@@ -79,7 +79,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to fetch resources from youtube using request cookies",
+"libraryDescription": "Library to use request cookies and user agent fetching the home page of youtube",
 
 
 
@@ -123,12 +123,13 @@
 
 # Request cookies send with each request. 
 # We sent here only one cookie, the cookie with name CONSENT and
-# value YES+cb.20211005-08-p0.en+FX+206 in order ti avoid receiving youtube's cookie consent form.
+# value YES+cb.20211005-08-p0.en+FX+206 in order to avoid receiving youtube's cookie consent form.
 #
-# You may add more cookies to send with each request
+# You may add more cookies to send along with each request
 # by adding key-value pairs in the form key:value where key is the cookie name
-# and value the cookie's value. key-value pairs must be
-# separated by a comma.
+# and value the cookie's value. key-value pairs must be strings (enclosed in "") and if more
+# key-value pairs (cookies) should be send, these must be separated by comma.
+#
 
 "requestCookies": {
                    "CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
@@ -136,8 +137,12 @@
 
 
 # User-Agent to use with all requests.
+# If this field is empty or missing, the default (module) user-agent string
+# will be used.
 
-#"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+
+
 
 
 
@@ -156,12 +161,7 @@
 "library": [
 
 
-
-
 {
-
- # If no ruleName is specified, the extracted data of this rule cannot be used
- # in  the csvLineFormat attribute.
  
  "ruleName": "getLinks",
  
@@ -171,12 +171,7 @@
  "ruleDescription": "Extracts links landing on youtube pages",
  
  
- 
- # Regular expression specifying which URL pattern will trigger the
- # execution of this rule. 
- # This is a list ([]) meaning you may add many disjunctive regular expressions
- # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
- # Special regular expression metacharacters (.) are escaped.
+ # For which URLs to activate this rule
  
  "ruleURLActivationCondition": ["youtube\.com"],
  
@@ -186,18 +181,6 @@
  
  "ruleCSSSelector": "a[href]",
  
- # List of match preconditions that will be applied
- # to each and every result returned by ruleCSSSelector. Elements
- # matching preconditions will be kept in result list, elements that
- # don't match will be removed from the result set. The match precondition
- # in this example specifies the ecRuleCSSSelector field which means that
- # if the precondition holds for an element, a different part of the examined element is 
- # extracted and returned. 
- # If more than one match precondition is specified, these are
- # combined using ANY operator.
- # Currently, only ANY operator is supported.
- #
- # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
  
  
  
@@ -215,7 +198,12 @@
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ #
+ # We require links to land on youtube pages in order to solve the cookie issue that exists in
+ # this version (see introduction above).
+ 
  "ruleContentCondition": "youtube\.com",
+ 
  
  # Does this rule return more than one result?
  "ruleReturnsMore": True,
@@ -230,14 +218,11 @@
  
  # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": [],
-}
+
+} # getLinks
 
 
+] # end of list of rules
 
 
-
-
-]
-
-
-}
+} # End of json file

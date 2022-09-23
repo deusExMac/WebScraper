@@ -124,13 +124,13 @@ class htmlRenderer:
        '''     
 
        # scroll entire browser page if required
+       '''
        if scrolldown > 0:         
-        for _ in range(scrolldown):
-          #print('\t[DEBUG] Scrolling....', end='')
+        for _ in range(scrolldown):          
           await self.scrollPageDown(self.page)
 
        await asyncio.sleep(3.4) # TODO: decrease sleep time?
-
+       ''' 
             
        # Execute dynamic elements
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
@@ -139,7 +139,7 @@ class htmlRenderer:
               await self.executeDynamicElement(self.page, de)
               # This SEEMS to be required.
               # TODO: Investigate closer the execution dynamic of pyppeteer
-              await asyncio.sleep(2.1)
+              await asyncio.sleep(0.9)
        else:
              print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' )
 
@@ -169,17 +169,28 @@ class htmlRenderer:
                return(None)
 
             print( utils.toString('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, '\n') if self.debug else '', sep='', end='')
-            print( utils.toString('\t\t[DEBUG] Checking if element [', dElem.dpcPageElement, '] exists.....'),  sep='', end='')
+            print( utils.toString('\t\t[DEBUG] Checking if element [', dElem.dpcPageElement, '] exists.....') if self.debug else '',  sep='', end='')
             if not await self.elementExists(pg, dElem.dpcPageElement):
                print( utils.toString(f'\t\t[DEBUG] Element {dElem.dpcPageElement} does not exist on page. Not dynamic element.\n') if self.debug else '', sep='', end='' )
                return(None) 
 
-            print( utils.toString('YES.\n') if self.debug else '', end='') 
+            print( utils.toString('YES (NOTE: empty selector element will return true).\n') if self.debug else '', end='') 
 
             if dElem.dpcType == 'button':   
                await pg.click(dElem.dpcPageElement)
+               await asyncio.sleep(2.5) # TODO: Remove me
             elif dElem.dpcType == 'js':
-                result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')    
+                result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
+            elif dElem.dpcType.lower() == 'fill':
+                 await pg.type(dElem.dpcPageElement, dElem.dpcFillContent)
+            elif dElem.dpcType.lower() == 'scrollpage':
+                 print( utils.toString(f'\t\t[DEBUG] Scrolling page down {dElem.dpcScrolldown} times\n') if self.debug else '', sep='', end='' )
+                 for sn in range(dElem.dpcScrolldown):
+                    #print( utils.toString(f'\t\t[DEBUG] Scroll: {sn}\n') if self.debug else '', sep='', end='' ) 
+                    await self.scrollPageDown(pg)
+
+                 await asyncio.sleep(2.4) # TODO: decrease sleep time?
+                 
             elif dElem.dpcType == 'scroll':
 
                  # Check if element is scrollable
@@ -280,7 +291,11 @@ class htmlRenderer:
 
 
       # Check if element exists on page
-      async def elementExists(self, pg, elemSel):          
+      async def elementExists(self, pg, elemSel):
+
+          if elemSel.strip() == '':
+             return(True) # Some dynamic types may not need an element. E.g. page scrolldowns
+            
           selector = elemSel
           value = await pg.evaluate('''selector => {
                                             const element = document.querySelector(selector);
@@ -299,7 +314,7 @@ class htmlRenderer:
 
 
       async def  elementIsScrollable(self, pg, elem):
-            print( utils.toString('\t\t[DEBUG] Checking if element [', elem, '] is scrollable....') if self.debug else '', end='')            
+            print( utils.toString('\t\t[DEBUG] Checking if element [', elem, '] is scrollable....\n') if self.debug else '', end='')            
             scrollable = await pg.evaluate(
                                  '''elem => {
                                                     const node = document.querySelector(elem);

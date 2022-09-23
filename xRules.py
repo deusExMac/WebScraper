@@ -72,6 +72,7 @@ class ruleDynamicPageContent:
       dpcPageElement: str = field(default = '') # name of js function to execute, element name on page to click on or element to scroll
       dpcScrolldown: int = 0
       dpcWaitFor: str = field(default = '')
+      dpcFillContent: str = field(default = '') # text. used to fill elements.
       
 
 
