@@ -1,5 +1,6 @@
 import sys
 import time
+import re
 #from datetime import datetime
 #import json
 import asyncio
@@ -34,6 +35,7 @@ class htmlRenderer:
           self.headers = None
           self.response = None
           self.debug = False
+          self.sleepTime = 1.2 # in seconds
 
 
       # dv: debug value: True or False
@@ -131,25 +133,48 @@ class htmlRenderer:
 
        await asyncio.sleep(3.4) # TODO: decrease sleep time?
        ''' 
+
+
+       
             
        # Execute dynamic elements
        # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
-       if dynamicElements:
+       if not dynamicElements:
+          print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' ) 
+       else:    
+
+          # First element may be a check or checkurl element. See if this is the case.
+          # If it is, see the page meets conditions. If not, do not apply dynamic elements
+          # to the page.
+          elem = dynamicElements[0]
+          if elem.dpcType.lower() == 'checkurl':
+             print( utils.toString('\t[DEBUG] Found checkurl constraint\n' ) if self.debug else '', end='' )       
+             if elem.dpcFillContent.strip() != '': 
+                if re.search( elem.dpcFillContent, url) is None:
+                   print( utils.toString(f'\t[DEBUG] Url {url} does not match constraints. Not applying dynamic elements to page\n' ) if self.debug else '', end='' )                    
+                   return(await self.page.content()) 
+                    
+          print( utils.toString(f'\t[DEBUG] Url {url} does MATCH constraints. Applying dynamic elements to page\n' ) if self.debug else '', end='' )
+          
           for de in  dynamicElements:
+              if de.dpcType.lower() == 'checkurl':
+                 continue # ignore. Has already been processed.
+                
               await self.executeDynamicElement(self.page, de)
               # This SEEMS to be required.
               # TODO: Investigate closer the execution dynamic of pyppeteer
-              await asyncio.sleep(0.9)
-       else:
-             print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' )
+              await asyncio.sleep(self.sleepTime)
+       
+       
 
        
 
        #'screenShot.png'
        print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url), '\n' ) if self.debug else '', end='' )      
        await self.page.screenshot({'path': utils.urlToPlainFilename('etc/', url) + '.png' })
+
+       
        content = await self.page.content()
-                
        return( content )
 
 
@@ -176,9 +201,9 @@ class htmlRenderer:
 
             print( utils.toString('YES (NOTE: empty selector element will return true).\n') if self.debug else '', end='') 
 
-            if dElem.dpcType == 'button':   
+            if dElem.dpcType == 'click':   
                await pg.click(dElem.dpcPageElement)
-               await asyncio.sleep(2.5) # TODO: Remove me
+               await asyncio.sleep(self.sleepTime) # TODO: Remove me
             elif dElem.dpcType == 'js':
                 result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
             elif dElem.dpcType.lower() == 'fill':
@@ -189,7 +214,7 @@ class htmlRenderer:
                     #print( utils.toString(f'\t\t[DEBUG] Scroll: {sn}\n') if self.debug else '', sep='', end='' ) 
                     await self.scrollPageDown(pg)
 
-                 await asyncio.sleep(2.4) # TODO: decrease sleep time?
+                 await asyncio.sleep(self.sleepTime) # TODO: decrease sleep time?
                  
             elif dElem.dpcType == 'scroll':
 

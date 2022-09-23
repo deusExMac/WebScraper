@@ -12,7 +12,7 @@
 "renderPages": True,
 "ruleDynamicElements": [ 
 		 {
-		     "dpcType":"button",
+		     "dpcType":"click",
 		     "dpcPageElement":"button._11eqlma4",
 		     "dpcScrolldown":0,
 		     "dpcWaitFor":"div._13qdk1f"

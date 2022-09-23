@@ -113,12 +113,21 @@
 "renderPages":True,
 
 "ruleDynamicElements": [ 
+
+                 {
+		     "dpcType":"checkurl",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":-1,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "upatras.*login_form\.php$"
+		 },
+		 
 		 {
 		     "dpcType":"fill",
 		     "dpcPageElement":".form-group:nth-child(1) .form-control",
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"",
-		     "dpcFillContent": "manolis"
+		     "dpcFillContent": "username"
 		 },
 
 		 {
@@ -126,16 +135,16 @@
 		     "dpcPageElement":".form-group+ .form-group .form-control",		     
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"",
-		     "dpcFillContent": "paparia"
+		     "dpcFillContent": "password"
 		 },
 		 
 		 {
-		     "dpcType":"button",
+		     "dpcType":"click",
 		     "dpcPageElement":"button.btn",		     
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":""
 		     
-		 },
+		 }
 		 
 		 
  
@@ -154,7 +163,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named teamNamesWithMoreThan3UCLTitles. 
+# This library consists of one rule only, named getLinks. 
 
 "library": [
 
@@ -168,12 +177,12 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamNamesWithMoreThan3UCLTitles",
+ "ruleName": "getLinks",
  
  
  # Short description
  
- "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
+ "ruleDescription": "Extracts links",
  
  
  
@@ -183,55 +192,15 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
+ "ruleURLActivationCondition": ["eclass\.upatras\.gr"],
  
  
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ "ruleCSSSelector": "a[href]",
  
- # List of match preconditions that will be applied
- # to each and every result returned by ruleCSSSelector. Elements
- # matching preconditions will be kept in result list, elements that
- # don't match will be removed from the result set. The match precondition
- # in this example specifies the ecRuleCSSSelector field which means that
- # if the precondition holds for an element, a different part of the examined element is 
- # extracted and returned. 
- # If more than one match precondition is specified, these are
- # combined using ANY operator.
- # Currently, only ANY operator is supported.
- #
- # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
  
- "ruleMatchPreconditions": [
-  
-                                # A match precondition. This precondition checks if each
-                                # row extracted by ruleCSSSelector has in the second td element
-                                # a number greater than 3. If so, the th element from the 
-                                # processed row is extracted and returned as the result.
-                                # This is done for all tr elements.
-                                {
-                                  # Element of tr to check. This CSS selector is applied to
-                                  # each and every tr element  
-                                  # returned by ruleCSSSelector.
-                                  
-                                  "ecCSSSelector" : "td:nth-child(2)", 
-                                  
-                                  
-                                  # Condition the elements specified by ecCSSSelector have to match. 
-                                  # tr elements that do not match this condition will be
-                                  # removed from the extracted list.
-                                  # Here we check if td element td:nth-child(2), that keeps the number of titles, 
-                                  # contains a number that is greater than 3 (>3).
-                                  
-                                  "ecTextCondition" : "([4-9]|\d{2,})",
-                                  
-                                  # NOTE: we don't need a ecRuleCSSSelector here
-                                  
-                                }
-    
-                             ],
  
  # Once the CSS selector element in  ruleCSSSelector has been found, or data has been
  # extracted by ecRuleCSSSelector, what 
@@ -241,33 +210,21 @@
  # In ruleMatchPreconditions, ruleTargetAttribute will be applied to the newly extracted
  # elements.
  
- "ruleTargetAttribute": "text",
+ "ruleTargetAttribute": "href",
  
  
  
  
- # List of css selectors to apply to each extracted element by ruleCSSSelector.
- # From each extracted element, extract th and the td elements specified.
- # NOTE: It is assumed tha each of the selectors in rulePostCSSSelector, 
- # will return at most one element. 
- 
- "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)"]
  
  
- # These will be the key names under which the extracted elements by
- # rulePostCSSSelector will be stored. Name must be ordered based on selectors 
- # specified in rulePostCSSSelector.
- # NOTE: number of keys must be the same as number of css selectors in
- # rulePostCSSSelector.
  
- "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon"]
  
  
  
  
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
- "ruleContentCondition": "",
+ "ruleContentCondition": "eclass\.upatras\.gr",
  
  # Does this rule return more than one result?
  "ruleReturnsMore": True,

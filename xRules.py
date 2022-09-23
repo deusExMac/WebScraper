@@ -68,7 +68,7 @@ class extractionCondition:
 
 @dataclass
 class ruleDynamicPageContent:
-      dpcType: str = field(default='js') # 3 types supported with values: js for javasctipt functions, button for clickable page elements and scroll for scrollable elements
+      dpcType: str = field(default='js') # 5 types/values supported with values: js for javasctipt functions, click for clickable page elements, scroll for scrollable elements, scrollpage for page scrolling and checkurl for url checking.
       dpcPageElement: str = field(default = '') # name of js function to execute, element name on page to click on or element to scroll
       dpcScrolldown: int = 0
       dpcWaitFor: str = field(default = '')
@@ -164,7 +164,7 @@ class extractionRule:
 
 
     
-    def __post_init__(self):  
+    def __post_init__(self):        
         if self.rulePreconditions is None:
            self.rulePreconditions = ruleConditionList(conditionType='', conditionList=[])   
     
