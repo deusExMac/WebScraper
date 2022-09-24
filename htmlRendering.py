@@ -14,11 +14,15 @@ async def intercept_network_response(response):
           # In this example, we only care about HTML responses!
           #if "text/html" in response.headers.get("content-type", ""):
              # Print some info about the responses
+             print('==================================================')
              print("\t\tURL:", response.url)
+             
              print("\t\tMethod:", response.request.method)
+             print("\t\tResponse status:", response.status)
              print("\t\tResponse headers:", response.headers)
              print("\t\tRequest Headers:", response.request.headers)
-             print("\t\tResponse status:", response.status)
+             
+             print('==================================================')
              # Print the content of the response
              #print("Content: ", await response.text())
              # NOTE: Use await response.json() if you want to get the JSON directly
