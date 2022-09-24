@@ -855,7 +855,7 @@ class commandImpl:
                    print( utils.toString('\t[DEBUG] Preparing cookies...\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )
                    #cks = self.prepareCookies(dUrl, rCookies)
                    cks = utils.cookiesFromDict(rCookies, dUrl)
-                   print( utils.toString('\t[DEBUG] Cookies:', cks) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+                   print( utils.toString('\t[DEBUG] Cookies:', cks, '\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                    
                 htmlRndr = htmlRendering.htmlRenderer()
                 htmlRndr.setDebugMode( cfg.getboolean('DEBUG', 'debugging', fallback=False) )

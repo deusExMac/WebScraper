@@ -74,9 +74,12 @@ class htmlRenderer:
        if userAgent is not None:
           await self.page.setUserAgent(userAgent);
 
-       # Set request cookies   
+       # Set request cookies
+       print( utils.toString('\t[DEBUG] Setting request cookies ', requestCookies,'\n') if self.debug else '', sep='', end='' )
        for c in requestCookies:
+            #print('[DEBUG] html rendering. Setting cookie', c)
             await self.page.setCookie( c )
+            await asyncio.sleep(self.waitTime/2)
 
        #print('\t[DEBUG] Loading URL', url)
        await self.page.setViewport( {'width':1920, 'height':1080} )
@@ -93,7 +96,7 @@ class htmlRenderer:
             
            try:
               attemptStart = time.perf_counter() # start counting request time
-              self.response = await self.page.goto(url, options={'timeout': int(timeout * 1000)})
+              self.response = await self.page.goto(url, options={'waitUntil':'load', 'timeout': int(timeout * 1000)})
 
 
               #try:
