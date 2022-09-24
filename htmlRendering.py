@@ -14,11 +14,11 @@ async def intercept_network_response(response):
           # In this example, we only care about HTML responses!
           #if "text/html" in response.headers.get("content-type", ""):
              # Print some info about the responses
-             print("URL:", response.url)
-             print("Method:", response.request.method)
-             print("Response headers:", response.headers)
-             print("Request Headers:", response.request.headers)
-             print("Response status:", response.status)
+             print("\t\tURL:", response.url)
+             print("\t\tMethod:", response.request.method)
+             print("\t\tResponse headers:", response.headers)
+             print("\t\tRequest Headers:", response.request.headers)
+             print("\t\tResponse status:", response.status)
              # Print the content of the response
              #print("Content: ", await response.text())
              # NOTE: Use await response.json() if you want to get the JSON directly
@@ -79,7 +79,7 @@ class htmlRenderer:
        for c in requestCookies:
             #print('[DEBUG] html rendering. Setting cookie', c)
             await self.page.setCookie( c )
-            await asyncio.sleep(self.waitTime/2)
+            #await asyncio.sleep(self.waitTime/2)
 
        #print('\t[DEBUG] Loading URL', url)
        await self.page.setViewport( {'width':1920, 'height':1080} )
@@ -97,7 +97,7 @@ class htmlRenderer:
            try:
               attemptStart = time.perf_counter() # start counting request time
               self.response = await self.page.goto(url, options={'waitUntil':'load', 'timeout': int(timeout * 1000)})
-
+              #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
 
               #try:
               #  print('>>> COOKIES:', await self.page.cookies() )  
