@@ -10,7 +10,7 @@ import utils
 import xRules
 
 
-async def intercept_network_response(response):
+async def intercept_network_response2(response):
           # In this example, we only care about HTML responses!
           #if "text/html" in response.headers.get("content-type", ""):
              # Print some info about the responses
@@ -49,7 +49,27 @@ class htmlRenderer:
           self.debug = dv
 
 
-        
+
+      async def intercept_network_response(self, resp):
+          # In this example, we only care about HTML responses!
+          #if "text/html" in response.headers.get("content-type", ""):
+             # Print some info about the responses
+             print('==================================================')
+             print("\t\tURL:", resp.url)
+             
+             print("\t\tMethod:", resp.request.method)
+             print("\t\tResponse status:", resp.status)
+             print("\t\tResponse headers:", resp.headers)
+             print("\t\tRequest Headers:", resp.request.headers)
+             
+             print('==================================================')
+             # Print the content of the response
+             #print("Content: ", await response.text())
+             # NOTE: Use await response.json() if you want to get the JSON directly
+
+
+
+  
       def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[]):
           return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements)) )
 
@@ -71,7 +91,7 @@ class htmlRenderer:
           print( utils.toString('\t[DEBUG] Creating new PAGE\n') if self.debug else '', sep='', end=''  )
           self.page = await self.browser.newPage()
           # Uncomment next line if you would like to intercept responses
-          #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) )         
+          self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
        else:
           print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
         
