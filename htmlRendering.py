@@ -1,6 +1,8 @@
 import sys
 import time
 import re
+import copy
+
 #from datetime import datetime
 #import json
 import asyncio
@@ -14,6 +16,9 @@ async def intercept_network_response2(response):
           # In this example, we only care about HTML responses!
           #if "text/html" in response.headers.get("content-type", ""):
              # Print some info about the responses
+
+             
+            
              print('==================================================')
              print("\t\tURL:", response.url)
              
@@ -23,6 +28,8 @@ async def intercept_network_response2(response):
              print("\t\tRequest Headers:", response.request.headers)
              
              print('==================================================')
+             
+
              # Print the content of the response
              #print("Content: ", await response.text())
              # NOTE: Use await response.json() if you want to get the JSON directly
@@ -38,10 +45,15 @@ class htmlRenderer:
           self.page = None
           self.headers = None
           self.response = None
-          self.debug = False
+
+          # TODO: Check me 
+          self.interceptingUrl = ''
+          
           self.waitTime = 1.2 # in seconds
           self.takePageScreenshot = True # in seconds
           self.screenShotStoragePath = './' # Where to store screenshots
+
+          self.debug = False
 
 
       # dv: debug value: True or False
@@ -51,10 +63,13 @@ class htmlRenderer:
 
 
       async def intercept_network_response(self, resp):
-          # In this example, we only care about HTML responses!
-          #if "text/html" in response.headers.get("content-type", ""):
-             # Print some info about the responses
-             print('==================================================')
+
+             # In this example, we only care about responses from specific urls!
+             
+             if self.interceptingUrl != resp.url:
+                return
+            
+             print('================INTERCEPT================')
              print("\t\tURL:", resp.url)
              
              print("\t\tMethod:", resp.request.method)
@@ -63,8 +78,11 @@ class htmlRenderer:
              print("\t\tRequest Headers:", resp.request.headers)
              
              print('==================================================')
-             # Print the content of the response
-             #print("Content: ", await response.text())
+
+             # TODO: Is this correct? 
+             self.response = resp
+             
+             
              # NOTE: Use await response.json() if you want to get the JSON directly
 
 
@@ -80,6 +98,9 @@ class htmlRenderer:
       #       Among others, scrolldown is now obsolete. 
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
+       
+
+          
        if self.browser is None:
           print( utils.toString('\t[DEBUG] Creating new BROWSER\n') if self.debug else '', sep='', end=''  )
           # launches a browser in headless mode. Headless means WITHOUT UI.
@@ -90,8 +111,10 @@ class htmlRenderer:
        if self.page is None:
           print( utils.toString('\t[DEBUG] Creating new PAGE\n') if self.debug else '', sep='', end=''  )
           self.page = await self.browser.newPage()
+
           # Uncomment next line if you would like to intercept responses
-          self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
+          if self.interceptingUrl != '':
+             self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
        else:
           print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
         

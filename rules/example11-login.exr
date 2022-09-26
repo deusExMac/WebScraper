@@ -80,12 +80,12 @@
 # List of rule names (or ruleReturnedValueNames as is the case in this example), whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["name", "winnerCount", "runnerUpCount", "seasonsWon"],
+"csvLineFormat":[],
 
 # The list of ruleNames (or ruleReturnedValueNames) that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["name"],
+"requiredFilledFields": [],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
