@@ -863,15 +863,16 @@ class commandImpl:
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
 
-                
+                # TODO: Remove me! For testing purposes ONLY!
+                htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/?login_page=1'
 
                 # Fetch url
                 # TODO: timeout must be a setting
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
-                   #print('>>>>>>>>>> REturning None content!!!')   
                    return(None)
-                  
+
+                
                 r.setResponse(htmlRndr.response) 
                                    
                 try:   
@@ -884,7 +885,8 @@ class commandImpl:
                 
                                 
                 htmlRndr.cleanUp() # Not needed anymore
-                   
+                
+
           
           return( r )
 
@@ -1171,7 +1173,6 @@ class commandImpl:
                  #
                  #
 
-
                  
 
                  # Update the URL in the URLQueue with the data
@@ -1203,7 +1204,7 @@ class commandImpl:
                      
                  uQ.updateContentLength( currentUrl, pageContentLength )
                  if pageContentLength <= 0 :
-                    print( utils.toString('\t[DEBUG] Zero content length! (wtf???)\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
+                    print( utils.toString('\t[DEBUG] Zero content length! (wtf???)\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     uQ.updateStatus( currentUrl, -999 )
                     continue
                       

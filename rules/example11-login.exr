@@ -139,7 +139,7 @@
 		     "dpcType":"click",
 		     "dpcPageElement":"button.btn",		     
 		     "dpcScrolldown":-1,
-		     "dpcWaitFor":""
+		     "dpcWaitFor":"#dropdownMenu1"
 		     
 		 }
 		 
