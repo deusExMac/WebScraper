@@ -869,7 +869,7 @@ class commandImpl:
                 # TODO: timeout must be a setting
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
-                   print('>>>>>>>>>> REturning None content!!!')   
+                   #print('>>>>>>>>>> REturning None content!!!')   
                    return(None)
                   
                 r.setResponse(htmlRndr.response) 
