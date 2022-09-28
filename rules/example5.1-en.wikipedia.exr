@@ -109,7 +109,7 @@
  
  # Short description
  
- "ruleDescription": "Extracts the article's title if the article is about statistics OR algebra",
+ "ruleDescription": "Extracts the article's title of wikipedia pages that 1) are on physicists 2) were born may, january, march or october and 3) have american (US) nationality.",
  
  
  
