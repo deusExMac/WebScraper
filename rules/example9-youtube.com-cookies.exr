@@ -38,7 +38,7 @@
 # 
 # How to use this library:
 #
-#  To see the impact of the CONSENT cookie, this library has to be executed 2 times: one time without specifying the request cookie and one with specifying
+#  To see the impact of the CONSENT cookie in this example, this library has to be executed 2 times: one time without specifying the request cookie and one with specifying
 #  the request cookie. These different execurions will yield to different pages downloaded from youtube.
 #
 #  I) Execute library without CONSENT cookie

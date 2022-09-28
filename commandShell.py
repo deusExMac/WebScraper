@@ -1434,8 +1434,8 @@ class commandImpl:
                        
                     if exHitRate < cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0):
                        belowMinHitRateCount += 1
-                       # if we go below hit rate 3 consecutive times,
-                       # terminate
+                       # if we go below hit rate more than minHitRateSamples consecutive times,
+                       # the process terminates.
                        if belowMinHitRateCount >= cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50):
                           print('\nTerminating. Reached below minimum hit rate', cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0), ' more than', cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50), 'consecutive times.\n' )   
                           break
