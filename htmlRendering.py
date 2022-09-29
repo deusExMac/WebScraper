@@ -8,6 +8,8 @@ import copy
 import asyncio
 import pyppeteer
 
+from urllib.parse import urlparse, urljoin
+
 import utils
 import xRules
 
@@ -48,6 +50,8 @@ class htmlRenderer:
 
           # TODO: Check me 
           self.interceptingUrl = ''
+          self.cookiesSeen = []
+          self.interceptResponses = False
           
           self.waitTime = 1.2 # in seconds
           self.takePageScreenshot = True # in seconds
@@ -68,7 +72,38 @@ class htmlRenderer:
              
              if self.interceptingUrl != resp.url:
                 return
+
+             if not self.interceptResponses:
+                return
             
+             # TODO: Is this correct? 
+             
+             self.response = resp
+             
+             
+             # is this a redirect request?  
+             if 300 <= resp.status  < 400:
+                #print("INTERCEPT: Setting target to [", response.headers.get('location'), "]")
+                # This might be a  relative URL. Make it absolute                 
+                self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location', '') )
+
+
+
+             if resp.headers.get('set-cookie', None) is not None:
+                # Do we already have this cookie? If not, add it. 
+                if  resp.headers.get('set-cookie', '') not in self.cookiesSeen:
+                    self.cookiesSeen.append( resp.headers.get('set-cookie', None) )
+             else:
+                 # Do we have a cookie from some previous request? If yes
+                 # add it to existing response header in order to be returned
+                 # to caller.
+                 if self.cookiesSeen:
+                    for c in  self.cookiesSeen:
+                        if self.response.headers.get('set-cookie', '') == '':
+                           self.response.headers['set-cookie'] = c
+                        else:
+                            self.response.headers['set-cookie'] = self.response.headers['set-cookie'] + ',' + c
+                    
              print('================INTERCEPT================')
              print("\t\tURL:", resp.url)
              
@@ -79,8 +114,7 @@ class htmlRenderer:
              
              print('==================================================')
 
-             # TODO: Is this correct? 
-             self.response = resp
+             
              
              
              # NOTE: Use await response.json() if you want to get the JSON directly
@@ -216,11 +250,14 @@ class htmlRenderer:
 
            # Should the dynamic element be applied to this page?
            # Check url pattern to see if it should be applied.
-           if (de.dpcURLActivationCondition != '') and (re.search( de.dpcURLActivationCondition, url) is None):
-              print( utils.toString(f'\t[DEBUG] Url {url} does NOT MATCH dynamic element url pattern. NOT APPLYING\n' ) if self.debug else '', end='' ) 
+           # However, we get the current page's url. This is because some
+           # dynamic element may have executed a submit and hence the url may have changed.
+           currentUrl = await self.page.evaluate("() => window.location.href")
+           if (de.dpcURLActivationCondition != '') and (re.search( de.dpcURLActivationCondition, currentUrl) is None):
+              print( utils.toString(f'\t[DEBUG] Url {currentUrl} does NOT MATCH dynamic element url pattern. NOT APPLYING\n' ) if self.debug else '', end='' ) 
               continue
 
-           print( utils.toString(f'\t[DEBUG] Url {url} does MATCH dynamic element url pattern. APPLYING\n' ) if self.debug else '', end='' )   
+           print( utils.toString(f'\t[DEBUG] Url {currentUrl} does MATCH dynamic element url pattern. APPLYING\n' ) if self.debug else '', end='' )   
            await self.executeDynamicElement(self.page, de)
            # This SEEMS to be required.
            # TODO: Investigate closer the execution dynamic of pyppeteer
@@ -323,6 +360,7 @@ class htmlRenderer:
 
                 
             if dElem.dpcWaitFor != '':
+               print( utils.toString('\t[DEBUG] Waiting for', dElem.dpcWaitFor , '\n') if self.debug else '', end='', sep='') 
                await pg.waitForSelector(dElem.dpcWaitFor)
              
                    
