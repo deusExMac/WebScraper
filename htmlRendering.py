@@ -8,6 +8,7 @@ import copy
 import asyncio
 import pyppeteer
 
+from http.cookies import SimpleCookie
 from urllib.parse import urlparse, urljoin
 
 import utils
@@ -50,7 +51,11 @@ class htmlRenderer:
 
           # TODO: Check me 
           self.interceptingUrl = ''
+
+
           self.cookiesSeen = []
+          self.cookieIndex = {}
+          
           self.interceptResponses = False
           
           self.waitTime = 1.2 # in seconds
@@ -66,12 +71,48 @@ class htmlRenderer:
 
 
 
+      # TODO: Do we need this?
+      def getCookie(self, cs):
+          pass
+
+
+
+
+
+      # cs: a set-cookie line from http response
+      def addResponseCookie(self, cs):
+
+          if cs is None or cs == '':
+             return
+            
+          cookie = SimpleCookie()
+          cookie.load(cs)
+                    
+          for k, m in cookie.items():
+              # add or update
+              self.cookieIndex[k] = cs
+
+          #self.cookieIndex[]
+          #c=utils.cookieStringToDict(ck)
+          #if self.cookieList[c
+          #for c in self.cookieList:
+          #    pass
+
+
+              
+          
       async def intercept_network_response(self, resp):
 
              # In this example, we only care about responses from specific urls!
+
              
-             if self.interceptingUrl != resp.url:
-                return
+             #print("URL:[", resp.url, '] HTTP Status:[', resp.status,'] LOCATION:[', urljoin( resp.url, resp.headers.get('location', '') ) if 300<=resp.status<400 else 'xxxx', '] COOKIE:', resp.headers.get('set-cookie', 'xxxx') )
+             #return
+            
+             #print('>>>GOT:', 'Response status:', resp.status)
+                   
+             #if self.interceptingUrl != resp.url:
+             #   return
 
              if not self.interceptResponses:
                 return
@@ -86,24 +127,36 @@ class htmlRenderer:
                 #print("INTERCEPT: Setting target to [", response.headers.get('location'), "]")
                 # This might be a  relative URL. Make it absolute                 
                 self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location', '') )
+                print('>>>Redirect from [', resp.url, '] to [', urljoin( resp.url, resp.headers.get('location', '') ),'] Cookie:[', resp.headers.get('set-cookie', 'xxx'), ']')
 
 
 
              if resp.headers.get('set-cookie', None) is not None:
-                # Do we already have this cookie? If not, add it. 
+                # Do we already have this cookie? If not, add it.
+                '''
+                print('URL:[', resp.url,'] GOT Cookie:', resp.headers.get('set-cookie', None))
                 if  resp.headers.get('set-cookie', '') not in self.cookiesSeen:
                     self.cookiesSeen.append( resp.headers.get('set-cookie', None) )
+                    print('$$$$$$\n', self.cookiesSeen, '$$$$$\n' )
+                '''
+                self.addResponseCookie(resp.headers.get('set-cookie', None) )
              else:
                  # Do we have a cookie from some previous request? If yes
                  # add it to existing response header in order to be returned
                  # to caller.
-                 if self.cookiesSeen:
-                    for c in  self.cookiesSeen:
-                        if self.response.headers.get('set-cookie', '') == '':
-                           self.response.headers['set-cookie'] = c
+                 if self.cookieIndex:
+                    cString = '' 
+                    for n, m in  self.cookieIndex.items():
+                        if cString == '':
+                           cString = m
                         else:
-                            self.response.headers['set-cookie'] = self.response.headers['set-cookie'] + ',' + c
+                           cString = cString + '\n' + m
+
+                                                
+                    self.response.headers['set-cookie'] = cString
                     
+
+             '''       
              print('================INTERCEPT================')
              print("\t\tURL:", resp.url)
              
@@ -113,7 +166,7 @@ class htmlRenderer:
              print("\t\tRequest Headers:", resp.request.headers)
              
              print('==================================================')
-
+             ''' 
              
              
              

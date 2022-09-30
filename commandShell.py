@@ -864,8 +864,8 @@ class commandImpl:
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
 
                 # TODO: Remove me! NEXT LINE IS for testing purposes ONLY!
-                #htmlRndr.interceptingUrl = 'https://idp.upnet.gr/idp/profile/SAML2/Redirect/SSO?execution=e1s1'
-                #htmlRndr.interceptResponses = True
+                htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
+                htmlRndr.interceptResponses = True
 
                 # Fetch url
                 # TODO: timeout must be a setting
