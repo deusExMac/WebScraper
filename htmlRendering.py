@@ -85,7 +85,7 @@ class htmlRenderer:
           if cs is None or cs == '':
              return
 
-          cs = cs.replace('\n', ',')  
+          #cs = cs.replace('\n', ',')  
           cookie = SimpleCookie()
           cookie.load(cs)
                     

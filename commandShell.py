@@ -863,7 +863,9 @@ class commandImpl:
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
 
+                #
                 # TODO: Remove me! NEXT LINE IS for testing purposes ONLY!
+                # 
                 htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
                 htmlRndr.interceptResponses = True
 
