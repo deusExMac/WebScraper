@@ -874,7 +874,7 @@ class commandImpl:
                    return(None)
 
                 
-                r.setResponse(htmlRndr.response) 
+                r.setResponse(htmlRndr.response, normalizeCookies=True) 
                                    
                 try:   
                    r.status = int( htmlRndr.response._status )
@@ -1114,6 +1114,7 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
 
                     cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))
+                    
 
                     if not cmdConfigSettings.getboolean('Crawler', 'ignoreResponseCookies', fallback=True):
                        if cDict:                          

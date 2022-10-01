@@ -84,7 +84,8 @@ class htmlRenderer:
 
           if cs is None or cs == '':
              return
-            
+
+          cs = cs.replace('\n', ',')  
           cookie = SimpleCookie()
           cookie.load(cs)
                     
@@ -97,6 +98,65 @@ class htmlRenderer:
           #if self.cookieList[c
           #for c in self.cookieList:
           #    pass
+
+
+
+
+      def addResponseCookie(self, cs, url=''):
+
+          if cs is None or cs == '':
+             return
+
+          #print('\n++++++++++++++++++++++++++++++++++++++++++')
+          #print(cs)
+          #print('++++++++++++++++++++++++++++++++++++++++++\n')
+          
+          cookie = SimpleCookie()
+          cookie.load(cs)
+
+          nC = 0
+          knList = []
+          for k, m in cookie.items():
+              # add or update
+              self.cookieIndex[k] = {'cookie':cookie, 'source': cs, 'url':url }
+              knList.append( k )
+              nC += 1
+
+          #print('################### ADDED [', nC, '] COOKIES.', knList)
+
+
+
+
+      def filterCookies(self, targetUrl):
+       cookieString = ''
+       pUrl = urlparse(targetUrl)
+       for k, m in self.cookieIndex.items():
+           ck = m['cookie'].get(k)
+           if ck['path'] != '':
+              if not pUrl.path.startswith(ck['path']):
+                 #print('\t\t>>>>Skipping cookie [', k, ']') 
+                 continue 
+
+           domain = ''   
+           if ck['domain'] != '':
+              domain =  ck['domain']
+           else:
+              domain =  urlparse(m['url']).netloc
+
+           if not domain in pUrl.netloc:
+               #print('\t\t>>>>Skipping cookie [', k, ']') 
+               continue
+
+           # Seems ok. Append it
+           if cookieString == '':
+              cookieString =  m['source']
+           else:
+               cookieString =  cookieString + '\n' + m['source']
+
+       #print('RETURNING', cookieString)
+       return( cookieString ) 
+
+    
 
 
               
@@ -114,8 +174,17 @@ class htmlRenderer:
              #if self.interceptingUrl != resp.url:
              #   return
 
-             if not self.interceptResponses:
-                return
+
+             if 300 <= resp.status  and resp.status < 400:
+                self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location') )
+                #print('\tIntercepting url set to [', self.interceptingUrl, ']')
+             else:
+                 if self.interceptingUrl != resp.url:
+                    return 
+
+
+             #if not self.interceptResponses:
+             #   return
             
              # TODO: Is this correct? 
              
@@ -123,11 +192,11 @@ class htmlRenderer:
              
              
              # is this a redirect request?  
-             if 300 <= resp.status  < 400:
+             #if 300 <= resp.status  < 400:
                 #print("INTERCEPT: Setting target to [", response.headers.get('location'), "]")
                 # This might be a  relative URL. Make it absolute                 
-                self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location', '') )
-                print('>>>Redirect from [', resp.url, '] to [', urljoin( resp.url, resp.headers.get('location', '') ),'] Cookie:[', resp.headers.get('set-cookie', 'xxx'), ']')
+                #self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location', '') )
+                #print('>>>Redirect from [', resp.url, '] to [', urljoin( resp.url, resp.headers.get('location', '') ),'] Cookie:[', resp.headers.get('set-cookie', 'xxx'), ']')
 
 
 
@@ -139,21 +208,17 @@ class htmlRenderer:
                     self.cookiesSeen.append( resp.headers.get('set-cookie', None) )
                     print('$$$$$$\n', self.cookiesSeen, '$$$$$\n' )
                 '''
-                self.addResponseCookie(resp.headers.get('set-cookie', None) )
+                self.addResponseCookie(resp.headers.get('set-cookie', None), resp.url )
              else:
                  # Do we have a cookie from some previous request? If yes
                  # add it to existing response header in order to be returned
                  # to caller.
                  if self.cookieIndex:
-                    cString = '' 
-                    for n, m in  self.cookieIndex.items():
-                        if cString == '':
-                           cString = m
-                        else:
-                           cString = cString + '\n' + m
-
-                                                
-                    self.response.headers['set-cookie'] = cString
+                    ckString = self.filterCookies( resp.url )
+                    #print('!!!!!!! filterCookies returned:', ckString)
+                    if ckString != '':
+                       self.response.headers['set-cookie'] = ckString
+                       #print('-------------------------------', self.response.headers['set-cookie'] )
                     
 
              '''       
@@ -185,8 +250,8 @@ class htmlRenderer:
       #       Among others, scrolldown is now obsolete. 
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
-       
-
+       if self.interceptResponses:
+          self.interceptingURL = url
           
        if self.browser is None:
           print( utils.toString('\t[DEBUG] Creating new BROWSER\n') if self.debug else '', sep='', end=''  )
@@ -349,6 +414,7 @@ class htmlRenderer:
             if dElem.dpcType == 'click':   
                await pg.click(dElem.dpcPageElement)
                await asyncio.sleep(self.waitTime) # TODO: Remove me
+               self.interceptingUrl = 'https://idp.upnet.gr/idp/profile/SAML2/Redirect/SSO?execution=e1s1'
             elif dElem.dpcType == 'js':
                 result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
             elif dElem.dpcType.lower() == 'fill':
