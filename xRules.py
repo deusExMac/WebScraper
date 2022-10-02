@@ -74,7 +74,7 @@ class ruleDynamicPageContent:
       dpcWaitFor: str = field(default = '')
       dpcFillContent: str = field(default = '') # text. used to fill elements.
       dpcURLActivationCondition: str = field(default = '') # regular expression the url must match to apply this dynamic element
-      
+      dpcIsSubmit: bool = False
 
 
 

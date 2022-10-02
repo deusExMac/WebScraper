@@ -80,7 +80,7 @@ class htmlRenderer:
 
 
       # cs: a set-cookie line from http response
-      def addResponseCookie(self, cs):
+      def addResponseCookie2(self, cs):
 
           if cs is None or cs == '':
              return
@@ -165,7 +165,7 @@ class htmlRenderer:
 
              # In this example, we only care about responses from specific urls!
 
-             
+             #print('================= INTERCEPTING ========================')
              #print("URL:[", resp.url, '] HTTP Status:[', resp.status,'] LOCATION:[', urljoin( resp.url, resp.headers.get('location', '') ) if 300<=resp.status<400 else 'xxxx', '] COOKIE:', resp.headers.get('set-cookie', 'xxxx') )
              #return
             
@@ -182,7 +182,7 @@ class htmlRenderer:
                  if self.interceptingUrl != resp.url:
                     return 
 
-
+             print('200 or REDIRECT as response for:', resp.url) 
              #if not self.interceptResponses:
              #   return
             
@@ -250,8 +250,8 @@ class htmlRenderer:
       #       Among others, scrolldown is now obsolete. 
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
 
-       if self.interceptResponses:
-          self.interceptingURL = url
+       #if self.interceptResponses:
+       self.interceptingUrl = url
           
        if self.browser is None:
           print( utils.toString('\t[DEBUG] Creating new BROWSER\n') if self.debug else '', sep='', end=''  )
@@ -265,7 +265,8 @@ class htmlRenderer:
           self.page = await self.browser.newPage()
 
           # Uncomment next line if you would like to intercept responses
-          if self.interceptingUrl != '':
+          if self.interceptResponses:
+             print( utils.toString('\t[DEBUG] INITIALIZING interception\n') if self.debug else '', sep='', end=''  ) 
              self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
        else:
           print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
@@ -411,12 +412,23 @@ class htmlRenderer:
 
             print( utils.toString('YES (NOTE: empty selector element will return true).\n') if self.debug else '', end='') 
 
-            if dElem.dpcType == 'click':   
+            if dElem.dpcType == 'click':
+                
+               if dElem.dpcIsSubmit:
+                  #self.interceptingUrl = '' 
+                  f = await self.getFormContaining(pg, dElem.dpcPageElement)
+                  if f is not None:
+                     print( utils.toString('\t\t[DEBUG] Submit detected. Form element found.\n') if self.debug else '', end='') 
+                     m = await pg.evaluate("(el) => el.getAttribute('action')", f)
+                     formAction = urljoin( await pg.evaluate("() => window.location.href"), m )
+                     self.interceptingUrl = formAction
+                     print( utils.toString('\t\t[DEBUG] Submit detected. Intercepted url set to [', self.interceptingUrl,']\n') if self.debug else '', end='')
+                     
                await pg.click(dElem.dpcPageElement)
                await asyncio.sleep(self.waitTime) # TODO: Remove me
-               self.interceptingUrl = 'https://idp.upnet.gr/idp/profile/SAML2/Redirect/SSO?execution=e1s1'
+
             elif dElem.dpcType == 'js':
-                result = await page.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
+                result = await pg.evaluate('''() =>''' + dElem.dpcPageElement + '''()''')
             elif dElem.dpcType.lower() == 'fill':
                  await pg.type(dElem.dpcPageElement, dElem.dpcFillContent)
             elif dElem.dpcType.lower() == 'scrollpage':
@@ -578,9 +590,57 @@ class htmlRenderer:
 
 
         
-      
+      ##############################################
         
+      async def getFormContaining(self, pg, targetElemSelector):
+         e = await self.getElementContaining(pg, 'form', targetElemSelector)
+         return(e) 
 
+
+      # innerMost not yet working
+      async def getElementContaining(self, pg, parentElemSelector, targetElemSelector, innerMost=False):
+         
+         allCandidateElements = await pg.querySelectorAll(parentElemSelector)
+         print(allCandidateElements)
+         for cel in allCandidateElements:
+             if await self.elementContains(cel, targetElemSelector):
+                   return( cel ) # return the first element containing targetElem
+                 
+         return(None) # Not found  
+
+
+
+
+      # Used when asking the deepest element containing targetElemSelector
+      # TODO: Not yet used/completed/tested
+      async def getContainingElement( self, pElem, parentElemSelector, targetElemSelector ):
+       
+         if  not await self.elementContains(pElem, targetElem):
+             return(None)
+
+         allCandidateElements = await elem.querySelectorAll(parentElemSelector)
+         for cel in allCandidateElements:
+             if await self.elementContains(cel, targetElem):
+                return( self.getContainingElement(cel, parentElemSelctor, targetElemSelector) )
+             else:   
+                return(cel)   
+
+         return(None)     
+
+
+         
+      async def elementContains(self, elem, containedElemSelector):
+
+         try:
+           e = await elem.querySelectorEval(containedElemSelector, "(el)=>(el)")
+           return(True)
+         except Exception as sErr:
+              return(False)
+            
+         return(False) # Obsolete. TODO: Should be removed  
+
+
+      #####################################
 
 
       def cleanUp(self):

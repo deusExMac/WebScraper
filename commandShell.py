@@ -866,7 +866,7 @@ class commandImpl:
                 #
                 # TODO: Remove me! NEXT LINE IS for testing purposes ONLY!
                 # 
-                htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
+                #htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
                 htmlRndr.interceptResponses = True
 
                 # Fetch url
