@@ -78,6 +78,7 @@ class ruleDynamicPageContent:
 
 
 
+
 @dataclass
 class ruleConditionList:
       conditionType: str = ''
