@@ -182,7 +182,8 @@ class htmlRenderer:
                  if self.interceptingUrl != resp.url:
                     return 
 
-             print('200 or REDIRECT as response for:', resp.url) 
+             #print('200 or REDIRECT as response for:', resp.url)
+             
              #if not self.interceptResponses:
              #   return
             
