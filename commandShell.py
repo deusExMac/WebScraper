@@ -867,7 +867,7 @@ class commandImpl:
                 # TODO: Remove me! NEXT LINE IS for testing purposes ONLY!
                 # 
                 #htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
-                htmlRndr.interceptResponses = True
+                #htmlRndr.interceptResponses = True
 
                 # Fetch url
                 # TODO: timeout must be a setting
