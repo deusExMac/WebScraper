@@ -75,6 +75,7 @@ class ruleDynamicPageContent:
       dpcFillContent: str = field(default = '') # text. used to fill elements.
       dpcURLActivationCondition: str = field(default = '') # regular expression the url must match to apply this dynamic element
       dpcIsSubmit: bool = False
+      dpcRedirects: bool = False # Does the request redirect to another page? This is used when renderPages is true
 
 
 

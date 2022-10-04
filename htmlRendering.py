@@ -422,10 +422,12 @@ class htmlRenderer:
                      print( utils.toString('\t\t[DEBUG] Submit detected. Form element found.\n') if self.debug else '', end='') 
                      m = await pg.evaluate("(el) => el.getAttribute('action')", f)
                      formAction = urljoin( await pg.evaluate("() => window.location.href"), m )
-                     self.interceptingUrl = formAction                     
-                     self.interceptResponses = True
-                     self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )
-                     print( utils.toString('\t\t[DEBUG] Submit detected. Intercepted url set to [', self.interceptingUrl,']\n') if self.debug else '', end='')
+                     self.interceptResponses = dElem.dpcRedirects
+                     if self.interceptResponses:
+                        self.interceptingUrl = formAction                     
+                        #self.interceptResponses = True
+                        self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )
+                        print( utils.toString('\t\t[DEBUG] Redirection detected. Intercepted url set to [', self.interceptingUrl,']\n') if self.debug else '', end='')
                      
                await pg.click(dElem.dpcPageElement)
                await asyncio.sleep(self.waitTime) # TODO: Remove me
