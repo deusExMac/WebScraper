@@ -283,12 +283,12 @@
                           },
                           
                           
-                          # Third precondition: Check if manager is at a different position
-                          # of the infobox
+             # Third precondition: Check if manager is at a different position
+             # of the infobox
 			  {
 			     # The precondition selector i.e. the element to be
-                             # checked. This precondition examines if the 10th row in 
-                             # the infobox has the value Manager or Head coach.
+                 # checked. This precondition examines if the 10th row in 
+                 # the infobox has the value Manager or Head coach.
 
 			     "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
 
