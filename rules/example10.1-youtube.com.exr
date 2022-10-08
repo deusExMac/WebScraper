@@ -1,0 +1,232 @@
+
+########################################################################################################################################################
+#
+# Example library 10.1: Demonstrating the use of a rendering engine to download a page using the renderPages field as well.
+#                       as interacting with the downloaded page to fully load it. In this example, the loaded web-page is scrolled
+#                       to load more content.
+#                    
+# 
+# Related fields: renderPages 
+#
+# This example extracts the article of wikipedia articles using a browser rendering engine. WebScraper has two ways
+# to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
+# A browser rendering engine is used to download, load and process pages when the field renderPages in .exr is set to True.
+# If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
+# pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.
+#
+# When to use the browser rendering engine (or When to set renderPages to true):
+#      1) When the page loads its html content dynamically, when user interacts with the page e.g. by 
+#         scrolling down to load the page's content (see e.g. youtube comments).
+#      2) When the page requires some form of interaction in term of button or element clicks by the user
+#      3) When individual elements (besides the entire page) needs to be scrolled in order to load their content.
+# 
+#  Using a browser rendering engine results in a slower downloading and processing of web pages and hence extraction
+#  process.
+# 
+# How to apply this rule:
+#
+# v0.05a){1}WebScraper >> crawl  -r rules/example10-en.wikipedia.exr -o csv/example10.csv https://en.wikipedia.org/wiki/Python_(programming_language)
+#
+# This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
+# save it in the specified csv file and terminate using a browser rendering engine.
+# 
+# v0.1@18/09/2022
+#
+########################################################################################################################################################
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "Library to extract the user names from comments beneath videos on youtube pages.",
+
+
+
+# List of rule names, whose results should be stored in the csv file. Here only articleTitle is
+# mentioned meaning that only the result of the rule named articleTitle should be stored in the csv file.
+# If a rule name is NOT included in this list, the data extracted by that rule is NOT stored in the csv file.
+# IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
+
+"csvLineFormat":["userName"],
+
+
+
+# How should the downloaded html page be downloaded? Here, activation of a browser page rendering 
+# engine is activated.
+# WebScraper supports two modes of URL downloads:
+# static: meaning that the web page does not load its content dynamically (via js or ajax) and one http request is enough to get
+#         the entire page content. 
+# dynamic: meaning the athe web page has dynamic content that is loaded via js or ajax once the web page has
+#          been downloaded or is scrolled. Example of such dynamic pages are e.g. youtube pages where comments are only displayed
+#          when the user scrolls down. Scraping such dynamic pages is also supported by WebScraper. Dynamic pages load slower though.
+# 
+# If renderPages has a value of False, this means that pages are downloaded using http requests and no page rendering is carried out.
+# If renderPages has a value of True, this means the pages are downloaded using a page rendering engine used by browsers. 
+# 
+# Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
+# will make page loading faster. If renderPages is missing, it defaults to False.
+
+"renderPages":True,
+
+
+# ruleDynamicElements BELOW ARE correct for: Clicking on google consent page, filling text with python 
+# clicking on submit button are correct.
+#
+# THE AIM IS TO BE ABLE TO search on google
+
+"ruleDynamicElements": [ 
+
+         
+         {
+		     "dpcURLActivationCondition": "youtube\.com",
+		     "dpcType":"scrollpage",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":22,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": ""		     
+		 }
+],
+
+
+
+
+
+# Request cookies send with each request. 
+# We sent here only one cookie, the cookie with name CONSENT and
+# value YES+cb.20211005-08-p0.en+FX+206 in order to avoid receiving youtube's cookie consent form
+# since we access a youtube video page without identifying first.
+#
+
+"requestCookies": {
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
+},
+
+
+
+
+######################################################################################
+#
+#  List of rules that will be applied to every downloaded page starts here.
+#
+#  Rules are grouped into a library. All rules will be applied to the 
+#  downloaded page if some rule-specific conditions are met. If rule-specific
+#  conditions are not met, the rule is not applied. 
+#  Each rule extracts specific data or list of data from the (same) page. 
+#
+######################################################################################
+
+
+
+# List of individual rules comprising this library and that will be applied to each page downloaded follows. 
+# This library consists of one rule only, named articleTitle. The value extracted by this rule
+# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
+# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+
+"library": [
+
+{
+ # Rules must have a name, since these ruleNames will be the names of keys to store
+ # the extracted values by that rule. rules names must be unique in the context
+ # of the same library.
+ # Rule names can not contain the following characters: whitespace, -
+ 
+ "ruleName": "userName",
+ 
+ 
+ # ruleDescription are optional. Helpful but optional.
+ 
+ "ruleDescription": "Extracts the user name of users commenting on youtube videos",
+ 
+ 
+ 
+ # Regular expression specifying which URL pattern will trigger the
+ # execution of this rule. 
+ # This is a list ([]) meaning you may add many disjunctive regular expressions
+ # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
+ # Special regular expression metacharacters (.) are escaped.
+ "ruleURLActivationCondition": ["youtube\.com/watch"],
+ 
+ # A CSS selector specifying the element on the page to scrape.
+ # NOTE: the CSS selector may return more than one mathing element.
+ "ruleCSSSelector": "#author-text .ytd-comment-renderer",
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "text",
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "",
+ 
+ # Does this rule return more than one result from a single page??
+ "ruleReturnsMore": True,
+ 
+ # If the rule returns more than one result, which result to return. Negative means all elements. 
+ # This takes only effect if ruleReturnsMore is set to True.
+ "ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+},
+
+
+
+
+
+
+# Rule for extracting links from the page
+# A the name getLinks is a keyword signifying a rule that extracts
+# hyperlinks found on the page what match the specified conditions.
+#
+# When you would like to extract and follow hyperlinks found on a webpage,
+# you must name the respective rule extracting these hyperlins getLinks. 
+# This is because the extracted links are handled differently from other 
+# extracted data (e.g. they must be added to the queue).
+
+
+{
+
+ # Name of rule. Remember getLinks is a reserved word implying
+ # a very specific behavior.
+ "ruleName": "getLinks",
+ 
+ "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
+ 
+ # Regular expression specifying for which URLs/pages to activate this rule.
+ "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
+ 
+ # CSS selector containing the information (hyperlink) to extract
+ "ruleCSSSelector": "a[href]",
+ 
+ # From the specified selector, we are interested only in the value of the
+ # attribute href, which contains the hyperlink.
+ # NOTICE: WebScraper takes care of relative links
+ "ruleTargetAttribute": "href",
+ 
+ # Once we got the value of the target attribute, this regular expression
+ # specifies a condition that the value has to meet. Here, we are interested 
+ # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
+ # of the english wikipedia site will not be extracted and hence won't be followed.
+ "ruleContentCondition": "en\.wikipedia\.org/.*$",
+ 
+ # This signifies that this rule will not return only one chunk of information, but
+ # a list of chunkc since a web page may have many <a href= > tags.
+ "ruleReturnsMore": True,
+ 
+ # -1 means return all matched
+ "ruleReturnedMatchPos": -1,
+ 
+ "ruleReturningMoreIsError": False 
+}
+
+]
+
+
+}

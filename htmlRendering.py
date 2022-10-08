@@ -441,8 +441,8 @@ class htmlRenderer:
                  for sn in range(dElem.dpcScrolldown):
                     #print( utils.toString(f'\t\t[DEBUG] Scroll: {sn}\n') if self.debug else '', sep='', end='' ) 
                     await self.scrollPageDown(pg)
-
-                 await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
+                    print( utils.toString(f'\t\t[DEBUG] Waiting for {self.waitTime} seconds\n') if self.debug else '', sep='', end='' )
+                    await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
                  
             elif dElem.dpcType == 'scroll':
 
