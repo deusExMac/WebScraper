@@ -1,13 +1,13 @@
 
 ########################################################################################################################################################
 #
-# Example library 10: Demonstrating how to interact with web pages by clicking on buttons and submitting forms.
+# Example library 13: Demonstrating how to interact with web pages. Demonstrates how to click on buttons and submitting forms.
 #                    
 # 
 # Related fields: ruleDynamicElements, dpcType, dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages 
 #
 #
-# TODO: Update next paragraph. CURRENTLY WRONG DESCRIPTION!!!!
+# TODO: Update next paragraph. CURRENTLY WRONG DESCRIPTION!!!! INCOMPLETE DESCRIPTION
 #
 # This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" 
 # found on the page
@@ -115,11 +115,18 @@
                                       
 },
 
+# ruleDynamicElements BELOW ARE correct for: Clicking on google consent page, filling text with python 
+# clicking on submit button are correct.
+#
+# THE AIM IS TO BE ABLE TO search on google
+
 "ruleDynamicElements": [ 
 
          # Add here rule to get rid of 
          # google consent page 
-         # button id to click is L2AGLb
+         # button id to click is L2AGLb.
+         # If an authentication cookie is set, the next is not 
+         # required
          {
 		     "dpcURLActivationCondition" : "google\.com[/]$",
 		     "dpcType":"click",
@@ -267,10 +274,6 @@
  # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": [],
 }
-
-
-
-
 
 
 ]
