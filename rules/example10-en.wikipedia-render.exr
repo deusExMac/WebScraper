@@ -1,8 +1,8 @@
 
 ########################################################################################################################################################
 #
-# Example library 10: Demonstrating the use of using a rendering engine to download a page using the  renderPages field.
-#                    html page rendering with a different engine using the browser module. 
+# Example library 10: Demonstrating the use of a rendering engine to download a page using the renderPages field.
+#                     This results in using a rendering engine used by web browsers to download and load the html page. 
 #                    
 # 
 # Related fields: renderPages 
@@ -25,12 +25,14 @@
 #
 # When to set renderPages to true:
 #      1) When the page loads its html content dynamically, when user interacts with the page e.g. by 
-#         scrolling down (see e.g. youtube comments)
+#         scrolling down to load the page's content (see e.g. youtube comments).
 #      2) When the page requires some form of interaction in term of button or element clicks by the user
-#      3) When elements (besides the entire page) needs to be scrolled in order to load their content.
+#      3) When individual elements (besides the entire page) needs to be scrolled in order to load their content.
 #
 # TODO: Update next paragraphs.
 #
+# In this example wikipedia pages are downloaded using a rendering engine. Note: This 
+# results in slower page navigation and processing.
 # Aplying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
 # returned simple records, i.e. list of key/value pairs where the value is a simple value or a list of string valued.
 # Each dict is saved as separate line in the csv file.
@@ -73,19 +75,19 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract from a specific wikipedia page all team names that have won the Champions League more than 3 times along with the times they won the title",
+"libraryDescription": "Library to extract title from wikipedia articles.",
 
 
 
 # List of rule names (or ruleReturnedValueNames as is the case in this example), whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["name", "winnerCount", "runnerUpCount", "seasonsWon"],
+"csvLineFormat":["articleTitle"],
 
 # The list of ruleNames (or ruleReturnedValueNames) that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["name"],
+"requiredFilledFields": ["articleTitle"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -110,7 +112,7 @@
 # Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
 # will make page loading faster. If renderPages is missing, it defaults to False.
 
-"renderPages":False,
+"renderPages":True,
 
 
 
@@ -126,7 +128,7 @@
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded follows. 
-# This library consists of one rule only, named teamNamesWithMoreThan3UCLTitles. 
+# This library consists of two rules, one named articleTitle and the getLinks rule. 
 
 "library": [
 
@@ -140,12 +142,12 @@
  # If no ruleName is specified, the extracted data of this rule cannot be used
  # in  the csvLineFormat attribute.
  
- "ruleName": "teamNamesWithMoreThan3UCLTitles",
+ "ruleName": "articleTitle",
  
  
  # Short description
  
- "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
+ "ruleDescription": "Extracts the article title from wikipedia pages",
  
  
  
@@ -161,49 +163,9 @@
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": "h3 + .plainrowheaders tr",
+ "ruleCSSSelector": "#firstHeading",
  
- # List of match preconditions that will be applied
- # to each and every result returned by ruleCSSSelector. Elements
- # matching preconditions will be kept in result list, elements that
- # don't match will be removed from the result set. The match precondition
- # in this example specifies the ecRuleCSSSelector field which means that
- # if the precondition holds for an element, a different part of the examined element is 
- # extracted and returned. 
- # If more than one match precondition is specified, these are
- # combined using ANY operator.
- # Currently, only ANY operator is supported.
- #
- # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
  
- "ruleMatchPreconditions": [
-  
-                                # A match precondition. This precondition checks if each
-                                # row extracted by ruleCSSSelector has in the second td element
-                                # a number greater than 3. If so, the th element from the 
-                                # processed row is extracted and returned as the result.
-                                # This is done for all tr elements.
-                                {
-                                  # Element of tr to check. This CSS selector is applied to
-                                  # each and every tr element  
-                                  # returned by ruleCSSSelector.
-                                  
-                                  "ecCSSSelector" : "td:nth-child(2)", 
-                                  
-                                  
-                                  # Condition the elements specified by ecCSSSelector have to match. 
-                                  # tr elements that do not match this condition will be
-                                  # removed from the extracted list.
-                                  # Here we check if td element td:nth-child(2), that keeps the number of titles, 
-                                  # contains a number that is greater than 3 (>3).
-                                  
-                                  "ecTextCondition" : "([4-9]|\d{2,})",
-                                  
-                                  # NOTE: we don't need a ecRuleCSSSelector here
-                                  
-                                }
-    
-                             ],
  
  # Once the CSS selector element in  ruleCSSSelector has been found, or data has been
  # extracted by ecRuleCSSSelector, what 
@@ -217,32 +179,12 @@
  
  
  
- 
- # List of css selectors to apply to each extracted element by ruleCSSSelector.
- # From each extracted element, extract th and the td elements specified.
- # NOTE: It is assumed tha each of the selectors in rulePostCSSSelector, 
- # will return at most one element. 
- 
- "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)"]
- 
- 
- # These will be the key names under which the extracted elements by
- # rulePostCSSSelector will be stored. Name must be ordered based on selectors 
- # specified in rulePostCSSSelector.
- # NOTE: number of keys must be the same as number of css selectors in
- # rulePostCSSSelector.
- 
- "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon"]
- 
- 
- 
- 
  # Regular expression that specifies the condition the extracted text or attribute value has to
  # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
  "ruleContentCondition": "",
  
  # Does this rule return more than one result?
- "ruleReturnsMore": True,
+ "ruleReturnsMore": False,
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.
@@ -254,11 +196,57 @@
  
  # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": [],
+},
+
+
+
+
+
+
+# Rule for extracting links from the page
+# A the name getLinks is a keyword signifying a rule that extracts
+# hyperlinks found on the page what match the specified conditions.
+#
+# When you would like to extract and follow hyperlinks found on a webpage,
+# you must name the respective rule extracting these hyperlins getLinks. 
+# This is because the extracted links are handled differently from other 
+# extracted data (e.g. they must be added to the queue).
+
+
+{
+
+ # Name of rule. Remember getLinks is a reserved word implying
+ # a very specific behavior.
+ "ruleName": "getLinks",
+ 
+ "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
+ 
+ # Regular expression specifying for which URLs/pages to activate this rule.
+ "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
+ 
+ # CSS selector containing the information (hyperlink) to extract
+ "ruleCSSSelector": "a[href]",
+ 
+ # From the specified selector, we are interested only in the value of the
+ # attribute href, which contains the hyperlink.
+ # NOTICE: WebScraper takes care of relative links
+ "ruleTargetAttribute": "href",
+ 
+ # Once we got the value of the target attribute, this regular expression
+ # specifies a condition that the value has to meet. Here, we are interested 
+ # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
+ # of the english wikipedia site will not be extracted and hence won't be followed.
+ "ruleContentCondition": "en\.wikipedia\.org/.*$",
+ 
+ # This signifies that this rule will not return only one chunk of information, but
+ # a list of chunkc since a web page may have many <a href= > tags.
+ "ruleReturnsMore": True,
+ 
+ # -1 means return all matched
+ "ruleReturnedMatchPos": -1,
+ 
+ "ruleReturningMoreIsError": False 
 }
-
-
-
-
 
 
 ]
