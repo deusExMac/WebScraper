@@ -11,7 +11,7 @@
 # to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
 # A browser rendering engine is used to download, load and process pages when the field renderPages in .exr is set to True.
 # If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
-# pages allows WebScraper a greater range of functionalities such as interacting with the downloaded page.
+# pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.
 #
 # When to use the browser rendering engine (or When to set renderPages to true):
 #      1) When the page loads its html content dynamically, when user interacts with the page e.g. by 
