@@ -70,18 +70,21 @@ class extractionCondition:
 class ruleDynamicPageContent:
       dpcType: str = field(default='js') # 5 types/values supported with values: js for javasctipt functions, click for clickable page elements, scroll for scrollable elements, scrollpage for page scrolling and checkurl for url checking.
       dpcPageElement: str = field(default = '') # name of js function to execute, element name on page to click on or element to scroll
-      dpcScrolldown: int = 0
+      dpcScrolldown: int = 0 # number of times to scroll down PAGE or html ELEMENT.
       dpcWaitFor: str = field(default = '')
       dpcFillContent: str = field(default = '') # text. used to fill elements.
       dpcURLActivationCondition: str = field(default = '') # regular expression the url must match to apply this dynamic element
       dpcIsSubmit: bool = False
       dpcRedirects: bool = False # Does the request redirect to another page? This is used when renderPages is true
-      # Next two are stopping criteria in case scrollpage is used.
-      # Determines the minimum number of target elements to appear on page before stopping. 
-      #dpcScrollTargetSelector: str = field(default = '')
-      #dpcScrollTargetSelectorCount: int = -1
 
-      # 2 keys: scrollTargetSelector, scrollTargetCount
+      # dpcScrollTargetElementCount is a stopping criterium used only for the scrollpage command.
+      # Determines the minimum number of target elements to appear on the page before stopping.  
+      # This is a dictionary. This dict is assumed to have 2 keys:
+      # scrollTargetSelector determining the elements, and scrollTargetCount determining
+      # how many elements should be on the page.
+      # NOTE: It seems that dictionaris must have the same datatype (here str).
+      #       otherwise an runtime error appears during loading of library (exr) file.
+      #       TODO: this must be researcherd better.
       dpcScrollTargetElementCount: Dict[str, str] = field(default_factory=dict)
       
 

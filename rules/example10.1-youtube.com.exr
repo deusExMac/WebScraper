@@ -94,7 +94,7 @@
 		     # IMPORTANT: scrollTargetSelector and scrollTargetCount keys are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"48" },
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"71" },
 		     
 		     
 		     
