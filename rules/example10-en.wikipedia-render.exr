@@ -2,66 +2,33 @@
 ########################################################################################################################################################
 #
 # Example library 10: Demonstrating the use of a rendering engine to download a page using the renderPages field.
-#                     This results in using a rendering engine used by web browsers to download and load the html page. 
+#                     This has the implication of using a rendering engine used by web browsers to download and load the html page. 
 #                    
 # 
 # Related fields: renderPages 
 #
 #
-# TODO: Update next paragraph.
+# This example has the same rules as example 2 extracting the title of wikipedia articles as well as the 
+# hyperlinks landing on wikipedia pages. The only difference is that this library used a web rendeting engine 
+# that is activated by setting renderPages to true in contrast to example2 that uses simple http requests.
 #
-# This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" 
-# found on the page
+# WebScraper has two ways/engines to download pages: The static one, where simple http requests are issued (activated
+# when renderPages is set to False) and dynamic one, where a browser rendering engine is used (activated when
+# renderPages is set to True)
 #
-#   https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-#
-# the name of the teams, the times they won the Champions League, the times they were runner-ups as well as
-# the seasons they won the Champions League and it does this only for those teams that
-# have won the champions league title more than 3 times. Applying this set of rules will return more than one 
-# matching records (i.e. a recordlist) when applied to the above page. Since from each match a new set of elements
-# is extracted with new key names, the fields csvLineFormat and requiredFilledFields need to be be updated
-# with the new key names.
-# 
-#
-# When to set renderPages to true:
+# When to set renderPages to true and use a browser rendering engine:
 #      1) When the page loads its html content dynamically, when user interacts with the page e.g. by 
 #         scrolling down to load the page's content (see e.g. youtube comments).
 #      2) When the page requires some form of interaction in term of button or element clicks by the user
 #      3) When individual elements (besides the entire page) needs to be scrolled in order to load their content.
 #
-# TODO: Update next paragraphs.
 #
-# In this example wikipedia pages are downloaded using a rendering engine. Note: This 
-# results in slower page navigation and processing.
-# Aplying rulePostCSSSelector will return a list of dictionaries known as a recordlist. Examples up to this point
-# returned simple records, i.e. list of key/value pairs where the value is a simple value or a list of string valued.
-# Each dict is saved as separate line in the csv file.
-# To save these dictionaries to the csv file, the fields csvLineFormat and requiredFilledFields need to be updated properly with the new
-# fields.
+# In this example wikipedia pages are downloaded using a rendering engine. Note: When setting renderPages to True, 
+# this always results in slower page download and processing.
+#  
+# How to use this rule:
 #
-# 
-#
-# The example rule below extracts the name of ALL football teams found on the page below
-# that have won the Champions league more than three times (>3) in their club history.
-# It does this by downloading the wikipedia page 
-#
-#    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-#
-# and extracting data from the table with caption "Performances in the European Cup and UEFA Champions League by club".
-#
-# To achieve this, the rule does the following once the above wikipedia page has been downloaded:
-#
-# 1) Extracts all table rows of a specific table (tr) containing club names and the times they have won the Champions League
-# 2) Applies a match precondition on EACH tr element extracted in 1) that checks i) if a specific td, containing data on the number of times a 
-#    team has won, has value greater than 3 and ii) if i) holds, it returns the name of the team which is in a different part (a th) of the same table row (tr) by applying
-#    ecRuleCSSSelector on the tr element currently processed. 
-#
-# More than one match preconditions can be defined in the context of the same rule. Currently, only operator ANY is supported for these match preconditions.
-# If multiple match preconditions match, the first matching precondition's ecRuleCSSSelector is applied, if specified.
-# 
-# How to use this rule (NOTE: THIS IS CORRECT):
-#
-# crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+# crawl -n 1 -r rules/example10-en.wikipedia.exr -o csv/example10.csv  https://en.wikipedia.org/wiki/Python_(programming_language)
 #
 #
 # 

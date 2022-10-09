@@ -1,34 +1,39 @@
 
 ########################################################################################################################################################
 #
-# Example library 10.1: Demonstrating the use of a rendering engine to download a page using the renderPages field as well.
-#                       as interacting with the downloaded page to fully load it. In this example, the loaded web-page is scrolled
-#                       to load more content.
+# Example library 10.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
+#                       example, one simple interaction is shown namely scrolling of the web page in order to load 
+#                       more of its content before extracting/scraping data. Interacting with web pages requires
+#                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
 #                    
 # 
-# Related fields: renderPages 
+# Related fields: renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, dpcScrolldown 
 #
-# This example extracts the article of wikipedia articles using a browser rendering engine. WebScraper has two ways
-# to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
-# A browser rendering engine is used to download, load and process pages when the field renderPages in .exr is set to True.
-# If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
-# pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.
+# This example extracts the names of users that have commented on youtube videos. A youtube page, when loaded
+# does not immediately load the comment section beneath the video. On youtube in order for the video comments to appear/load,
+# the page must be scrolled down. The more the page is scrolled down, the more comments will appear. This library
+# shows how to scroll page and configure some aspects of scrolling process.
 #
-# When to use the browser rendering engine (or When to set renderPages to true):
-#      1) When the page loads its html content dynamically, when user interacts with the page e.g. by 
-#         scrolling down to load the page's content (see e.g. youtube comments).
-#      2) When the page requires some form of interaction in term of button or element clicks by the user
-#      3) When individual elements (besides the entire page) needs to be scrolled in order to load their content.
+# To define an interaction inside an .exr file, the field ruleDynamicElements must be used which consists of
+# a list of interactions that should be applied on the loaded page. The range of interactions includes, scrolling the page,
+# filling input elements, clicking buttons etc. In this example, only one iteraction if defined, that scrolls down
+# the web page thereby loading more youtube comments. If more than one interactions is present, these all are executed  
+# on the downloaded page, if constraints match, and in the order they are defined. 
+#
+# This example demonstrates also how to control the number of times the web page should be scrolled down. Here, a constant, fixed amount of
+# scrolls are applied to all youtube pages.
+#
 # 
-#  Using a browser rendering engine results in a slower downloading and processing of web pages and hence extraction
-#  process.
+#
+# IMPORTANT: This example makes the assumption that no authentication cookie is used for the requst i.e. access to youtube pages is done as a 
+#            non-authenticated account. When authentication cookie is present, selectors might need to change.
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl  -r rules/example10-en.wikipedia.exr -o csv/example10.csv https://en.wikipedia.org/wiki/Python_(programming_language)
+# v0.05a){1}WebScraper >> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
 #
-# This will extract the title from the wikipedia page  https://en.wikipedia.org/wiki/Python_(programming_language) only, 
-# save it in the specified csv file and terminate using a browser rendering engine.
+# This will extract the name of users that have commented on the youtube video. It wi;; extract the user names commented on one video. Change
+# the -n argument appropriately if you would like to extract user names as WebScraper crawls youtube pages.
 # 
 # v0.1@18/09/2022
 #
@@ -71,7 +76,12 @@
 "renderPages":True,
 
 
-# ruleDynamicElements BELOW ARE correct for: Clicking on google consent page, filling text with python 
+# ruleDynamicElements is a field that defines the set of interactions with a loaded web pages, i.e. 
+# operations that can be applied n a web page after it has been loaded. These operations/interactions
+# are applied on the page after the page has been loaded and before the data extraction process
+# i.e. application of rules begins.
+#  +++++++ TODO +++++
+# BELOW ARE correct for: Clicking on google consent page, filling text with python 
 # clicking on submit button are correct.
 #
 # THE AIM IS TO BE ABLE TO search on google
