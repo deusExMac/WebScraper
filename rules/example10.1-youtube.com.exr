@@ -70,47 +70,83 @@
 # If renderPages has a value of False, this means that pages are downloaded using http requests and no page rendering is carried out.
 # If renderPages has a value of True, this means the pages are downloaded using a page rendering engine used by browsers. 
 # 
-# Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
-# will make page loading faster. If renderPages is missing, it defaults to False.
+# Since we access youtube articles and are interested in the comments that are loaded dynamically when the page
+# is scrolled renderPages is set to True. 
+# This however will make page loading slower. 
 
 "renderPages":True,
 
 
 # ruleDynamicElements is a field that defines the set of interactions with a loaded web pages, i.e. 
-# operations that can be applied n a web page after it has been loaded. These operations/interactions
-# are applied on the page after the page has been loaded and before the data extraction process
-# i.e. application of rules begins.
-#  +++++++ TODO +++++
-# BELOW ARE correct for: Clicking on google consent page, filling text with python 
-# clicking on submit button are correct.
+# operations that should be applied on a web page after it has been loaded. These operations/interactions
+# are always applied to the page AFTER the page has been loaded and BEFORE the data extraction process is initiated
+# i.e. application of rules starts. More than one interactions can be defined in the set ruleDynamicElements.
+# Operations are applied in the same order as they are defined in the ruleDynamicElements list.
 #
-# THE AIM IS TO BE ABLE TO search on google
+# Each operation specifies on which URL to apply this operation, what kind of operation to apply and 
+# parameters related to each operation.
+# Currently, the supported iteractions/operations include: scrolling entire page, scrolling an 
+# html element, clicking on buttons and elements and filling input elements. Below more information
+# for each field can be found in the comments.
 
 "ruleDynamicElements": [ 
 
-         
+         # First operation/interaction to apply on the downloaded page. 
          {
+             # On which URLs to apply this operation. URLs matching this
+             # regular expression will be the target of this operation. If not matched,
+             # interaction is not applied.
 		     "dpcURLActivationCondition": "youtube\.com",
+		     
+		     # Type of operation to apply. Valid values are: scrollpage, scroll, click, fill
+		     # scrollpage scrolls the entire page
+		     # scroll scrolls an html element
+		     # click, clicks on a button of html element (includes submits)
 		     "dpcType":"scrollpage",
+		     
+		     # CSS selector specifying on which element to apply the interaction/operation. E.g.
+		     # when dpcType is fill, then this should specify the input element to fill, if dpcType
+		     # has a value of click, this field specifies the button/element to click on.
 		     "dpcPageElement":"",
+		     
+		     # If dpcType is scrollpage or scroll, dpcScrolldown specifies how many times 
+		     # to scroll down. This is one way of controlling scrolling of a page. 
 		     "dpcScrolldown":-1,
 		     
-		     # dpcScrollTargetElementCount encodes condition to stop PAGE scrolling
-		     # based on the number of desired elements.
+		     # dpcScrollTargetElementCount is another way of controlling scrolling.
+		     # It encodes a condition to stop PAGE scrolling
+		     # in terms of  the number of desired elements that should appear.
 		     #
-		     # scrollTargetSelector: CSS Selector of items to count
+		     # scrollTargetSelector: CSS Selector of the items to count
 		     # scrollTargetCount: how many elements specified by  scrollTargetSelector should
-		     # be on the page before stop scrolling
-		     # IMPORTANT: scrollTargetSelector and scrollTargetCount keys are mandantory.
+		     # be on the page before stop scrolling. If this amount is reached, scrolling is stopped.
+		     #
+		     # For example, using this field you may specify scroll conditions like: continue
+		     # scrolling of page until X number of comments will appear.
+		     #
+		     # dpcScrollTargetElementCount and dpcScrolldown are mutually exclusive when operation
+		     # is scrollpage or scroll.
+		     #
+		     # IMPORTANT: dpcScrollTargetElementCount is a json object that must contain the 
+		     # fields scrollTargetSelector and scrollTargetCount, whuch are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
 		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"71" },
 		     
 		     
-		     
+		     # CSS element  specifying which html element to wait to appear on the page, before continuing applying 
+		     # interactions/operations. If dpcWaitFor is non empty, execution is blocked. If left blank, no waiting is conducted and
+		     # execution is not blocked.  
 		     "dpcWaitFor":"",
+		     
+		     # String to fill html input elements. 
+		     # Used only when dpcType is set to 'fill'
 		     "dpcFillContent": ""		     
 		 }
+		 
+		 # Other interactions/operations cab be added here. If more than one interaction is present,
+		 # these are executed in the order they are defined. All interactions are applied on a single page
+		 # if activation condition is met.
 ],
 
 
