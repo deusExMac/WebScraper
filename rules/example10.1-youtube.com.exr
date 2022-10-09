@@ -84,8 +84,11 @@
 		     "dpcType":"scrollpage",
 		     "dpcPageElement":"",
 		     "dpcScrolldown":-1,
-		     "dpcScrollTargetSelector": "#author-text .ytd-comment-renderer",
-		     "dpcScrollTargetSelectorCount": 106,
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"68" }
+		     
+		     #"dpcScrollTargetSelector": "#author-text .ytd-comment-renderer",
+		     #"dpcScrollTargetSelectorCount": 98,
+		     
 		     "dpcWaitFor":"",
 		     "dpcFillContent": ""		     
 		 }

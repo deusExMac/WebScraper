@@ -437,8 +437,8 @@ class htmlRenderer:
             elif dElem.dpcType.lower() == 'fill':
                  await pg.type(dElem.dpcPageElement, dElem.dpcFillContent)
             elif dElem.dpcType.lower() == 'scrollpage':
-                 if dElem.dpcScrollTargetSelector != '':
-                    await self.scrollPageDownByElementCount(pg, dElem.dpcScrollTargetSelector, dElem.dpcScrollTargetSelectorCount)
+                 if dElem.dpcScrollTargetElementCount:
+                    await self.scrollPageDownByElementCount(pg, dElem.dpcScrollTargetElementCount)
                  else:
                      await self.scrollPageDownNumberOfTimes(pg, dElem.dpcScrolldown)
                      
@@ -534,15 +534,23 @@ class htmlRenderer:
 
 
       # mxTimes: maximum number of times to scroll. Safeguard
-      async def scrollPageDownByElementCount(self, pg, elemSelector, minElemCount=1, mxTimes=-100, delta=20):
-            print( utils.toString(f'\t\t[DEBUG] Enterring element count scroll mode {minElemCount}\n') if self.debug else '', sep='', end='' )
+      async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=300, delta=20):
+
+            #dpcScrollTargetElementCount
+            tSelector = scrollCondition.get('scrollTargetSelector', '')
+            try:
+              tSelectorCount = int( scrollCondition.get('scrollTargetCount', '-1') )
+            except Exception as iEx:
+                  tSelectorCount = 3
+                  
+            print( utils.toString(f'\t\t[DEBUG] Enterring element count scroll mode {tSelectorCount}\n') if self.debug else '', sep='', end='' )
             timesScrolled = 0
             while True:
                await self.scrollPageDown(pg)
                timesScrolled += 1
-               currElemCount = await self.pageElementCount(pg, elemSelector)
-               print( utils.toString(f'\t\t[DEBUG] Current element count {currElemCount} min {minElemCount}\n') if self.debug else '', sep='', end='' )
-               if currElemCount >= minElemCount:
+               currElemCount = await self.pageElementCount(pg, tSelector)
+               print( utils.toString(f'\t\t[DEBUG] Current element count {currElemCount} min {tSelectorCount}\n') if self.debug else '', sep='', end='' )
+               if currElemCount >= tSelectorCount:
                   break
                 
                if mxTimes > 0: 
