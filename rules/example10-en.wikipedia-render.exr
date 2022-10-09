@@ -109,8 +109,6 @@
 # If renderPages has a value of True, this means the page rendering is done and should be used only in case of pages that load content
 # dynamically. 
 # 
-# Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
-# will make page loading faster. If renderPages is missing, it defaults to False.
 
 "renderPages":True,
 
