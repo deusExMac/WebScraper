@@ -84,10 +84,19 @@
 		     "dpcType":"scrollpage",
 		     "dpcPageElement":"",
 		     "dpcScrolldown":-1,
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"68" }
 		     
-		     #"dpcScrollTargetSelector": "#author-text .ytd-comment-renderer",
-		     #"dpcScrollTargetSelectorCount": 98,
+		     # dpcScrollTargetElementCount encodes condition to stop PAGE scrolling
+		     # based on the number of desired elements.
+		     #
+		     # scrollTargetSelector: CSS Selector of items to count
+		     # scrollTargetCount: how many elements specified by  scrollTargetSelector should
+		     # be on the page before stop scrolling
+		     # IMPORTANT: scrollTargetSelector and scrollTargetCount keys are mandantory.
+		     # scrollTargetCount is an integet, but here MUST be encoded as a string
+		     # 
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"48" },
+		     
+		     
 		     
 		     "dpcWaitFor":"",
 		     "dpcFillContent": ""		     
