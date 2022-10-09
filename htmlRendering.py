@@ -437,12 +437,27 @@ class htmlRenderer:
             elif dElem.dpcType.lower() == 'fill':
                  await pg.type(dElem.dpcPageElement, dElem.dpcFillContent)
             elif dElem.dpcType.lower() == 'scrollpage':
+                 if dElem.dpcScrollTargetSelector != '':
+                    await self.scrollPageDownByElementCount(pg, dElem.dpcScrollTargetSelector, dElem.dpcScrollTargetSelectorCount)
+                 else:
+                     await self.scrollPageDownNumberOfTimes(pg, dElem.dpcScrolldown)
+                     
+                 '''
                  print( utils.toString(f'\t\t[DEBUG] Scrolling page down {dElem.dpcScrolldown} times\n') if self.debug else '', sep='', end='' )
-                 for sn in range(dElem.dpcScrolldown):
-                    #print( utils.toString(f'\t\t[DEBUG] Scroll: {sn}\n') if self.debug else '', sep='', end='' ) 
+                 for sn in range(dElem.dpcScrolldown):                 
                     await self.scrollPageDown(pg)
                     print( utils.toString(f'\t\t[DEBUG] Waiting for {self.waitTime} seconds\n') if self.debug else '', sep='', end='' )
                     await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
+                 '''
+
+
+                 #dElem.dpcScrollTargetSelector
+                 #dElem.dpcScrollTargetSelectorCount
+                 
+                 #nElem = await self.pageElementCount(pg, ".ytd-comment-renderer")
+                 #print( utils.toString(f'\t\t[DEBUG] Element count {nElem}\n') if self.debug else '', sep='', end='' )
+                 #if await self.pageElementCount(pg, '#author-text .ytd-comment-renderer') >=10:
+                 #   break 
                  
             elif dElem.dpcType == 'scroll':
 
@@ -502,6 +517,41 @@ class htmlRenderer:
                    
             return(0)   
             
+
+
+
+      # sleepTime is currently obsolete
+      async def scrollPageDownNumberOfTimes(self, pg, nTimes, delta=20, sleepTime=0.3):
+            print( utils.toString(f'\t\t[DEBUG] Enterring number of time scroll mode {nTimes}\n') if self.debug else '', sep='', end='' )
+            for i in range(nTimes):
+                await self.scrollPageDown(pg)
+                print( utils.toString(f'\t\t[DEBUG] Waiting for {self.waitTime} seconds\n') if self.debug else '', sep='', end='' )
+                await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
+        
+
+
+
+
+
+      # mxTimes: maximum number of times to scroll. Safeguard
+      async def scrollPageDownByElementCount(self, pg, elemSelector, minElemCount=1, mxTimes=-100, delta=20):
+            print( utils.toString(f'\t\t[DEBUG] Enterring element count scroll mode {minElemCount}\n') if self.debug else '', sep='', end='' )
+            timesScrolled = 0
+            while True:
+               await self.scrollPageDown(pg)
+               timesScrolled += 1
+               currElemCount = await self.pageElementCount(pg, elemSelector)
+               print( utils.toString(f'\t\t[DEBUG] Current element count {currElemCount} min {minElemCount}\n') if self.debug else '', sep='', end='' )
+               if currElemCount >= minElemCount:
+                  break
+                
+               if mxTimes > 0: 
+                  if timesScrolled >= mxTimes:
+                     return(False) 
+
+            return(True)
+       
+
 
 
 
@@ -644,6 +694,14 @@ class htmlRenderer:
             
          return(False) # Obsolete. TODO: Should be removed  
 
+
+      # Count how many elements matching elemSelector exists on page
+      async def pageElementCount(self, pg, elemSelector):
+
+            #if not self.elementExists(pg, elemSelector):
+            #   return(False)
+            
+            return( len(await pg.querySelectorAll(elemSelector)) ) 
 
       #####################################
 

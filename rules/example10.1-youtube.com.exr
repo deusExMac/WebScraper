@@ -83,7 +83,9 @@
 		     "dpcURLActivationCondition": "youtube\.com",
 		     "dpcType":"scrollpage",
 		     "dpcPageElement":"",
-		     "dpcScrolldown":22,
+		     "dpcScrolldown":-1,
+		     "dpcScrollTargetSelector": "#author-text .ytd-comment-renderer",
+		     "dpcScrollTargetSelectorCount": 106,
 		     "dpcWaitFor":"",
 		     "dpcFillContent": ""		     
 		 }

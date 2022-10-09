@@ -76,7 +76,10 @@ class ruleDynamicPageContent:
       dpcURLActivationCondition: str = field(default = '') # regular expression the url must match to apply this dynamic element
       dpcIsSubmit: bool = False
       dpcRedirects: bool = False # Does the request redirect to another page? This is used when renderPages is true
-
+      # Next two are stopping criteria in case scrollpage is used.
+      # Determines the minimum number of target elements to appear on page before stopping. 
+      dpcScrollTargetSelector: str = field(default = '')
+      dpcScrollTargetSelectorCount: int = -1
 
 
 
