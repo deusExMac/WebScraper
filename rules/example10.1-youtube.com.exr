@@ -111,7 +111,8 @@
 		     
 		     # If dpcType is scrollpage or scroll, dpcScrolldown specifies how many times 
 		     # to scroll down. This is one way of controlling scrolling of a page. 
-		     "dpcScrolldown":-1,
+		     # Negative value here means scroll until no more scrolling is possible i.e. to page end. Zero means no scrolling.
+		     "dpcScrolldown":0,
 		     
 		     # dpcScrollTargetElementCount is another way of controlling scrolling.
 		     # It encodes a condition to stop PAGE scrolling
@@ -125,7 +126,9 @@
 		     # scrolling of page until X number of comments will appear.
 		     #
 		     # dpcScrollTargetElementCount and dpcScrolldown are mutually exclusive when operation
-		     # is scrollpage or scroll.
+		     # is scrollpage or scroll. dpcScrollTargetElementCount is given priority if both are
+		     # specified.
+		     #
 		     #
 		     # IMPORTANT: dpcScrollTargetElementCount is a json object that must contain the 
 		     # fields scrollTargetSelector and scrollTargetCount, whuch are mandantory.
@@ -260,7 +263,7 @@
  "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
  
  # Regular expression specifying for which URLs/pages to activate this rule.
- "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
+ "ruleURLActivationCondition": ["www\.youtube\.com\/watch"],
  
  # CSS selector containing the information (hyperlink) to extract
  "ruleCSSSelector": "a[href]",
@@ -272,9 +275,10 @@
  
  # Once we got the value of the target attribute, this regular expression
  # specifies a condition that the value has to meet. Here, we are interested 
- # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
- # of the english wikipedia site will not be extracted and hence won't be followed.
- "ruleContentCondition": "en\.wikipedia\.org/.*$",
+ # only in hyperlinks that point to youtube videos. This expression attempts
+ # to avoid links to the same youtube videos containing the &lc= parameter. 
+ # links to other youtube videos, not containing lc=xxxx parameter
+ "ruleContentCondition": "(www\.youtube\.com\/watch\?v=)((?!&lc=).)*$",
  
  # This signifies that this rule will not return only one chunk of information, but
  # a list of chunkc since a web page may have many <a href= > tags.

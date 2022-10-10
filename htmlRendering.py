@@ -522,6 +522,13 @@ class htmlRenderer:
 
       # sleepTime is currently obsolete
       async def scrollPageDownNumberOfTimes(self, pg, nTimes, delta=20, sleepTime=0.3):
+
+            if nTimes < 0:
+               # if nTimes is negative this means scroll to end of page.
+               # NOTE: scrollPageEnd DOES NOT WORK
+               await self.scrollPageEnd(pg)
+               return
+        
             print( utils.toString(f'\t\t[DEBUG] Enterring number of time scroll mode {nTimes}\n') if self.debug else '', sep='', end='' )
             for i in range(nTimes):
                 await self.scrollPageDown(pg)
@@ -560,8 +567,28 @@ class htmlRenderer:
             return(True)
        
 
-
-
+      # Scroll page until end i.e. cannot scroll anymore
+      # TODO: Does not work.
+      async def scrollPageEnd(self, pg):
+          print( utils.toString(f'\t\t[DEBUG] Scrolling to page end\n') if self.debug else '', sep='', end='' )
+          while(True):
+            try:
+              previousHeight = await pg.evaluate('document.body.scrollHeight')
+              print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
+              await pg.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+              status = await pg.evaluate('''(previousHeight) => { if (document.body.scrollHeight > previousHeight) {
+                                                              return(0)
+                                                         } else {
+                                                               return(-1)
+                                                           }
+                                                           }''', previousHeight)
+              if status < 0:
+                 print( utils.toString(f'\t\t[DEBUG] No more scrolling possible\n') if self.debug else '', sep='', end='' ) 
+                 break
+                
+            except Exception as scrEx:
+                   print( utils.toString(f'\t\t[DEBUG] Exception during scrolling to page end: {str(scrEx)}\n') if self.debug else '', sep='', end='' )
+                   return
 
 
 
