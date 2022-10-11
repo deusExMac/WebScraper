@@ -112,7 +112,7 @@
 		     # If dpcType is scrollpage or scroll, dpcScrolldown specifies how many times 
 		     # to scroll down. This is one way of controlling scrolling of a page. 
 		     # Negative value here means scroll until no more scrolling is possible i.e. to page end. Zero means no scrolling.
-		     "dpcScrolldown":0,
+		     "dpcScrolldown":-1,
 		     
 		     # dpcScrollTargetElementCount is another way of controlling scrolling.
 		     # It encodes a condition to stop PAGE scrolling
@@ -121,6 +121,8 @@
 		     # scrollTargetSelector: CSS Selector of the items to count
 		     # scrollTargetCount: how many elements specified by  scrollTargetSelector should
 		     # be on the page before stop scrolling. If this amount is reached, scrolling is stopped.
+		     # if scrollTargetCount is negative, infinite scrolling is initiated: this means scrolling will continue
+		     # while new elements are loaded. Value of 0 means no scrolling at all.
 		     #
 		     # For example, using this field you may specify scroll conditions like: continue
 		     # scrolling of page until X number of comments will appear.
@@ -134,7 +136,7 @@
 		     # fields scrollTargetSelector and scrollTargetCount, whuch are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"71" },
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
 		     
 		     
 		     # CSS element  specifying which html element to wait to appear on the page, before continuing applying 

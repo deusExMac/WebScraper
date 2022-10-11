@@ -10,6 +10,7 @@ import pyppeteer
 
 from http.cookies import SimpleCookie
 from urllib.parse import urlparse, urljoin
+from datetime import datetime
 
 import utils
 import xRules
@@ -523,10 +524,7 @@ class htmlRenderer:
       # sleepTime is currently obsolete
       async def scrollPageDownNumberOfTimes(self, pg, nTimes, delta=20, sleepTime=0.3):
 
-            if nTimes < 0:
-               # if nTimes is negative this means scroll to end of page.
-               # NOTE: scrollPageEnd DOES NOT WORK
-               await self.scrollPageEnd(pg)
+            if nTimes < 0:               
                return
         
             print( utils.toString(f'\t\t[DEBUG] Enterring number of time scroll mode {nTimes}\n') if self.debug else '', sep='', end='' )
@@ -540,7 +538,9 @@ class htmlRenderer:
 
 
 
-      # mxTimes: maximum number of times to scroll. Safeguard
+      # mxTimes: maximum number of times to scroll when no change occurs. Safeguard.
+      # if scrollTargetCount has negative value, this means scroll until end i.e. until
+      # no change is happening on the page.
       async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=300, delta=20):
 
             #dpcScrollTargetElementCount
@@ -551,104 +551,58 @@ class htmlRenderer:
                   tSelectorCount = 3
                   
             print( utils.toString(f'\t\t[DEBUG] Enterring element count scroll mode {tSelectorCount}\n') if self.debug else '', sep='', end='' )
+
+            lastElemCount = -1
             timesScrolled = 0
+            timesScrolledNoChange = 0
+            checkPoint = 0
             while True:
                await self.scrollPageDown(pg)
                timesScrolled += 1
                currElemCount = await self.pageElementCount(pg, tSelector)
-               print( utils.toString(f'\t\t[DEBUG] Current element count {currElemCount} min {tSelectorCount}\n') if self.debug else '', sep='', end='' )
-               if currElemCount >= tSelectorCount:
-                  break
-                
-               if mxTimes > 0: 
-                  if timesScrolled >= mxTimes:
+               print( utils.toString(f'\t\t[DEBUG] Current element count {currElemCount} (min: {tSelectorCount} times scrolled without change: {timesScrolledNoChange})\n') if self.debug else '', sep='', end='' )
+               if tSelectorCount > 0:
+                  if currElemCount >= tSelectorCount:
+                     break
+               #else:
+               #     pass
+
+               if currElemCount == lastElemCount:
+                  timesScrolledNoChange += 1
+                  if mxTimes > 0 and timesScrolledNoChange >= mxTimes:
                      return(False) 
+               else:
+                   timesScrolledNoChange = 0 # reset
+                                   
+               if currElemCount - checkPoint >= 103:
+                  checkPoint =  currElemCount
+                  now = datetime.now()
+                  cDateTime = now.strftime("%d/%m/%Y %H:%M:%S")
+                  print(f'\t[{cDateTime} INFINITE SCROLL] {currElemCount}')
+            
+               lastElemCount = currElemCount 
 
             return(True)
+
+
+
+
        
 
-      # Scroll page until end i.e. cannot scroll anymore
-      # TODO: Does not work.
-      async def scrollPageEnd(self, pg):
-          print( utils.toString(f'\t\t[DEBUG] Scrolling to page end\n') if self.debug else '', sep='', end='' )
-          while(True):
-            try:
-              
-              #previousHeight = await pg.evaluate('document.body.scrollHeight')
-              
-              elemList = await pg.querySelectorAll('body')
-              if elemList is None:
-                 print( utils.toString(f"\t\t[DEBUG] Zeor list? Retrying....\n") if self.debug else '', sep='', end='' ) 
-                 continue
-
-              
-              try:  
-                 prevBox = elemList[0]
-              except Exception as eEx:
-                  print('Error getting first element. ', elemList)
-
-              
-              boundingBox = await prevBox.boundingBox();
-              print( utils.toString(f"\t\t[DEBUG] BEFORE Current scroll height {boundingBox['height']}\n") if self.debug else '', sep='', end='' )
-              
-              #print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
-              await self.scrollPageDown(pg)
-              await asyncio.sleep(2)
-
-              try:
-                
-                elemList = await pg.querySelectorAll('body')
-                afterBox = elemList[0]
-                boundingBoxAfter = await afterBox.boundingBox();
-                print( utils.toString(f"\t\t[DEBUG] AFTER Current scroll height {boundingBoxAfter['height']}\n") if self.debug else '', sep='', end='' )
-              except Exception as eEx:
-                  print('Error HERE ', elemList)
-
-              
-              if boundingBox['height'] == 0 and boundingBoxAfter['height'] == 0:
-                   break
-              
-                
-              #currHeight = await pg.evaluate('document.body.scrollHeight')
-              #if currHeight == previousHeight:
-              #   break
-
-
-              
-              #print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
-              #await pg.evaluate('window.scrollTo(0, document.body.scrollHeight)')
-              #status = await pg.evaluate('''(previousHeight) => { if (document.body.scrollHeight > previousHeight) {
-              #                                                return(0)
-              #                                           } else {
-              #                                                 return(-1)
-              #                                             }
-              #                                             }''', previousHeight)
-              #if status < 0:
-              #   print( utils.toString(f'\t\t[DEBUG] No more scrolling possible\n') if self.debug else '', sep='', end='' ) 
-              #   break
-                
-            except Exception as scrEx:
-                   print( utils.toString(f'\t\t[DEBUG] Exception during scrolling to page end: {str(scrEx)}\n') if self.debug else '', sep='', end='' )
-                   return
-
-
-
+      
 
 
       # This scrolls the browser's window down.
       # Works on MacOS.
       # TODO: Does this also work on windows and other OSs?
       async def scrollPageDown(self, pg):
-            await pg.evaluate('window.scrollBy(0,window.innerHeight)')
-            #document.body.scrollHeight
-            #window.innerHeight
-            '''
-            await pg.keyboard.down('Fn')
-            await pg.keyboard.down('Shift')
-            await pg.keyboard.press('ArrowDown')
-            await pg.keyboard.up('Shift')
-            await pg.keyboard.up('fn')
-            '''
+            await pg.evaluate('window.scrollBy(0, window.innerHeight)')
+
+            return( await pg.evaluate('window.innerHeight') )
+
+
+
+            
 
      
       # This scrolls the content of an html element down.
