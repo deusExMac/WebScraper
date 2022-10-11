@@ -386,7 +386,7 @@ class htmlRenderer:
        
               
        if self.takePageScreenshot:       
-          print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename('etc/', url), '\n' ) if self.debug else '', end='' )      
+          print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename(self.screenShotStoragePath, url), '\n' ) if self.debug else '', end='' )      
           await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
 
        
