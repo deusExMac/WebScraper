@@ -564,8 +564,7 @@ class htmlRenderer:
                if tSelectorCount > 0:
                   if currElemCount >= tSelectorCount:
                      break
-               #else:
-               #     pass
+               
 
                if currElemCount == lastElemCount:
                   timesScrolledNoChange += 1

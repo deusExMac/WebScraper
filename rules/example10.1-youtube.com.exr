@@ -133,7 +133,7 @@
 		     #
 		     #
 		     # IMPORTANT: dpcScrollTargetElementCount is a json object that must contain the 
-		     # fields scrollTargetSelector and scrollTargetCount, whuch are mandantory.
+		     # fields scrollTargetSelector and scrollTargetCount, i.e. these are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
 		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
