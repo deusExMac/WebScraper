@@ -575,7 +575,7 @@ class htmlRenderer:
             try:
               
               #previousHeight = await pg.evaluate('document.body.scrollHeight')
-              print('PREV: QuerySelector')  
+              
               elemList = await pg.querySelectorAll('body')
               if elemList is None:
                  print( utils.toString(f"\t\t[DEBUG] Zeor list? Retrying....\n") if self.debug else '', sep='', end='' ) 
