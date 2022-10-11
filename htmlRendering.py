@@ -573,18 +573,59 @@ class htmlRenderer:
           print( utils.toString(f'\t\t[DEBUG] Scrolling to page end\n') if self.debug else '', sep='', end='' )
           while(True):
             try:
-              previousHeight = await pg.evaluate('document.body.scrollHeight')
-              print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
-              await pg.evaluate('window.scrollTo(0, document.body.scrollHeight)')
-              status = await pg.evaluate('''(previousHeight) => { if (document.body.scrollHeight > previousHeight) {
-                                                              return(0)
-                                                         } else {
-                                                               return(-1)
-                                                           }
-                                                           }''', previousHeight)
-              if status < 0:
-                 print( utils.toString(f'\t\t[DEBUG] No more scrolling possible\n') if self.debug else '', sep='', end='' ) 
-                 break
+              
+              #previousHeight = await pg.evaluate('document.body.scrollHeight')
+              print('PREV: QuerySelector')  
+              elemList = await pg.querySelectorAll('body')
+              if elemList is None:
+                 print( utils.toString(f"\t\t[DEBUG] Zeor list? Retrying....\n") if self.debug else '', sep='', end='' ) 
+                 continue
+
+              
+              try:  
+                 prevBox = elemList[0]
+              except Exception as eEx:
+                  print('Error getting first element. ', elemList)
+
+              
+              boundingBox = await prevBox.boundingBox();
+              print( utils.toString(f"\t\t[DEBUG] BEFORE Current scroll height {boundingBox['height']}\n") if self.debug else '', sep='', end='' )
+              
+              #print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
+              await self.scrollPageDown(pg)
+              await asyncio.sleep(2)
+
+              try:
+                
+                elemList = await pg.querySelectorAll('body')
+                afterBox = elemList[0]
+                boundingBoxAfter = await afterBox.boundingBox();
+                print( utils.toString(f"\t\t[DEBUG] AFTER Current scroll height {boundingBoxAfter['height']}\n") if self.debug else '', sep='', end='' )
+              except Exception as eEx:
+                  print('Error HERE ', elemList)
+
+              
+              if boundingBox['height'] == 0 and boundingBoxAfter['height'] == 0:
+                   break
+              
+                
+              #currHeight = await pg.evaluate('document.body.scrollHeight')
+              #if currHeight == previousHeight:
+              #   break
+
+
+              
+              #print( utils.toString(f'\t\t[DEBUG] Current scroll height {previousHeight}\n') if self.debug else '', sep='', end='' )
+              #await pg.evaluate('window.scrollTo(0, document.body.scrollHeight)')
+              #status = await pg.evaluate('''(previousHeight) => { if (document.body.scrollHeight > previousHeight) {
+              #                                                return(0)
+              #                                           } else {
+              #                                                 return(-1)
+              #                                             }
+              #                                             }''', previousHeight)
+              #if status < 0:
+              #   print( utils.toString(f'\t\t[DEBUG] No more scrolling possible\n') if self.debug else '', sep='', end='' ) 
+              #   break
                 
             except Exception as scrEx:
                    print( utils.toString(f'\t\t[DEBUG] Exception during scrolling to page end: {str(scrEx)}\n') if self.debug else '', sep='', end='' )
