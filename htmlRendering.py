@@ -544,10 +544,16 @@ class htmlRenderer:
       async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=300, delta=20):
 
             #dpcScrollTargetElementCount
-            tSelector = scrollCondition.get('scrollTargetSelector', '')
+            try: 
+              tSelector = scrollCondition.get('scrollTargetSelector', '')
+            except Exception as iEx:
+                   print('Exception during get scrollTargetSelector')
+                   tSelector = ''
+                   
             try:
               tSelectorCount = int( scrollCondition.get('scrollTargetCount', '-1') )
             except Exception as iEx:
+                  print('Exception during get scrollTargetCount')
                   tSelectorCount = 3
                   
             print( utils.toString(f'\t\t[DEBUG] Enterring element count scroll mode {tSelectorCount}\n') if self.debug else '', sep='', end='' )

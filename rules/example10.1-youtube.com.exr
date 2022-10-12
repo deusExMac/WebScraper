@@ -116,7 +116,8 @@
 		     
 		     # dpcScrollTargetElementCount is another way of controlling scrolling.
 		     # It encodes a condition to stop PAGE scrolling
-		     # in terms of  the number of desired elements that should appear.
+		     # in terms of  the number of desired html elements that should appear.
+		     # dpcScrollTargetElementCount must have two fields named scrollTargetSelector and scrollTargetCount
 		     #
 		     # scrollTargetSelector: CSS Selector of the items to count
 		     # scrollTargetCount: how many elements specified by  scrollTargetSelector should
