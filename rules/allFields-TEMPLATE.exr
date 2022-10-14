@@ -1,0 +1,148 @@
+
+########################################################################################################################################################
+#
+# Template listing all supported fields
+#                    
+# 
+#
+#
+# 
+# v0.1@14/10/2022
+#
+########################################################################################################################################################
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "",
+
+"csvLineFormat":[],
+"requiredFilledFields": [<ruleNames/ReturnedAttributeNames>],
+"allowedMinimumFilled" : 0.8,
+"renderPages":True|False,
+
+"requestCookies": {
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
+                   },
+
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+
+"ruleDynamicElements": [ 
+		 {
+		     "dpcType":"",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":<NUMBER>,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "",
+		     "dpcURLActivationCondition":"",
+		     "dpcIsSubmit": True|False,
+		     "dpcRedirects" : True | False
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "", "scrollTargetCount":"<NUMBER>" },		     
+		 },
+		 
+		 {
+		     "dpcType":"",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":<NUMBER>,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "",
+		     "dpcURLActivationCondition":"",
+		     "dpcIsSubmit": True|False,
+		     "dpcRedirects" : True | False
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "", "scrollTargetCount":"<NUMBER>" },		     
+		 }
+
+		 # Next dynamic element here... dynamic elements separated rules by comma.
+],
+
+
+
+
+
+
+
+######################################################################################
+#
+#  List of rules
+#
+######################################################################################
+
+
+
+"library": [
+
+   {
+        "ruleName": "<MUST BE UNIQUE>", 
+        "ruleDescription": "Extracts ....",
+        "ruleURLActivationCondition": ["youtube\.com", "wikipedia\.com[\]$"],
+        "ruleTarget": 'html' | 'js',
+        
+        "rulePreconditionType": 'ANY', 'AND', 'EVAL',
+        "rulePreconditionExpression": 'p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) ) <ONLY IN CASE OF EVAL>',
+        "rulePreconditions" : [ 
+	                          {
+	                             
+	                             "ecName": "p1",
+	                             "ecCSSSelector" : "#mw-normal-catlinks", 
+	                             "ecTextCondition" : "(?i)\bphysicists\b"
+                                  },
+                                  
+                                  {
+				  	                             
+				     "ecName": "p2",
+				     "ecCSSSelector" : "#mw-normal-catlinks", 
+				     "ecTextCondition" : "(?i)\bphysicists\b"
+                                  }
+                                  
+                                  # Next rule precondition here... rule precondition separated rules by comma.
+                          
+                             ],
+       
+       
+       
+       
+        "ruleCSSSelector": "a[href]", 
+        "ruleTargetAttribute": "href" (ELEMENT ATTRIBUTE | "text"),
+ 
+ 
+ 
+ 
+        "ruleMatchPreconditionType": ANY,
+        "ruleMatchPreconditions": [
+  	                                 
+	                                 {
+	                                   "ecCSSSelector" : "td:nth-child(2)", 
+	                                   "ecTextCondition" : "([4-9]|\d{2,})",
+	                                   "ecRuleCSSSelector" : "th a[href]:nth-child(2)"
+	                                 }
+	                                 
+	                                 # Next match precondition here... match precondition separated rules by comma.
+	     
+                                  ],
+        
+        "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)" <LIST OF CSS SELECTORS APPLIED TO ruleCSSSelector>]
+        "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon" <VARIABLE NAMES, STORING CORRESPONDIVE VALUES OF rulePostCSSSelector>]
+ 
+        "ruleContentCondition": "<REGEX>",
+ 
+ 
+        "ruleReturnsMore": True | False,
+        "ruleReturnedMatchPos": <NUMBER EXPRESSING POSITION OF ELEMENT TO RETURN. -1 for all elements>,
+        "ruleReturningMoreIsError": True | False <CURRENTLY NOT USED>,
+ 
+        "ruleRemoveChars": [],
+        
+   } # end of rule
+
+   
+   
+   # Next rule here... Don't forget separate rules by comma.
+   
+
+] # library
+
+
+}

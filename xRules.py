@@ -31,6 +31,8 @@ class extractionCondition:
       ecTextCondition: str = ''  # Regular expression
       ecRuleCSSSelector: str = '' # If not empty and conditionType is ANY, this will replace the rule's css selector. A way to conditionally apply selectors.
 
+
+      # Next fields are for statistic purposes only. Used during runtime.
       ecAppliedCount: int = 0
       ecExistenceCount: int = 0
       ecTrueCount: int = 0

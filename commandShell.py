@@ -1404,10 +1404,10 @@ class commandImpl:
                        recordList = pageData[xRules.getRecordListFieldName(pageData)]
                        for r in recordList:
                            # Extract from dict fields that should be written to csv file  
-                           csvr = exRules.CSVFields(r)
+                           csvr = exRules.CSVFields(r, debug=cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False), reqFilled=exRules.requiredFilledFields, minFilled=exRules.allowedMinimumFilled)
                            # TODO: check here is csvr is kinda empty
                            if not csvr:
-                              print(utils.toString('\t[DEBUG] Recordlist/ csvFields returned empty dictionary.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
+                              print(utils.toString('\t[DEBUG] Recordlist/ csvFields returned empty dictionary.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                               continue   
                                  
                            csvr['dateaccessed'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')

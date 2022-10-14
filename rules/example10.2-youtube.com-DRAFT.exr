@@ -1,0 +1,300 @@
+
+########################################################################################################################################################
+#
+# Example library 10.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
+#                       example, one simple interaction is shown namely scrolling of the web page in order to load 
+#                       more of its content before extracting/scraping data. Interacting with web pages requires
+#                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
+#                    
+# 
+# Related fields: renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, dpcScrolldown, rulePostCSSSelector, ruleReturnedValueNames
+#
+# This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. 
+#
+#
+# 
+#
+# IMPORTANT: This example makes the assumption that no authentication cookie is used for the requst i.e. access to youtube pages is done as a 
+#            non-authenticated account. When authentication cookie is present, selectors might need to change. This library returns a record list
+#            for each page.
+# 
+# How to apply this rule:
+#
+# v0.05a){1}WebScraper >> crawl -n 1 -r rules/example10.2-youtube.com.exr -o csv/example10.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+#
+# This will extract the name of users that have commented on the youtube video along with the number of likes the comment received. 
+# Change the -n argument appropriately if you would like to extract user names as WebScraper crawls youtube pages.
+# 
+# v0.1@18/09/2022
+#
+########################################################################################################################################################
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "Library to extract the user names from comments and the number of likes the comments received of youtube videos.",
+
+
+
+# List of rule names, whose results should be stored in the csv file. Here only articleTitle is
+# mentioned meaning that only the result of the rule named articleTitle should be stored in the csv file.
+# If a rule name is NOT included in this list, the data extracted by that rule is NOT stored in the csv file.
+# IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file.
+
+"csvLineFormat":["commentUser", "voteCount"],
+
+
+"allowedMinimumFilled" : 0.8,
+
+
+# How should the downloaded html page be downloaded? Here, activation of a browser page rendering 
+# engine is activated.
+# WebScraper supports two modes of URL downloads:
+# static: meaning that the web page does not load its content dynamically (via js or ajax) and one http request is enough to get
+#         the entire page content. 
+# dynamic: meaning the athe web page has dynamic content that is loaded via js or ajax once the web page has
+#          been downloaded or is scrolled. Example of such dynamic pages are e.g. youtube pages where comments are only displayed
+#          when the user scrolls down. Scraping such dynamic pages is also supported by WebScraper. Dynamic pages load slower though.
+# 
+# If renderPages has a value of False, this means that pages are downloaded using http requests and no page rendering is carried out.
+# If renderPages has a value of True, this means the pages are downloaded using a page rendering engine used by browsers. 
+# 
+# Since we access youtube articles and are interested in the comments that are loaded dynamically when the page
+# is scrolled renderPages is set to True. 
+# This however will make page loading slower. 
+
+"renderPages":True,
+
+
+# ruleDynamicElements is a field that defines the set of interactions with a loaded web pages, i.e. 
+# operations that should be applied on a web page after it has been loaded. These operations/interactions
+# are always applied to the page AFTER the page has been loaded and BEFORE the data extraction process is initiated
+# i.e. application of rules starts. More than one interactions can be defined in the set ruleDynamicElements.
+# Operations are applied in the same order as they are defined in the ruleDynamicElements list.
+#
+# Each operation specifies on which URL to apply this operation, what kind of operation to apply and 
+# parameters related to each operation.
+# Currently, the supported iteractions/operations include: scrolling entire page, scrolling an 
+# html element, clicking on buttons and elements and filling input elements. Below more information
+# for each field can be found in the comments.
+
+"ruleDynamicElements": [ 
+
+         # First operation/interaction to apply on the downloaded page. 
+         {
+             # On which URLs to apply this operation. URLs matching this
+             # regular expression will be the target of this operation. If not matched,
+             # interaction is not applied.
+		     "dpcURLActivationCondition": "youtube\.com",
+		     
+		     # Type of operation to apply. Valid values are: scrollpage, scroll, click, fill
+		     # scrollpage scrolls the entire page
+		     # scroll scrolls an html element
+		     # click, clicks on a button of html element (includes submits)
+		     "dpcType":"scrollpage",
+		     
+		     # CSS selector specifying on which element to apply the interaction/operation. E.g.
+		     # when dpcType is fill, then this should specify the input element to fill, if dpcType
+		     # has a value of click, this field specifies the button/element to click on.
+		     "dpcPageElement":"",
+		     
+		     # If dpcType is scrollpage or scroll, dpcScrolldown specifies how many times 
+		     # to scroll down. This is one way of controlling scrolling of a page. 
+		     # Negative value here means scroll until no more scrolling is possible i.e. to page end. Zero means no scrolling.
+		     "dpcScrolldown":-1,
+		     
+		     # dpcScrollTargetElementCount is another way of controlling scrolling.
+		     # It encodes a condition to stop PAGE scrolling
+		     # in terms of  the number of desired html elements that should appear.
+		     # dpcScrollTargetElementCount must have two fields named scrollTargetSelector and scrollTargetCount
+		     #
+		     # scrollTargetSelector: CSS Selector of the items to count
+		     # scrollTargetCount: how many elements specified by  scrollTargetSelector should
+		     # be on the page before stop scrolling. If this amount is reached, scrolling is stopped.
+		     # if scrollTargetCount is negative, infinite scrolling is initiated: this means scrolling will continue
+		     # while new elements are loaded. Value of 0 means no scrolling at all.
+		     #
+		     # For example, using this field you may specify scroll conditions like: continue
+		     # scrolling of page until X number of comments will appear.
+		     #
+		     # dpcScrollTargetElementCount and dpcScrolldown are mutually exclusive when operation
+		     # is scrollpage or scroll. dpcScrollTargetElementCount is given priority if both are
+		     # specified.
+		     #
+		     #
+		     # IMPORTANT: dpcScrollTargetElementCount is a json object that must contain the 
+		     # fields scrollTargetSelector and scrollTargetCount, i.e. these are mandantory.
+		     # scrollTargetCount is an integet, but here MUST be encoded as a string
+		     # 
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
+		     
+		     
+		     # CSS element  specifying which html element to wait to appear on the page, before continuing applying 
+		     # interactions/operations. If dpcWaitFor is non empty, execution is blocked. If left blank, no waiting is conducted and
+		     # execution is not blocked.  
+		     "dpcWaitFor":"",
+		     
+		     # String to fill html input elements. 
+		     # Used only when dpcType is set to 'fill'
+		     "dpcFillContent": ""		     
+		 }
+		 
+		 # Other interactions/operations cab be added here. If more than one interaction is present,
+		 # these are executed in the order they are defined. All interactions are applied on a single page
+		 # if activation condition is met.
+],
+
+
+
+
+
+# Request cookies send with each request. 
+# We sent here only one cookie, the cookie with name CONSENT and
+# value YES+cb.20211005-08-p0.en+FX+206 in order to avoid receiving youtube's cookie consent form
+# since we access a youtube video page without identifying first.
+#
+
+"requestCookies": {
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206"                    
+},
+
+
+
+
+######################################################################################
+#
+#  List of rules that will be applied to every downloaded page starts here.
+#
+#  Rules are grouped into a library. All rules will be applied to the 
+#  downloaded page if some rule-specific conditions are met. If rule-specific
+#  conditions are not met, the rule is not applied. 
+#  Each rule extracts specific data or list of data from the (same) page. 
+#
+######################################################################################
+
+
+
+# List of individual rules comprising this library and that will be applied to each page downloaded follows. 
+# This library consists of one rule only, named articleTitle. The value extracted by this rule
+# will be assigned to a special key/variable with the same name as the rule i.e. articleTitle.
+# These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+
+"library": [
+
+{
+ # Rules must have a name, since these ruleNames will be the names of keys to store
+ # the extracted values by that rule. rules names must be unique in the context
+ # of the same library.
+ # Rule names can not contain the following characters: whitespace, -
+ 
+ "ruleName": "userNameAndVoteCount",
+ 
+ 
+ # ruleDescription are optional. Helpful but optional.
+ 
+ "ruleDescription": "Extracts the user name of commenters and vote count of comments.",
+ 
+ 
+ 
+ # Regular expression specifying which URL pattern will trigger the
+ # execution of this rule. 
+ # This is a list ([]) meaning you may add many disjunctive regular expressions
+ # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
+ # Special regular expression metacharacters (.) are escaped.
+ "ruleURLActivationCondition": ["youtube\.com/watch"],
+ 
+ # A CSS selector specifying the element on the page to scrape.
+ # NOTE: the CSS selector may return more than one mathing element.
+ "ruleCSSSelector": "#main , #toolbar",
+ 
+ 
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "text",
+ 
+ 
+ "rulePostCSSSelector" : ["#author-text .ytd-comment-renderer", "#vote-count-middle"]
+ 
+ "ruleReturnedValueNames" : ["commentUser", "voteCount"]
+ 
+ 
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "",
+ 
+ # Does this rule return more than one result from a single page??
+ "ruleReturnsMore": True,
+ 
+ # If the rule returns more than one result, which result to return. Negative means all elements. 
+ # This takes only effect if ruleReturnsMore is set to True.
+ "ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+},
+
+
+
+
+
+
+# Rule for extracting links from the page
+# A the name getLinks is a keyword signifying a rule that extracts
+# hyperlinks found on the page what match the specified conditions.
+#
+# When you would like to extract and follow hyperlinks found on a webpage,
+# you must name the respective rule extracting these hyperlins getLinks. 
+# This is because the extracted links are handled differently from other 
+# extracted data (e.g. they must be added to the queue).
+
+
+{
+
+ # Name of rule. Remember getLinks is a reserved word implying
+ # a very specific behavior.
+ "ruleName": "getLinks",
+ 
+ "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
+ 
+ # Regular expression specifying for which URLs/pages to activate this rule.
+ "ruleURLActivationCondition": ["www\.youtube\.com\/watch"],
+ 
+ # CSS selector containing the information (hyperlink) to extract
+ "ruleCSSSelector": "a[href]",
+ 
+ # From the specified selector, we are interested only in the value of the
+ # attribute href, which contains the hyperlink.
+ # NOTICE: WebScraper takes care of relative links
+ "ruleTargetAttribute": "href",
+ 
+ # Once we got the value of the target attribute, this regular expression
+ # specifies a condition that the value has to meet. Here, we are interested 
+ # only in hyperlinks that point to youtube videos. This expression attempts
+ # to avoid links to the same youtube videos containing the &lc= parameter. 
+ # links to other youtube videos, not containing lc=xxxx parameter
+ "ruleContentCondition": "(www\.youtube\.com\/watch\?v=)((?!&lc=).)*$",
+ 
+ # This signifies that this rule will not return only one chunk of information, but
+ # a list of chunkc since a web page may have many <a href= > tags.
+ "ruleReturnsMore": True,
+ 
+ # -1 means return all matched
+ "ruleReturnedMatchPos": -1,
+ 
+ "ruleReturningMoreIsError": False 
+}
+
+]
+
+
+}

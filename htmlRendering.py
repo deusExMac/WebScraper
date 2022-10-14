@@ -541,7 +541,7 @@ class htmlRenderer:
       # mxTimes: maximum number of times to scroll when no change occurs. Safeguard.
       # if scrollTargetCount has negative value, this means scroll until end i.e. until
       # no change is happening on the page.
-      async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=300, delta=20):
+      async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=150, delta=20):
 
             #dpcScrollTargetElementCount
             try: 
@@ -579,7 +579,7 @@ class htmlRenderer:
                else:
                    timesScrolledNoChange = 0 # reset
                                    
-               if currElemCount - checkPoint >= 103:
+               if currElemCount - checkPoint >= 100:
                   checkPoint =  currElemCount
                   now = datetime.now()
                   cDateTime = now.strftime("%d/%m/%Y %H:%M:%S")
