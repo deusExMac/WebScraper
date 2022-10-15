@@ -4,8 +4,8 @@
 # Example library 10.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
 #                       example, one simple interaction is shown namely scrolling of the web page in order to load 
 #                       more of its content before extracting/scraping data. Interacting with web pages requires
-#                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
-#                    
+#                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True. 
+#                       This example uses number of times to control scrolling; it scrolls the entire page a specified number of times.
 # 
 # Related fields: renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, dpcScrolldown 
 #
@@ -112,7 +112,7 @@
 		     # If dpcType is scrollpage or scroll, dpcScrolldown specifies how many times 
 		     # to scroll down. This is one way of controlling scrolling of a page. 
 		     # Negative value here means scroll until no more scrolling is possible i.e. to page end. Zero means no scrolling.
-		     "dpcScrolldown":-1,
+		     "dpcScrolldown":4,
 		     
 		     # dpcScrollTargetElementCount is another way of controlling scrolling.
 		     # It encodes a condition to stop PAGE scrolling
@@ -137,7 +137,7 @@
 		     # fields scrollTargetSelector and scrollTargetCount, i.e. these are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
+		     #"dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
 		     
 		     
 		     # CSS element  specifying which html element to wait to appear on the page, before continuing applying 
