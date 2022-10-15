@@ -129,7 +129,7 @@
 		     # fields scrollTargetSelector and scrollTargetCount, i.e. these are mandantory.
 		     # scrollTargetCount is an integet, but here MUST be encoded as a string
 		     # 
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"-1" },
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "#author-text .ytd-comment-renderer", "scrollTargetCount":"7" },
 		     
 		     
 		     # CSS element  specifying which html element to wait to appear on the page, before continuing applying 
