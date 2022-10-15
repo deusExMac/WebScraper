@@ -70,14 +70,15 @@
 # If renderPages has a value of False, this means that pages are downloaded using http requests and no page rendering is carried out.
 # If renderPages has a value of True, this means the pages are downloaded using a page rendering engine used by browsers. 
 # 
-# Since we access youtube articles and are interested in the comments that are loaded dynamically when the page
-# is scrolled renderPages is set to True. 
-# This however will make page loading slower. 
-
+# Since we access youtube pages and are interested in the comments that are loaded dynamically when the page
+# is scrolled, renderPages is set to True in order to interact (i.e. scroll) with the youtube page. Interactions
+# are specified in the ruleDynamicElements field.
+#
+# When setting renderPages to true, this will make page loading and processing slower. 
 "renderPages":True,
 
 
-# ruleDynamicElements is a field that defines the set of interactions with a loaded web pages, i.e. 
+# ruleDynamicElements is a field that defines the set of interactions to perform with a loaded web pages, i.e. 
 # operations that should be applied on a web page after it has been loaded. These operations/interactions
 # are always applied to the page AFTER the page has been loaded and BEFORE the data extraction process is initiated
 # i.e. application of rules starts. More than one interactions can be defined in the set ruleDynamicElements.
