@@ -1,7 +1,9 @@
 
 ########################################################################################################################################################
 #
-# Example library 10: Demonstrating the use of using a rendering engine to download a page using the  renderPages field.
+# Example library 10: Demonstrating the use of page rendering and interacting with the loaded web page.
+#                     Here, interactions of clicking of buttongs, submitting forms and redirections is
+#                     demonstrated.
 #                    html page rendering with a different engine using the browser module. 
 #                    
 # 
