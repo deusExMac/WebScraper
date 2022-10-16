@@ -151,7 +151,7 @@ class commandShell:
 
 
 
-      def displayCommandHistory(self, n, fromBegin=False):
+      def displayCommandHistory(self, n, fromBegin=False, containingStr=''):
           
           if n > len(self.cmdHistory.commandHistory):
              n = len(self.cmdHistory.commandHistory)
@@ -166,7 +166,12 @@ class commandShell:
              pos = len(self.cmdHistory.commandHistory)  - n + 1
              
           for c in cList:
-              print(pos, '. ', c, sep='')
+              if containingStr == '':
+                 print('\t', pos, '.   ', c, sep='')   
+              else:
+                if containingStr.lower() in c.lower():
+                   print('\t', pos, '.   ', c, sep='')   
+              
               pos += 1
 
                      
@@ -219,6 +224,8 @@ class commandShell:
                 except Exception as aEx:
                        print(str(aEx))
                        continue
+
+                strFilter = ''
                 
                 if len(args['ncommands']) == 0:
                     n = len(self.cmdHistory.commandHistory) 
@@ -231,10 +238,16 @@ class commandShell:
                               continue
                         
                       except Exception as convEx:
-                            n = 0
+                            n = len(self.cmdHistory.commandHistory)
+                            if type( args['ncommands'][0] ) == str:
+                               # assume string filter   
+                               strFilter = args['ncommands'][0]
 
-
-                self.displayCommandHistory(n, args['start'])
+                
+                if len( args['ncommands'] ) >=2:
+                   strFilter = args['ncommands'][1]
+                   
+                self.displayCommandHistory(n, args['start'], strFilter)
                 continue 
 
 
