@@ -115,10 +115,11 @@
                                       
 },
 
-# ruleDynamicElements BELOW ARE correct for: Clicking on google consent page, filling text with python 
+# ruleDynamicElements BELOW ARE correct for: Clicking on google consent page, filling input with python 
 # clicking on submit button are correct.
 #
-# THE AIM IS TO BE ABLE TO search on google
+# THE AIM IS TO BE ABLE TO search on google. ASSUMES access to google page is without authentication cookies
+# i.e. as a guest.
 
 "ruleDynamicElements": [ 
 
