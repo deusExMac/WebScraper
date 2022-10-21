@@ -3,11 +3,12 @@
 #
 # Example library 10.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
 #                       example, one simple interaction is shown namely scrolling of the web page in order to load 
-#                       more of its content before extracting/scraping data. Interacting with web pages requires
-#                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
-#                       This example uses scrolls down the page until a specific number of elements will appear.
+#                       more of its content. This example scrolls down the web page until a specific (maximum) number of html elements will appear specified
+#                       in this rule file. 
+#                       Such interaction with web pages requires the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
+#                       
 # 
-# Related fields: renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, dpcScrollTargetElementCount, rulePostCSSSelector, ruleReturnedValueNames
+# Related fields: dpcScrollTargetElementCount, renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames
 #
 # This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. 
 #
