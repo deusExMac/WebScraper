@@ -5,7 +5,8 @@
 #                       example, one simple interaction is shown namely scrolling of the web page in order to load 
 #                       more of its content before extracting/scraping data. Interacting with web pages requires
 #                       the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True. 
-#                       This example uses number of times to control scrolling; it scrolls the entire page a specified number of times.
+#                       This example uses number of times to control scrolling; it scrolls the entire page a specified number of times 
+#                       specified in this .exr file.
 # 
 # Related fields: renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, dpcScrolldown 
 #
