@@ -86,7 +86,7 @@
 
          # First operation/interaction to apply on the downloaded page. 
          {
-             # On which URLs to apply this operation. URLs matching this
+             # On which URLs to apply this operation/interactuib. URLs matching this
              # regular expression will be the target of this operation. If not matched,
              # interaction is not applied.
 		     "dpcURLActivationCondition": "youtube\.com",
