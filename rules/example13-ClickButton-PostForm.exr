@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 13: Demonstrating how to interact with web pages. Demonstrates how to click on buttons and submitting forms.
+# Example library 13: Demonstrating how to interact with web pages. Demonstrates how to click on buttons and submitting forms executied in sequence.
 #                    
 # 
 # Related fields: ruleDynamicElements, dpcType, dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages 

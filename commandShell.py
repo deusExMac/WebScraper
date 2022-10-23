@@ -169,12 +169,13 @@ class commandShell:
               if containingStr == '':
                  print('\t', pos, '.   ', c, sep='')   
               else:
-                #print(f'Checking if {c} matches {containingStr} ', end='')    
-                if re.search(containingStr, c):
-                #   print('YES')   
-                   print('\t', pos, '.   ', c, sep='')
-                #else:
-                #   print('no')   
+                try:    
+                  if re.search(containingStr, c):  
+                     print('\t', pos, '.   ', c, sep='')
+                except Exception as reExc:
+                     print('Error during regular expression:', str(reExc))
+                     return
+                  
                    
                 #if containingStr.lower() in c.lower():
                 #   print('\t', pos, '.   ', c, sep='')   
@@ -247,8 +248,14 @@ class commandShell:
                       except Exception as convEx:
                             n = len(self.cmdHistory.commandHistory)
                             if type( args['ncommands'][0] ) == str:
-                               # assume string filter   
+                               # assume string filter.
+                               # TODO: Here we assume first argument
+                               # is a complete regular expression.
                                strFilter = args['ncommands'][0]
+                               
+                               # The next is more correct one; TODO: Test it
+                               #strFilter = ''.join(args['ncommands']) #[0]
+                               
 
                 
                 if len( args['ncommands'] ) >=2:
