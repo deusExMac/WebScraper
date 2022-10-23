@@ -74,6 +74,9 @@
 "library": [
 
    {
+        
+        # Rule definition starts here
+        
         "ruleName": "<MUST BE UNIQUE>", 
         "ruleDescription": "Extracts ....",
         "ruleURLActivationCondition": ["youtube\.com", "wikipedia\.com[\]$"],
@@ -81,6 +84,7 @@
         
         "rulePreconditionType": <'ANY', 'AND', 'EVAL'>,
         "rulePreconditionExpression": 'p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) ) <ONLY IN CASE OF EVAL>',
+        
         "rulePreconditions" : [ 
 	                          {
 	                             
@@ -98,14 +102,13 @@
                                   
                                   # Next rule precondition here... rule precondition separated rules by comma.
                           
-                             ],
+                             ] , # end of rule preconditions
        
        
        
        
         "ruleCSSSelector": "a[href]", 
         "ruleTargetAttribute": "href" <ELEMENT ATTRIBUTE | 'text'>,
- 
  
  
  
@@ -120,10 +123,17 @@
 	                                 
 	                                 # Next match precondition here... match precondition separated rules by comma.
 	     
-                                  ],
+                                  ], # end of rule MATCH preconditions
+        
+        
+        
         
         "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)" <LIST OF CSS SELECTORS APPLIED TO ruleCSSSelector>]
+        
         "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon" <VARIABLE NAMES, STORING CORRESPONDIVE VALUES OF rulePostCSSSelector>]
+ 
+ 
+ 
  
         "ruleContentCondition": '<REGEX>',
  
@@ -138,7 +148,7 @@
 
    
    
-   # Next rule here... Don't forget separate rules by comma.
+   # Next rule here... Don't forget: separate rules by comma.
    
 
 ] # list of rules
