@@ -8,7 +8,7 @@
 #                       Such interaction with web pages requires the pages to be loaded using a browser rendering engine i.e. renderPages to be set to True.
 #                       
 # 
-# Related fields: dpcScrollTargetElementCount, renderPages, ruleDynamicElements, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames
+# Related fields: dpcScrollTargetElementCount, ruleDynamicElements, dpcURLActivationCondition, dpcType, renderPages, rulePostCSSSelector, ruleReturnedValueNames
 #
 # This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. 
 #
