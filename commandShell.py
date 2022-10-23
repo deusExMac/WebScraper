@@ -169,8 +169,15 @@ class commandShell:
               if containingStr == '':
                  print('\t', pos, '.   ', c, sep='')   
               else:
-                if containingStr.lower() in c.lower():
-                   print('\t', pos, '.   ', c, sep='')   
+                #print(f'Checking if {c} matches {containingStr} ', end='')    
+                if re.search(containingStr, c):
+                #   print('YES')   
+                   print('\t', pos, '.   ', c, sep='')
+                #else:
+                #   print('no')   
+                   
+                #if containingStr.lower() in c.lower():
+                #   print('\t', pos, '.   ', c, sep='')   
               
               pos += 1
 
