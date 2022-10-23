@@ -24,7 +24,7 @@
 "renderPages":True|False,
 
 "requestCookies": {
-                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" <COMMA SEPARATED KEY:VALUE LINES>                    
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" <COMMA SEPARATED KEY:VALUE LINES>    
                    },
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
@@ -91,14 +91,14 @@
 	                             "ecName": "p1",
 	                             "ecCSSSelector" : "#mw-normal-catlinks", 
 	                             "ecTextCondition" : "(?i)\bphysicists\b"
-                                  },
+                              },
                                   
-                                  {
+                              {
 				  	                             
-				     "ecName": "p2",
-				     "ecCSSSelector" : "#mw-normal-catlinks", 
-				     "ecTextCondition" : "(?i)\bphysicists\b"
-                                  }
+				                 "ecName": "p2",
+				                 "ecCSSSelector" : "#mw-normal-catlinks", 
+				                 "ecTextCondition" : "(?i)\bphysicists\b"
+                              }
                                   
                                   # Next rule precondition here... rule precondition separated rules by comma.
                           
