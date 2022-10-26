@@ -13,7 +13,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 	}
 
 	div {
-	  width: 500px;
+	  width: 400px;
 	  margin: 20px auto;
 	}
 
@@ -77,6 +77,16 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 	        color:#47103c;
     }
 
+    .exrFields {
+
+       font-size:85%;
+       #border:1px dashed red;
+       padding:0;
+       margin-top:3px;
+    }
+
+
+
     </style>
     <title>Index to .exr files in rules directory demonstrating supported fileds</title>
   </head>
@@ -86,15 +96,15 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     <div class="maintitle">List of .exr files</div>
     <ol>
       <li><span>01</span><p><font class="sectiontitle"><a href="example1-en.wikipedia.exr">example01.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with just one rule. No rule to harvest links dsads dsf fasdsf dfd. <br>
-      <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
-      <b><font color="#6b7af2"><i>demonstrated fields:</font></b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i>
+      <b>target:</b> wikipedia title<br>
+      <b><i><font style="font-size:85%;">demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></font>
       </div></p></li>
 
 
 
-      <li><span>02</span><p><font class="sectiontitle"><a href="example2-en.wikipedia.exr">example02.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with two rules. Has rule to harvest links. <br>
+      <li><span>02</span><p><font class="sectiontitle"><a href="example2-en.wikipedia.exr">example02.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with two rules. Has rule to harvest links (getLinks rule). <br>
       <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
-      <b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i>
+      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i></div>
       </div></p></li>
 
       <li><span>02</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
