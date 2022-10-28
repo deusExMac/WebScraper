@@ -37,15 +37,14 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   margin-top:25px;
   margin-left:20px;
   padding:4px;
+  #padding-top: 25px;    
+  padding-right:30px;
+  padding-bottom:40px;    
   border:2px solid #c1c3c7;
   font: 11pt arial, sans-serif, helvetica;
 }
 
 
-.block {
-    padding-right:30px;
-	  padding-bottom:40px;
-}
 
 .block p {
 
@@ -59,7 +58,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 
 .label {
             margin-top:2px;
-            padding-left: 60px;
+            padding-left: 50px;
         }
 
 
@@ -75,14 +74,15 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 .code {
     font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
     font-size:90%;
+    overflow-wrap: anywhere;
 }
 
 
 .blocktitle {
-              margin-bottom:15px;
-              margin-left:60px;
+              margin-top:5px;
+              margin-bottom:10px;
+              margin-left:50px;
               font-size:135%;
-              #font: 18pt arial, sans-serif, helvetica;
         }
 
 
@@ -91,8 +91,9 @@ span {
 	  position: absolute;
 	  line-height: 25px;
       font: bold 24pt helvetica, arial, sans-serif;
-      color:#d0d2d6;
+      color:#dfddf0; ##d0d2d6;
 	  #border:1px dotted blue;
+      margin-top: 3px;
 
 	}
 
@@ -175,9 +176,9 @@ a:active { color:blueviolet; text-decoration: none; }
       <span>04</span>
       <div class="blocktitle"><a href="example4-en.wikipedia.exr">example04</a></div>
       <div class="label">
-          <font color="black"> <b>description:</b> </font> Demonstrating the use of page precondition before applying a rule i.e. the rule's css selector. This example features a rule with only one (1) page precondition.<br>
+          <font color="black"> <b>description:</b></font><br/> Demonstrating the use of page precondition before applying a rule i.e. the rule's css selector. This example features a rule with only one (1) page precondition.<br>
       </div>
-      <div class="label"><b>target:</b> Extracts manager's name from infobox if the infobox's ninth row has a value of Manager or Head coach.<br>
+      <div class="label"><b>target:</b><br/>Extracts manager's name from infobox if the infobox's ninth row has a value of Manager or Head coach.<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditions, ecCSSSelector, ecTextCondition, getLinks</i></div>
       <div class="label smaller code"><b>Example</b> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
@@ -192,20 +193,42 @@ a:active { color:blueviolet; text-decoration: none; }
       <span>05</span>
       <div class="blocktitle"><a href="example5-en.wikipedia.exr">example05</a></div>
       <div class="label">
-          <font color="black"> <b>description:</b> </font>
+          <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and
                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
                     preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE.
           <br>
       </div>
-      <div class="label"><b>target:</b> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
+      <div class="label"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditionType (ANY), rulePreconditions</i></div>
       <div class="label smaller code"><b>Example</b> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics</div>
 
-  </div>
+  </div> <!-- block -->
 
 
+      
+      
+<!-- XXXXXXXXXXX -->
+
+
+  <div class="block">
+      <span>06</span>
+      <div class="blocktitle"><a href="example6-en.wikipedia.exr">example06</a></div>
+      <div class="label">
+          <font color="black"> <b>description:</b> </font><br/>
+           more than one page preconditions in rules that moreover overwrite/change the rule's specified 
+ ruleCSSSelector selector with  ecRuleCSSSelector depending on which  precondition evaluated to True. 
+          <br>
+      </div>
+      <div class="label"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> cRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
+      <div class="label smaller code"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+
+  </div> <!-- block -->      
+      
+      
 
 
 
