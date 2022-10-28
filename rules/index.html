@@ -9,143 +9,269 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 
 	* {
 	  margin: 0;
-	  padding: 0;
+	  padding: 0;   
 	}
 
-	div {
-	  width: 400px;
-	  margin: 20px auto;
-	}
-
-	/* list styles */
-
-	ol {
-	  list-style: none;
-	  color: #ccc;
-	}
-
-	ol li {
-	  font: bold 24pt helvetica, arial, sans-serif;
-	  position: relative;
-	  margin-bottom: 25px;
-	}
-
-
-	div, li p {
-	  font: 11pt helvetica, arial, sans-serif;
+   
+    /* required beacuse of font style in **/     
+    b{font-weight:bold;} 
+    i{ font-style: italic;}        
+        
+        
+.row {
+  width: 90%;
+  margin: 0 auto;
+  #margin-left:15px;        
+  display: flex;
+  flex-wrap: wrap;        
+  justify-content: left; /* for centering 3 blocks in the center */
+  /* justify-content: space-between; for space in between */  
+  border:2px dotted green;
+  margin-top: 60px;  
+  #justify-content: center;         
+        
+}
+        
+.block {
+  width: 360px;
+  margin-top:25px;    
+  margin-left:20px;
+  padding:4px;    
+  border:2px solid #c1c3c7;
+  font: 11pt arial, sans-serif, helvetica; 
+}
+  
+        
+        
+.block p {
+           
+      
 	  color: #555;
 	  padding-left: 60px;
 	  margin-top:6px;
-	  #background:yellow;
-	  #border:2px dotted green;
-	}
+      font: 11pt arial, sans-serif, helvetica; 
+        } 
+     
 
+.label {
+            margin-top:2px;
+            padding-left: 60px;
+        }
+        
+    
+.smaller {
+           color:#a2a4a6;
+           font-size:95%;
+           margin-top:6px;
+    
+        }        
+        
 
+.code { 
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+} 
+        
+        
+.blocktitle {
+              margin-bottom:15px;
+              margin-left:60px;
+              font-size:135%;
+              #font: 18pt arial, sans-serif, helvetica; 
+        }        
 
-	span {
+     
+                
+span {
 	  position: absolute;
 	  line-height: 25px;
+      font: bold 24pt helvetica, arial, sans-serif;
+      color:#d0d2d6;
 	  #border:1px dotted blue;
-	}
+      
+	}        
+    
+	
+a:link { color:orange; text-decoration: none; }
 
+a:visited { color:blueviolet; text-decoration: none; }
 
+a:hover { color:darkseagreen; text-decoration: none; }
 
-    .wrapper {
-        margin-top:60px;
-        #border:2px dashed red;
-    }
-
-
-    .maintitle {
-        font: 18pt helvetica, arial, sans-serif;
-        color:#261d85;
-        margin-top:10px;
-        #border:2px dashed green;
-        margin-bottom:35px;
-    }
-
-    a, .sectiontitle {
-
-        font-size:18px;
-    }
-
-    a {
-        color:orange;
-    }
-
-    a:visited {
-	        color:#47103c;
-    }
-
-    .exrFields {
-
-       font-size:85%;
-       #border:1px dashed red;
-       padding:0;
-       margin-top:3px;
-    }
-
-
-    .label {
-        font-size:90%;
-        padding:0px;
-        margin:0px;
-    }
-
-
-    .label b {
-       color:navy;
-    }
-
+a:active { color:blueviolet; text-decoration: none; }        
+        
+       
 
     </style>
     <title>Index to .exr files in rules directory demonstrating supported fileds</title>
   </head>
 
 <body>
-  <div class="wrapper">
-    <div class="maintitle">List of .exr files</div>
-    <ol>
-      <li>
-       <span>01</span>
-       <p>
-       <font class="sectiontitle"><a href="example1-en.wikipedia.exr">example01.exr</a></font><br>
-       <div><font color="#6b7af2">description:</font> Simple library with just one rule. No rule to harvest links dsads dsf fasdsf dfd. <br>
-                <div class="label"><b>target:</b> wikipedia title<br></div>
-                <div class="label"><b><i>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
-       </div>
-       </p>
-      </li>
-
-
-
-      <li><span>02</span><p><font class="sectiontitle"><a href="example2-en.wikipedia.exr">example02.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with two rules. Has rule to harvest links (getLinks rule). <br>
-      <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
-      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i></div>
-      </div></p></li>
-
-
-      <li><span>03</span><p><font class="sectiontitle"><a href="example3-en.wikipedia.exr">example03.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with three (3) rules. Contains rule to harvest links (getLinks rule). <br>
-      <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
-      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i></div>
-      </div></p></li>
-
-
-      <li><span>04</span><p><font class="sectiontitle"><a href="example4-en.wikipedia.exr">example04.exr</a></font><br><div><font color="#6b7af2">description:</font> Library demonstrating use of PAGE PRECONDITIONS in rules. Contains rule to harvest links (getLinks rule). <br>
-      <b><font color="#6b7af2">target:</font></b> team and manager names from wikipedia articles of premier league clubs.<br>
-      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> rulePreconditions, ecCSSSelector, ecTextCondition</i></div>
-      </div></p></li>
-
-
-
-      <li><span>02</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
-
-      <li><span>03</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
-
-      <li><span>04</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
-      <li><span>05</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
-    </ol>
+    
+  <div class="row">
+      
+      
+      
+      
+  <div class="block">
+      <span>01</span>
+      <a href="example1-en.wikipedia.exr"><div class="blocktitle">example01</div></a> 
+      <div class="label">
+          <font color="black"> <b>description:</b> </font>Simple library with just one rule. No rule to harvest links.  <br>
+      </div>
+      <div class="label"><b>target:</b> wikipedia title<br></div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
+      
+      
+           
   </div>
+      
+      
+      
+   <!-- XXXXXXXXXXX -->      
+      
+  <div class="block">
+      <span>02</span>
+      <a href="example2-en.wikipedia.exr"><div class="blocktitle">example02</div></a>      
+      <div class="label">
+          <font color="black"> <b>description:</b> </font>Simple library with two rules. Defines rule to harvest links (getLinks rule). <br>
+      </div>
+      <div class="label"><b>target:</b> wikipedia title<br></div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> getLinks, ruleCSSSelector, library, ruleURLActivationCondition</i></div>
+      <div class="label smaller code"><b>Example</b> crawl  -r rules/example2-en.wikipedia.exr -o csv/example2.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+       
+           
+  </div>  
+      
+      
+  <!-- XXXXXXXXXXX -->      
+      
+      
+  <div class="block">
+      <span>03</span>
+      <a href="example3-en.wikipedia.exr"><div class="blocktitle">example03</div></a>      
+      <div class="label">
+          <font color="black"> <b>description:</b> </font> Demonstrating application of three rules on a downloaded page, each extracting different parts. One of these rules extracts hyperlinks. <br>
+      </div>
+      <div class="label"><b>target:</b> extracts the team name, team full name and links (leading to wikipedia) from infobox of wikipedia articles related to football clubs<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks</i></div>
+      <div class="label smaller code"><b>Example</b> crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy</div>
+           
+  </div>  
+      
+
+<!-- XXXXXXXXXXX -->      
+      
+      
+  <div class="block">
+      <span>04</span>
+      <a href="example4-en.wikipedia.exr"><div class="blocktitle">example04</div></a>      
+      <div class="label">
+          <font color="black"> <b>description:</b> </font> Demonstrating the use of page precondition before applying a rule i.e. the rule's css selector. This example features a rule with only one (1) page precondition.<br>
+      </div>
+      <div class="label"><b>target:</b> Extracts manager's name from infobox if the infobox's ninth row has a value of Manager or Head coach.<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditions, ecCSSSelector, ecTextCondition, getLinks</i></div>
+      <div class="label smaller code"><b>Example</b> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+           
+  </div>   
+      
+
+ <!-- XXXXXXXXXXX -->      
+      
+      
+  <div class="block">
+      <span>05</span>
+      <a href="example5-en.wikipedia.exr"><div class="blocktitle">example05</div></a>      
+      <div class="label">
+          <font color="black"> <b>description:</b> </font> 
+           Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and 
+                   how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
+                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE.
+          <br>
+      </div>
+      <div class="label"><b>target:</b> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditionType (ANY), rulePreconditions</i></div>
+      <div class="label smaller code"><b>Example</b> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics</div>
+           
+  </div>         
+      
+      
+      
+      
+      
+      
+      
+   <div class="block">
+      <span>02</span>
+      <div class="blocktitle">example01</div> 
+      
+           
+      <div class="label">
+          <font color="black"> <b>descriptionXXXX:</b> </font> Simple library with two rules. Defines rule to harvest links (getLinks rule). <br>
+       </div>
+    
+       <div class="label">
+            <b>target:</b> wikipedia title<br>
+       </div>
+       
+       <div class="label">
+            <i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i>
+       </div>
+       
+       
+             
+  </div>      
+      
+      
+      
+      
+      
+      
+      
+  <div class="block"><span>02</span>
+      <p>
+      The latest trend is to use Flex or CSS Grid instead of using Float. However, still some 1% browsers don't support Flex. But who really cares about old IE users anyway ;)
+      </p>      
+  </div>      
+      
+      
+  <div class="block"><span>03</span>
+      <p>
+      The latest trend is to use Flex or CSS Grid instead of using Float. However, still some 1% browsers don't support Flex. But who really cares about old IE users anyway ;)
+      </p>      
+  </div>      
+      
+      
+  <div class="block"><span>04</span>
+      <p>
+      The latest trend is to use Flex or CSS Grid instead of using Float. However, still some 1% browsers don't support Flex. But who really cares about old IE users anyway ;)
+      </p>      
+  </div>      
+      
+      
+  <div class="block">Ipsum dsaj 12 3eqeq2 32131232 321312</div>
+  <div class="block">Dolor</div>
+  <div class="block">Dolor</div>
+<div class="block">Dolor</div>
+      <div class="block">Dolor1</div>
+      <div class="block">Dolor2</div>
+      <div class="block">Dolor3</div>
+      
+      <div class="block">Dolor4</div>
+      <div class="block">Dolor5</div>
+      <div class="block">Dolor6</div>
+      
+      <div class="block">Dolor7</div>
+      <div class="block">Dolor8</div>
+      <div class="block">Dolor9</div>
+      
+      <div class="block">Dolor10</div>
+      <div class="block">Dolor11</div>
+      <div class="block">Dolor12</div>
+</div>
 </body>
 
 </html>

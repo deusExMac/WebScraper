@@ -1,0 +1,168 @@
+<!-- Tutorial from Design Shack
+https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-can-copy-and-paste/ -->
+
+<! DOCTYPE html>
+<html>
+  <head>
+    <style>
+    /* browser reset */
+
+	* {
+	  margin: 0;
+	  padding: 0;
+	}
+
+	div {
+	  width: 400px;
+	  margin: 20px; #auto;
+      border: 1px dashed red;    
+	}
+
+	/* list styles */
+
+	ol {
+	  list-style: none;
+	  color: #ccc;
+	}
+
+	ol li {
+	  font: bold 24pt helvetica, arial, sans-serif;
+	  position: relative;
+	  margin-bottom: 25px;
+	}
+
+
+	div, li p {
+	  font: 11pt helvetica, arial, sans-serif;
+	  color: #555;
+	  padding-left: 60px;
+	  margin-top:6px;
+	  #background:yellow;
+	  #border:2px dotted green;
+	}
+
+    .box {
+            width:400px;
+            display:inline-block;
+    }
+
+	span {
+	  position: absolute;
+	  line-height: 25px;
+	  #border:1px dotted blue;
+	}
+
+
+
+    .wrapper {
+        width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+        #border:2px dashed red;
+    }
+
+
+    .maintitle {
+        font: 18pt helvetica, arial, sans-serif;
+        color:#261d85;
+        margin-top:10px;
+        #border:2px dashed green;
+        margin-bottom:35px;
+    }
+
+    a, .sectiontitle {
+
+        font-size:18px;
+    }
+
+    a {
+        color:orange;
+    }
+
+    a:visited {
+	        color:#47103c;
+    }
+
+    .exrFields {
+
+       font-size:85%;
+       #border:1px dashed red;
+       padding:0;
+       margin-top:3px;
+    }
+
+
+    .label {
+        font-size:90%;
+        padding:0px;
+        margin:0px;
+    }
+
+
+    .label b {
+       color:navy;
+    }
+
+
+    </style>
+    <title>Index to .exr files in rules directory demonstrating supported fileds</title>
+  </head>
+
+<body>
+  <div class="wrapper">
+    <div class="maintitle">List of .exr files</div>
+    <ol>
+      <li>
+       
+       <div class="box">
+           <span>01</span>
+       <p>
+       <font class="sectiontitle"><a href="example1-en.wikipedia.exr">example01.exr</a></font><br>
+           <font color="#6b7af2">description:</font> Simple library with just one rule. No rule to harvest links dsads dsf fasdsf dfd. <br>
+                <div class="label"><b>target:</b> wikipedia title<br></div>
+                <div class="label"><b><i>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
+       </div>
+       </p>
+      </li>
+
+
+
+      <li>
+       
+      <div class="box"></div>          
+      
+          
+          <span>02</span><p><font class="sectiontitle"><a href="example2-en.wikipedia.exr">example02.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with two rules. Has rule to harvest links (getLinks rule). <br>
+      <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
+          <b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i></div>
+      
+    </li>
+    </div>
+    </p></li>
+
+
+      <li><span>03</span><p><font class="sectiontitle"><a href="example3-en.wikipedia.exr">example03.exr</a></font><br><div><font color="#6b7af2">description:</font> Simple library with three (3) rules. Contains rule to harvest links (getLinks rule). <br>
+      <b><font color="#6b7af2">target:</font></b> wikipedia title<br>
+      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i></div>
+      </div></p></li>
+
+
+      <li><span>04</span><p><font class="sectiontitle"><a href="example4-en.wikipedia.exr">example04.exr</a></font><br><div><font color="#6b7af2">description:</font> Library demonstrating use of PAGE PRECONDITIONS in rules. Contains rule to harvest links (getLinks rule). <br>
+      <b><font color="#6b7af2">target:</font></b> team and manager names from wikipedia articles of premier league clubs.<br>
+      <div class="exrFields"><b><font color="#6b7af2"><i>demonstrated fields:</font></b> rulePreconditions, ecCSSSelector, ecTextCondition</i></div>
+      </div></p></li>
+
+
+
+      <li><span>02</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
+
+      <li><span>03</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
+
+      <li><span>04</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
+      <li><span>05</span><p>In locavore voluptate assumenda. Non raw denim sapiente aute small batch fap. Raw denim cliche lo-fi umami cray incididunt sunt before they sold out. Viral mollit flexitarian locavore, beard readymade eiusmod anim.</p></li>
+    </ol>
+  </div>
+</body>
+
+</html>
