@@ -71,7 +71,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         }
 
 
-.digits {
+.subexample {
           padding-left: 75px;
         }
         
@@ -91,7 +91,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         }
 
         
-.blocktitledigits { 
+.blocktitlesubexample { 
         margin-left:75px;
  }
         
@@ -101,16 +101,17 @@ span {
 	  position: absolute;
 	  line-height: 25px;
       font: bold 24pt helvetica, arial, sans-serif;
-      color:#dfddf0; ##d0d2d6;
+      color:#d2cfed; ##dfddf0; ##d0d2d6;
 	  #border:1px dotted blue;
       margin-top: 3px;
 
 	}
 
         
-.subdigit { color:#eeeeee;
-        
+.subexamplenumber { 
+      color:#eeeeee;  
 }
+       
         
 a:link { color:orange; text-decoration: none; }
 
@@ -275,20 +276,20 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block">
-      <span class="subdigit">07.1</span>
-      <div class="blocktitle blocktitledigits"><a href="example7.1-en.wikipedia.exr">example07.1</a></div>
-      <div class="label digits">
+      <span class="subexamplenumber">07.1</span>
+      <div class="blocktitle blocktitlesubexample"><a href="example7.1-en.wikipedia.exr">example07.1</a></div>
+      <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
           <br>
       </div>
-      <div class="label digits"><b>target:</b><br/> 
+      <div class="label subexample"><b>target:</b><br/> 
           extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
           <br>
       </div>
-      <div class="label smaller digits"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code digits"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-</div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+      </div>
 
 </div> <!-- block -->       
       
@@ -303,7 +304,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">example08</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in returning a so called recordlist i.e. a list of dictionaries containing new keys that will be the value of the key with rule name instead of one key-value pair. 
+           Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in a single rule returning a so called <i>recordlist</i> i.e. a list of extracted data containing new keys which (list) will be the value of the key with rule name instead of one key-value pair. 
           <br>
       </div>
       <div class="label"><b>target:</b><br/> This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" found on the page https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals the name of the teams, the times they won the Champions League, the times they were runner-ups as well as the seasons they won the Champions League and it does this only for those teams that have won the champions league title more than 3 times. <br>
@@ -324,18 +325,18 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
    <div class="block">
       <span>10.1</span>
-      <div class="blocktitle blocktitledigits">example01</div>
+      <div class="blocktitle blocktitlesubexample">example01</div>
 
 
-      <div class="label digits">
+      <div class="label subexample">
           <font color="black"> <b>descriptionXXXX:</b> </font> Simple library with two rules. Defines rule to harvest links (getLinks rule). <br>
        </div>
 
-       <div class="label digits">
+       <div class="label subexample">
             <b>target:</b> wikipedia title<br>
        </div>
 
-       <div class="label digits">
+       <div class="label subexample">
             <i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i>
        </div>
 
