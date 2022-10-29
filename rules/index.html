@@ -37,23 +37,25 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   margin-top:25px;
   margin-left:20px;
   padding:4px;
-  #padding-top: 25px;    
+  #padding-top: 25px;
   padding-right:30px;
-  padding-bottom:40px;    
+  padding-bottom:40px;
   border:2px solid #c1c3c7;
   font: 11pt arial, sans-serif, helvetica;
 }
 
+.subexampleblock {
+   background-color:  #f9fae8;
+   border:2px solid #ffffb3;
+}
 
 
 .block p {
-
-
 	  color: #555;
 	  padding-left: 60px;
 	  margin-top:6px;
       font: 11pt arial, sans-serif, helvetica;
-        }
+ }
 
 
 .label {
@@ -74,8 +76,8 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 .subexample {
           padding-left: 75px;
         }
-        
-        
+
+
 .code {
     font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
     font-size:90%;
@@ -90,12 +92,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
               font-size:135%;
         }
 
-        
-.blocktitlesubexample { 
+
+.blocktitlesubexample {
         margin-left:75px;
  }
-        
-        
+
+
 
 span {
 	  position: absolute;
@@ -107,12 +109,12 @@ span {
 
 	}
 
-        
-.subexamplenumber { 
-      color:#eeeeee;  
+
+.subexamplenumber {
+      color:#d2cfed; /*#e6e6e6;*/
 }
-       
-        
+
+
 a:link { color:orange; text-decoration: none; }
 
 a:visited { color:blueviolet; text-decoration: none; }
@@ -222,8 +224,8 @@ a:active { color:blueviolet; text-decoration: none; }
   </div> <!-- block -->
 
 
-      
-      
+
+
 <!-- XXXXXXXXXXX -->
 
 
@@ -232,8 +234,8 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="blocktitle"><a href="example6-en.wikipedia.exr">example06</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           more than one page preconditions in rules that moreover overwrite/change the rule's specified 
- ruleCSSSelector selector with  ecRuleCSSSelector depending on which  precondition evaluated to True. 
+           more than one page preconditions in rules that moreover overwrite/change the rule's specified
+ ruleCSSSelector selector with  ecRuleCSSSelector depending on which  precondition evaluated to True.
           <br>
       </div>
       <div class="label"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
@@ -241,13 +243,13 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="label smaller"><i><b>demonstrated fields:</b> cRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
       <div class="label smaller code"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
-  </div> <!-- block -->      
-      
-      
+  </div> <!-- block -->
 
 
-      
-      
+
+
+
+
   <!-- XXXXXXXXXXX -->
 
 
@@ -257,7 +259,7 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data. 
+ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data.
           <br>
       </div>
       <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history.<br>
@@ -266,16 +268,16 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 </div>
 
-</div> <!-- block -->       
-      
-      
-      
-      
+</div> <!-- block -->
+
+
+
+
 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block">
+  <div class="block subexampleblock">
       <span class="subexamplenumber">07.1</span>
       <div class="blocktitle blocktitlesubexample"><a href="example7.1-en.wikipedia.exr">example07.1</a></div>
       <div class="label subexample">
@@ -283,7 +285,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
            Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
           <br>
       </div>
-      <div class="label subexample"><b>target:</b><br/> 
+      <div class="label subexample"><b>target:</b><br/>
           extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
           <br>
       </div>
@@ -291,10 +293,10 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
       </div>
 
-</div> <!-- block -->       
-      
-      
-      
+</div> <!-- block -->
+
+
+
 
 <!-- XXXXXXXXXXX -->
 
@@ -304,24 +306,148 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">example08</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in a single rule returning a so called <i>recordlist</i> i.e. a list of extracted data containing new keys which (list) will be the value of the key with rule name instead of one key-value pair. 
+           Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in a single rule returning a so called <i>recordlist</i> i.e. a list of extracted data containing new keys which (list) will be the value of the key with rule name instead of one key-value pair.
           <br>
       </div>
       <div class="label"><b>target:</b><br/> This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" found on the page https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals the name of the teams, the times they won the Champions League, the times they were runner-ups as well as the seasons they won the Champions League and it does this only for those teams that have won the champions league title more than 3 times. <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields, ruleMatchPreconditions </i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-</div>
+      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
+  </div> <!-- block -->
+
+
+<!-- XXXXXXXXXXX -->
+
+
+  <div class="block">
+      <span>09</span>
+      <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">example09</a></div>
+      <div class="label">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating the use of fields related to user agent and request cookies during retrieval of resources.
+          <br>
+      </div>
+      <div class="label"><b>target:</b><br/> This example sets one cookie related to the users consenting accepting cookies when accesing youtube.com, without having signed in.
+      The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown when accessing youtube's home page as an unatuthorized user. You
+      may add cookies related to session ids or authentication information in order to access youtube home page as a authenticated user (you may get authentication cookies/session cookies) using a browser's Web development tools and capture for http requests.<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent </i></div>
+      <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/</div>
+  </div> <!-- block -->
+
+
+
+
+<!-- XXXXXXXXXXX -->
+
+
+  <div class="block">
+      <span>10</span>
+      <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">example10</a></div>
+      <div class="label">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating the use of a rendering engine to download a page using the renderPages field. This results in using a rendering engine used by web browsers to download and load the html page.
+          <br>
+      </div>
+      <div class="label"><b>target:</b><br/>
+      This example extracts the article of wikipedia articles using a browser rendering engine. WebScraper has two ways
+	  to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
+	  A browser rendering engine is used to download, load and process pages when the field renderPages in .exr is set to True.
+	  If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
+	  pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.<br>
+	  NOTE: Setting renderPages to true will result in slower web page retrieval and processing.
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
+      <div class="label smaller code"><b>Usage:</b> crawl  -r rules/example10-en.wikipedia.exr -o csv/example10.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+  </div> <!-- block -->
+
+
+
+<!-- XXXXXXXXXXX -->
+
+
+  <div class="block subexampleblock">
+      <span class="subexamplenumber">10.1</span>
+      <div class="blocktitle blocktitlesubexample"><a href="example10.1-youtube.com.exr">example10.1</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating interacting with the downloaded web page to load dynamically its content. In this
+		   example, one simple interaction is shown namely scrolling of the web page in order to load
+		   more of its content before extracting/scraping data.
+		   This example uses number of times to control scrolling; it scrolls the entire page a specified number of times specified in this .exr file.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>
+          This example extracts the names of users that have commented on youtube videos. A youtube page, when loaded
+		  does not immediately load the comment section beneath the video. On youtube in order for the video comments to appear/load,
+		  the page must be scrolled down. The more the page is scrolled down, the more comments will appear. This example shows how to scroll page and configure some aspects of scrolling process.
+          <br>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      </div>
 
 </div> <!-- block -->
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+<!-- XXXXXXXXXXX -->
+
+
+<div class="block subexampleblock">
+      <span class="subexamplenumber">10.2</span>
+      <div class="blocktitle blocktitlesubexample"><a href="example10.2-youtube.com.exr">example10.2</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating interacting with the downloaded web page to load dynamically its content. In this
+example, one simple interaction is shown namely scrolling of the web page in order to load
+ more of its content. This example scrolls down the web page until a predefined (maximum) number of html elements will appear on the page specified
+in this rule file.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>
+          This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. It first scrolls the youtube page as many times as required until a predefined number (scrollTargetCount) of elements (scrollTargetSelector) has been loaded. The exraction of usernames and like count starts as soon as the number of elements has been loaded. A negative value for number of elements means infinite scrolling i.e. load all comments.
+          <br>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.2-youtube.com.exr -o csv/example10.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      </div>
+
+</div> <!-- block -->
+
+
+
+
+<!-- XXXXXXXXXXX -->
+
+
+<div class="block subexampleblock">
+      <span class="subexamplenumber">10.3</span>
+      <div class="blocktitle blocktitlesubexample"><a href="example13-ClickButton-PostForm.exr">example10.3</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>
+          This example performs a google search for python. It visits the google main page and since it accesses it as an unauthorized user a consent form is shown. This rule clicks
+          on the consent form, fills in the search box with the word 'python' and clicks on the submit button. It extracts the links from the returned results search page.
+          <br>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example13-ClickButton-PostForm.exr -o csv/example13.csv  https://www.google.com/
+      </div>
+
+</div> <!-- block -->
+
+
+
+
+
+
+
+
 
    <div class="block">
       <span>10.1</span>
