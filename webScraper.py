@@ -43,31 +43,17 @@ def main():
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
-
-   cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
-   cmdArgParser.add_argument('-s', '--sleeptime',  nargs='?' )
-   cmdArgParser.add_argument('-o', '--outputcsvfile', type=str, nargs='?', default='extracted' + datetime.datetime.now().strftime("%d-%m-%Y@%H-%M-%S") + '.csv' )
-   cmdArgParser.add_argument('-q', '--queuefile', type=str, default='.queue' )
- 
-   cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
-   #cmdArgParser.add_argument('-r', '--rules',  nargs='?' )
-   cmdArgParser.add_argument('-H', '--humandelay', action='store_true' )             
-   cmdArgParser.add_argument('-C', '--continue', action='store_true' )
-   cmdArgParser.add_argument('-D', '--dfs', action='store_true' )
-
-   cmdArgParser.add_argument('-R', '--render', action='store_true' )
-             
-   cmdArgParser.add_argument('-U', '--update', action='store_true' )
-   cmdArgParser.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
-             
-   cmdArgParser.add_argument('-G', '--debug', action='store_true' )
-             
-
+   
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    cmdArgParser.add_argument('-J', '--joke',  default='neutral')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    
-   args = vars( cmdArgParser.parse_args() )
+   # We only parse known arguments (see previous lines) i.e. arguments
+   # that make sense in starting WebScraper. On the command line, more
+   # arguments can be present that are used for batch processing.
+   # These are not handled via ArgumentParser.
+   knownArgs, unknownArgs = cmdArgParser.parse_known_args()
+   args = vars( knownArgs )
    
    
    
@@ -104,7 +90,7 @@ def main():
      
    # Here, override any config parameter given in the command line
 
-   # Update the rules file in the configuration, given in the command line
+   # Update the rules file in the configuration, if one is given in the command line
    config.set('Rules', 'ruleFile', args['rules'] )
 
 
@@ -113,14 +99,7 @@ def main():
    # library file.
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
-   try:
-     # Check if .exr file is in UTF-8.
-     #u = utils.fileIsUTF8(args['rules'])
-     #if not u:
-     #   print('[WARNING] file does not seem to be utf-8.')
-        
-     
-     
+   try:   
      with open(args['rules'],  encoding='utf-8',  mode='r', errors='ignore') as f:          
           ruleLibrary = xRules.loadLibrary(f.read())
                     
@@ -132,34 +111,40 @@ def main():
 
    
 
-   # Check how to start: Interactive or batch mode
+   # Check how to start: In interactive or in batch mode
 
    if not args.get('batch', False):
       print("Starting interactive mode\n")
 
-      
       # Start the interactive shell. This shell
       # allows the user to issue and execute a specified set
       # of commands.
       iShell = commandShell.commandShell( config, ruleLibrary )
       iShell.startShell()
    else:
+
+      # We start in batch mode. This means that no shell is executed
+      # and crawling is immediately initiated.
+      
       print('Entering Batch mode.')
       if len(args.get('url')) <= 0:
-         print('No url given. Terminating.') 
+         print('No url given. Terminating.')
+         return(-2)
       else:
+         # We collect any argument that was given at the command line (sys.argv) as
+         # a list and pass it to crawl. These arguments will be handled there.
          inputArgs = sys.argv
          argumentList = inputArgs[1:]
          
          # make sure -B is not in argument list. It's an
-         # argument valid only in command line args.
+         # argument valid only at this level; not during crawling.
          argumentList.remove('-B')
          
          
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
-         #executioner.crawl( args )
-
+         
+   return(0)
          
 
    

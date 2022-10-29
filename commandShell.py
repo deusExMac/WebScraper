@@ -1005,7 +1005,9 @@ class commandImpl:
                 try:
                   with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
                      exRules = xRules.loadLibrary(f.read())
-                     print('ok.')
+                     print( utils.toString('ok.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
+
+                     #print('ok.')
                      
                 except Exception as flEx:
                        print(str(flEx) )

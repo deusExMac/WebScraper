@@ -20,18 +20,18 @@
 "library": [
 
 {
- "ruleName": "getLinks"
- "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"]
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links rule",
+ "ruleURLActivationCondition": [],
  
- "rulePreconditionType": "Any"
- "rulePreconditions": []
+ "rulePreconditionType": "Any",
+ "rulePreconditions": [],
  
- "ruleCSSSelector": "a[href]"
- "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.econ\.upatras\.gr/\.*(?!announcements).*$"
- "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
  
  # other parameters needed
