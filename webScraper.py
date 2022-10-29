@@ -1,9 +1,11 @@
-
+import sys
 import configparser
 import argparse
 
 #import sys, getopt
 import os
+import datetime
+
 import platform
 import os.path
 from pathlib import Path
@@ -44,7 +46,22 @@ def main():
 
    cmdArgParser.add_argument('-n', '--numpages', type=int, nargs='?' )
    cmdArgParser.add_argument('-s', '--sleeptime',  nargs='?' )
+   cmdArgParser.add_argument('-o', '--outputcsvfile', type=str, nargs='?', default='extracted' + datetime.datetime.now().strftime("%d-%m-%Y@%H-%M-%S") + '.csv' )
+   cmdArgParser.add_argument('-q', '--queuefile', type=str, default='.queue' )
+ 
    cmdArgParser.add_argument('-M', '--mirror', action='store_true' )
+   #cmdArgParser.add_argument('-r', '--rules',  nargs='?' )
+   cmdArgParser.add_argument('-H', '--humandelay', action='store_true' )             
+   cmdArgParser.add_argument('-C', '--continue', action='store_true' )
+   cmdArgParser.add_argument('-D', '--dfs', action='store_true' )
+
+   cmdArgParser.add_argument('-R', '--render', action='store_true' )
+             
+   cmdArgParser.add_argument('-U', '--update', action='store_true' )
+   cmdArgParser.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
+             
+   cmdArgParser.add_argument('-G', '--debug', action='store_true' )
+             
 
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    cmdArgParser.add_argument('-J', '--joke',  default='neutral')
@@ -52,7 +69,8 @@ def main():
    
    args = vars( cmdArgParser.parse_args() )
    
-
+   
+   
    # Config file that will be used.
    # NOTE: This will at least have the default value
    configFile = args['config']
@@ -127,26 +145,20 @@ def main():
       iShell.startShell()
    else:
       print('Entering Batch mode.')
-      if len(args.get('url')) > 0:
-         argumentList = []
+      if len(args.get('url')) <= 0:
+         print('No url given. Terminating.') 
+      else:
+         inputArgs = sys.argv
+         argumentList = inputArgs[1:]
          
-         if args.get('mirror', False):
-            argumentList.append('-M')
-
-         if args.get('numpages') is not None :
-            argumentList.append('-n')
-            argumentList.append( str(args.get('numpages')))
-
-                  
-         if args.get('sleeptime') is not None :
-            argumentList.append('-t')
-            argumentList.append( str(args.get('sleeptime')))
-            
-         argumentList.append(args.get('url')[0])
-
+         # make sure -B is not in argument list. It's an
+         # argument valid only in command line args.
+         argumentList.remove('-B')
+         
          
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
+         #executioner.crawl( args )
 
          
 

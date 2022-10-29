@@ -410,7 +410,7 @@ class commandImpl:
           if not hasattr(self, commandPartsList[0]):
              self.defaultF(commandPartsList[0])
              return(False)
-            
+          
           self.commandsExecuted += 1
           return getattr(self, commandPartsList[0])(commandPartsList[1:])  
 
