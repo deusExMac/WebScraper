@@ -67,10 +67,14 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
            color:#a2a4a6;
            font-size:95%;
            margin-top:6px;
-
         }
 
 
+.digits {
+          padding-left: 75px;
+        }
+        
+        
 .code {
     font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
     font-size:90%;
@@ -85,7 +89,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
               font-size:135%;
         }
 
-
+        
+.blocktitledigits { 
+        margin-left:75px;
+ }
+        
+        
 
 span {
 	  position: absolute;
@@ -97,7 +106,11 @@ span {
 
 	}
 
-
+        
+.subdigit { color:#eeeeee;
+        
+}
+        
 a:link { color:orange; text-decoration: none; }
 
 a:visited { color:blueviolet; text-decoration: none; }
@@ -231,23 +244,76 @@ a:active { color:blueviolet; text-decoration: none; }
       
 
 
+      
+      
+  <!-- XXXXXXXXXXX -->
 
 
+  <div class="block">
+      <span>07</span>
+      <div class="blocktitle"><a href="example7-en.wikipedia.exr">example07</a></div>
+      <div class="label">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
+ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data. 
+          <br>
+      </div>
+      <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history.<br>
+      </div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+</div>
+
+</div> <!-- block -->       
+      
+      
+      
+      
+
+<!-- XXXXXXXXXXX -->
+
+
+  <div class="block">
+      <span class="subdigit">07.1</span>
+      <div class="blocktitle blocktitledigits"><a href="example7.1-en.wikipedia.exr">example07.1</a></div>
+      <div class="label digits">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
+          <br>
+      </div>
+      <div class="label digits"><b>target:</b><br/> 
+          extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
+          <br>
+      </div>
+      <div class="label smaller digits"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smaller code digits"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+</div>
+
+</div> <!-- block -->       
+      
+      
+      
+
+
+      
+      
+      
+      
 
    <div class="block">
-      <span>02</span>
-      <div class="blocktitle">example01</div>
+      <span>10.1</span>
+      <div class="blocktitle blocktitledigits">example01</div>
 
 
-      <div class="label">
+      <div class="label digits">
           <font color="black"> <b>descriptionXXXX:</b> </font> Simple library with two rules. Defines rule to harvest links (getLinks rule). <br>
        </div>
 
-       <div class="label">
+       <div class="label digits">
             <b>target:</b> wikipedia title<br>
        </div>
 
-       <div class="label">
+       <div class="label digits">
             <i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks, ruleURLActivationCondition</i>
        </div>
 
