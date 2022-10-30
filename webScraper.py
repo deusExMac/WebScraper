@@ -119,7 +119,7 @@ def main():
    rjk = ''
    if args['joke']:
       try:
-        # value twister although mentioned in the docs, not supported (?)  
+        # value 'twister' although mentioned in the docs, is not supported (?)  
         rjk = pyjokes.get_joke(language="en", category=random.choice(['neutral',  'all']) ) 
       except Exception as jkEx:
              pass
