@@ -85,22 +85,10 @@ class commandShell:
 
       def __init__(self, cfg, xRls=None):
 
-          # add here any command you would like to expand
-          self.cmdExpansions = [{"c":"config"} ]
+          # Command synonyms.
+          # Add here any command you would like to expand
+          self.cmdExpansions = [{"c":"config", "jk":"joke"} ]
 
-          '''
-          #print("Loading extraction rule library [", args['rules'], "]...", sep='', end='')
-
-          try:
-           with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:          
-             ruleLibrary = xRules.loadLibrary(f.read())
-                    
-           #print('done')
-           #print('\tTotal of ', ruleLibrary.numberOfRules(), ' extraction rules loaded.')
-          except Exception as readEx:
-             print('Error.', str(readEx))
-          '''
-          
           self.cmdExecutioner = commandImpl(cfg, xRls)
           self.cmdHistory = commandHistory(cfg.getint('Shell', 'historySize', fallback=10), True)
 
@@ -110,9 +98,11 @@ class commandShell:
 
 
 
-      #
+      
       # Check if the command given needs to be expanded
       #
+      # TODO: expansion works ONLY for commands with no arguments.
+      # Fix this.
       def expandCommand( self, cmd ):
 
           # Is it in our manual expansion list?
@@ -187,17 +177,13 @@ class commandShell:
 
 
       def startShell(self):
-
                     
-          while True:
-                
+          while True:                
              try:
                    
               command = input('(v' + appConstants.APPVERSION + ')' +'{' + str(self.cmdExecutioner.commandsExecuted) + '}' + self.cmdExecutioner.configuration.get('Shell', 'commandPrompt', fallback="(default conf) >>> ") )
               command = command.strip()
-
-              
-
+     
               # Check if we need to expand the command i.e. the command is either !!, ! or ^.
               # If so, expand it and return the expanded form.
               command = self.expandCommand(command)
@@ -207,9 +193,7 @@ class commandShell:
                  continue
               else:
                    print(command)  
-
-              
-              
+                           
               cParts = command.split()
 
               
@@ -258,7 +242,7 @@ class commandShell:
                                
 
                 
-                if len( args['ncommands'] ) >=2:
+                if len( args['ncommands'] ) >= 2:
                    strFilter = args['ncommands'][1]
                    
                 self.displayCommandHistory(n, args['start'], strFilter)
@@ -486,6 +470,7 @@ class commandImpl:
 
 
       
+      
       def joke(self, a):
           try:
             import pyjokes
@@ -503,7 +488,7 @@ class commandImpl:
           except Exception as jkEx:
                  return(False)
 
-
+      '''
 
       # TODO: Change what parameters are passed
       def __updateCrawl(self, qF, oF, cfg, xR, nU, mr=False ):
@@ -673,7 +658,7 @@ class commandImpl:
           #csvDF.to_csv( oF, index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
           print('ok')
 
-
+      ''' 
 
 
 
@@ -904,12 +889,7 @@ class commandImpl:
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
 
-                #
-                # TODO: Remove me! NEXT LINE IS for testing purposes ONLY!
-                # 
-                #htmlRndr.interceptingUrl = 'https://eclass.upatras.gr/'
-                #htmlRndr.interceptResponses = True
-
+                
                 # Fetch url
                 # TODO: timeout must be a setting
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
@@ -944,7 +924,7 @@ class commandImpl:
       # Main crawl method!
       # Starts crawling from an initial URL.
       #
-      # TODO: This method is so ugly. Has to be refactored seriously. 
+      # TODO: This method is so ugly. Has to be refactored. Seriously. 
       #
       #
       #
@@ -1351,65 +1331,7 @@ class commandImpl:
                         
                  print( utils.toString('\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  ) 
 
-                 '''
-                 # Iterate over all rules and check if they must be applied on the page
-                 # that was just downloaded.
-                 for r in exRules.library: 
-                       
-                     # Should we apply this rule to this URL?
-                     # I.e. does the URL match the url conditions imposed by the rule?
-                     #
-                     # NOTE: other constraints e.g. page preconditions, are checked at a different
-                     # position. This is beacuse page preconditions may modify the rule (e.g. overriding
-                     # css selector).
-                     print( utils.toString('\t\t[DEBUG] Checking if rule ', r.ruleName,' should be applied...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
-                     if not r.ruleMatches(currentUrl):
-                        print( utils.toString('NO.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
-                        continue
-                  
-                     print(utils.toString('YES\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
-        
-
-                     #  getLings rules are handled a little bit different than other.
-                     #  TODO: Refactor this.                     
-                     if r.ruleName == 'getLinks':
-
-                        # apply() will also check page preconditions.
-                        # page precondition checks are located there, because these
-                        # checks may modify/override the rule's css selector. 
-                        xData = r.apply(response.html)
-                        
-                        # get links as extracted
-                        xLinks = xData.get('getLinks', [])
-                        
-                        print( utils.toString('\t\t[DEBUG] Total of [', str(len(xLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
-
-                        # Iterate over extracted links and process them
-                        # so that they become absolute and canonical.
-                        #
-                        # TODO: Seems that the loop below takes too long.
-                        #       Check it/measure it.
-                        tB = time.perf_counter()
-                        for lnk in xLinks:
-                            absoluteUrl = urljoin( currentUrl, lnk )
-                            cUrl = utils.canonicalURL( absoluteUrl )
-                            # Does URL match condition? If so, add it to the queue. 
-                            # TODO: move the next check inside .apply()???
-                            if re.search( r.ruleContentCondition, cUrl) is not None:  
-                               uQ.add( cUrl ) # Add it to the URL queue
-                               
-                        print( utils.toString('\t\t\t[DEBUG] All links done in ', time.perf_counter() - tB, ' sec\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end=''  )   
-                             
-                     else:
-                           # xData will have the data extracted by applying
-                           # only one single rule to the downloaded page.
-                           xData = r.apply( response.html )
-                           # Aggregate it. pageData aggregates all data extracted by
-                           # all rules applied on one page. In the end, pageData will have
-                           # the data extracted by all rules in the library
-                           pageData.update(xData)
-                           
-                 ''' 
+                 
 
 
 

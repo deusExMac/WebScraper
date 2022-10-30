@@ -40,12 +40,13 @@ def generateDefaultConfiguration():
 def main():
     
    #
-   # The steps are as follows:
-   #    1) Load config file
-   #    2) Command line arguments override loaded config settings
+   # Main steps are as follows:
+   #    1) Load the configuration file
+   #    2) Depending on the command line arguments, start WebScraper in
+   #       interactive or batch mode.
    #
 
-   # Prepare command line arguments
+   # Check command line arguments
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
@@ -54,10 +55,11 @@ def main():
    cmdArgParser.add_argument('-J', '--joke',  action='store_true')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    
-   # We only parse known arguments (see previous lines) i.e. arguments
-   # that make sense in starting WebScraper. On the command line, more
-   # arguments can be present that are used for batch processing.
-   # These are not handled via ArgumentParser.
+   # We only parse known arguments (see previous add_argument calls) i.e. arguments
+   # that WebScraper requires for starting. On the command line, more
+   # arguments can be provided that are used for batch processing.
+   # These, however, are not handled at this point and are passed to individually
+   # supported commands.
    knownArgs, unknownArgs = cmdArgParser.parse_known_args()
    args = vars( knownArgs )
    
@@ -83,10 +85,14 @@ def main():
    else:   
       try:
          # Read configuration file
+         # NOTE: configuration may have options without value
          config = configparser.RawConfigParser(allow_no_value=True)
          config.read(configFile)
-         # Add special section to indicate which file was loaded.
-         # Used to support reloading the same configuration file
+         
+         # Add special section to indicate which file was actual loaded.
+         # during startup.
+         # Used to support reloading (from WebScraper's command line)
+         # of the same configuration file
          config.add_section('__Runtime')
          config.set('__Runtime', '__configSource', configFile)
          print('ok.')
@@ -103,6 +109,7 @@ def main():
    # Load the extraction rules from a library file.
    # If no library file is specified, load the default
    # library file.
+   # TODO: A library file should always be loaded. Is this correct?
    ruleLibrary = None
    print("Loading extraction rule library [", args.get('rules', ''), "]...", sep='', end='')
    try:   
@@ -154,8 +161,8 @@ def main():
          # argument valid only at this level; not during crawling.
          argumentList.remove('-B')
 
-         # Instatiate a command implementation and pass as arguments the
-         # command line arguments passed.
+         # Instatiate a command implementation, call crawl
+         # method passing as arguments the command line arguments passed.
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
          
