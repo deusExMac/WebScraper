@@ -486,8 +486,22 @@ class commandImpl:
 
 
       
+      def joke(self, a):
+          try:
+            import pyjokes
+            import random
+            # value twister although mentioned in the docs, not supported (?) 
+            rjk = pyjokes.get_joke(language="en", category=random.choice(['neutral',  'all']) )   
+            print('"', rjk, '"', sep='')
+            
+            # Remove package
+            # For testing purposes only; to see if/how this works. 
+            del pyjokes
+            
+            return(False)
       
-      
+          except Exception as jkEx:
+                 return(False)
 
 
 

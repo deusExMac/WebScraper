@@ -118,7 +118,8 @@ def main():
 
    rjk = ''
    if args['joke']:
-      try:   
+      try:
+        # value twister although mentioned in the docs, not supported (?)  
         rjk = pyjokes.get_joke(language="en", category=random.choice(['neutral',  'all']) ) 
       except Exception as jkEx:
              pass
@@ -152,7 +153,9 @@ def main():
          # make sure -B is not in argument list. It's an
          # argument valid only at this level; not during crawling.
          argumentList.remove('-B')
-                
+
+         # Instatiate a command implementation and pass as arguments the
+         # command line arguments passed.
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
          
