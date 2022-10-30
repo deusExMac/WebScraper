@@ -4,7 +4,8 @@ import argparse
 
 #import sys, getopt
 import os
-import datetime
+import random
+
 
 import platform
 import os.path
@@ -14,7 +15,12 @@ from pathlib import Path
 import appConstants
 import xRules
 import commandShell
-#import utils
+import pyjokes
+
+
+
+
+
 
 # Generate an empty configuration setting, with only the sections.
 # Used when no valid configuration file is given or found.
@@ -45,7 +51,7 @@ def main():
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
    
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
-   cmdArgParser.add_argument('-J', '--joke',  default='neutral')
+   cmdArgParser.add_argument('-J', '--joke',  action='store_true')
    cmdArgParser.add_argument('url', nargs=argparse.REMAINDER, default=[])
    
    # We only parse known arguments (see previous lines) i.e. arguments
@@ -109,12 +115,19 @@ def main():
    except Exception as readEx:
        print('Error.', str(readEx))
 
-   
+
+   rjk = ''
+   if args['joke']:
+      try:   
+        rjk = pyjokes.get_joke(language="en", category=random.choice(['neutral',  'all']) ) 
+      except Exception as jkEx:
+             pass
+
 
    # Check how to start: In interactive or in batch mode
 
    if not args.get('batch', False):
-      print("Starting interactive mode\n")
+      print("\nStarting INTERACTIVE mode", ' ("' + rjk +'")' if rjk != '' else '', "\n", sep='')
 
       # Start the interactive shell. This shell
       # allows the user to issue and execute a specified set
@@ -126,7 +139,7 @@ def main():
       # We start in batch mode. This means that no shell is executed
       # and crawling is immediately initiated.
       
-      print('Entering Batch mode.')
+      print("\nStarting BATCH mode", ' ("' + rjk +'")' if rjk != '' else '', "\n", sep='')
       if len(args.get('url')) <= 0:
          print('No url given. Terminating.')
          return(-2)
@@ -139,8 +152,7 @@ def main():
          # make sure -B is not in argument list. It's an
          # argument valid only at this level; not during crawling.
          argumentList.remove('-B')
-         
-         
+                
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
          
