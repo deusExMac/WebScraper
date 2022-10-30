@@ -102,7 +102,7 @@ class commandShell:
       # Check if the command given needs to be expanded
       #
       # TODO: expansion works ONLY for commands with no arguments.
-      # Fix this.
+      # Fix this. And add h for history here!
       def expandCommand( self, cmd ):
 
           # Is it in our manual expansion list?
@@ -198,7 +198,8 @@ class commandShell:
 
               
               # Don't add history and quit commands to command history list
-              # It clogs it.
+              # It will clog it.
+              # TODO: Add h and q in expanded command list i.e. in self.cmdExpansions
               if cParts[0].lower() not in ['history', 'h', 'quit', 'q']:           
                  self.cmdHistory.addCommand( command )
 

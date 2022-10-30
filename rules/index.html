@@ -123,8 +123,11 @@ a:hover { color:darkseagreen; text-decoration: none; }
 
 a:active { color:blueviolet; text-decoration: none; }
 
-
-
+.label a:link { color:blue; text-decoration: none; }
+.label a:visited { color:blueviolet; text-decoration: none; } 
+.label a:hover { color:blue; text-decoration: none; }        
+.label a:active { color:skyblue; text-decoration: none; }
+        
     </style>
     <title>Index to .exr files in rules directory demonstrating supported fileds</title>
   </head>
@@ -328,8 +331,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
           <br>
       </div>
       <div class="label"><b>target:</b><br/> This example sets one cookie related to the users consenting accepting cookies when accesing youtube.com, without having signed in.
-      The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown when accessing youtube's home page as an unatuthorized user. You
-      may add cookies related to session ids or authentication information in order to access youtube home page as a authenticated user (you may get authentication cookies/session cookies) using a browser's Web development tools and capture for http requests.<br>
+      The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown when accessing youtube's home page as an unatuthorized user.<br/>You
+      may add cookies related to session ids or authentication information in order to access websites as an authenticated user. You may get such authentication/session cookies using a browser's Web development tools and capture http request headers. <a href="example9-youtube.com-cookies.exr">Rule file contains instructions on how to specify and format such cookies.</a> <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent </i></div>
       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/</div>
