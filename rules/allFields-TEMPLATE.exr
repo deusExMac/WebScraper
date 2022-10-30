@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Template listing all supported fields
+# Template listing all supported fields.
 #                    
 # 
 #
@@ -51,7 +51,7 @@
 		     "dpcURLActivationCondition":"",
 		     "dpcIsSubmit": True|False,
 		     "dpcRedirects" : True | False
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "", "scrollTargetCount":"<INTEGER>" },		     
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": <CSS SELECTOR>, "scrollTargetCount":"<INTEGER>" },		     
 		 }
 
 		 # Next dynamic element here... dynamic elements separated rules by comma.
@@ -65,11 +65,12 @@
 
 ######################################################################################
 #
-#  List of rules
+#  List of library rules starts from here. Each rule
+#  is responsible for scraping one item from a webpage: this item
+#  can be a value, list of values or list of dictionaries (i.e. recordlist). 
+#  
 #
 ######################################################################################
-
-
 
 "library": [
 

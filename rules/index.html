@@ -23,9 +23,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         width: 90%;
         margin: 0 auto;
         margin-top:40px;
+        padding-left:60px;
         font: 24pt helvetica, arial, sans-serif;
-        color:#4c7aba;
+        color: white;/*#4c7aba;*/
         #border: 2px solid red;
+        background-color:  navy;
+        line-height: 55px;
         } 
         
 .row {
@@ -34,12 +37,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   #margin-left:15px;
   display: flex;
   flex-wrap: wrap;
-  #justify-content: left; /* for centering 3 blocks in the center */
+  /*justify-content: left;*/ /* for centering 3 blocks in the center */
   /* justify-content: space-between; for space in between */
-  border:2px dotted green;
+  border:0px dotted green;
   margin-top: 20px;
   justify-content: center;
-
+  /*background-color:#fcfbeb;*/    
 }
 
         
@@ -147,13 +150,17 @@ a:active { color:blueviolet; text-decoration: none; }
 .label a:hover { color:blue; text-decoration: none; }        
 .label a:active { color:skyblue; text-decoration: none; }
         
-    </style>
-    <title>Index to .exr files in rules directory demonstrating supported fileds</title>
-  </head>
+</style>
+    
+<title>Index to .exr files in rules directory demonstrating supported fileds</title>
 
+</head>
+
+    
+    
 <body>
 
-  <div class="caption">List of .exr example files</div>     
+  <div class="caption">List of example .exr files</div>     
   <div class="row">
 
 
@@ -165,7 +172,7 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="blocktitle"><a href="allFields-TEMPLATE.exr">TEMPLATE</a></div>
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
-           Contains all the supported fields in .exr file. Fields do not have  value. Has comments to explain format of values of some fields.  <br>
+           Contains all the <a href="https://github.com/deusExMac/WebScraper">supported fields</a> in .exr file. Fields do not have  value. Has comments to explain format of values of some fields.  <br>
       </div>
       <div class="label"><b>target:</b><br/>
         Can be used as a template to author new .exr files<br>
