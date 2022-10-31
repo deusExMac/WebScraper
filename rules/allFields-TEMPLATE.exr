@@ -19,12 +19,13 @@
 
 "libraryDescription": "",
 "csvLineFormat":[],
-"requiredFilledFields": [<ruleNames|ReturnedAttributeNames>],
-"allowedMinimumFilled" : <NUMBER in range 0-1>,
+"requiredFilledFields": [<RULE NAME | RETURNED VALUE NAME (recordlist)>, <RULE NAME | RETURNED VALUE NAME (recordlist)>],
+"allowedMinimumFilled" : <REAL NUMBER IN RANGE [0,1]>,
 "renderPages":True|False,
 
 "requestCookies": {
-                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" <COMMA SEPARATED KEY:VALUE LINES. Keys and values must be strings and in double quotes >    
+                   <COMMA SEPARATED KEY:VALUE LINES. Keys and values must be strings and in double quotes >    
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" 
                    },
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
