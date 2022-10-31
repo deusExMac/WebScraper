@@ -279,6 +279,7 @@ class htmlRenderer:
           print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
         
        if userAgent is not None:
+          print( utils.toString('\t[DEBUG] Setting user agent to [', userAgent, ']\n') if self.debug else '', sep='', end='' ) 
           await self.page.setUserAgent(userAgent);
 
        # Set request cookies
@@ -303,14 +304,14 @@ class htmlRenderer:
             
            try:
               attemptStart = time.perf_counter() # start counting request time
-              print( utils.toString('\t[DEBUG] Fetching url\n') if self.debug else '', sep='', end='' )
+              print( utils.toString('\t[DEBUG] Fetching url. Timeout=', timeout, '\n') if self.debug else '', sep='', end='' )
               self.response = await self.page.goto(url, options={'waitUntil':'load', 'timeout': int(timeout * 1000)})
               # TODO: Do we REALLY need a sleep here??
               # await asyncio.sleep(25*self.waitTime)
 
               # TODO: Add here a waitForSelector?
               #       Needs support in .exr files
-              #await self.page.waitForSelector( '_11eqlma4')
+              #await self.page.waitForSelector( '._11eqlma4')
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
