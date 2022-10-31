@@ -59,7 +59,10 @@ class htmlRenderer:
           
           self.interceptResponses = False
           
+          # TODO: wait 
           self.waitTime = 1.2 # in seconds
+          
+          
           self.takePageScreenshot = True # in seconds
           self.screenShotStoragePath = './' # Where to store screenshots
 
@@ -247,7 +250,9 @@ class htmlRenderer:
 
 
 
-
+      # fetchUrl method uses rendering engine to download page.
+      # Returns html content. Headers are in .response instance variable.
+      #
       # TODO: This method needs serious refactoring.
       #       Among others, scrolldown is now obsolete. 
       async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
@@ -298,13 +303,17 @@ class htmlRenderer:
             
            try:
               attemptStart = time.perf_counter() # start counting request time
+              print( utils.toString('\t[DEBUG] Fetching url\n') if self.debug else '', sep='', end='' )
               self.response = await self.page.goto(url, options={'waitUntil':'load', 'timeout': int(timeout * 1000)})
-              #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
+              # TODO: Do we REALLY need a sleep here??
+              # await asyncio.sleep(25*self.waitTime)
 
-              #try:
-              #  print('>>> COOKIES:', await self.page.cookies() )  
-              #except Exception as feee:
-              #    print('ERROR', str(feee))
+              # TODO: Add here a waitForSelector?
+              #       Needs support in .exr files
+              await self.page.waitForSelector( 'button._11eqlma4')
+              
+              #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
+              print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
                   
               attemptEnd = time.perf_counter() 
               break
@@ -409,7 +418,7 @@ class htmlRenderer:
             print( utils.toString('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, '\n') if self.debug else '', sep='', end='')
             print( utils.toString('\t\t[DEBUG] Checking if element [', dElem.dpcPageElement, '] exists.....') if self.debug else '',  sep='', end='')
             if not await self.elementExists(pg, dElem.dpcPageElement):
-               print( utils.toString(f'\t\t[DEBUG] Element {dElem.dpcPageElement} does not exist on page. Not dynamic element.\n') if self.debug else '', sep='', end='' )
+               print( utils.toString(f'NO. Element {dElem.dpcPageElement} does not exist on page. Not dynamic element.\n') if self.debug else '', sep='', end='' )
                return(None) 
 
             print( utils.toString('YES (NOTE: empty selector element will return true).\n') if self.debug else '', end='') 

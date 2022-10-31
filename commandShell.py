@@ -886,7 +886,8 @@ class commandImpl:
                    
                 htmlRndr = htmlRendering.htmlRenderer()
                 htmlRndr.setDebugMode( cfg.getboolean('DEBUG', 'debugging', fallback=False) )
-                htmlRndr.asyncWaitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
+                #htmlRndr.asyncWaitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
+                htmlRndr.waitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
 
@@ -895,7 +896,8 @@ class commandImpl:
                 # TODO: timeout must be a setting
                 rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
                 if rHTML is None:
-                   return(None)
+                   r.status = -666
+                   return(r)
 
                 
                 r.setResponse(htmlRndr.response, normalizeCookies=True) 
@@ -1135,7 +1137,10 @@ class commandImpl:
 
                     
                     response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
-                    
+
+                    # TODO: FIX ME
+                    if response is None:
+                       pass   
                      
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
 
