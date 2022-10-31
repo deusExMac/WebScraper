@@ -310,7 +310,7 @@ class htmlRenderer:
 
               # TODO: Add here a waitForSelector?
               #       Needs support in .exr files
-              # await self.page.waitForSelector( 'button._11eqlma4')
+              #await self.page.waitForSelector( '_11eqlma4')
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
