@@ -262,8 +262,23 @@ class htmlRenderer:
           
        if self.browser is None:
           print( utils.toString('\t[DEBUG] Creating new BROWSER\n') if self.debug else '', sep='', end=''  )
+          
           # launches a browser in headless mode. Headless means WITHOUT UI.
+          # NOTE: for default options add:
+          #args=[
+          #  '--no-sandbox',
+          #  '--disable-setuid-sandbox',
+          #  '--disable-dev-shm-usage',
+          #  '--headless',
+          #  '--disable-gpu',
+          #  '--ignore-certificate-errors'
+          #  ]
+
           self.browser = await pyppeteer.launch()
+
+          # Next line seems to work properly for AIRBNB (previous line does not)
+          #self.browser = await pyppeteer.launch(headless=True, executablePath='F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe', userDataDir="C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data")
+          
        else:
             print( utils.toString('\t[DEBUG] Reusing existing BROWSER\n') if self.debug else '', sep='', end='' )
             
@@ -271,7 +286,7 @@ class htmlRenderer:
           print( utils.toString('\t[DEBUG] Creating new PAGE\n') if self.debug else '', sep='', end=''  )
           self.page = await self.browser.newPage()
 
-          # Uncomment next line if you would like to intercept responses
+          
           if self.interceptResponses:
              print( utils.toString('\t[DEBUG] INITIALIZING interception\n') if self.debug else '', sep='', end=''  ) 
              self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
@@ -305,17 +320,20 @@ class htmlRenderer:
            try:
               attemptStart = time.perf_counter() # start counting request time
               print( utils.toString('\t[DEBUG] Fetching url. Timeout=', timeout, '\n') if self.debug else '', sep='', end='' )
-              self.response = await self.page.goto(url, options={'waitUntil':'load', 'timeout': int(timeout * 1000)})
+              self.response = await self.page.goto(url, options={'waitUntil':'networkidle0', 'timeout': int(timeout * 1000)})
               # TODO: Do we REALLY need a sleep here??
-              # await asyncio.sleep(25*self.waitTime)
+              #await asyncio.sleep(timeout)
 
               # TODO: Add here a waitForSelector?
               #       Needs support in .exr files
-              #await self.page.waitForSelector( '._11eqlma4')
+              #await self.page.waitForSelector( 'div.t1bgcr6e') #'._11eqlma4')
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
-                  
+
+              # Next is for debugging purposes ONLY! 
+              #await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
+              
               attemptEnd = time.perf_counter() 
               break
             
@@ -522,7 +540,7 @@ class htmlRenderer:
 
                 
             if dElem.dpcWaitFor != '':
-               print( utils.toString('\t[DEBUG] Waiting for', dElem.dpcWaitFor , '\n') if self.debug else '', end='', sep='') 
+               print( utils.toString('\t[DEBUG] Waiting for [', dElem.dpcWaitFor , ']\n') if self.debug else '', end='', sep='') 
                await pg.waitForSelector(dElem.dpcWaitFor)
              
                    
