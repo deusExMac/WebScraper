@@ -277,8 +277,11 @@ class htmlRenderer:
           self.browser = await pyppeteer.launch()
 
           # Next line seems to work properly for AIRBNB (previous line does not)
+          # executablePath for MacOS: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
           #self.browser = await pyppeteer.launch(headless=True, executablePath='F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe', userDataDir="C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data")
-          
+          # for MacOS next like WORKED PERFECTLY!!!  
+          #self.browser = await pyppeteer.launch(headless=True, executablePath='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', )
+           
        else:
             print( utils.toString('\t[DEBUG] Reusing existing BROWSER\n') if self.debug else '', sep='', end='' )
             
