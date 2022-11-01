@@ -544,7 +544,8 @@ class htmlRenderer:
                 
             if dElem.dpcWaitFor != '':
                print( utils.toString('\t[DEBUG] Waiting for [', dElem.dpcWaitFor , ']\n') if self.debug else '', end='', sep='') 
-               await pg.waitForSelector(dElem.dpcWaitFor)
+               # increased default timeout 
+               await pg.waitForSelector(dElem.dpcWaitFor, timeout=45000)
              
                    
             return(0)   
