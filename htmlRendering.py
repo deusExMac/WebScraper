@@ -335,7 +335,7 @@ class htmlRenderer:
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
 
               # Next is for debugging purposes ONLY! 
-              #await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
               
               attemptEnd = time.perf_counter() 
               break
