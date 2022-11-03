@@ -18,7 +18,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     i{ font-style: italic;}
 
 
-        
+
 .caption {
         width: 90%;
         margin: 0 auto;
@@ -29,8 +29,8 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         #border: 2px solid red;
         background-color:  navy;
         line-height: 55px;
-        } 
-        
+        }
+
 .row {
   width: 90%;
   margin: 0 auto;
@@ -42,12 +42,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   border:0px dotted green;
   margin-top: 20px;
   justify-content: center;
-  /*background-color:#fcfbeb;*/    
+  /*background-color:#fcfbeb;*/
 }
 
-        
-        
-        
+
+
+
 .block {
   width: 360px;
   margin-top:25px;
@@ -66,12 +66,12 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 }
 
 .templateblock {
-   /* background-color:  #fcfcf5; */ 
+   /* background-color:  #fcfcf5; */
    border:2px solid #b6d3fc;
 }
-        
-        
-        
+
+
+
 .block p {
 	  color: #555;
 	  padding-left: 60px;
@@ -112,6 +112,9 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
               margin-bottom:10px;
               margin-left:50px;
               font-size:135%;
+              background-color:#f0f0f5;
+              padding-top:5px;
+              padding-bottom:5px;
         }
 
 
@@ -146,25 +149,25 @@ a:hover { color:darkseagreen; text-decoration: none; }
 a:active { color:blueviolet; text-decoration: none; }
 
 .label a:link { color:blue; text-decoration: none; }
-.label a:visited { color:blueviolet; text-decoration: none; } 
-.label a:hover { color:blue; text-decoration: none; }        
+.label a:visited { color:blueviolet; text-decoration: none; }
+.label a:hover { color:blue; text-decoration: none; }
 .label a:active { color:skyblue; text-decoration: none; }
-        
+
 </style>
-    
+
 <title>Index to .exr files in rules directory demonstrating supported fileds</title>
 
 </head>
 
-    
-    
+
+
 <body>
 
-  <div class="caption">List of example .exr files</div>     
+  <div class="caption">List of example .exr files</div>
   <div class="row">
 
 
-      
+
   <!-- XXXXXXXXXXX -->
 
   <div class="block templateblock">
@@ -178,11 +181,11 @@ a:active { color:blueviolet; text-decoration: none; }
         Can be used as a template to author new .exr files<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> All and none.</i></div>
-  </div> <!-- block -->      
-      
-      
-      
-      
+  </div> <!-- block -->
+
+
+
+
   <!-- XXXXXXXXXXX -->
 
   <div class="block">
@@ -491,7 +494,27 @@ in this rule file.
 </div> <!-- block -->
 
 
+<!-- XXXXXXXXXXX -->
 
+
+<div class="block subexampleblock">
+      <span class="subexamplenumber">10.4</span>
+      <div class="blocktitle blocktitlesubexample"><a href="example13-ClickButton-PostForm111.exr">example10.3</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>
+          This example performs a google search for python. It visits the google main page and since it accesses it as an unauthorized user a consent form is shown. This rule clicks
+          on the consent form, fills in the search box with the word 'python' and clicks on the submit button. It extracts the links from the returned results search page.
+          <br>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example13-ClickButton-PostForm.exr -o csv/example13.csv  https://www.google.com/
+      </div>
+
+</div> <!-- block -->
 
 
 
