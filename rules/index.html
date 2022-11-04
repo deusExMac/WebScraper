@@ -27,7 +27,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         font: 24pt helvetica, arial, sans-serif;
         color: white;/*#4c7aba;*/
         #border: 2px solid red;
-        background-color:  #c0d6f0;
+        background-color:  #abb9f5;
         line-height: 55px;
         }
 
@@ -106,15 +106,20 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     overflow-wrap: anywhere;
 }
 
+.codesnipped {
+          font: 12pt Times New Roman;
+}
 
 .blocktitle {
               margin-top:5px;
               margin-bottom:10px;
               margin-left:50px;
-              font-size:135%;
-              background-color: #f0f0f5;
-              padding-top:5px;
-              padding-bottom:5px;
+              font-size:130%;
+              background-color: #cbd3f7; /*#c0d6f0;*/
+              #padding-top:5px;
+              #padding-bottom:5px;
+              #padding-left:5px;
+              padding:5px;
         }
 
 
@@ -398,13 +403,16 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">example10</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating the use of a rendering engine to download a page using the renderPages field. This results in using a rendering engine used by web browsers to download and load the html page.
+           Demonstrating the use of a rendering engine to download a page using the renderPages field. This results in using a rendering engine
+           to download and load the html page using the <a href="https://miyakogi.github.io/pyppeteer/">pyppeteer</a> module. The default rendering engine
+           used is <a href="https://en.wikipedia.org/wiki/Chromium_(web_browser)">Chromium</a> if no other is specified. Only Chromium and Chrome are currently supported. You may change
+           the default engine to an external chrome installation using the <font class="codesnipped">launchParameters</font> field.
           <br>
       </div>
       <div class="label"><b>target:</b><br/>
       This example extracts the article of wikipedia articles using a browser rendering engine. WebScraper has two ways
 	  to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
-	  A browser rendering engine is used to download, load and process pages when the field renderPages in .exr is set to True.
+	  A browser rendering engine (chromium or chrome inparticular) is used to download, load and process pages when the field renderPages in .exr is set to True.
 	  If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
 	  pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.<br>
 	  NOTE: Setting renderPages to true will result in slower web page retrieval and processing.
@@ -412,6 +420,9 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
       <div class="label smaller code"><b>Usage:</b> crawl  -r rules/example10-en.wikipedia.exr -o csv/example10.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div>
   </div> <!-- block -->
+
+
+
 
 
 
@@ -449,7 +460,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 <div class="block subexampleblock">
       <span class="subexamplenumber">10.2</span>
-      <div class="blocktitle blocktitlesubexample"><a href="example10.2-youtube.com.exr">example10.2</a></div>
+      <div class="blocktitle blocktitlesubexample"><a href="example10.2-youtube.com.exr">scroll until number of elements appear;infinite scrolling</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
@@ -499,7 +510,7 @@ in this rule file.
 
 <div class="block subexampleblock">
       <span class="subexamplenumber">10.4</span>
-      <div class="blocktitle blocktitlesubexample"><a href="example13-ClickButton-PostForm111.exr">example10.3</a></div>
+      <div class="blocktitle blocktitlesubexample"><a href="example13-ClickButton-PostForm.exr">fill inputs, click button, submit form</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
@@ -517,7 +528,31 @@ in this rule file.
 </div> <!-- block -->
 
 
+<!-- XXXXXXXXXXX -->
 
+
+  <div class="block subexampleblock">
+      <span class="subexamplenumber">10.5</span>
+      <div class="blocktitle blocktitlesubexample"><a href="airbnb-Comments.exr">engine launch parameters</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b> </font><br/>
+           Demonstrating launching using an external Chrome installation as the rendering engine to download and interact with webpages (instead of the default Chromium)
+           by specifying the <font class="codesnipped">launchParameters</font> field.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>
+          This example uses an external installation of Chrome to access the page of an airbnb listing and load the comment screen, scrolling it 8 times. This is because the
+          default rendering engine Chromium coming with pyppeteer does not seem to support (as of 04/11/2022) proper rendering of airbnb listings (???). Field <font class="codesnipped">launchParameters</font>
+          is only taken into consideration when renderPages is set to True. Otherwise it is ignored. Defining The example assumes
+          that it is exeuted on a WIN platform.<b>TODO:</b> 1)the actual .exr file is NOT COMPLETE!!!!
+          2) make .exr file get actual comments. Currently it only gets the title
+          <br>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      </div>
+
+</div> <!-- block -->
 
 
 

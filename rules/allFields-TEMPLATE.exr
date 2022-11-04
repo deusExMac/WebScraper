@@ -23,6 +23,8 @@
 "allowedMinimumFilled" : <REAL NUMBER IN RANGE [0,1]>,
 "renderPages":True|False,
 
+"launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
+
 "requestCookies": {
                    <COMMA SEPARATED KEY:VALUE LINES. Keys and values must be strings and in double quotes >    
                    "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" 

@@ -9,20 +9,23 @@
 {
 "libraryDescription": "Library to crawl airbnb",
 "csvLineFormat":["getTitle"],
+
+
+
 "renderPages": True,
 
-# How to launch browser.
-# NOTE: this field is valid only if renderPages is se to True.
+# How to launch browser. The build in chromium that ships  with pyppeteer or an existing Chromium or Chrome executable on local computer.
+# NOTE: this field is taken into consideration only if renderPages is se to True.
 "launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
 
+
+
 "ruleDynamicElements": [ 
-            #     {
-	#	     "dpcType":"click",
-	#	     "dpcPageElement":"button._oda838",
-	#	     "dpcScrolldown":0,
-	#	     "dpcWaitFor":"button._11eqlma4"
-	#	 },
+            
 		 
+		 # Close by clicking on the X of the "translation on" screen that pops
+		 # up when accessing as a guest airbnb listings so that it closes. Whait for the button
+		 # showing the comments to appear.
 		 {
 		 		     "dpcType":"click",
 		 		     "dpcPageElement":"div._1piuevz",
@@ -30,7 +33,8 @@
 		 		     "dpcWaitFor":"button._11eqlma4"
 		 },
 		 
-		 
+		 # Click on the XXX reviews link/button that'll pop up a screen showing the comments. 
+		 # Wait for the pop up to appear. 
 		 {
 		     "dpcType":"click",
 		     "dpcPageElement":"button._11eqlma4",
@@ -38,6 +42,7 @@
 		     "dpcWaitFor":"div._17itzz4"
 		 },
 
+                 # Scroll the windows popup with the comments 8 times.
 		 {
 		     "dpcType":"scroll",
 		     "dpcPageElement":"div._17itzz4",		     

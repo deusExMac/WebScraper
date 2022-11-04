@@ -275,6 +275,7 @@ class htmlRenderer:
           #  ]
 
           if not launchParams:
+             print( utils.toString('\t[DEBUG] Starting WITHOUT launch parameters\n') if self.debug else '', sep='', end='' ) 
              self.browser = await pyppeteer.launch()
           else: 
              # Next line seems to work properly for AIRBNB (previous line does not)
@@ -282,6 +283,7 @@ class htmlRenderer:
              # 'F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe'
              # "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data"
              # For MacOS set executablePath to: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' and no userDataDir param
+             print( utils.toString('\t[DEBUG] Starting WITH lauch parameters:[',launchParams.get('executablePath', ''), '] [', launchParams.get('userDataDir', ''), ']\n') if self.debug else '', sep='', end='' )
              self.browser = await pyppeteer.launch(headless=True, executablePath=launchParams.get('executablePath', ''), userDataDir=launchParams.get('userDataDir', ''))
 
           # for MacOS next like WORKED PERFECTLY!!!  

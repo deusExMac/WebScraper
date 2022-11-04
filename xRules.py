@@ -637,7 +637,7 @@ class ruleLibrary:
 
       # How to launch/instantiate browser in pyppeteer
       # launchParameters requires a dict with two predefined keys:
-      # - executablePath: Path to browser executable on local machine
+      # - executablePath: Path to a Chromium or Chrome executable on local machine to use instead of chromium shipped with pyppeteer.
       # - userDataDir: Path to user data dir. Currently required only on windows machines. Must take as
       #   value the path to user data of se browser specified in executable path. E.g. for chrome it should
       #   be "C:\\Users\\<WINDOWS USER NAME>\\AppData\\Local\\Google\\Chrome\\User Data"
