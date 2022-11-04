@@ -1,0 +1,72 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl airbnb",
+"csvLineFormat":["getTitle"],
+"renderPages": True,
+
+# How to launch browser.
+# NOTE: this field is valid only if renderPages is se to True.
+"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+
+"ruleDynamicElements": [ 
+            #     {
+	#	     "dpcType":"click",
+	#	     "dpcPageElement":"button._oda838",
+	#	     "dpcScrolldown":0,
+	#	     "dpcWaitFor":"button._11eqlma4"
+	#	 },
+		 
+		 {
+		 		     "dpcType":"click",
+		 		     "dpcPageElement":"div._1piuevz",
+		 		     "dpcScrolldown":0,
+		 		     "dpcWaitFor":"button._11eqlma4"
+		 },
+		 
+		 
+		 {
+		     "dpcType":"click",
+		     "dpcPageElement":"button._11eqlma4",
+		     "dpcScrolldown":0,
+		     "dpcWaitFor":"div._17itzz4"
+		 },
+
+		 {
+		     "dpcType":"scroll",
+		     "dpcPageElement":"div._17itzz4",		     
+		     "dpcScrolldown":8,
+		     "dpcWaitFor":""
+		 }
+ 
+],
+
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+
+"library": [
+{
+ "ruleName": "getTitle"
+ "ruleDescription": "Extracting the title of room"
+ "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []
+ 
+ "ruleCSSSelector": "h1._fecoyn4"
+ "ruleTargetAttribute": "text"
+ "ruleContentCondition": ""
+ "ruleReturnsMore": False
+ "ruleReturnedMatchPos": 0
+ "ruleReturningMoreIsError": False
+ 
+}
+
+]
+
+
+}
