@@ -102,14 +102,14 @@ def urlToFilename( root, u ):
 
 
 
-def urlToPlainFilename( root, u ):
+def urlToPlainFilename( root='', namePrefix='', u='' ):
        
     toReplace = {'/': '-', '&': '-','|': '-', '@':'-', '\\':'-', '*':'-', '<':'-', '>':'-', ':':'-', '?':'-', '=':'-'}
     
     if root=='' or root.endswith('/'):
-       return( root + u.translate(str.maketrans(toReplace)) )
+       return( root + namePrefix + u.translate(str.maketrans(toReplace)) )
     else:
-       return( root + '/' + u.translate(str.maketrans(toReplace)) )    
+       return( root + '/' +  namePrefix + u.translate(str.maketrans(toReplace)) )    
     
 
 

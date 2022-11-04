@@ -245,8 +245,8 @@ class htmlRenderer:
 
 
   
-      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[]):
-          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements)) )
+      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={}):
+          return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements, launchParams)) )
 
 
 
@@ -255,7 +255,7 @@ class htmlRenderer:
       #
       # TODO: This method needs serious refactoring.
       #       Among others, scrolldown is now obsolete. 
-      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[] ):
+      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={} ):
 
        #if self.interceptResponses:
        self.interceptingUrl = url
@@ -274,11 +274,16 @@ class htmlRenderer:
           #  '--ignore-certificate-errors'
           #  ]
 
-          self.browser = await pyppeteer.launch()
+          if not launchParams:
+             self.browser = await pyppeteer.launch()
+          else: 
+             # Next line seems to work properly for AIRBNB (previous line does not)
+             # executablePath for MacOS: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+             # 'F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe'
+             # "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data"
+             # For MacOS set executablePath to: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' and no userDataDir param
+             self.browser = await pyppeteer.launch(headless=True, executablePath=launchParams.get('executablePath', ''), userDataDir=launchParams.get('userDataDir', ''))
 
-          # Next line seems to work properly for AIRBNB (previous line does not)
-          # executablePath for MacOS: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-          #self.browser = await pyppeteer.launch(headless=True, executablePath='F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe', userDataDir="C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data")
           # for MacOS next like WORKED PERFECTLY!!!  
           #self.browser = await pyppeteer.launch(headless=True, executablePath='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', )
            
@@ -333,9 +338,9 @@ class htmlRenderer:
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-LOADING-', url) + '.png' })
 
-              # Next is for debugging purposes ONLY! 
-              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
+              
               
               attemptEnd = time.perf_counter() 
               break
@@ -409,8 +414,20 @@ class htmlRenderer:
               print( utils.toString(f'\t[DEBUG] Url {currentUrl} does NOT MATCH dynamic element url pattern. NOT APPLYING\n' ) if self.debug else '', end='' ) 
               continue
 
-           print( utils.toString(f'\t[DEBUG] Url {currentUrl} does MATCH dynamic element url pattern. APPLYING\n' ) if self.debug else '', end='' )   
+           print( utils.toString(f'\t[DEBUG] Url {currentUrl} does MATCH dynamic element url pattern. APPLYING\n' ) if self.debug else '', end='' )
+           
+           if self.debug and self.takePageScreenshot:
+              # Next is for debugging purposes ONLY! 
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'BEFORE-'+ de.dpcPageElement + '-', url) + '.png' })
+
+
            await self.executeDynamicElement(self.page, de)
+           if self.debug and self.takePageScreenshot:
+              # Next is for debugging purposes ONLY! 
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-'+ de.dpcPageElement + '-', url) + '.png' })
+
+
+              
            # This SEEMS to be required.
            # TODO: Investigate closer the execution dynamic of pyppeteer
            await asyncio.sleep(self.waitTime)
@@ -418,7 +435,7 @@ class htmlRenderer:
               
        if self.takePageScreenshot:       
           print( utils.toString('\t[DEBUG] Saving screenshot to file:', utils.urlToPlainFilename(self.screenShotStoragePath, url), '\n' ) if self.debug else '', end='' )      
-          await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, url) + '.png' })
+          await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, '', url) + '.png' })
 
        
        content = await self.page.content()

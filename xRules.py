@@ -634,6 +634,17 @@ class ruleLibrary:
       # TODO: Seems to be very, very slow. Be careful when setting is to true.
       renderPages: bool = False
 
+
+      # How to launch/instantiate browser in pyppeteer
+      # launchParameters requires a dict with two predefined keys:
+      # - executablePath: Path to browser executable on local machine
+      # - userDataDir: Path to user data dir. Currently required only on windows machines. Must take as
+      #   value the path to user data of se browser specified in executable path. E.g. for chrome it should
+      #   be "C:\\Users\\<WINDOWS USER NAME>\\AppData\\Local\\Google\\Chrome\\User Data"
+      #
+      # launchParameters is only taken into consideration, when renderPages is set to True. 
+      launchParameters: Dict[str, str] = field(default_factory=dict)
+
       # A list of dynamic elements i.e. js scripts and buttons on html page, that need to be executed or clicked/pressed after the
       # page has been loaded and before parsing of the page in order to render properly the page.
       # Currently, works only if the fetch method is dynamic i.e. renderPages is True.

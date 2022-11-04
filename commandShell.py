@@ -838,7 +838,7 @@ class commandImpl:
 
 
      
-      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None):
+      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None, launchPar={}):
             
           r = httpResponse()  
           if not renderPage:
@@ -894,7 +894,7 @@ class commandImpl:
                 
                 # Fetch url
                 # TODO: timeout must be a setting
-                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem)                
+                rHTML = htmlRndr.render(url=dUrl, timeout=45, requestCookies=cks, userAgent=uAgent, scrolldown=4, maxRetries=5, dynamicElements=dynamicElem, launchParams=launchPar)                
                 if rHTML is None:
                    r.status = -666
                    return(r)
@@ -919,6 +919,11 @@ class commandImpl:
 
 
                 
+
+
+
+
+
       
       #  
       # 
@@ -1136,7 +1141,7 @@ class commandImpl:
                        uA = exRules.requestUserAgent
 
                     
-                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings )
+                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings, launchPar=exRules.launchParameters )
 
                     # TODO: FIX ME
                     if response is None:
