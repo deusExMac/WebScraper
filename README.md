@@ -19,7 +19,7 @@ Make sure you have the following python packages installed before running the ap
 
 * asyncio
 
-* pyppeteer
+* pyppeteer (https://miyakogi.github.io/pyppeteer/)
 
 * pyppdf
 
