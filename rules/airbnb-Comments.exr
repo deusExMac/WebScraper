@@ -8,7 +8,7 @@
 
 {
 "libraryDescription": "Library to crawl airbnb",
-"csvLineFormat":["getTitle"],
+"csvLineFormat":["username", "comment"],
 
 
 
@@ -16,7 +16,9 @@
 
 # How to launch browser. The build in chromium that ships  with pyppeteer or an existing Chromium or Chrome executable on local computer.
 # NOTE: this field is taken into consideration only if renderPages is se to True.
-"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+#"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+
+"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
 
 
@@ -55,6 +57,28 @@
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
 
 "library": [
+
+# r1are2x1 dir dir-ltr
+{
+ "ruleName": "getComments"
+ "ruleDescription": "Extracting the comments from a listing"
+ "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []
+ 
+ "ruleCSSSelector": "div.r1are2x1"
+ "ruleTargetAttribute": "text",
+ "ruleContentCondition": "",
+ "rulePostCSSSelector" : ["h3._14i3z6h", "span.ll4r2nl"],
+ 
+ "ruleReturnedValueNames" : ["username", "comment"],
+
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+},
+
 {
  "ruleName": "getTitle"
  "ruleDescription": "Extracting the title of room"
