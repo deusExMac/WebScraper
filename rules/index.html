@@ -121,6 +121,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
               #padding-bottom:5px;
               #padding-left:5px;
               padding:5px;
+              font-family: Alberus, Trebuchet MS, sans-serif, helvetica;
         }
 
 
@@ -363,10 +364,10 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data. <i>NOTE: match preconditions are different from (page) preconditions (see example05, 05.1 and 05.2). See <a href="https://github.com/deusExMac/WebScraper">Readme</a> for details on their differences.</i>
+ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned in a list as strings. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data. <i>NOTE: match preconditions are different from (page) preconditions (see example05, 05.1 and 05.2). See <a href="https://github.com/deusExMac/WebScraper">Readme</a> for details on their differences.</i>
           <br>
       </div>
-      <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history.<br>
+      <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history. A record is returned where the names of matching football teams is returned in a list which is the value of the key with the rule name.<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
       <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
@@ -383,14 +384,14 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
   <div class="block" style="border:2px solid #facfe2;">
       <span class="subexamplenumber">07.1</span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">example07.1</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">match preconditions (getLinks)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
+          extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted. Links are returned as strings in a list, which list is the value of the getLinks key.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
