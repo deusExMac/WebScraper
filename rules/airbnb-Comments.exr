@@ -20,7 +20,7 @@
 
 "launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
-
+# win: C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data
 
 "ruleDynamicElements": [ 
             
