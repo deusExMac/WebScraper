@@ -46,7 +46,12 @@ def main():
    #       interactive or batch mode.
    #
 
-   # Check command line arguments
+
+   # Check command line arguments relevant for starting up WebScraper.
+   #
+   # IMPORTANT: These settings must be first in argument list. If not known
+   # arguments preceed these, they are ignored.
+   # TODO: Check this more thoroughly; bug of argparse????
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
@@ -105,7 +110,7 @@ def main():
    # Update the rules file in the configuration, if one is given in the command line
    config.set('Rules', 'ruleFile', args['rules'] )
 
-
+   
    # Load the extraction rules from a library file.
    # If no library file is specified, load the default
    # library file.
