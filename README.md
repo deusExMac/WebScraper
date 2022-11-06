@@ -236,9 +236,14 @@ Rule attributes/properties:
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
-# Order of checks carried out as specified by exr files
+# Order of checks carried out as specified by rules in exr files
 
-exr files do the checks and extraction in the following orders:
+When applying rules to html file, checks and extraction is carried out in the following orders (for each rule):
+
+## ruleURLActivationCondition 
+
+First url of downloaded page is checked if it matches any of the regular expression specified in ruleURLActivationCondition.
+
 
 
 # Related projects
