@@ -1088,9 +1088,23 @@ class commandImpl:
              print('No starting URL given. Terminating.')
              return(False)
 
-            
-          # add url given in the shell argument
-          uQ.add( args['url'][0] )
+          absolutePath = os.path.abspath( args['url'][0] )
+          print( utils.toString('\t[DEBUG] Checking if: [', absolutePath, '] is file...\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )  
+          if os.path.exists( absolutePath ):
+                
+             with open(absolutePath) as f:
+                   urls = f.read().splitlines()
+                   
+             #urlFile = open(absolutePath, 'r')
+             #urls = urlFile.readlines()
+             #urlFile.close()
+             for u in urls:
+                 print( utils.toString('\t[DEBUG] Adding to queue url from file: [', u, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )  
+                 uQ.add(u)  
+          else:      
+              # Is probably url. I.e. one url given in command line. Add it to queue
+              print( utils.toString('\t[DEBUG] Adding to queue url: [', args['url'][0], ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )   
+              uQ.add( args['url'][0] )
 
           lastAutosave = time.perf_counter()
           crawlStarted  = time.perf_counter()
