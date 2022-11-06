@@ -51,8 +51,6 @@ import clrprint
 
 import pyppdf.patch_pyppeteer
 
-#TODO: Does asyncio fix the "coroutine 'Launcher.killChrome' was never awaited" issue?
-#import asyncio
 
 
 # We define constants in this file
