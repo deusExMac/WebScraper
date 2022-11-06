@@ -226,10 +226,12 @@
  
  
  # These will be the key names under which the extracted elements by
- # rulePostCSSSelector will be stored. Name must be ordered based on selectors 
- # specified in rulePostCSSSelector.
- # NOTE: number of keys must be the same as number of css selectors in
- # rulePostCSSSelector.
+ # rulePostCSSSelector will be stored. There is a one-to-one correspondence 
+ # between selector in rulePostCSSSelector and names in ruleReturnedValueNames.
+ # This means that name musts be ordered based on selectors 
+ # specified in rulePostCSSSelector.  
+ # NOTE: number of elements in  ruleReturnedValueNames must be the same 
+ # as number of css selectors in rulePostCSSSelector.
  
  "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon"]
  
