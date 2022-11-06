@@ -236,6 +236,10 @@ Rule attributes/properties:
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
+## Order of checks carried out as specified by exr files
+
+exr files do the checks and extraction in the following orders:
+
 
 # Related projects
 
