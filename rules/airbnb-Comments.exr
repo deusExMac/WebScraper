@@ -7,7 +7,8 @@
 
 
 {
-"libraryDescription": "Library to crawl airbnb",
+"libraryDescription": "Library to download usernames and comments from airbnb listings",
+
 "csvLineFormat":["username", "comment"],
 
 
@@ -44,7 +45,8 @@
 		     "dpcWaitFor":"div._17itzz4"
 		 },
 
-                 # Scroll the windows popup with the comments 8 times.
+         # Scroll the windows popup with the comments 8 times so that a 
+         # number of comments appear.
 		 {
 		     "dpcType":"scroll",
 		     "dpcPageElement":"div._17itzz4",		     
