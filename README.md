@@ -238,31 +238,31 @@ IMPORTANT: Some properties are not fully supported and/or may result in errors a
 
 # Order of checks carried out as specified by rules in exr files
 
-When applying rules to html file, checks and extraction is carried out in the following orders (for each rule):
+When applying rules to html file, checks and extraction is carried out in the following order for each rule in the exr file:
 
-## 1. ruleURLActivationCondition 
+## i. ruleURLActivationCondition 
 
 First url of downloaded page is checked if it matches any of the regular expression specified in ruleURLActivationCondition.
 if URL of downloaded resource does not match any regular expression in ruleURLActivationCondition, rule is not applied. Otherwise rule continues.
 
-## 2. rulePreconditions
+## ii. rulePreconditions
 
 Then page rule preconditions are applied. The expression in page preconditions, which check if the html content meets the css element conditions specified in rulePreconditions, is evaluated. If evaluation of page preconditions return False, the extraction specified by the rule stops.  Otherwise, it continues. NOTE: page preconditions may overwrite the ruleCSSSelector.
 
-## 3. ruleCSSSelector
+## iii. ruleCSSSelector
 
 ruleCSSSelector extracts the actual target (sourght after) information from the downloaded page. Specified ruleCSSSelector may be overwritten by rulePrecondition. May return a single value or a set/list of values (specified by ruleReturnsMore).
 
-## 4. ruleMatchPreconditions
+## iv. ruleMatchPreconditions
 
 If specified, on the result set returned by ruleCSSSelector, the ruleMatchPreconditions are applied. These check if each result match a very specific condition. Results that do not meet the conditions specified by ruleMatchPreconditions are removed from the ruleCSSSelector result set and not returned. Although more than one match precondition can be specified, only the ANY operator (s supported (i.e. ruleMatchPreconditionType can only take value ANY). Match preconditions are applied to the results after the extraction process in contrast to page preconditions that are applied before.
 
-## 5. ruleContentCondition
+## v. ruleContentCondition
 
 If specifies, the regular expression specified in ruleContentCondition is applied to all extracted content in the result set. If ruleContentCondition is  empty, no conditions are enforced on the extracted content i.e. the rcurrent esult set is unafected.
 
 
-## 6. rulePostCSSSelector
+## vi. rulePostCSSSelector
 
 If specified, it applies the css selector list specified in rulePostCSSSelector to cut each and every element of the results set returned by ruleCSSSelector into smaller pieces. May return a list of strings or a list of dictionaries. List of dictionaries are returned, if field ruleReturnedValueNames is specified which has a list of strings acting as keys corresponding to the css selectors one-by-one in rulePostCSSSelector.   
 
