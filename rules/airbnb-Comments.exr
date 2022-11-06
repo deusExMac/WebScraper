@@ -69,11 +69,22 @@
  "ruleCSSSelector": "div.r1are2x1"
  "ruleTargetAttribute": "text",
  "ruleContentCondition": "",
+ 
+ # These selectors will be applied to all elements 
+ # returned by ruleCSSSelector
+ # It is assumed that these selectors return ONLY one
+ # matchine element. Currently only the text of these elements is
+ # extracted.
  "rulePostCSSSelector" : ["h3._14i3z6h", "span.ll4r2nl"],
  
+ # One-to-one correspondence with rulePostCSSSelector 
+ # selector list. E.g. here, data extracted by h3._14i3z6h
+ # will be named usename. 
  "ruleReturnedValueNames" : ["username", "comment"],
 
+ # This refers to the result of ruleCSSSelector
  "ruleReturnsMore": True,
+ 
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
  
