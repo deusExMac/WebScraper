@@ -837,7 +837,7 @@ class commandImpl:
 
      
       def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None, launchPar={}):
-            
+          print( utils.toString('\t[DEBUG] renderPages is [', renderPage, ']\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')  
           r = httpResponse()  
           if not renderPage:
              r.setFetchMethod('static')

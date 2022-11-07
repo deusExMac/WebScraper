@@ -161,9 +161,15 @@ class htmlRenderer:
        return( cookieString ) 
 
     
+      # For intercepting http requests. Not used currently...
+      ''' 
+      async def interceptHttpRequest(req: Request):
+            print(f'Original header: {req.headers}')
+            req.headers.update({'Accept-Encoding': 'gzip'})
+            await req.continue_(overrides={'headers': req.headers})
+      '''
 
-
-              
+            
           
       async def intercept_network_response(self, resp):
 
@@ -313,6 +319,16 @@ class htmlRenderer:
             #print('[DEBUG] html rendering. Setting cookie', c)
             await self.page.setCookie( c )
             #await asyncio.sleep(self.waitTime/2)
+
+
+      #TODO: Can we use .setExtraHTTPHEaders to change ANY header???
+      # await self.page.setExtraHTTPHeaders({
+      #  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36',
+      #  'upgrade-insecure-requests': '1',
+      #  'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+      #  'accept-encoding': 'gzip, deflate, br',
+      #  'accept-language': 'en-US,en;q=0.9,en;q=0.8'
+      # })
 
        #print('\t[DEBUG] Loading URL', url)
        await self.page.setViewport( {'width':1920, 'height':1080} )

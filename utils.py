@@ -253,6 +253,8 @@ def cookiesFromDict( d, url ):
     
     for k, v in d.items():
         #c = {'name':k, 'value':v, 'domain':getDomain(url) }
+
+        # TODO: Cookies starting with __Secure should have  'secure':True
         c = {'name':k, 'value':v, 'url':url }
         cookieList.append(c)
 

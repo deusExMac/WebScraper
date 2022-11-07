@@ -19,9 +19,11 @@
 # NOTE: this field is taken into consideration only if renderPages is se to True.
 #"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
 
-"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
+# For MacOS
+#"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
-# win: C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data
+"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+
 
 "ruleDynamicElements": [ 
             
