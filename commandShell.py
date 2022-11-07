@@ -974,8 +974,9 @@ class commandImpl:
           # modify original settings with arguments given by the shell
           cmdConfigSettings = copy.deepcopy( self.configuration )
 
-
-
+          # We first update this option to make sure that calls will work properly.
+          if args['debug']:
+             cmdConfigSettings.set('DEBUG', 'debugging', 'True' )
 
           # Override settings with shell arguments
           if args.get('numpages') is not None:
@@ -1005,7 +1006,7 @@ class commandImpl:
                 try:
                   with open(args['rules'],  encoding='utf-8', errors='ignore', mode='r') as f:
                      exRules = xRules.loadLibrary(f.read())
-                     print( utils.toString('ok.') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
+                     print( utils.toString('ok.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
 
                      #print('ok.')
                      
@@ -1016,9 +1017,10 @@ class commandImpl:
           if args['render']:
              exRules.renderPages = True   
 
-          if args['debug']:
-                 cmdConfigSettings.set('DEBUG', 'debugging', 'True' )
+          
                 
+
+          print( utils.toString('\t[DEBUG] crawl params [', ' '.join(a), ']...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
 
           if args['update']:
              print("")
