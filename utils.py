@@ -364,10 +364,10 @@ def cookieJarFromDict( d, url ):
         # TODO: Should this be domain or url???
         #       a url is always passed.
         #print('Adding [', k, '=', v)
-        lst.append( k+'='+v + ';domain=' + dmn + ';\n')   
+        lst.append( k+'='+v + ';domain=' + dmn )   
        
-    strCookie = ''.join(lst)
-    print('cookieJar:[', strCookie, ']')
+    strCookie = ';\n'.join(lst)
+    #print('cookieJar:[', strCookie, ']')
     sCookie = http.cookies.SimpleCookie(strCookie)
     cJar = requests.cookies.RequestsCookieJar()
     cJar.update(sCookie)
@@ -375,7 +375,16 @@ def cookieJarFromDict( d, url ):
     return(cJar)
 
 
-
+# Takes a dictionary of key:value
+# and turns it into a string of key=value; key=value
+# that will be sent to remote host in the Cookie section of the
+# request header.
+def dictToCookieString(d):
+    cookieList = []
+    for ck in d.keys():
+        cookieList.append( ck + '=' + d[ck] ) 
+    
+    return( ';'.join(cookieList) )
     
               
 

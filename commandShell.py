@@ -854,13 +854,18 @@ class commandImpl:
              else:    
                 print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )    
 
-
+             
              h = rHeader
              if uAgent is not None and uAgent != '':
-                h = {'User-Agent' : uAgent}
+                h['User-Agent'] = uAgent
 
-                 
-             response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl), headers=h  )
+             if rCookies:
+                h['Cookie'] = utils.dictToCookieString(rCookies)   
+             
+             #print( utils.toString('\t[DEBUG] Using as HEADER:', h, '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
+             #cks = utils.cookieJarFromDict(rCookies, dUrl)
+                
+             response = session.get(dUrl, cookies = {}, headers=h  )
              
              # The cookies will be separated by a comma ,. Hence we normalize these by replacing
              # this comma with a newline character.
