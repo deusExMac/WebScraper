@@ -357,16 +357,17 @@ def cookieJarFromDict( d, url ):
     lst = []
     
     dmn = ''
-    if dmn != '':
+    if dmn == '':
        dmn = getCookieDomain(url)
        
     for k, v in d.items():
         # TODO: Should this be domain or url???
-        #       a url is always passed. 
-        lst.append( k+'='+v + ';domain=' + dmn)   
+        #       a url is always passed.
+        #print('Adding [', k, '=', v)
+        lst.append( k+'='+v + ';domain=' + dmn + ';\n')   
        
-    strCookie = ';'.join(lst)
-    
+    strCookie = ''.join(lst)
+    print('cookieJar:[', strCookie, ']')
     sCookie = http.cookies.SimpleCookie(strCookie)
     cJar = requests.cookies.RequestsCookieJar()
     cJar.update(sCookie)
