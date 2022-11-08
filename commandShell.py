@@ -860,6 +860,11 @@ class commandImpl:
                 h['User-Agent'] = uAgent
 
              if rCookies:
+                # We include cookies in the header.
+                # Tried to pass cookies using the cookies parameter of session.get() but
+                # could not find appropriate way to set up the arguments.
+                # TODO: Need to read the manual again and lookup source code to see how
+                # to pass cookies to session.get
                 h['Cookie'] = utils.dictToCookieString(rCookies)   
              
              #print( utils.toString('\t[DEBUG] Using as HEADER:', h, '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
