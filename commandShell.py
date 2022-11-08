@@ -836,7 +836,7 @@ class commandImpl:
 
 
      
-      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None, launchPar={}):
+      def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None, launchPar={}, rHeader={}):
           print( utils.toString('\t[DEBUG] renderPages is [', renderPage, ']\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')  
           r = httpResponse()  
           if not renderPage:
@@ -855,10 +855,11 @@ class commandImpl:
                 print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )    
 
 
-             h = {}
+             h = rHeader
              if uAgent is not None and uAgent != '':
                 h = {'User-Agent' : uAgent}
-                
+
+                 
              response = session.get(dUrl, cookies = utils.cookieJarFromDict(rCookies, dUrl), headers=h  )
              
              # The cookies will be separated by a comma ,. Hence we normalize these by replacing
@@ -888,6 +889,9 @@ class commandImpl:
                 htmlRndr.waitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
                 htmlRndr.takePageScreenshot = cfg.getboolean('Crawler', 'takePageScreenShot', fallback=False)
                 htmlRndr.screenShotStoragePath = cfg.get('Storage', 'screenShotPath', fallback='.')
+
+                # set additional or update headers
+                htmlRndr.rqstHeader = rHeader
 
                 
                 # Fetch url
@@ -1165,7 +1169,7 @@ class commandImpl:
                        uA = exRules.requestUserAgent
 
                     
-                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings, launchPar=exRules.launchParameters )
+                    response = self.downloadURL(dUrl=currentUrl, rCookies = exRules.requestCookies, uAgent=uA, renderPage=exRules.renderPages, dynamicElem = exRules.ruleDynamicElements, cfg = cmdConfigSettings, launchPar=exRules.launchParameters, rHeader=exRules.requestHeader )
 
                     # TODO: FIX ME
                     if response is None:

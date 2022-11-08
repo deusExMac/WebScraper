@@ -48,6 +48,10 @@ class htmlRenderer:
           self.browser = None
           self.page = None
           self.headers = None
+          
+          # header used during request
+          self.rqstHeader = {}
+          
           self.response = None
 
           # TODO: Check me 
@@ -308,7 +312,13 @@ class htmlRenderer:
              self.page.on('response', lambda res: asyncio.ensure_future(self.intercept_network_response(res)) )         
        else:
           print( utils.toString('\t[DEBUG] Reusing existing PAGE\n') if self.debug else '', sep='', end='' )
-        
+
+
+       if self.rqstHeader:
+         print( utils.toString('\t[DEBUG] Setting extra headers to [', self.rqstHeader, ']\n') if self.debug else '', sep='', end='' ) 
+         await self.page.setExtraHTTPHeaders( self.rqstHeader )
+
+       # Set user agent 
        if userAgent is not None:
           print( utils.toString('\t[DEBUG] Setting user agent to [', userAgent, ']\n') if self.debug else '', sep='', end='' ) 
           await self.page.setUserAgent(userAgent);
@@ -320,7 +330,8 @@ class htmlRenderer:
             await self.page.setCookie( c )
             #await asyncio.sleep(self.waitTime/2)
 
-
+      
+         
       #TODO: Can we use .setExtraHTTPHEaders to change ANY header???
       # await self.page.setExtraHTTPHeaders({
       #  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36',

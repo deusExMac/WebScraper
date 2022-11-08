@@ -653,11 +653,19 @@ class ruleLibrary:
       ruleDynamicElements: List[ruleDynamicPageContent] = field(default_factory=lambda:[])
 
 
-
+      #
       # HTTP request related variables
+      #
       
+      # updated/added http header
+      requestHeader: Dict[str, str] = field(default_factory=dict)
+
+      # cookies
       requestCookies: Dict[str, str] = field(default_factory=dict)
+
+      # user agent - we treat this separately
       requestUserAgent: str = ''
+
       
       def get(self, ruleName) -> extractionRule:
           for r in self.library:

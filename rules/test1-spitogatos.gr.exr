@@ -15,32 +15,54 @@
 # List of rule names, whose extracted data should be stored in the csv file. 
 # IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
 
-"csvLineFormat":["teamName", "manager"],
+"csvLineFormat":["propertyLocation", "propertyPrice"],
 
-"requestCookies": {
 
-"AWSALB"="IqEeAmao0g78bCTyZT5F7Orxgeh5deoW7fN2rdQIHUEGVCTXR1OdllObV0QrComSJuHUSyHjunrIOnUd+TnDIMw/QLZE4TwnUbkkMqjATj2g0BEzcwAg7eD2pqlq", 
-"AWSALBCORS"="IqEeAmao0g78bCTyZT5F7Orxgeh5deoW7fN2rdQIHUEGVCTXR1OdllObV0QrComSJuHUSyHjunrIOnUd+TnDIMw/QLZE4TwnUbkkMqjATj2g0BEzcwAg7eD2pqlq", 
-"PHPSESSID"="l6tnr2el4mgb80a1h4kqhd8edd", 
-"auth.strategy"="laravelJWT", 
-"auth._token.laravelJWT"="false", 
-"auth._token_expiration.laravelJWT"="false", 
-"auth._refresh_token.laravelJWT"="false", 
-"auth._refresh_token_expiration.laravelJWT"="false", 
-"spitogatosHomepageMap"="0", 
-"currentCurrency"="EUR", 
-"openedTabs"="3", 
-"reese84"="3:yZSmdxtiTYjRjsgNocEksA==:+qvpqaWonhKZ8p/JS3n6VhTMiPMmVn8Jn24jfiTEwgeC7P2Lx4Qa2vlxNgq/o9/iddBk5Yabyo6rnGFJZf6ZhziRtnKJCJreEfGXWGRHBRCUewffWfqsNV/0gFBTEbtl6caXWeOPGJI3X0WMXc+HhTtwGfMk/jnHsMzorozaPkct/DewhmqsN0G8TUYMHHAT0dG65roKJ4S/YXZ4RwZxj12S/4bOgdghZ4ebqFsUaMWaw9wO7YyormQuhR2niRlepdkBUuO7cmckaSoZKWDTX94V3KQJAVW7lLtkFH3gE+L54U/OgeKPDZqCbHzVviDcpuj145csss11DZlT3aqFJYfvLNq39OQprVoZUxrvvSYwnsoDVDqIV/t69IgIYBz4R6ztJvNaFIfyPgLChpqobPnePhGDkh3wlt8vVKsgJznWqwI4SZVQr1gZxT3Mk5WFBgRuu7QMGW8aZRd4tkuiktjyJE1oGN6iDarvNbtqLkc=:myANmAH+feBLSWM1hGbvlSZgK5h7yao198ffVhRqnks=", 
-"euconsent-v2"="CPiEukAPiEukAAKAsAELCpCsAP_AAH_AAAyIJHtd_H__bW9r-f5_aft0eY1P9_r37uQzDhfNk-8F3L_W_LwX52E7NF36tq4KmR4ku1LBIUNlHMHUDUmwaokVryHsak2cpzNKJ7BEknMZOydYGF9vmxtj-QKY7_5_d3bx2D-t_9v239z3z81Xn3d53-_03LCdV5_9Dfn9fR_b89KP9_78v4v8_____3_e__3_7997-CRoBJhq3EAXZljgzaBhFAiBGFYSFUCgAgoBhaIDABwcFOysAn1hAgAQCgCMCIEOAKMCAQAACQBIRABIEWCAAAEQCAAEACIRCABgYBBYAWBgEAAIBoGKIUAAgSEGRARFKYEBUCQQGtlQglBdIaYQBVlgBQSI2KgARBICKwABAWDgGCJASsWCBJijfIARghQCiVCtRCAA.fngAAAAAAAAA", 
-"addtl_consent"="1~39.4.3.9.6.9.13.6.4.15.9.5.2.7.4.1.7.1.3.2.10.3.5.4.21.4.6.9.7.10.2.9.2.18.7.6.14.5.20.6.5.1.3.1.11.29.4.14.4.5.3.10.6.2.9.6.6.9.4.4.29.4.5.3.1.6.2.2.17.1.17.10.9.1.8.6.2.8.3.4.146.8.42.15.1.14.3.1.8.10.25.3.7.25.5.18.9.7.41.2.4.18.21.3.4.2.7.6.5.2.14.18.7.3.2.2.8.20.8.8.6.3.10.4.20.2.13.4.6.4.11.1.3.22.16.2.6.8.2.4.11.6.5.33.11.8.1.10.28.12.1.3.21.2.7.6.1.9.30.17.4.9.15.8.7.3.6.6.7.2.4.1.7.12.13.22.13.2.12.2.10.1.4.15.2.4.9.4.5.4.7.13.5.15.4.13.4.14.10.15.2.5.6.2.2.1.2.14.7.4.8.2.9.10.18.12.13.2.18.1.1.3.1.1.9.25.4.1.19.8.4.5.3.5.4.8.4.2.2.2.14.2.13.4.2.6.9.6.3.4.3.5.2.3.6.10.11.6.3.16.3.11.3.1.2.3.9.19.11.15.3.10.7.6.4.3.4.6.3.3.3.3.1.1.1.6.11.3.1.1.11.6.1.10.5.2.6.3.2.2.4.3.2.2.7.15.7.14.1.3.3.4.5.4.3.2.2.5.3.1.1.1.2.9.1.6.9.1.5.2.1.7.10.11.1.3.1.1.2.1.3.2.6.1.12.5.3.1.3.1.1.2.2.7.7.1.4.1.2.6.1.2.1.1.3.1.1.4.1.1.2.1.8.1.7.4.3.2.1.3.5.3.9.6.1.15.10.28.1.2.2.12.3.4.1.6.3.4.7.1.3.1.1.3.1.5.3.1.3.4.1.1.4.2.1.2.1.2.2.2.4.2.1.2.2.2.4.1.1.1.2.2.1.1.1.1.2.1.1.1.2.2.1.1.2.1.2.1.7.1.2.1.1.1.2.1.1.1.1.2.1.1.3.2.1.1.8.1.1.6.2.1.6.5.1.1.1.1.1.2.2.3.1.1.4.1.1.2.2.1.1.4.3.1.2.2.1.2.1.2.3.1.1.2.4.1.1.1.5.1.3.6.3.1.5.2.3.4.1.2.3.1.4.2.1.2.2.2.1.1.1.1.1.1.11.1.3.1.1.2.2.5.2.3.3.5.1.1.1.4.2.1.1.2.5.1.9.4.1.1.3.1.7.1.4.5.1.7.2.1.1.1.2.1.1.1.4.2.1.12.1.1.3.1.2.2.3.1.2.1.1.1.2.1.1.2.1.1.1.1.2.4.1.5.1.2.4.3.8.2.2.9.7.2.2.1.2.1.4.6.1.1.6.1.1.2.6.3.1.2.201", 
-"_oid"="926bfae9-2ee8-4aee-9f86-8e20819f9b2b", 
-"_pbjs_userid_consent_data"="3524755945110770", 
-"personalizedProperties"="true"
-
-},
+# How to fetch the urls
 
 "renderPages":True,
 "launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+
+
+
+# http related stuff
+
+"requestHeader": {
+
+ "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+ "Accept-Encoding": "gzip, deflate, br",
+ "Accept-Language": "en-US,en;q=0.5",
+ "Connection": "keep-alive",
+ "Set-Fetch-Dest":"document",
+ "Set-Fetch-Mode":"navigate",
+ "Set-Fetch-Site":"none",
+ "Set-Fetch-User":"?1",
+ "Upgrade-Insecure-Requests": "1"
+
+},
+
+"requestCookies": {
+
+"AWSALB":"IqEeAmao0g78bCTyZT5F7Orxgeh5deoW7fN2rdQIHUEGVCTXR1OdllObV0QrComSJuHUSyHjunrIOnUd+TnDIMw/QLZE4TwnUbkkMqjATj2g0BEzcwAg7eD2pqlq", 
+"AWSALBCORS":"IqEeAmao0g78bCTyZT5F7Orxgeh5deoW7fN2rdQIHUEGVCTXR1OdllObV0QrComSJuHUSyHjunrIOnUd+TnDIMw/QLZE4TwnUbkkMqjATj2g0BEzcwAg7eD2pqlq", 
+"PHPSESSID":"l6tnr2el4mgb80a1h4kqhd8edd", 
+"auth.strategy":"laravelJWT", 
+"auth._token.laravelJWT":"false", 
+"auth._token_expiration.laravelJWT":"false", 
+"auth._refresh_token.laravelJWT":"false", 
+"auth._refresh_token_expiration.laravelJWT":"false", 
+"spitogatosHomepageMap":"0", 
+"currentCurrency":"EUR", 
+"openedTabs":"3", 
+"reese84":"3:yZSmdxtiTYjRjsgNocEksA==:+qvpqaWonhKZ8p/JS3n6VhTMiPMmVn8Jn24jfiTEwgeC7P2Lx4Qa2vlxNgq/o9/iddBk5Yabyo6rnGFJZf6ZhziRtnKJCJreEfGXWGRHBRCUewffWfqsNV/0gFBTEbtl6caXWeOPGJI3X0WMXc+HhTtwGfMk/jnHsMzorozaPkct/DewhmqsN0G8TUYMHHAT0dG65roKJ4S/YXZ4RwZxj12S/4bOgdghZ4ebqFsUaMWaw9wO7YyormQuhR2niRlepdkBUuO7cmckaSoZKWDTX94V3KQJAVW7lLtkFH3gE+L54U/OgeKPDZqCbHzVviDcpuj145csss11DZlT3aqFJYfvLNq39OQprVoZUxrvvSYwnsoDVDqIV/t69IgIYBz4R6ztJvNaFIfyPgLChpqobPnePhGDkh3wlt8vVKsgJznWqwI4SZVQr1gZxT3Mk5WFBgRuu7QMGW8aZRd4tkuiktjyJE1oGN6iDarvNbtqLkc=:myANmAH+feBLSWM1hGbvlSZgK5h7yao198ffVhRqnks=", 
+"euconsent-v2":"CPiEukAPiEukAAKAsAELCpCsAP_AAH_AAAyIJHtd_H__bW9r-f5_aft0eY1P9_r37uQzDhfNk-8F3L_W_LwX52E7NF36tq4KmR4ku1LBIUNlHMHUDUmwaokVryHsak2cpzNKJ7BEknMZOydYGF9vmxtj-QKY7_5_d3bx2D-t_9v239z3z81Xn3d53-_03LCdV5_9Dfn9fR_b89KP9_78v4v8_____3_e__3_7997-CRoBJhq3EAXZljgzaBhFAiBGFYSFUCgAgoBhaIDABwcFOysAn1hAgAQCgCMCIEOAKMCAQAACQBIRABIEWCAAAEQCAAEACIRCABgYBBYAWBgEAAIBoGKIUAAgSEGRARFKYEBUCQQGtlQglBdIaYQBVlgBQSI2KgARBICKwABAWDgGCJASsWCBJijfIARghQCiVCtRCAA.fngAAAAAAAAA", 
+"addtl_consent":"1~39.4.3.9.6.9.13.6.4.15.9.5.2.7.4.1.7.1.3.2.10.3.5.4.21.4.6.9.7.10.2.9.2.18.7.6.14.5.20.6.5.1.3.1.11.29.4.14.4.5.3.10.6.2.9.6.6.9.4.4.29.4.5.3.1.6.2.2.17.1.17.10.9.1.8.6.2.8.3.4.146.8.42.15.1.14.3.1.8.10.25.3.7.25.5.18.9.7.41.2.4.18.21.3.4.2.7.6.5.2.14.18.7.3.2.2.8.20.8.8.6.3.10.4.20.2.13.4.6.4.11.1.3.22.16.2.6.8.2.4.11.6.5.33.11.8.1.10.28.12.1.3.21.2.7.6.1.9.30.17.4.9.15.8.7.3.6.6.7.2.4.1.7.12.13.22.13.2.12.2.10.1.4.15.2.4.9.4.5.4.7.13.5.15.4.13.4.14.10.15.2.5.6.2.2.1.2.14.7.4.8.2.9.10.18.12.13.2.18.1.1.3.1.1.9.25.4.1.19.8.4.5.3.5.4.8.4.2.2.2.14.2.13.4.2.6.9.6.3.4.3.5.2.3.6.10.11.6.3.16.3.11.3.1.2.3.9.19.11.15.3.10.7.6.4.3.4.6.3.3.3.3.1.1.1.6.11.3.1.1.11.6.1.10.5.2.6.3.2.2.4.3.2.2.7.15.7.14.1.3.3.4.5.4.3.2.2.5.3.1.1.1.2.9.1.6.9.1.5.2.1.7.10.11.1.3.1.1.2.1.3.2.6.1.12.5.3.1.3.1.1.2.2.7.7.1.4.1.2.6.1.2.1.1.3.1.1.4.1.1.2.1.8.1.7.4.3.2.1.3.5.3.9.6.1.15.10.28.1.2.2.12.3.4.1.6.3.4.7.1.3.1.1.3.1.5.3.1.3.4.1.1.4.2.1.2.1.2.2.2.4.2.1.2.2.2.4.1.1.1.2.2.1.1.1.1.2.1.1.1.2.2.1.1.2.1.2.1.7.1.2.1.1.1.2.1.1.1.1.2.1.1.3.2.1.1.8.1.1.6.2.1.6.5.1.1.1.1.1.2.2.3.1.1.4.1.1.2.2.1.1.4.3.1.2.2.1.2.1.2.3.1.1.2.4.1.1.1.5.1.3.6.3.1.5.2.3.4.1.2.3.1.4.2.1.2.2.2.1.1.1.1.1.1.11.1.3.1.1.2.2.5.2.3.3.5.1.1.1.4.2.1.1.2.5.1.9.4.1.1.3.1.7.1.4.5.1.7.2.1.1.1.2.1.1.1.4.2.1.12.1.1.3.1.2.2.3.1.2.1.1.1.2.1.1.2.1.1.1.1.2.4.1.5.1.2.4.3.8.2.2.9.7.2.2.1.2.1.4.6.1.1.6.1.1.2.6.3.1.2.201", 
+"_oid":"926bfae9-2ee8-4aee-9f86-8e20819f9b2b", 
+"_pbjs_userid_consent_data":"3524755945110770", 
+"personalizedProperties":"true"
+
+},
+
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
 
@@ -48,7 +70,7 @@
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-"requiredFilledFields": ["teamName", "manager"],
+#"requiredFilledFields": ["teamName", "manager"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
