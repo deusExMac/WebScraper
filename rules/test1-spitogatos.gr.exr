@@ -220,7 +220,7 @@
                              # ecRuleCSSSelector in this precondition. I.e. use this
                              # selector, overwriting ruleCSSSelector, to get the manager's name
                              
-                             "ecRuleCSSSelector" : "dl.property__details dd:nth-child(1)"
+                             "ecRuleCSSSelector" : ".price"
                            }
                            
                            
