@@ -38,7 +38,6 @@
  "Sec-Fetch-Site":"none",
  "Sec-Fetch-User":"?1",
  "Upgrade-Insecure-Requests": "1"
-
 },
 
 "requestCookies": {
@@ -60,17 +59,19 @@
 "_oid":"926bfae9-2ee8-4aee-9f86-8e20819f9b2b", 
 "_pbjs_userid_consent_data":"3524755945110770", 
 "personalizedProperties":"true"
-
 },
 
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
 
 
+
+
+
 # The list of ruleNames that must return non-empty values
 # to consider the extraction successful and the data be written to the csv file. 
 
-#"requiredFilledFields": ["teamName", "manager"],
+#"requiredFilledFields": ["propertyLocation", "propertyPrice"],
 
 # Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
@@ -127,7 +128,7 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["spitogatos\.gr/aggelia"],
+ "ruleURLActivationCondition": ["spitogatos\.gr/aggelia/\d+$"],
  
  
  # A CSS selector specifying the element on the page to scrape.
@@ -165,8 +166,8 @@
 
 
 
-# Rule to extract/scrape the title of the downloaded article. The title
-# is assumed to be the teams name, not it's full name (or formal name)
+# Rule to extract/scrape property price
+
 
 {
 
@@ -188,7 +189,7 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["spitogatos\.gr/aggelia"],
+ "ruleURLActivationCondition": ["spitogatos\.gr/aggelia/\d+$"],
  
  
  "rulePreconditions" : [ 
@@ -250,6 +251,114 @@
  
  # Does this rule return more than one result?
  "ruleReturnsMore": False,
+ 
+ # If the rule returns more than one result, which result to return. Negative means all elements. 
+ # This takes only effect if ruleReturnsMore is set to True.
+ "ruleReturnedMatchPos": 0,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": ['€'],
+},
+
+
+
+
+# Rule to extract/scrape items from search result page
+
+
+{
+
+ # If no ruleName is specified, the extracted data of this rule cannot be used
+ # in  the csvLineFormat attribute.
+ 
+ "ruleName": "properties",
+ 
+ 
+ # Short description
+ 
+ "ruleDescription": "Extracts property data from search results page",
+ 
+ 
+ 
+ # Regular expression specifying which URL pattern will trigger the
+ # execution of this rule. 
+ # This is a list ([]) meaning you may add many disjunctive regular expressions
+ # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
+ # Special regular expression metacharacters (.) are escaped.
+ 
+ "ruleURLActivationCondition": ["spitogatos\.gr/.*-katoikies.*/.*"],
+ 
+ 
+ "rulePreconditions" : [ 
+                           # First precondition: Check if manager is at this part of the page
+                           {
+                              # The precondition selector i.e. the element to be
+                              # checked. This precondition examines if the 9th row in 
+                              # the infobox has the value Manager or Head coach.
+                         
+                              "ecCSSSelector" : "dl.property__details dt:nth-child(1)", 
+                             
+                             
+                             # Regular expression the text property of the element 
+                             # in ecCSSSelector must match. Only text property is currently 
+                             # supported. If element matches regular expression, the 
+                             # precondition holds and the ruleCSSSelector is applied.
+                             #
+                             # An empty value (the default if ecTextCondition is missing) 
+                             # means that this precondition holds if the element 
+                             # specified in ecCSSSelector exists on the page currently processed.
+                             # 
+                             # REMEMBER: If you would like to specify a case INsensitive match,
+                             # you may add the (?i) flag                              
+                             
+                             "ecTextCondition" : "(?i)(Τιμή)",
+                             
+                             # If the 9th child in the infobox has as text manager or head coach
+                             # then replace the rule's ruleCSSSelector with the value of 
+                             # ecRuleCSSSelector in this precondition. I.e. use this
+                             # selector, overwriting ruleCSSSelector, to get the manager's name
+                             
+                             "ecRuleCSSSelector" : ".price"
+                           }
+                           
+                           
+                           
+                           # NOTE: You may add here more preconditions with overwriting the ruleCSSSelector
+                           #       if you would like to check other positions of the infobox for the same 
+                           #       data as well.
+ ],
+ 
+ 
+ 
+ 
+ # A CSS selector specifying the element on the page to scrape.
+ # NOTE: the CSS selector may return more than one mathing element.
+ 
+ "ruleCSSSelector": ".ordered-element",
+ 
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "text",
+ 
+ 
+ 
+ 
+ "rulePostCSSSelector" : ["h3:nth-child(1)", "h3:nth-child(2)", ".price__text"]
+ "ruleReturnedValueNames" : ["propertyType", "propertyLocation", "propertyPrice"]
+  
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "",
+ 
+ # Does this rule return more than one result?
+ "ruleReturnsMore": True,
  
  # If the rule returns more than one result, which result to return. Negative means all elements. 
  # This takes only effect if ruleReturnsMore is set to True.
