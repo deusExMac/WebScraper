@@ -296,7 +296,7 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block" style="border:2px solid #d7facd;">
       <span class="subexamplenumber">05.1</span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.1-en.wikipedia.exr">Page preconditions (ALL) TODO: complete me</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.1-en.wikipedia.exr">Page preconditions (ALL)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and how these preconditions
@@ -323,18 +323,31 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block" style="border:2px solid #d7facd;">
       <span class="subexamplenumber">05.2</span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.2-en.wikipedia.exr">Page preconditions (EVAL) TODO: complete me</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.2-en.wikipedia.exr">Page preconditions (EVAL)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           <b>CHECK THIS!!!</b>Demonstrating the use of page preconditions in rule getLinks??? to extract and follow links that meet more complicated conditions.
+           Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and
+		   how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
+		   preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT as well as parentheses) using
+		   as operands the truth value of each of the preconditions referenced by their name. If the boolean expression evaluates to True, the rule is applied. If not
+           the rule is not applied.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
+          This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name)
+		  that meet all following requirements:
+		  1) are physicists, 2) are born in either january or march or may or october and 3)  have an american nationality. In contrast to the rule in example5.1-en.wikipedia.exr
+		  the rules here make sure that the checked values refer to/are associated with specific fields (which example5.1 does not). The precondition expression evaluated is
+		  <i><font color="maroon" face = "Monaco,Ubuntu Mono, Space Mono, Hack,IBM Plex Mono,Monoid,Arial">"p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) )"</font></i>
+		  where each of p1, p2, p3 etc is the name of a precondition. If this expression evaluates to TRUE, the rule is applied and not if the expression evaluates to FALSE.
+		  Preconditions can be part of EVAL expression only if they have a name.
+
+
+
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL) getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL)  ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smaller code subexample"><b>Usage</b>crawl -M -n -1 -r rules/example5.2-en.wikipedia.exr -o csv/example5.2.csv https://en.wikipedia.org/wiki/List_of_physicists
       </div>
 
 </div> <!-- block -->
@@ -356,7 +369,7 @@ a:active { color:blueviolet; text-decoration: none; }
       </div>
       <div class="label"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> cRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
       <div class="label smaller code"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div> <!-- block -->

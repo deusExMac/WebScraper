@@ -1,0 +1,35 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl data from econ.upatras.gr site",
+"csvLineFormat":["xxx", "yyy"],
+"requiredFilledFields":["xxx", "yyy"],
+
+"library": [
+
+
+
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links rule",
+ "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "www\.econ\.upatras\.gr.*$",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+ # other parameters needed
+}
+
+]
+
+
+}
