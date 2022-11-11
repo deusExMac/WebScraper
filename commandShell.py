@@ -968,7 +968,7 @@ class commandImpl:
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
              cmdArgs.add_argument('-D', '--dfs', action='store_true' )
              # minimum hit rate
-             cmdArgs.add_argument('-T', '--minhitrate', type=int, nargs='?' )
+             cmdArgs.add_argument('-HR', '--minhitrate', type=float, nargs='?' )
 
              # Use page pyppeteer to download page  
              cmdArgs.add_argument('-R', '--render', action='store_true' )
@@ -1218,7 +1218,7 @@ class commandImpl:
                          # Create a httpResponse object with an appropriate status
                          # so that the url will be updated.
                          response = httpResponse()
-                         response.status = -9
+                         response.status = -9                         
                          break 
                          
                         
@@ -1293,6 +1293,7 @@ class commandImpl:
                  # Check if status is ok.
                  # If not, continue to next url.
                  if response.status != 200:
+                    clrprint.clrprint('xxxx http status:', response.status , ' --- IGNORING', clr='red' )   
                     numHTTPErrors += 1
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue # Get next url
@@ -1300,7 +1301,7 @@ class commandImpl:
                  # Check if content type is ok.
                  # If not, continue to hext url.
                  # NOTE: current version processes only html/text content types
-                 if 'html' not in response.get('Content-Type', ''):
+                 if 'html' not in response.get('Content-Type', ''):                    
                     print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' )if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' , end='')   
                     # Update status just to signify that this resource
                     # was downloaded, but ignored i.e. not processed because of
@@ -1450,16 +1451,16 @@ class commandImpl:
                        break
 
                  # MinHitRate
-                 if cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) > 0:
+                 # if cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) > 0:
                        
-                    if exHitRate < cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0):
+                 if exHitRate < cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0):
                        belowMinHitRateCount += 1
                        # if we go below hit rate more than minHitRateSamples consecutive times,
                        # the process terminates.
                        if belowMinHitRateCount >= cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50):
                           print('\nTerminating. Reached below minimum hit rate', cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0), ' more than', cmdConfigSettings.getint('Crawler', 'minHitRateSamples', fallback=50), 'consecutive times.\n' )   
                           break
-                    else:
+                 else:
                           belowMinHitRateCount = 0 # reset
                           
 

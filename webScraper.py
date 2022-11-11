@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import configparser
 import argparse
 
@@ -20,6 +20,11 @@ import pyjokes
 
 
 
+def override_where():
+    """ overrides certifi.core.where to return actual location of cacert.pem"""
+    # change this to match the location of cacert.pem
+    return os.path.abspath("cacert.pem")
+
 
 
 # Generate an empty configuration setting, with only the sections.
@@ -38,6 +43,39 @@ def generateDefaultConfiguration():
 
 
 def main():
+
+   ######################################################################################################
+    
+   # Trying solutions from:
+   # https://stackoverflow.com/questions/46119901/python-requests-cant-find-a-folder-with-a-certificate-when-converted-to-exe/47699138#47699138
+   
+   '''
+   # is the program compiled?
+   if hasattr(sys, "frozen"):
+      print('YES, frozen. Changing...') 
+      import certifi.core
+
+      os.environ["REQUESTS_CA_BUNDLE"] = override_where()
+      certifi.core.where = override_where
+
+      # delay importing until after where() has been replaced
+      import requests.utils
+      import requests.adapters
+      # replace these variables in case these modules were
+      # imported before we replaced certifi.core.where
+      requests.utils.DEFAULT_CA_BUNDLE_PATH = override_where()
+      requests.adapters.DEFAULT_CA_BUNDLE_PATH = override_where() 
+   '''
+
+   '''
+   import certifi
+
+   os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.argv[0]), certifi.where())
+   '''
+
+
+   ######################################################################################################
+
     
    #
    # Main steps are as follows:

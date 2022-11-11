@@ -8,8 +8,8 @@
 
 {
 "libraryDescription": "Library to crawl data from econ.upatras.gr site",
-"csvLineFormat":["xxx", "yyy"],
-"requiredFilledFields":["xxx", "yyy"],
+#"csvLineFormat":["xxx", "yyy"],
+#"requiredFilledFields":["xxx", "yyy"],
 
 "library": [
 
@@ -21,7 +21,7 @@
  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"],
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
- "ruleContentCondition": "www\.econ\.upatras\.gr.*$",
+ "ruleContentCondition": "www\.econ\.upatras\.gr(?:(?!\bannouncements\b).)*$",
  "ruleReturnsMore": True,
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
