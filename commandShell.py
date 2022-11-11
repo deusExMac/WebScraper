@@ -967,6 +967,8 @@ class commandImpl:
              cmdArgs.add_argument('-H', '--humandelay', action='store_true' )             
              cmdArgs.add_argument('-C', '--continue', action='store_true' )
              cmdArgs.add_argument('-D', '--dfs', action='store_true' )
+             # minimum hit rate
+             cmdArgs.add_argument('-T', '--minhitrate', type=int, nargs='?' )
 
              # Use page pyppeteer to download page  
              cmdArgs.add_argument('-R', '--render', action='store_true' )
@@ -1031,7 +1033,8 @@ class commandImpl:
           if args['render']:
              exRules.renderPages = True   
 
-          
+          if args.get('minhitrate'):
+             cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
                 
 
           print( utils.toString('\t[DEBUG] crawl params [', ' '.join(a), ']...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
