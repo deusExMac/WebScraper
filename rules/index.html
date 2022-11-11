@@ -299,15 +299,19 @@ a:active { color:blueviolet; text-decoration: none; }
       <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.1-en.wikipedia.exr">Page preconditions (ALL) TODO: complete me</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           <b>CHECK THIS!!!</b> Demonstrating the use of page preconditions in rule getLinks??? to extract and follow links that meet more complicated conditions.
+           Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and how these preconditions
+           are evaluated. This example demonstrates evaluation using the ALL operator between preconditions (rulePreconditionType) i.e. rule is applied if ALL of the specified rule preconditions are evaluated to TRUE.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          extracts -from a specific wikipedia page on champions league finals- and follows only these links leading to football teams wikipedia pages, that have won the UEFA Champions League more than 3 time. These links are followed the team's name is extracted.
+          This library scraps/extracts the name of scientists from wikipedia articles, that meet the all the next requirements:<br>
+          1) are physicists AND<br>
+          2) are born in either january or march or may or october AND<br>
+          3)  have an american nationality.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ALL), getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/USPysicistsBornJanMarMayOct.csv https://en.wikipedia.org/wiki/List_of_physicists
       </div>
 
 </div> <!-- block -->
