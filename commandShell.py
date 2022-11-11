@@ -1072,14 +1072,19 @@ class commandImpl:
           #visitedPageHashes = []
           pageHandlingTimes = []
 
+          # used to determine if a delay should be in order
           previousHost = ''
-          
+
+          # number of pages processed
           numProcessed = 0
+          
           numprocessingErrors = 0
           numHTTPErrors = 0
           numNetErrors = 0
 
           numExtracted = 0 # Number of matches found/extracted
+          # Bytes downloaded 
+          totalBytes = 0
 
           xDataDF = None
           if exRules is not None and len( exRules.csvLineFormat ) > 0:
@@ -1162,12 +1167,16 @@ class commandImpl:
                  if len(pageHandlingTimes) > 0:
                     pgsPerSec = '{:.2}'.format( 1/statistics.mean(pageHandlingTimes) )
 
-                  
+                 kBPerSec = -1
+                 elapsed = float('{:.0}'.format(time.perf_counter() - crawlStarted))
+                 if elapsed > 0:
+                    kBPerSec = float('{:.0}'.format(totalBytes / elapsed) ) / 1024
+                    
                  exHitRate = 0.00 # extraction hit rate: percentage of pages processed from which data was actually extracted (i.e. hits)
                  if uQ.fetchedUrlsCount() != 0:
                     exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
-                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]', clr='yellow', sep='')
+                 clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' (', '{:.3f}'.format(kBPerSec),  'KB/sec) Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]', clr='yellow', sep='')
 
                  tmStart = time.perf_counter() # start counting time
 
@@ -1293,7 +1302,6 @@ class commandImpl:
                  # Check if status is ok.
                  # If not, continue to next url.
                  if response.status != 200:
-                    clrprint.clrprint('xxxx http status:', response.status , ' --- IGNORING', clr='red' )   
                     numHTTPErrors += 1
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue # Get next url
@@ -1330,7 +1338,8 @@ class commandImpl:
                        print( utils.toString('\t[DEBUG] Error saving file\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')   
                     
 
-                  
+                 totalBytes += pageContentLength
+                 
                  ###############################################################################
                  #
                  # This url is valid and urlqueue has been updated with the respective
