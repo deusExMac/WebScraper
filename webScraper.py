@@ -19,7 +19,8 @@ import pyjokes
 
 
 
-
+# Trying to solve the SSL error.
+# NOTE: Does not work.
 def override_where():
     """ overrides certifi.core.where to return actual location of cacert.pem"""
     # change this to match the location of cacert.pem
