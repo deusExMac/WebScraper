@@ -26,13 +26,36 @@
 "launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
 
 "requestCookies": {
-                   <COMMA SEPARATED KEY:VALUE LINES. Keys and values must be strings and in double quotes >    
+                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. key-value pairs must be separated by commas. >
+                   
+                   Example:
+                   
                    "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" 
                    },
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
 
+
+"requestHeader": {
+                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. Many key-value pairs should be separated by commas.>
+                   
+                   Examples:
+                   
+                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                   "Accept-Encoding": "gzip, deflate, br",
+                   "Accept-Language": "en-US,en;q=0.5",
+                   "Connection": "keep-alive",
+                   "Sec-Fetch-Dest":"document",
+                   "Sec-Fetch-Mode":"navigate",
+                   "Sec-Fetch-Site":"none",
+                   "Sec-Fetch-User":"?1",
+                   "Upgrade-Insecure-Requests": "1" 
+                   },
+
 "ruleDynamicElements": [ 
+
+          Examples:
+           
 		 {
 		     "dpcType":"<'click' | 'js' | 'fill' | 'scrollpage' | 'scroll'>",
 		     "dpcPageElement":"",

@@ -61,6 +61,9 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   font: 11pt arial, sans-serif, helvetica;
 }
 
+        
+/* .block:hover{border:2px solid red;} */
+        
 .subexampleblock {
    background-color:  #fcfcf5; /*#f9fae8;*/
    border:2px solid #fcfcf0;
@@ -68,7 +71,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 
 .templateblock {
    /* background-color:  #fcfcf5; */
-   border:2px solid #b6d3fc;
+   border:2px solid #00348f;
 }
 
 
@@ -147,6 +150,7 @@ span {
 }
 
 
+        
 a:link { color:orange; text-decoration: none; }
 
 a:visited { color:blueviolet; text-decoration: none; }
@@ -160,6 +164,10 @@ a:active { color:blueviolet; text-decoration: none; }
 .label a:hover { color:blue; text-decoration: none; }
 .label a:active { color:skyblue; text-decoration: none; }
 
+a:link.template {color:white;}
+a:visited.template {color:yellow;}        
+a:hover.template { color:darkseagreen; text-decoration: none; }
+        
 </style>
 
 <title>Index to .exr files in rules directory demonstrating supported fileds</title>
@@ -178,8 +186,8 @@ a:active { color:blueviolet; text-decoration: none; }
   <!-- XXXXXXXXXXX -->
 
   <div class="block templateblock">
-      <span>00</span>
-      <div class="blocktitle"><a href="allFields-TEMPLATE.exr">TEMPLATE</a></div>
+      <span><font color="#00348f">00</font></span>
+      <div class="blocktitle" style="background-color:#00348f"><a href="allFields-TEMPLATE.exr" class="template">TEMPLATE</a></div>
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
            Contains all the <a href="https://github.com/deusExMac/WebScraper">supported fields</a> in .exr file. Fields do not have  value. Has comments to explain format of values of some fields.  <br>
@@ -197,7 +205,7 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block">
       <span>01</span>
-      <div class="blocktitle"><a href="example1-en.wikipedia.exr">example01</a></div>
+      <div class="blocktitle"><a href="example1-en.wikipedia.exr">One simple rule</a></div>
 
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
@@ -221,7 +229,7 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block">
       <span>02</span>
-      <div class="blocktitle"><a href="example2-en.wikipedia.exr">example02</a></div>
+      <div class="blocktitle"><a href="example2-en.wikipedia.exr">Library with two rules including getLinks</a></div>
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
           Simple library with two rules. Defines rule to harvest links (getLinks rule).<br>
@@ -239,7 +247,7 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block">
       <span>03</span>
-      <div class="blocktitle"><a href="example3-en.wikipedia.exr">example03</a></div>
+      <div class="blocktitle"><a href="example3-en.wikipedia.exr">Three rules scraping different parts of same page</a></div>
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
           Demonstrating application of three rules on a downloaded page, each extracting different parts of the same page. One of these rules extracts hyperlinks. <br>
@@ -384,7 +392,7 @@ a:active { color:blueviolet; text-decoration: none; }
 
   <div class="block" style="border:2px solid #facfe2;">
       <span><font color="#facfe2">07</font></span>
-      <div class="blocktitle" style="background-color: #facfe2"><a href="example7-en.wikipedia.exr">match preconditions</a></div>
+      <div class="blocktitle" style="background-color: #facfe2"><a href="example7-en.wikipedia.exr">Post match preconditions</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
@@ -408,7 +416,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
   <div class="block" style="border:2px solid #facfe2;">
       <span class="subexamplenumber"><font color="#facfe2">07.1</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">match preconditions (getLinks)</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">Post match preconditions (getLinks)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
@@ -432,7 +440,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
   <div class="block">
       <span>08</span>
-      <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">example08</a></div>
+      <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">Post match CSS selectors</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in a single rule returning a so called <i>recordlist</i> i.e. a list of extracted data containing new keys which (list) will be the value of the key with rule name instead of one key-value pair.
@@ -450,17 +458,17 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
   <div class="block">
       <span>09</span>
-      <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">example09</a></div>
+      <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">HTTP request header parameters</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating the use of fields related to user agent and request cookies during retrieval of resources.
+           Demonstrating how to set http request header parameters including: request cookies, user agent and http headers.
           <br>
       </div>
       <div class="label"><b>target:</b><br/> This example sets one cookie related to the users consenting accepting cookies when accesing youtube.com, without having signed in.
       The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown when accessing youtube's home page as an unatuthorized user.<br/>You
       may add cookies related to session ids or authentication information in order to access websites as an authenticated user. You may get such authentication/session cookies using a browser's Web development tools and capture http request headers. <a href="example9-youtube.com-cookies.exr">Rule file contains instructions on how to specify and format such cookies.</a> <br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent </i></div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent, requestHeader </i></div>
       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/</div>
   </div> <!-- block -->
 
@@ -559,7 +567,7 @@ in this rule file.
 
 <div class="block" style="border:2px solid #f9fad2;">
       <span class="subexamplenumber"><font color="#edef6c">10.3</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">example10.3</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">Page interaction: </a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
@@ -608,20 +616,18 @@ in this rule file.
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="airbnb-Comments.exr">Using external Chrome installation as engine</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating launching using an external Chrome installation as the rendering engine to download and interact with webpages (instead of the default Chromium)
+           Demonstrating launching an external Chrome installation in headless mode as the rendering engine to download and interact with webpages (instead of the default Chromium engine used by pyppeteer)
            by specifying the <font class="codesnipped">launchParameters</font> field.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
           This example uses an external installation of Chrome to access the page of an airbnb listing and load the comment screen, scrolling it 8 times. This is because the
-          default rendering engine Chromium coming with pyppeteer does not seem to support (as of 04/11/2022) proper rendering of airbnb listings (???). Field <font class="codesnipped">launchParameters</font>
-          is only taken into consideration when renderPages is set to True. Otherwise it is ignored. Defining The example assumes
-          that it is exeuted on a WIN platform.<b>TODO:</b> 1)the actual .exr file is NOT COMPLETE!!!!
-          2) make .exr file get actual comments. Currently it only gets the title
+          default rendering engine available in pyppeteer (which uses <a href="https://en.wikipedia.org/wiki/Chromium_(web_browser)">Chromium</a>) does not seem to support (as of 04/11/2022) proper rendering of airbnb listings. This may happen for some websites. In such cases, an external Chrome installation can be used that seem to overcome these limitation. However, if using an external Chrome installation as rendering engine, care should be taken if Chrome is already running: this may result in the page not being loaded if the page is already diplayed on the headfull Chrome. Field <font class="codesnipped">launchParameters</font>
+          is only taken into consideration when renderPages is set to True. Otherwise it is ignored. launchParameters requires supplying values to two fields: <font class="codesnipped">executablePath</font>, which is the path to external Chrome installation and <font class="codesnipped">userDataDir</font> which is required on Windows platforms. 
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n 1 -r rules/airbnb-Comments.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/42242106
       </div>
 
 </div> <!-- block -->

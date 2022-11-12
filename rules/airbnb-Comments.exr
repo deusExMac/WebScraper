@@ -1,13 +1,20 @@
+########################################################################################################################################################
 #
-# json format of 
+# Example library 10.5: Demonstrating the use of an external Chrome installation in headless mode, instead of default engine Chromium supported by pyppeteer, 
+#                       for loading and interacting with webpages. 
+#                       
 # 
+# Related fields: launchParameters {executablePath, userDataDir}, renderPages, ruleDynamicElements, dpcType (click, scroll), dpcPageElement, dpcScrolldown, dpcWaitFor.
+#
+# This example extracts the names of users that have commented on airbnb listings. It scrolls the comment page/window down 8 times before extracting usernames and comments. 
+#
 # version 0.01@18/05/2022
 #
 #
-
+########################################################################################################################################################
 
 {
-"libraryDescription": "Library to download usernames and comments from airbnb listings",
+"libraryDescription": "Library to download usernames and comments from airbnb listings. Uses an extrenal Chrome installation in headless mode for rendering and interacting with the web page.",
 
 "csvLineFormat":["username", "comment"],
 
@@ -15,14 +22,25 @@
 
 "renderPages": True,
 
-# How to launch browser. The build in chromium that ships  with pyppeteer or an existing Chromium or Chrome executable on local computer.
+# How to launch browser. The build in chromium that ships with pyppeteer or an existing Chromium or Chrome executable on local computer.
 # NOTE: this field is taken into consideration only if renderPages is se to True.
 #"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
 
-# For MacOS
-#"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
-"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+# Launch parameters for MacOS platoforms.
+# Adjust based on your Chrome version.
+
+"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
+
+
+
+
+
+# Launch parameters for Windows
+# Windows launch parameters require also the userDataDir.
+# Adjust values based on your installation.
+
+#"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
 
 
 "ruleDynamicElements": [ 
@@ -39,7 +57,7 @@
 		 },
 		 
 		 # Click on the XXX reviews link/button that'll pop up a screen showing the comments. 
-		 # Wait for the pop up to appear. 
+		 # Wait for the pop up to appear (after clicking on the button) 
 		 {
 		     "dpcType":"click",
 		     "dpcPageElement":"button._11eqlma4",
@@ -60,9 +78,13 @@
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
 
+
+
+
 "library": [
 
-# r1are2x1 dir dir-ltr
+# Rule to get comments from airbnb listing.
+# Retutns a recordlist of extracted username and comments dictionaries.
 {
  "ruleName": "getComments"
  "ruleDescription": "Extracting the comments from a listing"
@@ -92,23 +114,24 @@
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
  
-},
-
-{
- "ruleName": "getTitle"
- "ruleDescription": "Extracting the title of room"
- "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
- "rulePreconditionType": "Any"
- "rulePreconditions" : []
- 
- "ruleCSSSelector": "h1._fecoyn4"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- 
 }
+
+
+#{
+# "ruleName": "getTitle"
+# "ruleDescription": "Extracting the title of room"
+# "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
+# "rulePreconditionType": "Any"
+# "rulePreconditions" : []
+ 
+# "ruleCSSSelector": "h1._fecoyn4"
+# "ruleTargetAttribute": "text"
+# "ruleContentCondition": ""
+# "ruleReturnsMore": False
+# "ruleReturnedMatchPos": 0
+# "ruleReturningMoreIsError": False
+ 
+#}
 
 ]
 
