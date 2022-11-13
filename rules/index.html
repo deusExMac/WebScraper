@@ -74,7 +74,9 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
    border:2px solid #00348f;
 }
 
-
+.hoveredblock:hover {
+    border:2.1px solid red;
+        }
 
 .block p {
 	  color: #555;
@@ -84,6 +86,26 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
  }
 
 
+        
+.clrblock1 {
+            border:2px solid #e2e37e;
+        }        
+        
+.clrblock2 {
+            border:2px solid #d7facd;;
+        }          
+      
+       
+.clrblock3{
+            border:2px solid #facfe2;
+        }        
+        
+      
+.clrblock4{
+            border:2px solid #f9fad2;
+        }        
+        
+        
 .label {
             margin-top:2px;
             padding-left: 50px;
@@ -185,7 +207,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
   <!-- XXXXXXXXXXX -->
 
-  <div class="block templateblock">
+  <div class="block templateblock hoveredblock">
       <span><font color="#00348f">00</font></span>
       <div class="blocktitle" style="background-color:#00348f"><a href="allFields-TEMPLATE.exr" class="template">TEMPLATE</a></div>
       <div class="label">
@@ -203,7 +225,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
   <!-- XXXXXXXXXXX -->
 
-  <div class="block" style="border:2px solid #e2e37e;">
+  <div class="block clrblock1 hoveredblock">
       <span><font color="#e2e37e">01</font></span>
       <div class="blocktitle" style="background-color: #e2e37e;"><a href="example1-en.wikipedia.exr">One rule</a></div>
 
@@ -224,12 +246,14 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       
       
       
+      
+      
 <!-- XXXXXXXXXXX -->
 
-  <div class="block" style="border:2px solid #e2e37e;">
+  <div class="block clrblock1 hoveredblock">
       <span class="subexamplenumber"><font color="#e2e37e">01.1</font></span>
       
-      <div class="blocktitle blocktitlesubexample" style="background-color: #e2e37e;"><a href="example1-en.wikipedia.exr">One rule (site crawling)</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #e2e37e;"><a href="example1.1-stanford.edu.exr">One rule (site crawling)</a></div>
 
       <div class="label subexample">
           <font color="black"> <b>description:</b><br/></font>
@@ -244,7 +268,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
       
-      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr -HR -1 https://www.stanford.edu/</div>
+      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div>
   </div> <!-- block -->
       
       
@@ -258,7 +282,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
    <!-- XXXXXXXXXXX -->
 
-  <div class="block">
+  <div class="block hoveredblock">
       <span>02</span>
       <div class="blocktitle"><a href="example2-en.wikipedia.exr">Library with two rules including getLinks</a></div>
       <div class="label">
@@ -276,7 +300,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
   <!-- XXXXXXXXXXX -->
 
 
-  <div class="block">
+  <div class="block hoveredblock">
       <span>03</span>
       <div class="blocktitle"><a href="example3-en.wikipedia.exr">Three rules scraping different parts of same page</a></div>
       <div class="label">
@@ -294,7 +318,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #d7facd;">
+  <div class="block clrblock2 hoveredblock">
       <span><font color="#9ef386">04</font></span>
       <div class="blocktitle" style="background-color: #d7facd;"><a href="example4-en.wikipedia.exr">Page preconditions</a></div>
       <div class="label">
@@ -311,20 +335,20 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
  <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #d7facd;">
-      <span><font color="#9ef386">05</font></span>
-      <div class="blocktitle" style="background-color: #d7facd;"><a href="example5-en.wikipedia.exr">Page preconditions (ANY)</a></div>
-      <div class="label">
+  <div class="block clrblock2 hoveredblock">
+      <span class="subexamplenumber"><font color="#9ef386">04.1</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example4.1-en.wikipedia.exr">Page preconditions (ANY)</a></div>
+      <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and
                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
                     preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE.
           <br>
       </div>
-      <div class="label"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
+      <div class="label subexample"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
-      <div class="label smaller code"><b>Example</b> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics</div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
+      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics</div>
 
   </div> <!-- block -->
 
@@ -333,9 +357,9 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #d7facd;">
-      <span class="subexamplenumber"><font color="#9ef386">05.1</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.1-en.wikipedia.exr">Page preconditions (ALL)</a></div>
+  <div class="block clrblock2 hoveredblock">
+      <span class="subexamplenumber"><font color="#9ef386">04.2</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example4.2-en.wikipedia.exr">Page preconditions (ALL)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and how these preconditions
@@ -360,9 +384,9 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #d7facd;">
-      <span class="subexamplenumber"><font color="#9ef386">05.2</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example5.2-en.wikipedia.exr">Page preconditions (EVAL)</a></div>
+  <div class="block clrblock2 hoveredblock">
+      <span class="subexamplenumber"><font color="#9ef386">04.3</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example4.3-en.wikipedia.exr">Page preconditions (EVAL)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of more than one page preconditions in a rule, before applying the rule's css selectors (scraping data) and
@@ -397,19 +421,19 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #d7facd;">
-      <span><font color="#9ef386">06</font></span>
-      <div class="blocktitle" style="background-color: #d7facd;"><a href="example6-en.wikipedia.exr">Page precondition with css selector overwritting</a></div>
-      <div class="label">
+  <div class="block clrblock2 hoveredblock">
+      <span class="subexamplenumber"><font color="#9ef386">04.4</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #d7facd;"><a href="example4.4-en.wikipedia.exr">Page precondition with css selector overwritting</a></div>
+      <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            more than one page preconditions in rules that moreover overwrite/change the rule's specified
  ruleCSSSelector selector with  ecRuleCSSSelector depending on which  precondition evaluated to True. First match precondition returning True, overwrites selector. ruleCSSSelector overwriting is possible only when rulePreconditionType has value ANY.
           <br>
       </div>
-      <div class="label"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
+      <div class="label subexample"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div> <!-- block -->
 
@@ -421,7 +445,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
   <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #facfe2;">
+  <div class="block clrblock3 hoveredblock">
       <span><font color="#facfe2">07</font></span>
       <div class="blocktitle" style="background-color: #facfe2"><a href="example7-en.wikipedia.exr">Post match preconditions</a></div>
       <div class="label">
@@ -445,7 +469,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #facfe2;">
+  <div class="block clrblock3 hoveredblock">
       <span class="subexamplenumber"><font color="#facfe2">07.1</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">Post match preconditions (getLinks)</a></div>
       <div class="label subexample">
@@ -469,7 +493,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block">
+  <div class="block hoveredblock">
       <span>08</span>
       <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">Post match CSS selectors</a></div>
       <div class="label">
@@ -487,7 +511,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block">
+  <div class="block hoveredblock">
       <span>09</span>
       <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">HTTP request header parameters</a></div>
       <div class="label">
@@ -509,7 +533,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #f9fad2;">
+  <div class="block clrblock4 hoveredblock">
       <span><font color="#edef6c">10</font></span>
       <div class="blocktitle" style="background-color: #f9fad2;"><a href="example9-youtube.com-cookies.exr">Using rendering engine (Chromium)</a></div>
       <div class="label">
@@ -540,7 +564,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #f9fad2;">
+  <div class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">10.1</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example10.1-youtube.com.exr">Scrolling webpage specified number of times</a></div>
       <div class="label subexample">
@@ -569,7 +593,7 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 <!-- XXXXXXXXXXX -->
 
 
-<div class="block" style="border:2px solid #f9fad2;">
+<div class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">10.2</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example10.2-youtube.com.exr">scroll until number of elements appear;infinite scrolling</a></div>
       <div class="label subexample">
@@ -596,7 +620,7 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
 
-<div class="block" style="border:2px solid #f9fad2;">
+<div class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">10.3</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">Page interaction: </a></div>
       <div class="label subexample">
@@ -619,7 +643,7 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
 
-<div class="block" style="border:2px solid #f9fad2;">
+<div class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">10.4</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">fill inputs, click button, submit form</a></div>
       <div class="label subexample">
@@ -642,7 +666,7 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
 
-  <div class="block" style="border:2px solid #f9fad2;">
+  <div class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">10.5</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="airbnb-Comments.exr">Using external Chrome installation as engine</a></div>
       <div class="label subexample">

@@ -22,13 +22,26 @@
 
 "renderPages": True,
 
-# How to launch browser. The build in chromium that ships with pyppeteer or an existing Chromium or Chrome executable on local computer.
+
+# How to launch the rendering browser: the build in chromium browser that pyppeteer uses or an existing Chrome installation/executable on the local computer.
+# Here, the launchParameter field is configured to use an external
+# Chrome installation in headless mode to download pages.
+# 
+# An external Chrome installation is used in cases where the build in
+# Chromium browser cannot properly load a page which maybe sometimes the case.
+#  
 # NOTE: this field is taken into consideration only if renderPages is se to True.
+
+
+
+# Launch parameters for Windows platforms
+# Adjust path based on your Chrome installation.
+
 #"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
 
 
 # Launch parameters for MacOS platoforms.
-# Adjust based on your Chrome version.
+# Adjust path based on your Chrome installation.
 
 "launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
