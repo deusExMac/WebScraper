@@ -1,0 +1,33 @@
+#
+# json format of 
+# 
+# crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr https://www.stanford.edu/
+#
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Library to crawl data from stanford.edu domain.",
+
+
+"library": [
+
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links only to stanford.edu",
+ "ruleURLActivationCondition": ["stanford\.edu.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "stanford\.edu.*$",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+}
+
+] # End of library
+
+
+}
