@@ -446,12 +446,18 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
 
   <div class="block clrblock3 hoveredblock">
-      <span><font color="#facfe2">07</font></span>
-      <div class="blocktitle" style="background-color: #facfe2"><a href="example7-en.wikipedia.exr">Post match preconditions</a></div>
+      <span><font color="#facfe2">05</font></span>
+      <div class="blocktitle" style="background-color: #facfe2"><a href="example5-en.wikipedia.exr">Post match preconditions</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Results that meet preconditions are returned in a list as strings. Match preconditions may also apply another selector(defined  in ecRuleCSSSelector) to the extracted data. <i>NOTE: match preconditions are different from (page) preconditions (see example05, 05.1 and 05.2). See <a href="https://github.com/deusExMac/WebScraper">Readme</a> for details on their differences.</i>
+                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
+                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
+                    as page preconditions (see e.g. exampleXXX-en.wikipedia.exr and exampleYYY-en.wikipedia.exr).
+                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
+                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
+                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
+                    the examined element. <i>NOTE: match preconditions are different from (page) preconditions (see example05, 05.1 and 05.2). See <a href="https://github.com/deusExMac/WebScraper">Readme</a> for details on their differences.</i>
           <br>
       </div>
       <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history. A record is returned where the names of matching football teams is returned in a list which is the value of the key with the rule name.<br>
@@ -470,8 +476,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block clrblock3 hoveredblock">
-      <span class="subexamplenumber"><font color="#facfe2">07.1</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example7.1-en.wikipedia.exr">Post match preconditions (getLinks)</a></div>
+      <span class="subexamplenumber"><font color="#facfe2">05.1</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #facfe2"><a href="example5.1-en.wikipedia.exr">Post match preconditions (getLinks)</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match preconditions in rule getLinks to extract and follow links that meet more complicated conditions.
@@ -494,8 +500,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block hoveredblock">
-      <span>08</span>
-      <div class="blocktitle"><a href="example8-en.wikipedia-rulePostCSSSelector.exr">Post match CSS selectors</a></div>
+      <span>06</span>
+      <div class="blocktitle"><a href="example6-en.wikipedia.exr">Post match CSS selectors</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of post match CSS selectors with element breakdown using the rulePostCSSSelector field i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing each part in a new key. This results in a single rule returning a so called <i>recordlist</i> i.e. a list of extracted data containing new keys which (list) will be the value of the key with rule name instead of one key-value pair.
@@ -512,8 +518,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block hoveredblock">
-      <span>09</span>
-      <div class="blocktitle"><a href="example9-youtube.com-cookies.exr">HTTP request header parameters</a></div>
+      <span>07</span>
+      <div class="blocktitle"><a href="example7-youtube.com.exr">HTTP request header parameters</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating how to set http request header parameters including: request cookies, user agent and http headers.
@@ -534,8 +540,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block clrblock4 hoveredblock">
-      <span><font color="#edef6c">10</font></span>
-      <div class="blocktitle" style="background-color: #f9fad2;"><a href="example9-youtube.com-cookies.exr">Using rendering engine (Chromium)</a></div>
+      <span><font color="#edef6c">08</font></span>
+      <div class="blocktitle" style="background-color: #f9fad2;"><a href="example8-en.wikipedia.exr">Using rendering engine (Chromium)</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of a rendering engine to download a page using the renderPages field. This results in using a rendering engine
@@ -565,8 +571,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
   <div class="block clrblock4 hoveredblock">
-      <span class="subexamplenumber"><font color="#edef6c">10.1</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example10.1-youtube.com.exr">Scrolling webpage specified number of times</a></div>
+      <span class="subexamplenumber"><font color="#edef6c">08.1</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.1-youtube.com.exr">Scrolling webpage a specified number of times</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
@@ -594,8 +600,8 @@ ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning 
 
 
 <div class="block clrblock4 hoveredblock">
-      <span class="subexamplenumber"><font color="#edef6c">10.2</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example10.2-youtube.com.exr">scroll until number of elements appear;infinite scrolling</a></div>
+      <span class="subexamplenumber"><font color="#edef6c">08.2</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.2-youtube.com.exr">scroll until number of elements appear;infinite scrolling</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
@@ -621,20 +627,19 @@ in this rule file.
 
 
 <div class="block clrblock4 hoveredblock">
-      <span class="subexamplenumber"><font color="#edef6c">10.3</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">Page interaction: </a></div>
+      <span class="subexamplenumber"><font color="#edef6c">08.3</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.3-airbnb.exr">Scrolling element, not page </a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
+           TODO: Finish me. Demonstrating XXXX How to scroll html element that is scrollable (e.g. a div or control). 
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          This example performs a google search for python. It visits the google main page and since it accesses it as an unauthorized user a consent form is shown. This rule clicks
-          on the consent form, fills in the search box with the word 'python' and clicks on the submit button. It extracts the links from the returned results search page.
+          Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up. This window/div needs to be scrolled to load comments 
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example13-ClickButton-PostForm.exr -o csv/example13.csv  https://www.google.com/
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-airbnb.exr -o csv/example8.3.csv  https://www.airbnb.com/rooms/4062487
       </div>
 
 </div> <!-- block -->
@@ -644,8 +649,8 @@ in this rule file.
 
 
 <div class="block clrblock4 hoveredblock">
-      <span class="subexamplenumber"><font color="#edef6c">10.4</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example13-ClickButton-PostForm.exr">fill inputs, click button, submit form</a></div>
+      <span class="subexamplenumber"><font color="#edef6c">08.4</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.4-google.exr">fill inputs, click button, submit form</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
@@ -667,8 +672,8 @@ in this rule file.
 
 
   <div class="block clrblock4 hoveredblock">
-      <span class="subexamplenumber"><font color="#edef6c">10.5</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="airbnb-Comments.exr">Using external Chrome installation as engine</a></div>
+      <span class="subexamplenumber"><font color="#edef6c">08.5</font></span>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.3-airbnb.exr">Using external Chrome installation as engine</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating launching an external Chrome installation in headless mode as the rendering engine to download and interact with webpages (instead of the default Chromium engine used by pyppeteer)

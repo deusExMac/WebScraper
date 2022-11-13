@@ -5,7 +5,7 @@
 #                    resources.
 #                                   
 # 
-# Related fields: requestCookies, requestUserAgent
+# Related fields: requestCookies, requestUserAgent, requestHeader
 #
 #
 #
@@ -136,11 +136,22 @@
 },
 
 
+
+
 # User-Agent to use with all requests.
 # If this field is empty or missing, the default (module) user-agent string
 # will be used.
 
 "requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+
+
+
+
+# Any HTTP request header line should be placed here
+# as key-value pairs in the form "key":"value" .
+# keu/value pairs should be enclosed in double-quotes.
+
+"requestHeader": {}
 
 
 
