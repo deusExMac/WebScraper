@@ -203,9 +203,9 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
   <!-- XXXXXXXXXXX -->
 
-  <div class="block">
-      <span>01</span>
-      <div class="blocktitle"><a href="example1-en.wikipedia.exr">One rule</a></div>
+  <div class="block" style="border:2px solid #e2e37e;">
+      <span><font color="#e2e37e">01</font></span>
+      <div class="blocktitle" style="background-color: #e2e37e;"><a href="example1-en.wikipedia.exr">One rule</a></div>
 
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
@@ -221,6 +221,37 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label smaller"><i><b>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
   </div> <!-- block -->
 
+      
+      
+      
+<!-- XXXXXXXXXXX -->
+
+  <div class="block" style="border:2px solid #e2e37e;">
+      <span class="subexamplenumber"><font color="#e2e37e">01.1</font></span>
+      
+      <div class="blocktitle blocktitlesubexample" style="background-color: #e2e37e;"><a href="example1-en.wikipedia.exr">One rule (site crawling)</a></div>
+
+      <div class="label subexample">
+          <font color="black"> <b>description:</b><br/></font>
+           Simple library with just one rule to harvest and extract links. No data is etracted.<br>
+      </div>
+
+
+      <div class="label subexample"><b>target:</b><br/>
+        This library crawls and stores locally webpages from the stanford.edu website. This library does not extract data from webpages; only stores downloaded webpages locally.<br>
+      </div>
+
+
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
+      
+      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr -HR -1 https://www.stanford.edu/</div>
+  </div> <!-- block -->
+      
+      
+      
+      
+      
+      
 
       
       

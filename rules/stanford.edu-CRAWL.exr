@@ -1,7 +1,7 @@
 #
 # json format of 
 # 
-# crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr https://www.stanford.edu/
+# crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr -HR -1 https://www.stanford.edu/
 #
 # version 0.01@18/05/2022
 #
@@ -9,7 +9,7 @@
 
 
 {
-"libraryDescription": "Library to crawl data from stanford.edu domain.",
+"libraryDescription": "Library to crawl pages from stanford.edu domain.",
 
 
 "library": [
