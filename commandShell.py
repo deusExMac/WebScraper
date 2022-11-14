@@ -1136,7 +1136,8 @@ class commandImpl:
               uQ.add( args['url'][0] )
 
 
-
+          # Allowed protocol prefixes.  
+          allowedNetworkSchemes = [v.strip().lower() for v in cmdConfigSettings.get('Crawler', 'allowedSchemes', fallback='http,https').split(',')]
 
           lastAutosave = time.perf_counter()
           crawlStarted  = time.perf_counter()
@@ -1185,6 +1186,14 @@ class commandImpl:
                  while (True):
                   try:
                     pUrl = urlparse( unquote(currentUrl) )    
+                    
+                    # Is the protocol prefix supported? Default supported are http and https                    
+                    if pUrl.scheme.lower() not in allowedNetworkSchemes:
+                       print( '\t[DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']')      
+                       print( utils.toString('\t[DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )   
+                       response = httpResponse()
+                       response.status = -11
+                       break
                     
                     uA = None
                     if exRules.requestUserAgent.strip() != "":
