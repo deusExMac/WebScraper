@@ -61,21 +61,24 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
   font: 11pt arial, sans-serif, helvetica;
 }
 
-        
+
 /* .block:hover{border:2px solid red;} */
-        
+
 .subexampleblock {
    background-color:  #fcfcf5; /*#f9fae8;*/
    border:2px solid #fcfcf0;
 }
 
 .templateblock {
-    background-color: #fffbeb; 
+    background-color: #fffbeb;
    border:2px solid #00348f;
 }
 
 .hoveredblock:hover {
-    border:2.1px solid red;
+    /*border:2.1px solid red;*/
+    -webkit-box-shadow:0 0 20px blue;
+	-moz-box-shadow: 0 0 20px blue;
+    box-shadow:0 0 20px blue;
         }
 
 .block p {
@@ -86,26 +89,26 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
  }
 
 
-        
+
 .clrblock1 {
             border:2px solid #e2e37e;
-        }        
-        
+        }
+
 .clrblock2 {
             border:2px solid #d7facd;;
-        }          
-      
-       
+        }
+
+
 .clrblock3{
             border:2px solid #facfe2;
-        }        
-        
-      
+        }
+
+
 .clrblock4{
             border:2px solid #f9fad2;
-        }        
-        
-        
+        }
+
+
 .label {
             margin-top:2px;
             padding-left: 50px;
@@ -172,7 +175,7 @@ span {
 }
 
 
-        
+
 a:link { color:orange; text-decoration: none; }
 
 a:visited { color:blueviolet; text-decoration: none; }
@@ -187,9 +190,9 @@ a:active { color:blueviolet; text-decoration: none; }
 .label a:active { color:skyblue; text-decoration: none; }
 
 a:link.template {color:white;}
-a:visited.template {color:yellow;}        
+a:visited.template {color:yellow;}
 a:hover.template { color:darkseagreen; text-decoration: none; }
-        
+
 </style>
 
 <title>Index to .exr files in rules directory demonstrating supported fileds</title>
@@ -243,16 +246,16 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label smaller"><i><b>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
   </div> <!-- block -->
 
-      
-      
-      
-      
-      
+
+
+
+
+
 <!-- XXXXXXXXXXX -->
 
   <div class="block clrblock1 hoveredblock">
       <span class="subexamplenumber"><font color="#e2e37e">01.1</font></span>
-      
+
       <div class="blocktitle blocktitlesubexample" style="background-color: #e2e37e;"><a href="example1.1-stanford.edu.exr">One rule (site crawling)</a></div>
 
       <div class="label subexample">
@@ -267,18 +270,18 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
 
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
-      
+
       <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div>
   </div> <!-- block -->
-      
-      
-      
-      
-      
-      
 
-      
-      
+
+
+
+
+
+
+
+
 
    <!-- XXXXXXXXXXX -->
 
@@ -451,12 +454,12 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
+                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match
                     precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
                     as page preconditions (see e.g. exampleXXX-en.wikipedia.exr and exampleYYY-en.wikipedia.exr).
                     Match preconditions may also specify css seslectors that are applied to the already extracted results.
                     If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
-                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
+                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces
                     the examined element. <i>NOTE: match preconditions are different from (page) preconditions (see example05, 05.1 and 05.2). See <a href="https://github.com/deusExMac/WebScraper">Readme</a> for details on their differences.</i>
           <br>
       </div>
@@ -631,11 +634,11 @@ in this rule file.
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.3-airbnb.exr">Scrolling element, not page </a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           TODO: Finish me. Demonstrating XXXX How to scroll html element that is scrollable (e.g. a div or control). 
+           TODO: Finish me. Demonstrating XXXX How to scroll html element that is scrollable (e.g. a div or control).
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up. This window/div needs to be scrolled to load comments 
+          Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up. This window/div needs to be scrolled to load comments
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
@@ -683,7 +686,7 @@ in this rule file.
       <div class="label subexample"><b>target:</b><br/>
           This example uses an external installation of Chrome to access the page of an airbnb listing and load the comment screen, scrolling it 8 times. This is because the
           default rendering engine available in pyppeteer (which uses <a href="https://en.wikipedia.org/wiki/Chromium_(web_browser)">Chromium</a>) does not seem to support (as of 04/11/2022) proper rendering of airbnb listings. This may happen for some websites. In such cases, an external Chrome installation can be used that seem to overcome these limitation. However, if using an external Chrome installation as rendering engine, care should be taken if Chrome is already running: this may result in the page not being loaded if the page is already diplayed on the headfull Chrome. Field <font class="codesnipped">launchParameters</font>
-          is only taken into consideration when renderPages is set to True. Otherwise it is ignored. launchParameters requires supplying values to two fields: <font class="codesnipped">executablePath</font>, which is the path to external Chrome installation and <font class="codesnipped">userDataDir</font> which is required on Windows platforms. 
+          is only taken into consideration when renderPages is set to True. Otherwise it is ignored. launchParameters requires supplying values to two fields: <font class="codesnipped">executablePath</font>, which is the path to external Chrome installation and <font class="codesnipped">userDataDir</font> which is required on Windows platforms.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
@@ -694,7 +697,6 @@ in this rule file.
 
 
 <div class="block"> </div>
-  
 
 
 
@@ -703,10 +705,11 @@ in this rule file.
 
 
 
-  
 
-      
-      
+
+
+
+
 </div>
 </body>
 
