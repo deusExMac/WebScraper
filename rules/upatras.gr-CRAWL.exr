@@ -1,0 +1,33 @@
+#
+# json format of 
+# 
+# version 0.01@18/05/2022
+#
+#
+
+
+{
+"libraryDescription": "Crawl and mirror upatras.gr site",
+#"csvLineFormat":["entryTitle"],
+"library": [
+
+
+
+
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links rule",
+ "ruleURLActivationCondition": ["www\.upatras\.gr.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "www\.upatras\.gr/.*$",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+}
+
+]
+
+
+}
