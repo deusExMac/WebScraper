@@ -21,7 +21,8 @@
  "ruleURLActivationCondition": ["www\.econ\.upatras\.gr.*$"],
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
- "ruleContentCondition": "www\.econ\.upatras\.gr(?:(?!\bannouncements\b).)*$",
+ #"ruleContentCondition": "www\.econ\.upatras\.gr(?:(?!\bannouncements\b).)*$",
+ "ruleContentCondition": "www\.econ\.upatras\.gr.*$",
  "ruleReturnsMore": True,
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False

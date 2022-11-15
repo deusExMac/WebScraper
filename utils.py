@@ -141,9 +141,11 @@ def saveWebPageToLocalFile(u, rsp,  m=False, mRoot='.'):
                f.write( rsp.text )
        else:
            # TODO: Is this correct???   
-           #print('\t[DEBUG] Writing binary')     
+           #print('\t[DEBUG] Writing binary')
+           r = rsp.getResponse().content
            with open(targetName, 'wb') as f:
-                f.write( rsp.html )   
+                #f.write( rsp.html )
+                f.write( r )
 
        return(True)                  
     except Exception as pcEx:

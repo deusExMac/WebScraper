@@ -312,6 +312,11 @@ class httpResponse:
 
 
 
+      def getResponse(self):
+          return( self.__requestResponse )  
+
+
+
           
       def setHeaders(self, hdr, normalizeCookies=False):
             
@@ -1307,7 +1312,13 @@ class commandImpl:
                        pageContentLength = len( response.text )
 
                     pHash = utils.txtHash( response.text )   
-                 #else:
+                 else:
+                     if pageContentLength < 0:
+                        try:   
+                           pageContentLength = len( response.getResponse().content)
+                        except Exception as pclEx:
+                           pageContentLength = -56   
+                        
                  #   print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
                  #   continue
                     
@@ -1322,7 +1333,7 @@ class commandImpl:
 
 
                  
-
+                 '''
 
                  # Check if content type is ok.
                  # If not, continue to hext url.
@@ -1335,7 +1346,7 @@ class commandImpl:
                     uQ.updateStatus( currentUrl, -8 )
                     continue # Get next url
 
-                  
+                 ''' 
                  print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
 
                  # Have we aleadt seen this content (NOTE: not url)?
@@ -1357,6 +1368,12 @@ class commandImpl:
                     
 
                  totalBytes += pageContentLength
+
+
+                 if 'html' not in response.get('Content-Type', ''):
+                     continue
+
+                  
                  
                  ###############################################################################
                  #
