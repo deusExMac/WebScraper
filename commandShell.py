@@ -1189,8 +1189,8 @@ class commandImpl:
                     
                     # Is the protocol prefix supported? Default supported are http and https                    
                     if pUrl.scheme.lower() not in allowedNetworkSchemes:
-                       print( '\t[DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']')      
-                       print( utils.toString('\t[DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )   
+                       #print( '\t>>>>>>>>>>>>>> [DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']')      
+                       print( utils.toString('\t[DEBUG] Unsupported network scheme: [', pUrl.scheme.lower(), ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '',  end='' )   
                        response = httpResponse()
                        response.status = -11
                        break
@@ -1258,6 +1258,7 @@ class commandImpl:
                            if xDataDF is not None:
                               xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
                               
+                           uQ.updateStatus( currentUrl, -667 )
                            print('[DEBUG] Too many errors. Stopping.')   
                            return(False)   
 
@@ -1278,6 +1279,18 @@ class commandImpl:
                  uQ.updateStatus( currentUrl, response.status )
                  uQ.updateContentType( currentUrl, response.get('Content-Type', '') )
                  uQ.updateLastModified( currentUrl, response.get('Last-Modified', '') )
+
+
+
+                 # Check if status is ok.
+                 # If not, continue to next url.
+                 if response.status != 200:
+                    numHTTPErrors += 1
+                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
+                    continue # Get next url
+
+
+
                                   
                  # Calculating Content length.
                  # If no Content-Length is present in the response header, content length is
@@ -1308,12 +1321,8 @@ class commandImpl:
                  print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
 
 
-                 # Check if status is ok.
-                 # If not, continue to next url.
-                 if response.status != 200:
-                    numHTTPErrors += 1
-                    print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-                    continue # Get next url
+                 
+
 
                  # Check if content type is ok.
                  # If not, continue to hext url.

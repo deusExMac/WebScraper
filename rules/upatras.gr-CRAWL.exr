@@ -20,7 +20,7 @@
  "ruleURLActivationCondition": ["www\.upatras\.gr.*$"],
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
- "ruleContentCondition": "www\.upatras\.gr/.*$",
+ "ruleContentCondition": "^(http|https|mailto)://www\.upatras\.gr/.*$",
  "ruleReturnsMore": True,
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
