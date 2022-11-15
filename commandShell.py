@@ -1315,9 +1315,11 @@ class commandImpl:
                  else:
                      if pageContentLength < 0:
                         try:   
-                           pageContentLength = len( response.getResponse().content)
+                           pageContentLength = len( response.getResponse().content )
                         except Exception as pclEx:
                            pageContentLength = -56   
+
+                     pHash = utils.byteHash(response.getResponse().content)
                         
                  #   print('\t[DEBUG] Incompatible content type', response.get('Content-Type', '') )
                  #   continue
