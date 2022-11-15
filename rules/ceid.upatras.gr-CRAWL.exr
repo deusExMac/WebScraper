@@ -1,0 +1,31 @@
+#
+# json format of 
+# 
+# version 0.2@15/11/2022
+#
+#
+
+
+{
+"libraryDescription": "Crawl and mirror ceid.upatras.gr site",
+
+"library": [
+
+
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting links rule",
+ "ruleURLActivationCondition": ["civil\.upatras\.gr.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "civil\.upatras\.gr/.*$",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+}
+
+]
+
+
+}
