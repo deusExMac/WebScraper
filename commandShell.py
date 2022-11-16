@@ -293,6 +293,9 @@ class httpResponse:
           self.fetchMethod = fm
 
 
+      def getFetchMethod(self):
+          return(self.fetchMethod)  
+
 
       # normalizeCookies: if True this makes sure that
       # the format of cookies is a proper one to be parsed
@@ -1313,6 +1316,9 @@ class commandImpl:
 
                     pHash = utils.txtHash( response.text )   
                  else:
+                     # TODO: If this was fetched using dynamic method,
+                     # the next does not work. There is a bug with pyppeteer when using the
+                     # default Chromium browser.                     
                      if pageContentLength < 0:
                         try:   
                            pageContentLength = len( response.getResponse().content )
