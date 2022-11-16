@@ -1560,7 +1560,8 @@ class commandImpl:
                         uQ.saveQ()
                         if xDataDF is not None:
                            xDataDF.to_csv( args['outputcsvfile'], index=False, sep=';', quoting=csv.QUOTE_NONNUMERIC )
-                           lastAutosave = time.perf_counter()
+
+                        lastAutosave = time.perf_counter()
                     except Exception as asEx:
                            print('\t[DEBUG] Error autosaving!', str(asEx) )
                            
