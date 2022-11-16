@@ -114,15 +114,30 @@ def urlToPlainFilename( root='', namePrefix='', u='' ):
 
 
 
-# TODO: change this.
+# TODO: change this to use regular expressions.
 def isText(contentType):             
     textCT = ['text/html', 'text/css', 'text/csv', 'text/javascript', 'text/plain ', 'text/xml', 'application/rss+xml']
     #print("\tChecking", contentType)
+
+    # Checks are done in this way becuse content types
+    # may have additional fields. E.g. text/html; charset=utf-8
     for ct in textCT:
         if ct in contentType.lower():  
            return(True)
               
     return(False)
+
+
+
+def isHTML(contentType):
+    pass
+
+
+def isBinary(contentType, ctList):
+    pass
+
+
+
 
 
 
