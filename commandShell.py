@@ -1216,8 +1216,17 @@ class commandImpl:
                      
                     print( utils.toString('\t[DEBUG] Response Cookies: ', response.get('Set-Cookie', ''), '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )                    
 
-                    cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))
-                    
+
+                     
+
+
+                    # Get response cookies and parse them into
+                    # a dictionary where each key/value pair
+                    # is a separate cookie in the form <cookie-name>:<cookie-value>
+                    #
+                    # TODO: This has to be moved out of here because cookies of ignored resources (e.g. due to their content-type)
+                    # should not be stored. This has to be checked.
+                    cDict = utils.cookieStringToDict(response.get('Set-Cookie', ''))                    
 
                     if not cmdConfigSettings.getboolean('Crawler', 'ignoreResponseCookies', fallback=True):
                        if cDict:                          
@@ -1297,7 +1306,26 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue # Get next url
 
+          
+                 
+                 ''' 
+                 if utils.ctIsText(response.get('Content-Type', '') ) :                    
+                    clrprint.clrprint('[DEBUG] [', response.get('Content-Type', ''), '] IS TEXT!',  sep='', clr='green')
+                 else:
+                    clrprint.clrprint('[DEBUG] [', response.get('Content-Type', ''), '] IS NOT TEXT!',  sep='', clr='red')   
+                 '''
 
+                 # Check if content-type is ok.
+                 # If not, continue to next url settings the status to a very specific value to indicate
+                 # that this resource was in essence ignored.
+                 if re.search( cmdConfigSettings.get('Crawler', 'allowedContentTypes', fallback=''), response.get('Content-Type', '') ) is not None:
+                    clrprint.clrprint( utils.toString('[DEBUG] Content type [', response.get('Content-Type', ''), '] MATCHED this pattern [',  cmdConfigSettings.get('Crawler', 'allowedContentTypes', fallback=''),']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='', sep='', clr='green')
+                 else:   
+                     uQ.updateStatus( currentUrl, -700 )  
+                     clrprint.clrprint( utils.toString('[DEBUG] Content type [', response.get('Content-Type', ''), '] DID NOT MATCH pattern [',  cmdConfigSettings.get('Crawler', 'allowedContentTypes', fallback=''),']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='', sep='', clr='red')
+                     continue # next URL from queue
+                 
+                     
 
                                   
                  # Calculating Content length.

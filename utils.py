@@ -4,6 +4,9 @@ import os.path
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
 import requests
+
+import re
+
 #import codecs
 #import chardet
 
@@ -126,6 +129,14 @@ def isText(contentType):
            return(True)
               
     return(False)
+
+
+def ctIsText(contentType):
+    if re.search('(?i)(text?|rss\+xml)', contentType) is None:
+       return(False)
+
+    return(True)  
+
 
 
 
