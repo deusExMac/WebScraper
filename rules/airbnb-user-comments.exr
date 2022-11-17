@@ -14,8 +14,10 @@
 ########################################################################################################################################################
 
 {
-"libraryDescription": "Library to download usernames and comments from airbnb listings. Uses an extrenal Chrome installation in headless mode for rendering and interacting with the web page.",
+"libraryDescription": "Library to that crawls airbnb site and downloads usernames and comments from airbnb listings. Uses an extrenal Chrome installation in headless mode for rendering and interacting with the web page.",
 
+# These extracted field names will be stored in
+# the csv file
 "csvLineFormat":["username", "comment"],
 
 
@@ -132,30 +134,23 @@
 
 
 
-# Rule to get comments from airbnb listing.
-# Retutns a recordlist of extracted username and comments dictionaries.
+# Rule to get links pointing to airbnb listings from the airbnb main page
 {
  "ruleName": "getLinks",
  "ruleDescription": "Extracting the links to airbnb listings",
+ 
+ # We have 2 patterns here because the main page seem to redirect
  "ruleURLActivationCondition": ["www\.airbnb\.com\/?$", "_set_bev_on_new_domain"],
  "rulePreconditionType": "Any",
  "rulePreconditions" : [],
  
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
+ 
+ # Extract/keep only links to listings. This url will activate the getUserAndComments above.
  "ruleContentCondition": "www\.airbnb\.com/rooms.*",
  
- # These selectors will be applied to all elements 
- # returned by ruleCSSSelector
- # It is assumed that these selectors return ONLY one
- # matchine element. Currently only the text of these elements is
- # extracted.
- #"rulePostCSSSelector" : ["h3._14i3z6h", "span.ll4r2nl"],
  
- # One-to-one correspondence with rulePostCSSSelector 
- # selector list. E.g. here, data extracted by h3._14i3z6h
- # will be named usename. 
- #"ruleReturnedValueNames" : ["username", "comment"],
 
  # This refers to the result of ruleCSSSelector
  "ruleReturnsMore": True,
