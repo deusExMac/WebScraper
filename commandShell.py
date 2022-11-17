@@ -857,23 +857,29 @@ class commandImpl:
              #    print ( cookie.name, cookie.value, cookie.domain)
 
              # TODO: check if cfg is None
+             '''
              if not rCookies:
                 print( utils.toString('\t[DEBUG] No request cookies for this request\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
              else:    
                 print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )    
-
+             '''
              
              h = rHeader
              if uAgent is not None and uAgent != '':
                 h['User-Agent'] = uAgent
 
-             if rCookies:
+             if not rCookies:
+                print( utils.toString('\t[DEBUG] No request cookies for this request\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
+             else:   
                 # We include cookies in the header.
                 # Tried to pass cookies using the cookies parameter of session.get() but
                 # could not find appropriate way to set up the arguments.
                 # TODO: Need to read the manual again and lookup source code to see how
                 # to pass cookies to session.get
-                h['Cookie'] = utils.dictToCookieString(rCookies)   
+                h['Cookie'] = utils.dictToCookieString(rCookies)
+                print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
+
+
              
              #print( utils.toString('\t[DEBUG] Using as HEADER:', h, '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
              #cks = utils.cookieJarFromDict(rCookies, dUrl)
