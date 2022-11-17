@@ -486,7 +486,7 @@ class htmlRenderer:
             print( utils.toString('\t\t[DEBUG] Executing dynamic content: type=',dElem.dpcType, ' element=', dElem.dpcPageElement, '\n') if self.debug else '', sep='', end='')
             print( utils.toString('\t\t[DEBUG] Checking if element [', dElem.dpcPageElement, '] exists.....') if self.debug else '',  sep='', end='')
             if not await self.elementExists(pg, dElem.dpcPageElement):
-               print( utils.toString(f'NO. Element {dElem.dpcPageElement} does not exist on page. Not dynamic element.\n') if self.debug else '', sep='', end='' )
+               print( utils.toString(f'NO. Element {dElem.dpcPageElement} does not exist on page. Not executing action on page.\n') if self.debug else '', sep='', end='' )
                return(None) 
 
             print( utils.toString('YES (NOTE: empty selector element will return true).\n') if self.debug else '', end='') 
@@ -520,23 +520,6 @@ class htmlRenderer:
                  else:
                      await self.scrollPageDownNumberOfTimes(pg, dElem.dpcScrolldown)
                      
-                 '''
-                 print( utils.toString(f'\t\t[DEBUG] Scrolling page down {dElem.dpcScrolldown} times\n') if self.debug else '', sep='', end='' )
-                 for sn in range(dElem.dpcScrolldown):                 
-                    await self.scrollPageDown(pg)
-                    print( utils.toString(f'\t\t[DEBUG] Waiting for {self.waitTime} seconds\n') if self.debug else '', sep='', end='' )
-                    await asyncio.sleep(self.waitTime) # TODO: decrease sleep time?
-                 '''
-
-
-                 #dElem.dpcScrollTargetSelector
-                 #dElem.dpcScrollTargetSelectorCount
-                 
-                 #nElem = await self.pageElementCount(pg, ".ytd-comment-renderer")
-                 #print( utils.toString(f'\t\t[DEBUG] Element count {nElem}\n') if self.debug else '', sep='', end='' )
-                 #if await self.pageElementCount(pg, '#author-text .ytd-comment-renderer') >=10:
-                 #   break 
-                 
             elif dElem.dpcType == 'scroll':
 
                  # Check if element is scrollable
@@ -553,35 +536,11 @@ class htmlRenderer:
                         if currentPosition < 0:
                            print( utils.toString('Error [', currentPosition,  '] during scrolling of element [', dElem.dpcPageElement, ']. Stopping\n') if self.debug else '', sep='')
                            break
-
-                      #  currentPosition= await pg.evaluate('''(selector, currentPosition) => {
-                      #       const element = document.querySelector(selector);
-                      #       if ( element ) {
-                      #            scrollAmount = currentPosition + 70
-                      #            element.scroll(0, scrollAmount);
-                      #            console.error(`Scrolled to selector ${selector}`);
-                      #            return(scrollAmount)
-                      #       } else {
-                      #                 console.error(`cannot find selector ${selector}`);
-                      #                 return(-4)
-                      #       }
-                      #         }''', selector, currentPosition)
-                      
+                                            
                      except Exception as scrEx:
                         print( utils.toString('\t[DEBUG] Error during element scrolling', str(scrEx), '\n') if self.debug else '', end='', sep='' ) 
                         return(None) 
-                     
-                     #await pg.evaluate('''selector => {
-                     #        
-                     #        const element = document.querySelector(selector);
-                     #        if ( element ) {
-                     #             //document.getElementById(selector).scrollTop += 100;
-                     #             element.scrollTop += 10;
-                     #             console.error(`Scrolled to selector ${selector}`);
-                     #        } else {
-                     #                  console.error(`cannot find selector ${selector}`);
-                     #        }
-                     #          }''', selector);
+                                          
             else:
                  print('[ERROR] Directive [', dElem.dpcType,  '] invalid.', sep='')
                  return(None) # not supported directive

@@ -99,7 +99,7 @@
 # Rule to get comments from airbnb listing.
 # Retutns a recordlist of extracted username and comments dictionaries.
 {
- "ruleName": "getComments"
+ "ruleName": "getUserAndComments"
  "ruleDescription": "Extracting the comments from a listing"
  "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
  "rulePreconditionType": "Any"
@@ -127,26 +127,47 @@
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False
  
-}
+}, # getUserAndComments
 
 
-#{
-# "ruleName": "getTitle"
-# "ruleDescription": "Extracting the title of room"
-# "ruleURLActivationCondition": ["www\.airbnb\.com/rooms.*"]
-# "rulePreconditionType": "Any"
-# "rulePreconditions" : []
+
+
+# Rule to get comments from airbnb listing.
+# Retutns a recordlist of extracted username and comments dictionaries.
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting the links to airbnb listings",
+ "ruleURLActivationCondition": ["www\.airbnb\.com\/?$", "_set_bev_on_new_domain"],
+ "rulePreconditionType": "Any",
+ "rulePreconditions" : [],
  
-# "ruleCSSSelector": "h1._fecoyn4"
-# "ruleTargetAttribute": "text"
-# "ruleContentCondition": ""
-# "ruleReturnsMore": False
-# "ruleReturnedMatchPos": 0
-# "ruleReturningMoreIsError": False
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "www\.airbnb\.com/rooms.*",
  
-#}
+ # These selectors will be applied to all elements 
+ # returned by ruleCSSSelector
+ # It is assumed that these selectors return ONLY one
+ # matchine element. Currently only the text of these elements is
+ # extracted.
+ #"rulePostCSSSelector" : ["h3._14i3z6h", "span.ll4r2nl"],
+ 
+ # One-to-one correspondence with rulePostCSSSelector 
+ # selector list. E.g. here, data extracted by h3._14i3z6h
+ # will be named usename. 
+ #"ruleReturnedValueNames" : ["username", "comment"],
 
-]
+ # This refers to the result of ruleCSSSelector
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+} # getLinks
+
+
+
+] # library
 
 
 }
