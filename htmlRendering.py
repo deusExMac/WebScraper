@@ -367,7 +367,8 @@ class htmlRenderer:
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
-              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-LOADING-', url) + '.png' })
+              if self.takePageScreenshot:
+                 await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-LOADING-', url) + '.png' })
 
               
               
