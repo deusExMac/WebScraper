@@ -373,10 +373,11 @@ class extractionRule:
 
 
 
-    
+    #
     # htmlContent must be html object from requests_html
-    # TODO: Check this thoroughly. Also, refactor this...
+    # TODO: Check this thoroughly. Also, refactor SERIUSLY this METHOD.
     #       THIS IS A MESS. Has become so ugly. I'm sorry...
+    #
     def apply( self, htmlContent, debug=False ) -> dict:
 
         exTractedData = {}
@@ -454,7 +455,7 @@ class extractionRule:
 
        # We have checked all conditions and preconditions. Now  
 
-
+        translationtable = str.maketrans('', '', ''.join(self.ruleRemoveChars))
         
         if self.ruleTargetAttribute == "text":
             
@@ -502,6 +503,7 @@ class extractionRule:
                        for e, name in zip(res, self.ruleReturnedValueNames):
                            exTractedData[name] = e.text.translate({ord(c): None for c in self.ruleRemoveChars})                         
                    else:
+                       #translationtable = str.maketrans('', '', ''.join(self.ruleRemoveChars))  
                        rsList = []  
                        for e in res:
                            d = {}  
@@ -511,10 +513,9 @@ class extractionRule:
                                    d[name] = val  = ''
                                 else:
                                    d[name] = e.find(subR, first=True).text
-                                   # Replace any character if so specified
-                                   #for r in self.ruleRemoveChars:
-                                   #    print( utils.toString('\t\t\t[DEBUG] Replacing character [', r, ']\n') if debug else '', end='')  
-                                   #    d[name] = d[name].replace(r, '')
+                                   # Remove any character if so specified
+                                   d[name] = d[name].translate(translationtable)
+                                   
 
                            rsList.append(d)
                            print( utils.toString('\t\t\t[DEBUG] Got', d, '\n') if debug else '', end='')
