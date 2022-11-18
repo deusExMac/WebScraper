@@ -40,8 +40,6 @@
  "Upgrade-Insecure-Requests": "1"
 },
 
-
-
 "requestCookies": {
 
 "AWSALB":"IqEeAmao0g78bCTyZT5F7Orxgeh5deoW7fN2rdQIHUEGVCTXR1OdllObV0QrComSJuHUSyHjunrIOnUd+TnDIMw/QLZE4TwnUbkkMqjATj2g0BEzcwAg7eD2pqlq", 
@@ -75,7 +73,7 @@
 
 #"requiredFilledFields": ["propertyLocation", "propertyPrice"],
 
-# Minimum percentage of ruleName(s) that must return non-empty
+# Minimum percentage of ruleName that must return non-empty
 # data during their application in order to consider the extraction process
 # a success and hence add the extracted data to the csv file.
 
@@ -102,8 +100,8 @@
 
 
 
-# List of individual rules comprising this library and that will be applied to each page downloaded. 
-# NOTE: all rules mentioned below will ALWAYS be applied to a single page; this is done for all pages downloaded. 
+# List of individual rules comprising this library and that will be applied to each page downloaded follows. 
+# This library consists of three rules, named teamName, manager and getLinks. 
 
 "library": [
 
@@ -180,6 +178,7 @@
  
  
  # Short description
+ 
  "ruleDescription": "Extracts property price from pages related to a single property",
  
  # Pattern propery pages match
@@ -187,7 +186,7 @@
  
  
  "rulePreconditions" : [ 
-                           # Check if this is about the price.
+                           # First precondition: Check if this is about the price.
                            # NOTE: The price is on various parts of the same page; we
                            # get the value that's in the "Characteristics" (in greek)
                            # table only for testing purposes. Could get it easier
@@ -205,7 +204,7 @@
  
  
  
- # Extract data from the table
+ # From the table
  
  "ruleCSSSelector": "dl.property__details dd:nth-child(1)",
  
@@ -225,13 +224,14 @@
  "ruleReturningMoreIsError": False,
  
  # List of characters to remove from the extracted value (text or attribute)
- "ruleRemoveChars": [],
+ "ruleRemoveChars": ['€'],
 },
 
 
 
 
 # Rule to extract/scrape links to listings FROM THE search result page
+
 
 {
 
@@ -291,7 +291,7 @@
  "ruleReturningMoreIsError": False,
  
  # List of characters to remove from the extracted value (text or attribute)
- "ruleRemoveChars": [],
+ "ruleRemoveChars": ['€'],
 },
 
 
@@ -307,7 +307,10 @@
 # A the name getLinks is a keyword signifying a rule that extracts
 # hyperlinks found on the page what match the specified conditions.
 #
-
+# When you would like to extract and follow hyperlinks found on a webpage,
+# you must name the respective rule extracting these hyperlins getLinks. 
+# This is because the extracted links are handled differently from other 
+# extracted data (e.g. they must be added to the queue).
 
 
 {

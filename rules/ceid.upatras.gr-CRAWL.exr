@@ -15,10 +15,10 @@
 {
  "ruleName": "getLinks",
  "ruleDescription": "Extracting links rule",
- "ruleURLActivationCondition": ["civil\.upatras\.gr.*$"],
+ "ruleURLActivationCondition": ["ceid\.upatras\.gr.*$"],
  "ruleCSSSelector": "a[href]",
  "ruleTargetAttribute": "href",
- "ruleContentCondition": "civil\.upatras\.gr/.*$",
+ "ruleContentCondition": "ceid\.upatras\.gr/.*$",
  "ruleReturnsMore": True,
  "ruleReturnedMatchPos": -1,
  "ruleReturningMoreIsError": False

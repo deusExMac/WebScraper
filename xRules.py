@@ -7,6 +7,9 @@ import dataconf
 import re
 import requests_html
 
+# TODO: Should we use this???
+#from cleantext import clean
+
 import booleanEvaluation
 import utils
 
@@ -482,11 +485,6 @@ class extractionRule:
                  if self.ruleContentCondition != '': 
                     res = [m for m in res if re.search(self.ruleContentCondition, m.text) is not None ]
 
-
-                 #print('>>>> RETURNED', len(res))
-                 #for k in res:
-                 #    print('\treturned:', k.text)
-
                      
                  # TODO: Here, remove specified characters
                  # something like this:
@@ -495,7 +493,8 @@ class extractionRule:
 	         #         res[i] = res[i].replace(c, '')
 	         # OR BETTER, USE maketrans!
                  #for i in range( len(res) ):
-                 #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars}) 
+                 #    res[i] = res[i].text.translate({ord(c): None for c in self.ruleRemoveChars})
+                     
                  nM = 0 
                  if len(self.ruleReturnedValueNames) > 0:
                    if len(self.rulePostCSSSelector) == 0:
@@ -511,8 +510,11 @@ class extractionRule:
                                 if e.find(subR, first=True) is None:
                                    d[name] = val  = ''
                                 else:
-                                   d[name] = e.find(subR, first=True).text   
-                                
+                                   d[name] = e.find(subR, first=True).text
+                                   # Replace any character if so specified
+                                   #for r in self.ruleRemoveChars:
+                                   #    print( utils.toString('\t\t\t[DEBUG] Replacing character [', r, ']\n') if debug else '', end='')  
+                                   #    d[name] = d[name].replace(r, '')
 
                            rsList.append(d)
                            print( utils.toString('\t\t\t[DEBUG] Got', d, '\n') if debug else '', end='')
@@ -520,7 +522,7 @@ class extractionRule:
                        exTractedData[self.ruleName] = rsList
                        exTractedData['datatype'] = 'recordlist'
                        
-                   nM = len(res) * len(self.ruleReturnedValueNames)    
+                   nM = len(res) #* len(self.ruleReturnedValueNames)  <== TODO: why was this added though???  
                  else:
                       print( utils.toString('\t\t\t[DEBUG] No ruleReturnedValueNames\n') if debug else '', end='') 
                       # TODO: Get rid of rList and use exTractedData[self.ruleName] = [] etc
@@ -528,9 +530,7 @@ class extractionRule:
                       for m in res:
                           if not m:
                              continue   
-                          #print('\t\t[DEBUG] Appending ', m.text)  
-                          #rList.append( m.text.translate({ord(c): None for c in self.ruleRemoveChars}) )
-                          #for r in self.ruleRemoveChars:
+                          
                           # TODO: Make character removal work in all cases.
                           # does not work for \n or \t
                           t = m.text
@@ -547,47 +547,35 @@ class extractionRule:
             
         else:
          # This is no simple text
-         
-         #print('\t\t[DEBUG] Total of ', len(res), '(', self.ruleName, ')')                  
-           
+                                    
          if len(res) <= 0:
             return(exTractedData)   
 
-                   
-         #print('>>>#####', res)          
+                            
          numExtracted = 0
 
-         # TODO: The next commented out check must somehow be included. Does not work as intended whtn
-         # getLinks rule is applied
-         '''
-         if self.ruleContentCondition != '': 
-            res = [m for m in res if re.search(self.ruleContentCondition, m.attrs.get(self.ruleTargetAttribute)) is not None ]
-         '''
          
-         #print('\t\tNo TEXT.', res)                
          if self.ruleReturnedMatchPos >= 0:
             print( utils.toString('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']\n') if debug else '', sep='', end='' )
             exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
             numExtracted += 1
          else:
-            #print(len(res), ' matches found')
-            #print(res)
+                        
             lst = []
             for item in res:
-                #print('\t\t\t\t[DEBUG] Doing', item)  
-                #lst.append( item.text )
                 if not item:
                    continue
-
-                #print('\t\t\t[DEBUG] Getting attribute', self.ruleTargetAttribute, ' from item', item)  
+                
                 lst.append( item.attrs.get(self.ruleTargetAttribute) )
-                #print('\t\t\t[DEBUG] Extracted:', item.attrs.get(self.ruleTargetAttribute) )
-
-            #print(lst) 
+                
+            
             exTractedData[self.ruleName] = lst    
             numExtracted += len(res)
 
          return(exTractedData)    
+
+
+
 
 
 
