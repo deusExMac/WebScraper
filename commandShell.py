@@ -64,7 +64,7 @@ import urlQueue
 import extractedDataSource
 
 import htmlRendering
-
+import osPlatform
 
 
 # The following two classes are used to parse
@@ -255,9 +255,7 @@ class commandShell:
               # If executeCommand returns True, quit shell and terminate
               if self.cmdExecutioner.executeCommand( cParts ):                 
                  break
-
-              
-
+             
              except KeyboardInterrupt:
                  print("\nKeyboard interrupt seen.")
 
@@ -269,19 +267,10 @@ class commandShell:
 
           # kill any zombie process
           if self.cmdExecutioner.configuration.getboolean('Crawler', 'forceBrowserCleanup', fallback=False):
-             #print('killing ', self.cmdExecutioner.configuration.get('Crawler', 'windowsChrome', fallback=''), ' <<<<')   
-             if utils.isWindows():   
-                npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'windowsChrome', fallback='') )
-             elif  utils.isMac():
-                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'macosChrome', fallback='') )
-             elif  utils.isLinux():
-                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'linuxChrome', fallback='') )
-             elif  utils.isAndroid():
-                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'androidChrome', fallback='') )
-
-
-             #print( '>>>>>Total of ', npk, 'processes killed.' )
-
+             osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()
+             osP.killProcess()
+             print('Total of ', osP.nkilled, ' processes killed')
+             
           return
 
 

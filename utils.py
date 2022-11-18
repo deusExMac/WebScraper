@@ -2,6 +2,7 @@ import os
 import os.path
 import platform
 import psutil
+import configparser
 
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
@@ -15,6 +16,9 @@ import re
 import hashlib
 import http.cookies
 import tldextract
+
+
+
 
 
 
@@ -234,7 +238,7 @@ def getPlatformName():
 
 
 
-       
+'''       
 def isWindows():
     if 'windows' in getPlatformName().lower():
        return(True)
@@ -270,7 +274,7 @@ def killProcess( processName ):
            nK += 1
 
     return(nK)
-
+'''
 
 
 
