@@ -70,6 +70,14 @@ class htmlRenderer:
           self.takePageScreenshot = True # in seconds
           self.screenShotStoragePath = './' # Where to store screenshots
 
+          # How to cleanup processes after browser is not needed anymore due
+          # to pyppeteer bug.
+          # If value is set to 'auto', cleanup by killing the processes
+          # is scheduled automatically.
+          # Any other value does not cleanup browser processes.
+          # TODO: Set this data member before .render is called.
+          self.broserCleanupMode = ''
+          
           self.debug = False
 
 
@@ -255,7 +263,7 @@ class htmlRenderer:
 
 
       # TODO: Cleanup the parameter list of render as some parameters are obsolete.    
-      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={}, cleanupMode=''):
+      def render(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={}):
           return( asyncio.get_event_loop().run_until_complete(self.fetchUrl(url, maxRetries, timeout, requestCookies, userAgent, scrolldown, dynamicElements, launchParams)) )
 
 
@@ -265,7 +273,7 @@ class htmlRenderer:
       #
       # TODO: This method needs serious refactoring.
       #       Among others, scrolldown is now obsolete. 
-      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={}, cleanupMode='' ):
+      async def fetchUrl(self, url='', maxRetries = 3, timeout=5, requestCookies=[], userAgent=None, scrolldown=0, dynamicElements=[], launchParams={} ):
 
        #if self.interceptResponses:
        self.interceptingUrl = url
