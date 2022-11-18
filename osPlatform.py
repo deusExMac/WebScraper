@@ -28,9 +28,11 @@ class OSPlatformFactory:
 
 class osPlatform:
 
-      def __init__(self, pName):
+      def __init__(self, pName=''):
           self.nkilled = 0
-          self.processName = pName
+          self.processName = ''
+          if pName is not None:
+             self.processName = pName.strip()
 
 
       def killProcess(self):
