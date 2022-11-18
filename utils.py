@@ -1,6 +1,8 @@
 import os
-import platform
 import os.path
+import platform
+import psutil
+
 from urllib.parse import urlparse, urljoin, unquote
 from pathlib import Path
 import requests
@@ -224,31 +226,53 @@ def getCookieDomain(url):
     return( urlparse(url).netloc )   
 
 
+
+
+
 def getPlatformName():
     return( platform.system() )  
 
 
+
        
 def isWindows():
-    if getPlatformName().lower() == 'windows':
+    if 'windows' in getPlatformName().lower():
        return(True)
     return(False)
 
 
 
 def isMac():
-    if getPlatformName().lower() == 'darwin':
+    if 'darwin' in getPlatformName().lower():
        return(True)
     return(False)
 
 def isLinux():
-    if getPlatformName().lower() == 'linux':
+    if 'linux' in getPlatformName().lower():
+       return(True)
+    return(False)
+
+
+def isAndroid():
+    if 'android' in getPlatformName().lower():
        return(True)
     return(False)
 
 
 
-       
+
+def killProcess( processName ):
+    nK = 0 
+    for proc in psutil.process_iter():
+        # check whether the process name matches
+        if proc.name() == processName:
+           proc.kill()
+           nK += 1
+
+    return(nK)
+
+
+
 
 #####################################
 #

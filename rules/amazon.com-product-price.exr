@@ -52,7 +52,7 @@
  "ruleURLActivationCondition": ["www\.amazon\.com"]
  "ruleCSSSelector": "a[href]"
  "ruleTargetAttribute": "href"
- "ruleContentCondition": "www\.amazon\.com"
+ "ruleContentCondition": "www\.amazon\.com/dp"
  "ruleReturnsMore": True
  "ruleReturnedMatchPos": -1
  "ruleReturningMoreIsError": False

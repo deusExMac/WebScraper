@@ -18,6 +18,7 @@ Version: 20/04/2022
 
 import os
 import os.path
+#import psutil # killing processes
 
 import configparser
 
@@ -175,10 +176,11 @@ class commandShell:
 
 
       def startShell(self):
-                    
+
+          # To infinity and beyond...
+          
           while True:                
              try:
-                   
               command = input('(v' + appConstants.APPVERSION + ')' +'{' + str(self.cmdExecutioner.commandsExecuted) + '}' + self.cmdExecutioner.configuration.get('Shell', 'commandPrompt', fallback="(default conf) >>> ") )
               command = command.strip()
      
@@ -250,6 +252,7 @@ class commandShell:
 
 
               # Execute command
+              # If executeCommand returns True, quit shell and terminate
               if self.cmdExecutioner.executeCommand( cParts ):                 
                  break
 
@@ -263,6 +266,21 @@ class commandShell:
           sts = self.cmdHistory.save()
           if sts != 0:
               print('Error', str(sts), 'writing .history file.')
+
+          # kill any zombie process
+          if self.cmdExecutioner.configuration.getboolean('Crawler', 'forceBrowserCleanup', fallback=False):
+             #print('killing ', self.cmdExecutioner.configuration.get('Crawler', 'windowsChrome', fallback=''), ' <<<<')   
+             if utils.isWindows():   
+                npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'windowsChrome', fallback='') )
+             elif  utils.isMac():
+                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'macosChrome', fallback='') )
+             elif  utils.isLinux():
+                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'linuxChrome', fallback='') )
+             elif  utils.isAndroid():
+                   npk = utils.killProcess( self.cmdExecutioner.configuration.get('Crawler', 'androidChrome', fallback='') )
+
+
+             #print( '>>>>>Total of ', npk, 'processes killed.' )
 
           return
 
