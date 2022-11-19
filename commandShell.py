@@ -411,10 +411,10 @@ class commandImpl:
           # When forceBrowserCleanup is set to True, cleanup is carried out when the shell terminates (in commandShell)
           # When forceBrowserCleanup is set to Auto, cleanup is carried out when the download/processing
           # task terminates (in htmlRendering)
+          self.runningChromeInstances = []
           if cfg.getboolean('Crawler', 'guardRunningChromeInstances', fallback=False):
              osP = osPlatform.OSPlatformFactory(cfg).createPlatform()
              rcI = osP.getImageProcessesInfo()
-             self.runningChromeInstances = []
              for p in rcI:
                 self.runningChromeInstances.append(p['pid'])    
 
