@@ -71,17 +71,12 @@ class htmlRenderer:
           self.takePageScreenshot = True # in seconds
           self.screenShotStoragePath = './' # Where to store screenshots
 
-          # How to cleanup processes after browser is not needed anymore due
-          # to pyppeteer bug.
-          # If value is set to 'auto', cleanup by killing the processes
-          # is scheduled automatically.
-          # Any other value does not cleanup browser processes.
-          # TODO: Set this data member before .render is called.
-          self.forceBrowserCleanup = ''
+          
 
-          # Configuration options
-          # TODO: This makes THE ABOVE forceBrowserCleanup instance variable
-          #       OBSOLOETE!
+          # Configuration options.
+          # This is currently used to control how to terminate Chromium instances since there
+          # is a bug in the .close() metho of pyppeteer and zombie Chromium instances remain.
+          # 
           self.config = None
           
           self.debug = False
@@ -807,8 +802,11 @@ class htmlRenderer:
           # Auto behavior of forceBrowerCleanup is here. 
           if self.config is not None:
              if self.config.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'auto':
+
+                excluded = self.config.get('__Runtime', '__runningChromeInstances', fallback=[])
+                
                 osP = osPlatform.OSPlatformFactory(self.config).createPlatform()
-                osP.killProcess()
+                osP.killProcess(excluded)
                 print('Total of ', osP.nkilled, ' processes killed')
              
           self.browser = None

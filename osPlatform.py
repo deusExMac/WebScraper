@@ -46,6 +46,19 @@ class osPlatform:
           return(ps)
 
 
+      def getProcessInfoByName(self, nameRegex=''):
+          pi = []
+          for proc in psutil.process_iter():
+              pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])  
+              if re.search(nameRegex, pinfo['name'] ):
+                 pi.append( pinfo )
+
+          return(pi)
+
+
+      def getImageProcessesInfo(self):
+          return( self.getProcessInfoByName(self.processName) )
+                              
 
         
       def runningProcess(self, pName=''):
@@ -72,7 +85,7 @@ class osPlatform:
           
 
           
-      def killProcess(self):
+      def killProcess(self, excludedPids=[]):
           if self.processName == '':
              return(False)
 
@@ -82,10 +95,17 @@ class osPlatform:
              return(False)
             
           for proc in psutil.process_iter():
-           try:   
-             if re.search(self.processName, proc.name()):  
-                  proc.kill()
-                  self.nkilled += 1
+           try:                 
+             if re.search(self.processName, proc.name()):
+                  #if not proc.
+                  pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
+                  print('>>> Checking if', pinfo['pid'], 'in', excludedPids, end='')
+                  if pinfo['pid'] not in excludedPids:
+                     print('NO. killing')    
+                     proc.kill()
+                     self.nkilled += 1
+                  else:
+                       print('YES. NOT killing') 
            except Exception as killEx:
                    print('Caught exception... but ignoring.')
                    continue   

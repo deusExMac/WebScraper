@@ -265,18 +265,17 @@ class commandShell:
           if sts != 0:
               print('Error', str(sts), 'writing .history file.')
 
-          # kill any zombie process
+          # kill any Chrome zombie process that remained when pyppeteer was used to download and process pages
           if self.cmdExecutioner.configuration.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'true':
-             osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()
-
-             #pList = osP.filterProcesses( '(?i)chrome' )
-             #print( pList )
+             osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()             
              if not osP.processIsRunning():
                 print('Not running.')
              else:
-                print('Process running. Killing it...')   
-                osP.killProcess()
-             #print('Total of ', osP.nkilled, ' processes killed')
+                print('Process running. Killing it...')
+                # We kill all Chrome instances but excluding all these that were running
+                # before start of WebScraper. These are in runningChromeInstances
+                osP.killProcess(self.cmdExecutioner.runningChromeInstances)
+             
              
           return
 
@@ -396,6 +395,29 @@ class commandImpl:
           self.totalCommands = 0
           self.commandsExecuted = 0
           self.extractionRules = rules
+
+          # Here we gather all the ids of Chrome processes
+          # that are *currently* running that we assume
+          # are caused by a Chrome browser executed by the user.
+          # We do this so that these ids are ignored when WebScraper
+          # is configured to kill manually all Chromium instances when
+          # pyppeteer is used to download/process a page.
+          # Chromium seems to have a bug when closing and zombie processes
+          # still remain.
+          # These pids are passed to htmlRendering (by adding them to the
+          # config settings object) so that these should be ignored when forceBrowserCleanup
+          # is set to auto.
+          # Notice that:
+          # When forceBrowserCleanup is set to True, cleanup is carried out when the shell terminates (in commandShell)
+          # When forceBrowserCleanup is set to Auto, cleanup is carried out when the download/processing
+          # task terminates (in htmlRendering)
+          osP = osPlatform.OSPlatformFactory(cfg).createPlatform()
+          rcI = osP.getImageProcessesInfo()
+          self.runningChromeInstances = []
+          for p in rcI:
+              self.runningChromeInstances.append(p['pid'])    
+
+          #print( self.runningChromeInstances )
 
 
       
@@ -1029,6 +1051,19 @@ class commandImpl:
           # modify original settings with arguments given by the shell
           cmdConfigSettings = copy.deepcopy( self.configuration )
 
+
+          # We add here all currently running chrome instances process ids. This is used when using Chromium (pyppeteer) to
+          # download/render pages.
+          # This is done so that during auto mode, no Chrome browser used by the HUMAN USER is killed.
+          # TODO: Move down? Just before calling render?
+          cmdConfigSettings.set('__Runtime', '__runningChromeInstances', self.runningChromeInstances)
+
+          
+
+          #
+          # Override now any configuration setting with the command line arguments given to crawl.
+          #
+
           # We first update this option to make sure that calls will work properly.
           if args['debug']:
              cmdConfigSettings.set('DEBUG', 'debugging', 'True' )
@@ -1617,9 +1652,42 @@ class commandImpl:
           return(False)
 
 
+      def ps(self, a):
+         try:
+            cmdArgs = ThrowingArgumentParser()
+            cmdArgs.add_argument('pimagename',   nargs=argparse.REMAINDER, default=[] )
+            cmdArgs.add_argument('-r', '--rules',  nargs='?' )
+            cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
+            
+            args = vars( cmdArgs.parse_args(a) )
+         except Exception as argEx:
+                 print('Error.', str(argEx) )
+                 return(False)
+
+         osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
+         if args['pimagename']:
+            pList = osP.getProcessInfoByName( args['pimagename'][0] )
+         else:
+            pList = osP.getImageProcessesInfo()   
+
+         print('Total of', len(pList))
+         for p in pList:
+              print('\t', p['pid'], p['name'], p['create_time'])
+
+         return(False)    
 
 
 
+
+      def killChrome(self, a):
+          osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
+          #pList = osP.filterProcesses( '(?i)chrome' )
+          #print( pList )
+          if not osP.processIsRunning():
+             print('Not running.')
+          else:
+                print('Process running. Killing it...')   
+                osP.killProcess(self.runningChromeInstances)   
 
 
       #

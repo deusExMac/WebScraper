@@ -209,6 +209,8 @@ def main():
          # method passing as arguments the command line arguments passed.
          executioner = commandShell.commandImpl(config, ruleLibrary)
          executioner.crawl( argumentList )
+
+         # TODO: Cleanup of Chrome zombie processes (excluding runningChromeInstances in commandImpl)
          
    return(0)
 
