@@ -268,8 +268,15 @@ class commandShell:
           # kill any zombie process
           if self.cmdExecutioner.configuration.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'true':
              osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()
-             osP.killProcess()
-             print('Total of ', osP.nkilled, ' processes killed')
+
+             #pList = osP.filterProcesses( '(?i)chrome' )
+             #print( pList )
+             if not osP.processIsRunning():
+                print('Not running.')
+             else:
+                print('Process running. Killing it...')   
+                osP.killProcess()
+             #print('Total of ', osP.nkilled, ' processes killed')
              
           return
 
@@ -976,7 +983,7 @@ class commandImpl:
       # Main crawl method!
       # Starts crawling from an initial URL.
       #
-      # TODO: This method is so ugly. Has to be refactored. Seriously. 
+      # TODO: This method has become so ugly. Has to be refactored. Like seriously. 
       #
       #
       #
@@ -1330,14 +1337,7 @@ class commandImpl:
                     print( utils.toString('\t[DEBUG] Http status [', response.status, ']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                     continue # Get next url
 
-          
-                 
-                 ''' 
-                 if utils.ctIsText(response.get('Content-Type', '') ) :                    
-                    clrprint.clrprint('[DEBUG] [', response.get('Content-Type', ''), '] IS TEXT!',  sep='', clr='green')
-                 else:
-                    clrprint.clrprint('[DEBUG] [', response.get('Content-Type', ''), '] IS NOT TEXT!',  sep='', clr='red')   
-                 '''
+                          
 
                  # Check if content-type is ok.
                  # If not, continue to next url settings the status to a very specific value to indicate
@@ -1389,24 +1389,8 @@ class commandImpl:
                     uQ.updateStatus( currentUrl, -999 )
                     continue
                       
-                 print( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' ) 
-
-
-                 
-                 '''
-
-                 # Check if content type is ok.
-                 # If not, continue to hext url.
-                 # NOTE: current version processes only html/text content types
-                 if 'html' not in response.get('Content-Type', ''):                    
-                    print( utils.toString('\t\tIgnoring content type [', response.get('Content-Type', 'xxx'), ']\n' )if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '' , end='')   
-                    # Update status just to signify that this resource
-                    # was downloaded, but ignored i.e. not processed because of
-                    # incompatible content-type
-                    uQ.updateStatus( currentUrl, -8 )
-                    continue # Get next url
-
-                 ''' 
+                 clrprint.clrprint( utils.toString('\t[DEBUG] HttpStatus: [', response.status, '] ContentType: [', response.get('Content-Type', ''), '] ContentEncoding: [', response.get('Content-Encoding', '????') ,'] ContentLength: [', pageContentLength,']\n'  ) if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='', clr='purple' ) 
+                 #clrprint.clrprint( utils.toString('[DEBUG] Content type [', response.get('Content-Type', ''), '] MATCHED this pattern [',  cmdConfigSettings.get('Crawler', 'allowedContentTypes', fallback=''),']\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='', sep='', clr='green')
                  print(utils.toString('\t[DEBUG] Hash: ', pHash, '\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
 
                  # Have we aleadt seen this content (NOTE: not url)?

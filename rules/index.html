@@ -760,15 +760,15 @@ in this rule file.
        <span><font color="#edef6c">II</font></span>
        <div class="blocktitle" style="background-color: #f9fad2;"><a href="airbnb-user-comments.exr">Usernames, content, from airbnb accommodation pages</a></div>
        <div class="label">
-           <font color="black"> <b>description:</b> </font><br/>
-            xxx
-           <br>
+           <font color="black"> <b>description:</b> </font>This set of rules extracts user names and comments from airbnb listings. It uses an external browser (Chrome), not pyppeteer's default Chromium, as Chromium seems to be unable load/render properly such pages.<br/>
+           This library/rule set makes use of launchParameters field in .exr files.
+           <br/>
        </div>
        <div class="label"><b>target:</b><br/>
-       YYYY
+       airbnb listings like this:
        </div>
        <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
-       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/42242106</div>
+       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714</div>
   </div> <!-- block -->
 
 

@@ -1,6 +1,7 @@
 import platform
 import psutil
 import configparser
+import re
 
 import utils
 
@@ -30,23 +31,64 @@ class osPlatform:
 
       def __init__(self, pName=''):
           self.nkilled = 0
+          # A regular expression
           self.processName = ''
           if pName is not None:
              self.processName = pName.strip()
 
 
+      def filterProcesses(self, nameRegex=''):
+          ps = []
+          for proc in psutil.process_iter():
+              if re.search(nameRegex, proc.name() ):
+                 ps.append( proc.name() )
+
+          return(ps)
+
+
+
+        
+      def runningProcess(self, pName=''):
+          if pName == '':
+             if self.processName == '':
+                return(False)
+             pName = self.processName
+              
+          for proc in psutil.process_iter():
+              if re.search( pName, proc.name()):
+                 return(proc)
+
+          return(None)
+
+
+        
+      def processIsRunning(self, pName=''):
+          p = self.runningProcess(pName)
+          if not p:
+             return(False)
+
+          return(True)
+        
+          
+
+          
       def killProcess(self):
           if self.processName == '':
              return(False)
+
+          pf = self.filterProcesses( self.processName )
+          print('Matching processes:', pf)
+          if len(pf) <= 0:
+             return(False)
             
           for proc in psutil.process_iter():
-             # check whether the process name matches
-             if proc.name() == self.processName:
-                 try:  
+           try:   
+             if re.search(self.processName, proc.name()):  
                   proc.kill()
                   self.nkilled += 1
-                 except Exception as killEx:
-                   pass   
+           except Exception as killEx:
+                   print('Caught exception... but ignoring.')
+                   continue   
 
           return(True)
 
