@@ -411,13 +411,14 @@ class commandImpl:
           # When forceBrowserCleanup is set to True, cleanup is carried out when the shell terminates (in commandShell)
           # When forceBrowserCleanup is set to Auto, cleanup is carried out when the download/processing
           # task terminates (in htmlRendering)
-          osP = osPlatform.OSPlatformFactory(cfg).createPlatform()
-          rcI = osP.getImageProcessesInfo()
-          self.runningChromeInstances = []
-          for p in rcI:
-              self.runningChromeInstances.append(p['pid'])    
+          if cfg.getboolean('Crawler', 'guardRunningChromeInstances', fallback=False):
+             osP = osPlatform.OSPlatformFactory(cfg).createPlatform()
+             rcI = osP.getImageProcessesInfo()
+             self.runningChromeInstances = []
+             for p in rcI:
+                self.runningChromeInstances.append(p['pid'])    
 
-          #print( self.runningChromeInstances )
+          print( self.runningChromeInstances )
 
 
       
@@ -1689,6 +1690,22 @@ class commandImpl:
                 print('Process running. Killing it...')   
                 osP.killProcess(self.runningChromeInstances)   
 
+          return(False)
+
+
+      def rcpids( self, a):
+          print( self.runningChromeInstances)
+          return(False)
+
+      def urcpids(self, a):
+          osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
+          rcI = osP.getImageProcessesInfo()
+          self.runningChromeInstances = []
+          for p in rcI:
+              self.runningChromeInstances.append(p['pid'])
+
+          return(False)    
+            
 
       #
       # TODO: What to do with this method? Keep, remove, refactor???
