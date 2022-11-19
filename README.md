@@ -50,7 +50,7 @@ During WebScraper's startup the preferred .exr file can be specified via the -r 
 
 Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
 
-## Example .exr file
+## .exr files: Supported fields
 
  
 
@@ -58,153 +58,189 @@ TODO: library extraction files have been  updated with new properties. Make chan
 Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
 
 ```
+#######################################################################################################################################################
 #
-# json format of 
+# Template listing all supported fields.
+#                    
 # 
-# version 0.01@18/05/2022
 #
 #
+# 
+# v0.1@14/10/2022
+#
+########################################################################################################################################################
+
 
 
 {
-"libraryDescription": "Library to extract data from english wikipedia pages",
-"csvLineFormat": ["teamFullName", "clubPresident"],
+
+# Description of the library
+
+"libraryDescription": "",
+"csvLineFormat":[],
+"requiredFilledFields": [<RULE NAME | RETURNED VALUE NAME (recordlist)>, <RULE NAME | RETURNED VALUE NAME (recordlist)>],
+"allowedMinimumFilled" : <REAL NUMBER IN RANGE [0,1]>,
+"renderPages":True|False,
+
+"launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
+
+"requestCookies": {
+                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. key-value pairs must be separated by commas. >
+                   
+                   Example:
+                   
+                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" 
+                   },
+
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+
+
+"requestHeader": {
+                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. Many key-value pairs should be separated by commas.>
+                   
+                   Examples:
+                   
+                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                   "Accept-Encoding": "gzip, deflate, br",
+                   "Accept-Language": "en-US,en;q=0.5",
+                   "Connection": "keep-alive",
+                   "Sec-Fetch-Dest":"document",
+                   "Sec-Fetch-Mode":"navigate",
+                   "Sec-Fetch-Site":"none",
+                   "Sec-Fetch-User":"?1",
+                   "Upgrade-Insecure-Requests": "1" 
+                   },
+
+"ruleDynamicElements": [ 
+
+          Examples:
+           
+		 {
+		     "dpcType":"<'click' | 'js' | 'fill' | 'scrollpage' | 'scroll'>",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":<INTEGER>,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "",
+		     "dpcURLActivationCondition":"",
+		     "dpcIsSubmit": True|False,
+		     "dpcRedirects" : True | False
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "", "scrollTargetCount":"<INTEGER>" },		     
+		 },
+		 
+		 {
+		     "dpcType":"<'click' | 'js' | 'fill' | 'scrollpage' | 'scroll'>",
+		     "dpcPageElement":"",
+		     "dpcScrolldown":<NUMBER>,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "",
+		     "dpcURLActivationCondition":"",
+		     "dpcIsSubmit": True|False,
+		     "dpcRedirects" : True | False
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": <CSS SELECTOR>, "scrollTargetCount":"<INTEGER>" },		     
+		 }
+
+		 # Next dynamic element here... dynamic elements separated rules by comma.
+],
+
+
+
+
+
+
+
+######################################################################################
+#
+#  List of library rules starts from here. Each rule
+#  is responsible for scraping one item from a webpage: this item
+#  can be a value, list of values or list of dictionaries (i.e. recordlist). 
+#  
+#
+######################################################################################
 
 "library": [
 
-{
- "ruleName": "teamFullName"
- "ruleDescription": "Get full name of clubs from infoboxes"
- "ruleURLActivationCondition": ["en\.wikipedia\.org"]
+   {
+        
+        # Rule definition starts here
+        
+        "ruleName": "<MUST BE UNIQUE>", 
+        "ruleDescription": "Extracts ....",
+        "ruleURLActivationCondition": ["youtube\.com", "wikipedia\.com[\]$"],
+        "ruleTarget": <'html' | 'js'>,
+        
+        "rulePreconditionType": <'ANY', 'AND', 'EVAL'>,
+        "rulePreconditionExpression": 'p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) ) <ONLY IN CASE OF EVAL>',
+        
+        "rulePreconditions" : [ 
+	                          {
+	                             
+	                             "ecName": "p1",
+	                             "ecCSSSelector" : "#mw-normal-catlinks", 
+	                             "ecTextCondition" : "(?i)\bphysicists\b"
+                              },
+                                  
+                              {
+				  	                             
+				                 "ecName": "p2",
+				                 "ecCSSSelector" : "#mw-normal-catlinks", 
+				                 "ecTextCondition" : "(?i)\bphysicists\b"
+                              }
+                                  
+                                  # Next rule precondition here... rule precondition separated rules by comma.
+                          
+                             ] , # end of rule preconditions
+       
+       
+       
+       
+        "ruleCSSSelector": "a[href]", 
+        "ruleTargetAttribute": "href" <ELEMENT ATTRIBUTE | 'text'>,
  
- "rulePreconditionType": "Any"
- "rulePreconditions" : [ 
-                            {
-                              "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
-                              "ecTextCondition" : "Full name"
-                              "ecRuleCSSSelector" : ""
-                            }                       
-                       ]
- "ruleCSSSelector": "tr:nth-child(2) .infobox-data"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- "ruleRemoveChars": []
-},
-
-{
- "ruleName": "articleTitle"
- "ruleDescription": "2nd rule"
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
- "rulePreconditionType": "Any"
- "rulePreconditions" :  [ 
-                             {
-                               "ecCSSSelector" : "tr:nth-child(2) .infobox-label" 
-                               "ecTextCondition" : "Full name"
-                             },
-                             {
-			        "ecCSSSelector" : "tr:nth-child(3) .infobox-label" 
-			        "ecTextCondition" : "Full name"
-                             }
-                          ]
-                       
- "ruleCSSSelector": "#content h1.firstHeading"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- "ruleRemoveChars": []
-},
-
-
-{
- "ruleName": "clubPresident"
- "ruleDescription": "Get football club president from infobox"
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"]
- "rulePreconditionType": "Any"
- "rulePreconditions" :   [ 
-                             {
-			      "ecCSSSelector" : "tr:nth-child(5) .infobox-label" 
-			      "ecTextCondition": "President"
-			      "ecRuleCSSSelector" : "tr:nth-child(5) .agent"			      			      
-                             },
-                             
-                             {
-			      "ecCSSSelector" : "tr:nth-child(6) .infobox-label" 
-			      "ecTextCondition": "President"
-			      "ecRuleCSSSelector" : "tr:nth-child(6) .agent"			      			      
-                             },
-                             
-                             {
-			      "ecCSSSelector" : "tr:nth-child(7) .infobox-label" 
-			      "ecTextCondition": "President"
-			      "ecRuleCSSSelector" : "tr:nth-child(7) .agent"			      			      
-                             },
-                             
-                             {
-                               "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
-                               "ecTextCondition": "President"
-                               "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
-                             },
-                             
-                             {
-			       "ecCSSSelector" : "tr:nth-child(9) .infobox-label" 
-			       "ecTextCondition": "President"
-			       "ecRuleCSSSelector" : "tr:nth-child(9) .agent"
-                             },
-                             
-                             {
-			       "ecCSSSelector" : "tr:nth-child(8) .infobox-label" 
-			       "ecTextCondition": "Chairman"
-			       "ecRuleCSSSelector" : "tr:nth-child(8) .agent"
-                             },
-                             
-                             {
-			     	"ecCSSSelector" : "style+ .vcard tr:nth-child(9) .infobox-label" 
-			     	"ecTextCondition": "Chairman"
-			     	"ecRuleCSSSelector" : "tr:nth-child(9) .agent"
-                             }
-                             
-                             
-                             
-                          ]                       
- "ruleCSSSelector": "#content h1.firstHeading"
- "ruleTargetAttribute": "text"
- "ruleContentCondition": ""
- "ruleReturnsMore": False
- "ruleReturnedMatchPos": 0
- "ruleReturningMoreIsError": False
- "ruleRemoveChars": ["\n", "\t"]
-},
-
-
-
-
-{
- "ruleName": "getLinks"
- "ruleDescription": "Extracting links rule"
- "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"]
  
- "rulePreconditionType": "Any"
- "rulePreconditions" : []
  
- "ruleCSSSelector": "a[href]"
- "ruleTargetAttribute": "href"
- "ruleContentCondition": "en\.wikipedia\.org/.*$"
- "ruleReturnsMore": True
- "ruleReturnedMatchPos": -1
- "ruleReturningMoreIsError": False
+        "ruleMatchPreconditionType": <'ANY'>,
+        "ruleMatchPreconditions": [
+  	                                 
+	                                 {
+	                                   "ecCSSSelector" : "td:nth-child(2)", 
+	                                   "ecTextCondition" : "([4-9]|\d{2,})",
+	                                   "ecRuleCSSSelector" : "th a[href]:nth-child(2)"
+	                                 }
+	                                 
+	                                 # Next match precondition here... match precondition separated rules by comma.
+	     
+                                  ], # end of rule MATCH preconditions
+        
+        
+        
+        
+        "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)" <LIST OF CSS SELECTORS APPLIED TO ruleCSSSelector>]
+        
+        "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon" <VARIABLE NAMES, STORING CORRESPONDIVE VALUES OF rulePostCSSSelector>]
  
- # other parameters needed
-}
+ 
+ 
+ 
+        "ruleContentCondition": '<REGEX>',
+ 
+ 
+        "ruleReturnsMore": True | False,
+        "ruleReturnedMatchPos": <NUMBER EXPRESSING POSITION OF ELEMENT TO RETURN. -1 FOR ALL elements>,
+        "ruleReturningMoreIsError": True | False <CURRENTLY NOT USED>,
+ 
+        "ruleRemoveChars": [],
+        
+   } # end of rule
 
-]
+   
+   
+   # Next rule here... Don't forget: separate rules by comma.
+   
+
+] # list of rules
 
 
-}
+} # library
 
 ```
 
