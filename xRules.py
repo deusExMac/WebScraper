@@ -430,6 +430,7 @@ class extractionRule:
         if preconStatus['cssselector'] == '':
            print( utils.toString('\t\t[DEBUG] Applying selector ', self.ruleCSSSelector,'...\n') if debug else '', end='')     
            res = htmlContent.find(self.ruleCSSSelector, first=False)
+           print( utils.toString('\t\t[DEBUG] Selector returnes ', len(res), ' items\n') if debug else '', end='')
         else:   
             res = htmlContent.find(preconStatus['cssselector'], first=False)
 

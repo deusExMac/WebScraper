@@ -79,7 +79,7 @@
 # data during their application in order to consider the extraction process
 # a success and hence add the extracted data to the csv file.
 
-"allowedMinimumFilled" : 0.8
+"allowedMinimumFilled" : 0.5
 
 
 # How should the downloaded html page be rendered.
@@ -207,7 +207,10 @@
  
  # Extract data from the table
  
- "ruleCSSSelector": "dl.property__details dd:nth-child(1)",
+ "ruleCSSSelector": ".price",
+ 
+ #dl.property__details dd:nth-child(1)",
+ 
  
  "ruleTargetAttribute": "text",
  
