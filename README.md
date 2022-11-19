@@ -1,6 +1,8 @@
 # About WebScraper
  
-WebScraper is a simple python program enabling rule-based scraping/extraction of data from web pages. Specifications on which data to extract from individual web-pages pages comes in the form or rules stored in .exr files ((EX)traction (R)ules). Each .exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain condition hold. .exr files are in json format. More information on how to author .exr files can be found below.
+WebScraper is a simple python program enabling rule-based scraping/extraction of data from web pages. Specifications on which data to extract from individual web-pages pages comes in the form or rules stored in .exr files ((EX)traction (R)ules). Each .exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain condition hold. Each rule in a exr file is responsible for extracting one specific kind of data (e.g. title, links, div content) if rule related conditions hold. 
+
+All rules of an extraction library will be applied to the same downloaded web-page before moving to the next page which triggers again the application of the library rules.  More information on how to author .exr files can be found below. exr are json formatted files that can be edited with a simple text editors. exr files are encoded in utf-8. IF encoding changes, this may have an effect on the result returned by rules.
 
 **IMPORTANT: This software is currently in alpha release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
@@ -32,7 +34,7 @@ Make sure you have the following python packages installed before running the ap
 
 # Specifying extraction rules using .exr files
 
-.exr files are files in json format defining the rules specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and the the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
+.exr files are files in json format defining the rules specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and  the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
 
 In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
 
