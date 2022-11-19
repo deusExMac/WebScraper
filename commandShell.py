@@ -266,7 +266,7 @@ class commandShell:
               print('Error', str(sts), 'writing .history file.')
 
           # kill any zombie process
-          if self.cmdExecutioner.configuration.getboolean('Crawler', 'forceBrowserCleanup', fallback=False):
+          if self.cmdExecutioner.configuration.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'true':
              osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()
              osP.killProcess()
              print('Total of ', osP.nkilled, ' processes killed')
@@ -849,8 +849,11 @@ class commandImpl:
                 print('\t[DEBUG] Error parsing with BS:', str(bsEx) )
                 return('')
 
-
-     
+      #
+      # Main method to download an URL.
+      #
+      # TODO: THIS HAS BECOME A SHAME. Needs to be seriously refactored!
+      #
       def downloadURL(self, dUrl, rCookies={}, uAgent=None, renderPage=False, dynamicElem=[], cfg=None, launchPar={}, rHeader={}):
           print( utils.toString('\t[DEBUG] renderPages is [', renderPage, ']\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')  
           r = httpResponse()  
@@ -882,10 +885,9 @@ class commandImpl:
                 # Tried to pass cookies using the cookies parameter of session.get() but
                 # could not find appropriate way to set up the arguments.
                 # TODO: Need to read the manual again and lookup source code to see how
-                # to pass cookies to session.get
-                h['Cookie'] = utils.dictToCookieString(rCookies)
-                print( utils.toString('\t[DEBUG] Using as cookies:', utils.cookieJarFromDict(rCookies, dUrl), '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
-
+                # to pass cookies to session.get()
+                h['Cookie'] = utils.dictToCookieString(rCookies) 
+                print( utils.toString('\t[DEBUG] Using as REQUEST cookies:', h['Cookie'], '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
 
              
              #print( utils.toString('\t[DEBUG] Using as HEADER:', h, '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
@@ -915,6 +917,11 @@ class commandImpl:
                    print( utils.toString('\t[DEBUG] Cookies:', cks, '\n') if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
                    
                 htmlRndr = htmlRendering.htmlRenderer()
+                
+                # Set the configuarion file.
+                # TODO: This make some arguments and instance variables of
+                # htmlRendering OBSOLETE! REFACTOR THIS!!!
+                htmlRndr.config = cfg
                 htmlRndr.setDebugMode( cfg.getboolean('DEBUG', 'debugging', fallback=False) )
                 #htmlRndr.asyncWaitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
                 htmlRndr.waitTime = cfg.getfloat('Crawler', 'asyncWaitTime', fallback=1.4)
@@ -923,6 +930,10 @@ class commandImpl:
 
                 # set additional or update headers
                 htmlRndr.rqstHeader = rHeader
+
+                # How to cleanup/close browser
+                htmlRndr.forceBrowserCleanup = cfg.get('Crawler', 'forceBrowserCleanup', fallback='False')
+                
 
                 
                 # Fetch url

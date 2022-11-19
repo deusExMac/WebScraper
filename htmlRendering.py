@@ -11,10 +11,11 @@ import pyppeteer
 from http.cookies import SimpleCookie
 from urllib.parse import urlparse, urljoin
 from datetime import datetime
+import configparser
 
 import utils
 import xRules
-
+import osPlatform
 
 async def intercept_network_response2(response):
           # In this example, we only care about HTML responses!
@@ -76,7 +77,12 @@ class htmlRenderer:
           # is scheduled automatically.
           # Any other value does not cleanup browser processes.
           # TODO: Set this data member before .render is called.
-          self.broserCleanupMode = ''
+          self.forceBrowserCleanup = ''
+
+          # Configuration options
+          # TODO: This makes THE ABOVE forceBrowserCleanup instance variable
+          #       OBSOLOETE!
+          self.config = None
           
           self.debug = False
 
@@ -797,7 +803,14 @@ class htmlRenderer:
             await self.browser.close()
           except Exception as cEx:
                  print( utils.toString('\t[DEBUG] Exception during closing of browser.\n')  if self.debug else '', end='', sep='' )
-                 
+
+          # Auto behavior of forceBrowerCleanup is here. 
+          if self.config is not None:
+             if self.config.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'auto':
+                osP = osPlatform.OSPlatformFactory(self.config).createPlatform()
+                osP.killProcess()
+                print('Total of ', osP.nkilled, ' processes killed')
+             
           self.browser = None
           self.page = None
 

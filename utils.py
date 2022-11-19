@@ -438,8 +438,10 @@ def cookieJarFromDict( d, url ):
 def dictToCookieString(d):
     cookieList = []
     for ck in d.keys():
-        cookieList.append( ck + '=' + d[ck] ) 
-    
+        # TODO: Should we replace double quotes in cookie names?
+        #cookieList.append( ck.replace('"', '') + '=' + d[ck] )
+        cookieList.append( ck + '=' + d[ck] )
+
     return( ';'.join(cookieList) )
     
               

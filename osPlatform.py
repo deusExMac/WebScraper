@@ -42,8 +42,11 @@ class osPlatform:
           for proc in psutil.process_iter():
              # check whether the process name matches
              if proc.name() == self.processName:
-                proc.kill()
-                self.nkilled += 1
+                 try:  
+                  proc.kill()
+                  self.nkilled += 1
+                 except Exception as killEx:
+                   pass   
 
           return(True)
 
