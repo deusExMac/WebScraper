@@ -466,6 +466,21 @@ class commandImpl:
 
 
 
+      def updateRunningChromeInstances(self):
+          # TODO: This has to be moved out of here.  
+          if not self.configuration.getboolean('Crawler', 'guardRunningChromeInstances', fallback=False):
+             return(False)
+
+          osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
+          rcI = osP.getImageProcessesInfo()
+          # reset
+          self.runningChromeInstances = []
+          for p in rcI:
+              self.runningChromeInstances.append(p['pid'])
+              
+          return(True)  
+
+
 
       ###############################################################################
       #
@@ -1112,8 +1127,11 @@ class commandImpl:
              cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
 
           #
-          # TODO: here update  self.runningChromeInstances
+          # We update the pid of running Chrome instances
+          # started by the user, in order to avoid killing them
+          # during browser cleanup processes.
           #
+          self.updateRunningChromeInstances()
 
           print( utils.toString('\t[DEBUG] crawl params [', ' '.join(a), ']...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
 
