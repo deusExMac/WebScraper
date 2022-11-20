@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 13: Demonstrating how to interact with web pages. Demonstrates how to click on buttons and submitting forms executied in sequence.
+# Example library 8.4: Demonstrating how to interact with web pages. Demonstrates how to click on buttons and submitting forms executied in sequence.
 #                    
 # 
 # Related fields: ruleDynamicElements, dpcType, dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages 
@@ -123,13 +123,13 @@
 
 "ruleDynamicElements": [ 
 
-         # Add here rule to get rid of 
-         # google consent page 
-         # button id to click is L2AGLb.
+         # This rule is to get rid of 
+         # the google consent page 
+         # by clicking on the button id L2AGLb.
          # If an authentication cookie is set, the next is not 
          # required
          {
-		     "dpcURLActivationCondition" : "google\.com[/]$",
+		     "dpcURLActivationCondition" : "google\.com/?$",
 		     "dpcType":"click",
 		     "dpcPageElement":"#L2AGLb",
 		     "dpcScrolldown":-1,
@@ -137,19 +137,22 @@
 		     "dpcFillContent": ""		     
 		 },
 		 
+         # Fill input box with search string. 
+         # Here, python
 		 {
-		     "dpcURLActivationCondition" : "google\.com[/]$",
+		     "dpcURLActivationCondition" : "google\.com/?$",
 		     "dpcType":"fill",
-		     "dpcPageElement":"input.gsfi",
+		     "dpcPageElement":"input.gLFyf",
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"",
 		     "dpcFillContent": "python"		     
 		 },
 		 
+         # Click the search button.
 		 {
-		     "dpcURLActivationCondition" : "google\.com[/]$",
+		     "dpcURLActivationCondition" : "google\.com/?$",
 		     "dpcType":"click",
-		     "dpcPageElement":"input[name="btnK"]",
+		     "dpcPageElement":"input[name='btnK']",
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"#logo",
 		     "dpcFillContent": "",

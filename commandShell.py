@@ -418,7 +418,7 @@ class commandImpl:
              for p in rcI:
                 self.runningChromeInstances.append(p['pid'])    
 
-          print( self.runningChromeInstances )
+          #print( self.runningChromeInstances )
 
 
       
@@ -1110,7 +1110,10 @@ class commandImpl:
 
           if args.get('minhitrate'):
              cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
-                
+
+          #
+          # TODO: here update  self.runningChromeInstances
+          #
 
           print( utils.toString('\t[DEBUG] crawl params [', ' '.join(a), ']...') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
 
