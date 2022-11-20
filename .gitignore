@@ -2,6 +2,7 @@
 __pycache__/
 hidden/
 etc/
+rules/stage
 *.csv
 *.pyc
 *.log
