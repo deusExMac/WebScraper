@@ -8,7 +8,7 @@
 # 
 # This library scraps/extracts the team's name and team's full name (formal name) of football club pages in wikipedia. For example,
 # for the football team Napoli, it's name is S.S.C. Napoli but its full name is "Societa Sportiva Calcio Napoli S.p.A." as can be
-# seen on its wikipedia page https://en.wikipedia.org/wiki/S.S.C._Napoli 
+# seen on its wikipedia page https://en.wikipedia.org/wiki/S.S.C._Napoli .The team's full name is assumed to be in specific place in the infobox.
 #
 # The library contains also the special rule named "getLinks" for harvesting links.
 # 
@@ -16,7 +16,9 @@
 #
 # v0.05a){1}WebScraper >> crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy
 #
-# This will extract the team's name (title) and full name of all the wikipedia pages downloaded and store it in the csv file named example3.csv .
+# This will extract the team's name (title) and full name of all the wikipedia pages downloaded and store it in the csv file named example3.csv.
+# This rule makes the assumption that a teams full name is always found in a infobox, in the second row (below the crest) next to Full name.
+# 
 # NOTE: You may find in the .csv file entries with empty values for the teams full name. This is because this library does not make any check or 
 # does not imply any precondition before applying the rules.
 # 

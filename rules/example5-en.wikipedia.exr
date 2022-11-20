@@ -2,13 +2,14 @@
 ########################################################################################################################################################
 #
 # Example library 7: Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
-#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. Elements that meet the match 
+#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. This allows a single rule to return 
+#                    more than one value. Elements that meet the match 
 #                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
-#                    as page preconditions (see e.g. example4-en.wikipedia.exr and example6-en.wikipedia.exr).
+#                    as page preconditions (see e.g. example4.1-en.wikipedia.exr and example4.2-en.wikipedia.exr).
 #                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
 #                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
 #                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
-#                    the examined element.
+#                    the examined element. In this example, the extracted data by the rule is returned as strings in a list.
 # 
 # Related fields: ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
 #
@@ -21,7 +22,9 @@
 #      3) When you want to change the sub-selector based on which match precondition is true.
 #         
 #
-# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history.
+# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history. 
+# It returns the teams as values in a list, which list is the value of the rule name.
+#
 # It does this by downloading the wikipedia page 
 #
 #    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
@@ -40,7 +43,7 @@
 # 
 # How to use this rule:
 #
-# crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+#(v0.3.6a){2}WebScraper>>crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
 #
 # 

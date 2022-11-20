@@ -20,7 +20,7 @@
 #
 # https://en.wikipedia.org/wiki/Andr%C3%A9-Marie_Amp%C3%A8re
 #
-# because, while a physicist and born in january, the physicist's nationality if french.
+# because, while a physicist and born in january, the physicist's nationality is french.
 #
 #
 # This library demonstrates the use of the rulePreconditionType ALL in preconditions.
@@ -28,7 +28,7 @@
 # 
 # How to apply this rule:
 #
-#    crawl -M -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/USPysicistsBornJanMarMayOct.csv https://en.wikipedia.org/wiki/List_of_physicists
+#    crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
 #
 # https://en.wikipedia.org/wiki/List_of_physicists is a list of physicist to make application of the library more apparent and easier to check since
 # the library is considered to be applied on wikipedia pages related to physicists.

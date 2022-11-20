@@ -5,9 +5,9 @@
 #                      how these preconditions are evaluated. This example demonstrates evaluation using the EVAL operator between
 #                      preconditions i.e. a boolean expression can be specified (with all supported logical operators like AND, OR, NOT as well as parentheses) using
 #                      as operands the truth value of each of the preconditions. If the boolean expression evaluates to True, the rule is applied. If not
-#                      the rule is not applied. 
+#                      the rule is not applied. EVAL operator requires page preconditions to have names in order to be referenced in EVAL expressions.
 # 
-# Related fields: rulePreconditionType (EVAL), rulePreconditionExpression, rulePreconditions
+# Related fields: rulePreconditionType (EVAL), rulePreconditionExpression, rulePreconditions, ecName
 #
 #
 # This library scraps/extracts the title of english wikipedia articles that are about physicists (i.e. their name) 
@@ -19,7 +19,7 @@
 #   1) they do not make sure that the value checked refers to birthmonth 
 #   2) they do not make sure that the value checked refers to nationality
 #
-# In contrast to the rules in the file example5.1-en.wikipedic.ext, this rule set does not assume 
+# In contrast to the rules in the file example4.2-en.wikipedia.exr, this rule set does not assume 
 # that the data is always in very specific positions. This set of rules makes the assumption that
 # the data to check can be found in different parts of the infobox. For example, this set
 # of rules does not assume that nationality is found in the 5th row. Some pages may have
@@ -50,7 +50,7 @@
 # 
 # How to apply this rule:
 #
-# crawl -M -n -1 -r rules/example5.2-en.wikipedia.exr -o csv/example5.2.csv https://en.wikipedia.org/wiki/List_of_physicists
+# crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists
 #
 # NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
 # option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.

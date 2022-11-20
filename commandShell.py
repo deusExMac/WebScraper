@@ -1449,7 +1449,7 @@ class commandImpl:
 
                  totalBytes += pageContentLength
 
-
+                 # TODO: Fix check below
                  if 'html' not in response.get('Content-Type', ''):
                      continue
 

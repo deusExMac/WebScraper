@@ -28,7 +28,7 @@
 # 
 # How to apply this rule:
 #
-# crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+# crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics
 #
 # NOTE: option -n -1 means no maximum number of pages constraint so that at least some premier league football pages will be fetched/processed. If no -n
 # option is provided, maximum number of pages to fetch defaults to setting maxPages in the loaded config file.

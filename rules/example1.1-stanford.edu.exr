@@ -1,11 +1,24 @@
+########################################################################################################################################################
 #
+# Example library 1.1: Demonstrating application of the getLinks rule, that extracts hyperlinks.
+#                  
+#
+# Related fields: ruleCSSSelector, ruleReturnsMore, ruleReturnedMatchPos, library
+#
+#
+# This library is used to crawl and download locally the pages on the site www.stanford.edu. Crawling is carried our with the following settings:
+# 1) crawling remains within site/domain (ruleContentCondition)
+# 2) downloads pages locally (-M option)
+# 3) downloads mimetypes specified in configuration option allowedContentTypes in the configuration file
+# 4) No HitRate limit is introduced (-HR -1)
 # json format of 
 # 
-# crawl -M -n -1 -r rules/stanford.edu-CRAWL.exr -HR -1 https://www.stanford.edu/
+# crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/
 #
 # version 0.01@18/05/2022
 #
 #
+########################################################################################################################################################
 
 
 {

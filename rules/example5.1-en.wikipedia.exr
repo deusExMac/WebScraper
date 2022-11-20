@@ -25,7 +25,7 @@
 # 
 # How to use this rule:
 #
-# crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+# crawl -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/example5.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
 #
 #
 # 

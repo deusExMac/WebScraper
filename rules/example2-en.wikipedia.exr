@@ -10,14 +10,15 @@
 # This library scraps/extracts the title of all english wikipedia articles that will be encounterred as well as all hyperlinks that
 # that lead to wikipedia. Links not pointing to wikipedia are ignored. All extracted wikipedia links will be followed and processed in the
 # same way.
-# It contains a special rule named "getLinks" which is a keyword and only rules harvesting links should be named like that.
+# It contains a special rule named "getLinks" which is a keyword and only rules harvesting links should be named like that. Downloaded pages are not 
+# stored locally (-M option is missing)
 # 
 # How to apply this rule:
 #
 # v0.05a){1}WebScraper >> crawl  -r rules/example2-en.wikipedia.exr -o csv/example2.csv https://en.wikipedia.org/wiki/Python_(programming_language)
 #
 # This will extract the title of all the wikipedia pages downloaded and store it in the csv file named example2.csv . English wikipedia
-# hyperlinks are followed and from the visited pages the title is extracted. 
+# hyperlinks are followed and from the visited pages the title is extracted. Pages are not stored locally (-M is missing). 
 # 
 # v0.1@5/8/2022
 #
@@ -28,7 +29,7 @@
 
 # Description of the library
 
-"libraryDescription": "Library to extract the title and hyperlinks from wikipedia articles",
+"libraryDescription": "Library to crawl and extract the title and hyperlinks from wikipedia articles. Crawler stays within english wikipedia.",
 
 
 
