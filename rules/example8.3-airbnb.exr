@@ -9,8 +9,8 @@
 # This example extracts the names of users that have commented on airbnb listings. It scrolls the comment page/window down 8 times before extracting usernames and comments. 
 #
 #
-# IMPORTANT! access to airbnb is not possible using Chromium. Chrome must be
-# used.
+# IMPORTANT! access to airbnb is not possible using the build in browser in pyppeteer, Chromium. With Chromium, airbnb listing pages do not fully load.
+# That's the reason why an external Chrome installation in headless mode, must be used.
 #
 # (v0.05a){1}WebScraper >> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907
 #
