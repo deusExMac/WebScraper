@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 5: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and 
+# Example library 4.1: Demonstrating the use of more than one page preconditions in one rule, before applying the rule's css selectors and 
 #                    how these preconditions are evaluated. This example demonstrates evaluation using the ANY operator between
 #                    preconditions i.e. rule is applied if ANY of the specified rule preconditions is evaluated as TRUE. 
 # 

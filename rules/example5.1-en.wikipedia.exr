@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 7.1: Demonstrating the use of (post) match preconditions in rule getLinks to extract and follow links that meet more complicated
+# Example library 5.1: Demonstrating the use of (post) match preconditions in rule getLinks to extract and follow links that meet more complicated
 #                      conditions.
 #                      
 # 

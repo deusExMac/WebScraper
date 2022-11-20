@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 10: Demonstrating the use of a rendering engine to download a page using the renderPages field.
+# Example library 8: Demonstrating the use of a rendering engine to download a page using the renderPages field.
 #                     This has the implication of using a rendering engine used by web browsers to download and load the html page. 
 #                    
 # 
@@ -28,7 +28,7 @@
 #  
 # How to use this rule:
 #
-# crawl -n 1 -r rules/example10-en.wikipedia.exr -o csv/example10.csv  https://en.wikipedia.org/wiki/Python_(programming_language)
+#(v0.3.6a){8}WebScraper >> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)
 #
 #
 # 

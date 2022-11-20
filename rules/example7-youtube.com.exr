@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 9: Demonstrating the use of fields related to user agent and request cookies during retrieval of 
+# Example library 7: Demonstrating the use of fields related to user agent and request cookies during retrieval of 
 #                    resources.
 #                                   
 # 
@@ -21,6 +21,7 @@
 # which the cookies are valid. This bug will be fixed in future versions.
 #
 # This example sets one cookie related to the users consenting accepting cookies when accesing youtube.com, without having signed in.
+# The example does not use authentication cookies and accesses youtube.com as guest. That's why the consent form is shown.
 # The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown.
 # This example sets only one cookie but more can be added; for example cookies related to session ids or authentication information can be added
 # in this file in order to access youtube pages as a authenticated user. Such cookies can be retrieved by using the broser's (Mozilla, Chrome, Safari etc)
@@ -39,7 +40,7 @@
 # How to use this library:
 #
 #  To see the impact of the CONSENT cookie in this example, this library has to be executed 2 times: one time without specifying the request cookie and one with specifying
-#  the request cookie. These different execurions will yield to different pages downloaded from youtube.
+#  the request cookie. These different executions will yield to different pages downloaded from youtube.
 #
 #  I) Execute library without CONSENT cookie
 #     1) Go to field requestCookies below and comment out the line 
@@ -61,9 +62,9 @@
 #         by removing the preceding # character if it is commented out. This means that during each request, the CONSENT cookie will now be send.
 #      2) Deploy this exr file by executing the following command:
 #
-#             crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/
+#             crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/
 #
-#         -M option is important as it will store all downloaded files on the disk, mirroring the remote website locally. Saved pages can be found in the directory
+#         -M option is important here as it will store all downloaded files on the disk, mirroring the remote website locally. Saved pages can be found in the directory
 #         specified by mirrorRoot in for configuration (.conf) file.
 #      3) When the download finishes, go to the directory <mirrorRoot>/www.youtube.com and open file index.html with a browser.
 #      4) What you'll see is a different page than in case I) above where the consent form is now missing and you see the home page of youtube. This is because

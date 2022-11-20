@@ -1,12 +1,18 @@
 ########################################################################################################################################################
 #
-# Example library 10.5: Demonstrating the use of an external Chrome installation in headless mode, instead of default engine Chromium supported by pyppeteer, 
+# Example library 8.3: Demonstrating the use of an external Chrome installation in headless mode, instead of default engine Chromium supported by pyppeteer, 
 #                       for loading and interacting with webpages. 
 #                       
 # 
 # Related fields: launchParameters {executablePath, userDataDir}, renderPages, ruleDynamicElements, dpcType (click, scroll), dpcPageElement, dpcScrolldown, dpcWaitFor.
 #
 # This example extracts the names of users that have commented on airbnb listings. It scrolls the comment page/window down 8 times before extracting usernames and comments. 
+#
+#
+# IMPORTANT! access to airbnb is not possible using Chromium. Chrome must be
+# used.
+#
+# (v0.05a){1}WebScraper >> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907
 #
 # version 0.01@18/05/2022
 #

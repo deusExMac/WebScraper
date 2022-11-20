@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 8: Demonstrating the use of (post) match CSS selectors with element breakdown using the rulePostCSSSelector and  
+# Example library 6: Demonstrating the use of (post) match CSS selectors with element breakdown using the rulePostCSSSelector and  
 #                    ruleReturnedValueNames fields i.e. selectors that are applied to each result of ruleCSSSelector breaking them apart and storing
 #                    each part as a new key. This results in returning a so called recordlist i.e. a list of
 #                    dictionaries containing new keys that will be the value of the key with rule name. New key names are stored in the 

@@ -1,7 +1,7 @@
 
 ########################################################################################################################################################
 #
-# Example library 10.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
+# Example library 8.1: Demonstrating interacting with the downloaded web page to load dynamically its content. In this 
 #                       example, one simple interaction is shown namely scrolling of the web page in order to load 
 #                       more of its content before extracting/scraping data. 
 #                       This example uses number of times to control scrolling; it scrolls the entire page a specified number of times 
@@ -30,9 +30,9 @@
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+# v0.05a){1}WebScraper >> crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
 #
-# This will extract the name of users that have commented on the youtube video. It wi;; extract the user names commented on one video. Change
+# This will extract the name of users that have commented on the youtube video. It will extract the user names commented on one video. Change
 # the -n argument appropriately if you would like to extract user names as WebScraper crawls youtube pages.
 # 
 # v0.1@18/09/2022
