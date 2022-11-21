@@ -21,7 +21,7 @@
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+# (v0.05a){1}WebScraper >> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
 #
 # This will extract the name of users that have commented on the youtube video along with the number of likes the comment received. 
 # Change the -n argument appropriately if you would like to extract user names as WebScraper crawls youtube pages.

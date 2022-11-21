@@ -23,7 +23,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 .caption {
         width: 90%;
         margin: 0 auto;
-        margin-top:40px;
+        margin-top:30px;
         padding-left:60px;
         font: 24pt helvetica, arial, sans-serif;
         color: white;/*#4c7aba;*/
@@ -32,7 +32,18 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         line-height: 55px;
         }
 
-
+        
+.introtext{
+        width: 80%;
+        margin: 0 auto;
+        margin-top:40px;
+        padding-left:60px;
+        font: 14pt helvetica, arial, sans-serif;
+        font-style:italic;
+        #border: 2px solid red;
+        }
+        
+        
 .redcaption {
       background-color:  red;
 }
@@ -219,6 +230,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
 
 <body>
 
+  <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly. If some exr files use request cookies, these may need to be updated periodically.</div>     
   <div class="caption">List of example .exr files</div>
   <div class="row rowbackground1">
 
@@ -758,7 +770,7 @@ in this rule file.
 
 <div id="eII" class="block clrblock4 hoveredblock">
        <span><font color="#edef6c">II</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;"><a href="airbnb-user-comments.exr">Usernames, content, from airbnb accommodation pages</a></div>
+       <div class="blocktitle" style="background-color: #f9fad2;"><a href="airbnb-user-comments.exr">TODO: Check if the same with 8.3: Usernames, content, from airbnb accommodation pages</a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font>This set of rules extracts user names and comments from airbnb listings. It uses an external browser (Chrome), not pyppeteer's default Chromium, as Chromium seems to be unable load/render properly such pages.<br/>
            This library/rule set makes use of launchParameters field in .exr files.
