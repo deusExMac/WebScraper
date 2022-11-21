@@ -45,39 +45,8 @@ def generateDefaultConfiguration():
 
 def main():
 
-   ######################################################################################################
-    
-   # Trying solutions from:
-   # https://stackoverflow.com/questions/46119901/python-requests-cant-find-a-folder-with-a-certificate-when-converted-to-exe/47699138#47699138
    
-   '''
-   # is the program compiled?
-   if hasattr(sys, "frozen"):
-      print('YES, frozen. Changing...') 
-      import certifi.core
-
-      os.environ["REQUESTS_CA_BUNDLE"] = override_where()
-      certifi.core.where = override_where
-
-      # delay importing until after where() has been replaced
-      import requests.utils
-      import requests.adapters
-      # replace these variables in case these modules were
-      # imported before we replaced certifi.core.where
-      requests.utils.DEFAULT_CA_BUNDLE_PATH = override_where()
-      requests.adapters.DEFAULT_CA_BUNDLE_PATH = override_where() 
-   '''
-
-   '''
-   import certifi
-
-   os.environ['REQUESTS_CA_BUNDLE'] = os.path.join(os.path.dirname(sys.argv[0]), certifi.where())
-   '''
-
-
-   ######################################################################################################
-
-    
+   # WebScraper starts from here
    #
    # Main steps are as follows:
    #    1) Load the configuration file
@@ -177,8 +146,15 @@ def main():
 
 
    # Check how to start: In interactive or in batch mode
+   #
+   # Interactive mode will show an command line shell allowing
+   # the user to execute commants interactively
 
    if not args.get('batch', False):
+      # 
+      # INTERACTIVE MODE
+      #
+      
       print("\nStarting INTERACTIVE mode", ' ("' + rjk +'")' if rjk != '' else '', "\n", sep='')
 
       # Start the interactive shell. This shell
@@ -187,7 +163,11 @@ def main():
       iShell = commandShell.commandShell( config, ruleLibrary )
       iShell.startShell()
    else:
+      # 
+      # BATCH MODE
+      #
 
+      
       # We start in batch mode. This means that no shell is executed
       # and crawling is immediately initiated.
       
@@ -219,7 +199,7 @@ def main():
    
 
   
-
+# main guard
 if __name__ == '__main__':
    main() 
 

@@ -18,11 +18,9 @@ import xRules
 import osPlatform
 
 async def intercept_network_response2(response):
-          # In this example, we only care about HTML responses!
-          #if "text/html" in response.headers.get("content-type", ""):
-             # Print some info about the responses
-
-             
+          
+          
+   
             
              print('==================================================')
              print("\t\tURL:", response.url)
@@ -35,9 +33,7 @@ async def intercept_network_response2(response):
              print('==================================================')
              
 
-             # Print the content of the response
-             #print("Content: ", await response.text())
-             # NOTE: Use await response.json() if you want to get the JSON directly
+             
 
 
 
@@ -123,10 +119,7 @@ class htmlRenderer:
 
           if cs is None or cs == '':
              return
-
-          #print('\n++++++++++++++++++++++++++++++++++++++++++')
-          #print(cs)
-          #print('++++++++++++++++++++++++++++++++++++++++++\n')
+         
           
           cookie = SimpleCookie()
           cookie.load(cs)
@@ -138,8 +131,7 @@ class htmlRenderer:
               self.cookieIndex[k] = {'cookie':cookie, 'source': cs, 'url':url }
               knList.append( k )
               nC += 1
-
-          #print('################### ADDED [', nC, '] COOKIES.', knList)
+          
 
 
 
@@ -186,43 +178,24 @@ class htmlRenderer:
           
       async def intercept_network_response(self, resp):
 
-             # In this example, we only care about responses from specific urls!
-
-             #print('================= INTERCEPTING ========================')
-             #print("URL:[", resp.url, '] HTTP Status:[', resp.status,'] LOCATION:[', urljoin( resp.url, resp.headers.get('location', '') ) if 300<=resp.status<400 else 'xxxx', '] COOKIE:', resp.headers.get('set-cookie', 'xxxx') )
-             #return
-            
-             #print('>>>GOT:', 'Response status:', resp.status)
-                   
-             #if self.interceptingUrl != resp.url:
-             #   return
+             
 
 
              if 300 <= resp.status  and resp.status < 400:
                 self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location') )
-                #print('\tIntercepting url set to [', self.interceptingUrl, ']')
+                
              else:
                  if self.interceptingUrl != resp.url:
                     return 
 
-             #print('200 or REDIRECT as response for:', resp.url)
              
-             #if not self.interceptResponses:
-             #   return
             
              # TODO: Is this correct? 
              
              self.response = resp
              
              
-             # is this a redirect request?  
-             #if 300 <= resp.status  < 400:
-                #print("INTERCEPT: Setting target to [", response.headers.get('location'), "]")
-                # This might be a  relative URL. Make it absolute                 
-                #self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location', '') )
-                #print('>>>Redirect from [', resp.url, '] to [', urljoin( resp.url, resp.headers.get('location', '') ),'] Cookie:[', resp.headers.get('set-cookie', 'xxx'), ']')
-
-
+             
 
              if resp.headers.get('set-cookie', None) is not None:
                 # Do we already have this cookie? If not, add it.
@@ -395,47 +368,7 @@ class htmlRenderer:
        print( utils.toString('\t\t\t[DEBUG] Successful attempt elapsed:', "{:.3f}".format(attemptEnd  - attemptStart), '\n' ) if self.debug else '', sep='', end='' )       
        print( utils.toString('\t\t\t[DEBUG] Total elapsed:', "{:.3f}".format(time.perf_counter() - startTm), '\n') if self.debug else '', sep='', end='' )    
 
-       
-       '''
-          if utils.isMac():
-               # TODO: Check if .scrollPageDown works also for all other OSs 
-               #print('\t\t[DEBUG] MacOS detected') 
-               await self.scrollPageDown(self.page)
-          else:
-               # On windows and linux, PageDown key works
-               # Replaced method .down with .press 
-               #await self.page._keyboard.press('PageDown')
-               await self.scrollPageDown(self.page) # test!
-       '''     
-
-       
-       
-
-
-       
-       
-       # Check if dynamic elements should be executed. If yes, do it.
-       # TODO: changed order of operations (was: first scrolling then loading). NOT TESTED!
-       '''
-       applyDynamicElements = True
-       
-       if not dynamicElements:
-          print( utils.toString('\t[DEBUG] No dynamic element on page to be executed\n') if self.debug else '', end='' ) 
-       else:    
-
-          # First element may be a check or checkurl element. See if this is the case.
-          # If it is, see the page meets conditions. If not, do not apply dynamic elements
-          # to the page.
-          elem = dynamicElements[0]
-          if elem.dpcType.lower() == 'checkurl':
-             print( utils.toString('\t[DEBUG] Found checkurl constraint\n' ) if self.debug else '', end='' )       
-             if (elem.dpcFillContent.strip() != '') and (re.search( elem.dpcFillContent, url) is None):
-                 print( utils.toString(f'\t[DEBUG] Url {url} does not match constraints. Not applying dynamic elements to page\n' ) if self.debug else '', end='' )
-                 applyDynamicElements = False
-             
-          
-       ''' 
-       #if applyDynamicElements:
+              
 
        # Iterate over all dynamic element and first check if they should
        # be applied (based on url pattern) to the page and if so, apply it.
@@ -780,9 +713,6 @@ class htmlRenderer:
       # Count how many elements matching elemSelector exists on page
       async def pageElementCount(self, pg, elemSelector):
 
-            #if not self.elementExists(pg, elemSelector):
-            #   return(False)
-            
             return( len(await pg.querySelectorAll(elemSelector)) ) 
 
       #####################################
