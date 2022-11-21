@@ -12,24 +12,30 @@ class OSPlatformFactory:
           self.config = conf
 
       def createPlatform(self):
+          dbgMode = False
+          if self.config is not None:
+             dbgMode = self.config.getboolean('DEBUG', 'debugging', fallback=False)
+             
           if   isWindows():   
-                return( osPlatform(self.config.get('Crawler', 'windowsChrome', fallback='')) ) 
+                return( osPlatform(self.config.get('Crawler', 'windowsChrome', fallback=''), dbgMode ) ) 
           elif isMac():
                    print('Instatiating MacOS platform object')
-                   return( osPlatform(self.config.get('Crawler', 'macosChrome', fallback='')) )  
+                   return( osPlatform(self.config.get('Crawler', 'macosChrome', fallback=''), dbgMode) )  
           elif  isLinux():
-                   return( osPlatform(self.config.get('Crawler', 'linuxChrome', fallback='')) )
+                   return( osPlatform(self.config.get('Crawler', 'linuxChrome', fallback=''), dbgMode) )
           elif  isAndroid():
-                   return( osPlatform(self.config.get('Crawler', 'androidChrome', fallback='')) )
+                   return( osPlatform(self.config.get('Crawler', 'androidChrome', fallback=''), dbgMode) )
           else:
-                   return( osPlatform('') )
+                   return( osPlatform('', dbgMode) )
  
 
 
 
 class osPlatform:
 
-      def __init__(self, pName=''):
+      def __init__(self, pName='', dbg=False):
+
+          self.debug = dbg  
           self.nkilled = 0
           # A regular expression
           self.processName = ''
@@ -86,28 +92,33 @@ class osPlatform:
 
           
       def killProcess(self, excludedPids=[]):
+            
           if self.processName == '':
              return(False)
 
           pf = self.filterProcesses( self.processName )
-          print('Matching processes:', pf)
+          #print('Matching processes:', pf)
+          print( utils.toString('\t[DEBUG] Matched processes: [', ', '.join(pf), ']\n') if self.debug  else '', end='' )
           if len(pf) <= 0:
              return(False)
-            
+
+          
           for proc in psutil.process_iter():
            try:                 
              if re.search(self.processName, proc.name()):
                   #if not proc.
-                  pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
-                  print('>>> Checking if', pinfo['pid'], 'in', excludedPids, end='')
+                  pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])                  
+                  print( utils.toString('\t[DEBUG] Checking if ', pinfo['pid'], ' in [', ', '.join( [str(m) for m in excludedPids]), ']...') if self.debug  else '', sep='', end='') 
+                  
+                  
                   if pinfo['pid'] not in excludedPids:
-                     print('NO. killing')    
+                     print( utils.toString(' NO. killing\n') if self.debug  else '', end='' )
                      proc.kill()
                      self.nkilled += 1
                   else:
-                       print('YES. NOT killing') 
+                       print( utils.toString(' YES. NOT killing\n') if self.debug  else '', end='' ) 
            except Exception as killEx:
-                   print('Caught exception... but ignoring.')
+                   #print('Caught exception... but ignoring.')
                    continue   
 
           return(True)

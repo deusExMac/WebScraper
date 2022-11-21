@@ -45,7 +45,7 @@
 # Launch parameters for MacOS platoforms.
 # Adjust path based on your Chrome installation.
 
-"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
+#"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
 
 

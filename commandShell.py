@@ -271,7 +271,8 @@ class commandShell:
              if not osP.processIsRunning():
                 print('Not running.')
              else:
-                print('Process running. Killing it...')
+                #print('Process running. Killing it...')
+                print( utils.toString('\t[DEBUG] Chrome/Chromium processes running. Checking and killing...') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '')
                 # We kill all Chrome instances but excluding all these that were running
                 # before start of WebScraper. These are in runningChromeInstances
                 osP.killProcess(self.cmdExecutioner.runningChromeInstances)
@@ -1708,7 +1709,8 @@ class commandImpl:
           if not osP.processIsRunning():
              print('Not running.')
           else:
-                print('Process running. Killing it...')   
+                #print('Process running. Killing it...')
+                print( utils.toString('[DEBUG] Chrome/Chromium processes running. Checking and killing...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '')
                 osP.killProcess(self.runningChromeInstances)   
 
           return(False)
