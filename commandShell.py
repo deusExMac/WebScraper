@@ -873,6 +873,9 @@ class commandImpl:
              # minimum hit rate
              cmdArgs.add_argument('-HR', '--minhitrate', type=float, nargs='?' )
 
+             # content type
+             cmdArgs.add_argument('-CT', '--contenttype', type=str, nargs='?' )
+
              # Use page pyppeteer to download page  
              cmdArgs.add_argument('-R', '--render', action='store_true' )
              
@@ -951,6 +954,11 @@ class commandImpl:
 
           if args.get('minhitrate'):
              cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
+
+          if args.get('contenttype'):    
+             cmdConfigSettings.set('Crawler', 'allowedContentTypes', args.get('contenttype') )
+          
+          
 
           #
           # We update the pid of running Chrome instances
