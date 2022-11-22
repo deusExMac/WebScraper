@@ -1314,10 +1314,7 @@ class commandImpl:
 
                  totalBytes += pageContentLength
 
-                 # TODO: Fix check below
-                 #if 'html' not in response.get('Content-Type', ''):
-                 #    continue
-
+                 
 
                  # As reference, deciding html content is based 
                  # on the following chart: https://www.iana.org/assignments/media-types/media-types.xhtml 
