@@ -1169,8 +1169,26 @@ class commandImpl:
                          response = httpResponse()
                          response.status = -9                         
                          break 
-                         
+
+                  except requests.exceptions.Timeout as tmErr:
+                         print('[DEBUG] Timeout error:', str(tmErr) )
+                         response = httpResponse()
+                         response.status = -7
+                         break
+
+                  except requests.exceptions.TooManyRedirects as tmrErr:
+                         print('[DEBUG] Redirect error:', str(tmrErr) )
+                         response = httpResponse()
+                         response.status = -8
+                         break
                         
+                  except requests.exceptions.ConnectionError as cErr:
+                         # We could not connect
+                         print('[DEBUG] General connection error:', str(cErr) )
+                         response = httpResponse()
+                         response.status = -4
+                         break
+                         
                   except Exception as netEx:
                         # Another exception happened. Usually this
                         # means a network error. In such cases
@@ -1297,10 +1315,17 @@ class commandImpl:
                  totalBytes += pageContentLength
 
                  # TODO: Fix check below
-                 if 'html' not in response.get('Content-Type', ''):
-                     continue
+                 #if 'html' not in response.get('Content-Type', ''):
+                 #    continue
 
-                  
+
+                 # As reference, deciding html content is based 
+                 # on the following chart: https://www.iana.org/assignments/media-types/media-types.xhtml 
+                 if not utils.isHTML( response.get('Content-Type', '') ):
+                    print('NO html content type:', response.get('Content-Type', ''))   
+                    continue   
+
+                 print('YES! html content type:', response.get('Content-Type', ''))  
                  
                  ###############################################################################
                  #

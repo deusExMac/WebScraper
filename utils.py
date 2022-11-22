@@ -137,8 +137,9 @@ def isText(contentType):
     return(False)
 
 
+
 def ctIsText(contentType):
-    if re.search('(?i)(text?|rss\+xml)', contentType) is None:
+    if re.search('(?i)(text/?|rss\+xml)', contentType) is None:
        return(False)
 
     return(True)  
@@ -147,7 +148,10 @@ def ctIsText(contentType):
 
 
 def isHTML(contentType):
-    pass
+    if re.search('(?i)text/html?', contentType) is None:
+       return(False)
+
+    return(True)  
 
 
 def isBinary(contentType, ctList):
