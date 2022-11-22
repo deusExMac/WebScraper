@@ -146,7 +146,7 @@ def ctIsText(contentType):
 
 
 
-
+# mime-type strings based on this: https://www.iana.org/assignments/media-types/media-types.xhtml
 def isHTML(contentType):
     if re.search('(?i)text/html?', contentType) is None:
        return(False)

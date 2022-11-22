@@ -1321,11 +1321,10 @@ class commandImpl:
 
                  # As reference, deciding html content is based 
                  # on the following chart: https://www.iana.org/assignments/media-types/media-types.xhtml 
-                 if not utils.isHTML( response.get('Content-Type', '') ):
-                    print('NO html content type:', response.get('Content-Type', ''))   
+                 if not utils.isHTML( response.get('Content-Type', '') ):                    
                     continue   
 
-                 print('YES! html content type:', response.get('Content-Type', ''))  
+                 
                  
                  ###############################################################################
                  #
