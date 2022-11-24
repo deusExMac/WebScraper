@@ -34,11 +34,11 @@ Make sure you have the following python packages installed before running the ap
 
 # Specifying extraction rules using .exr files
 
-.exr files are files in json format defining the rules specifying what data to extract, what consditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and  the extraction rules inside the same .exr file is called a library. .exr files contain one or more rules. All rules inside the .exr files are applied to each individual page.
+.exr files are files in json format defining the rules specifying conditions the page must meet, what data to extract, what conditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and  a set of extraction rules is called an extraction libraries. Extraction libraries are stored in .exr files in JSON format. All rules inside an .exr files are applied to each individual page downloaded from the Web, when rule-specific conditions are met.
 
 In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
 
-*"For each rule inside the .exr file, do the following: If the web-page URL matches a condition, check if the web-page's content matches zero or more preconditions. If all these conditions hold, extract the data from the web-page specified by a CSS selector. Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
+*"Once a Web page has been downloaded fo the following for each rule inside the .exr file:  If the web-page URL matches the rule's activation condition, check if the web-page's content matches zero or more page preconditions. If all these page conditions hold, extract the data from the web-page specified by a CSS selector. After extraction, Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
 
 The above description sumplifies the process but attempts to give the general idea. 
 The overall idea is that each individual rule inside a library when applied to a downloaded web page is responsible of extracting only one particular kind of data from the web page which it returns in the form of key:value.
