@@ -943,7 +943,7 @@ class commandImpl:
                      exRules = xRules.loadLibrary(f.read())
                      print( utils.toString('ok.\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')
 
-                     #print('ok.')
+                     
                      
                 except Exception as flEx:
                        print(str(flEx) )
@@ -955,8 +955,10 @@ class commandImpl:
           if args.get('minhitrate'):
              cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
 
-          if args.get('contenttype'):    
+          if args.get('contenttype'):
              cmdConfigSettings.set('Crawler', 'allowedContentTypes', args.get('contenttype') )
+          
+
           
           
 
