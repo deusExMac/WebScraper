@@ -11,6 +11,8 @@ All rules of an extraction library will be applied to the same downloaded web-pa
 
 Make sure you have the following python packages installed before running the application:
 
+* requests
+
 * pandas
 
 * dataconf (https://pypi.org/project/dataconf/)
@@ -26,8 +28,6 @@ Make sure you have the following python packages installed before running the ap
 * pyppdf
 
 * tldextract
-
-* requests
 
 * pyjokes
 
