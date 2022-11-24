@@ -11,19 +11,19 @@ All rules of an extraction library will be applied to the same downloaded web-pa
 
 Make sure you have the following python packages installed before running the application:
 
+* requests_html (https://requests.readthedocs.io/projects/requests-html/en/latest/)
+
 * requests
+
+* pyppeteer (https://miyakogi.github.io/pyppeteer/)
 
 * pandas
 
 * dataconf (https://pypi.org/project/dataconf/)
 
-* requests_html (https://requests.readthedocs.io/projects/requests-html/en/latest/)
-
 * clrprint (https://pypi.org/project/clrprint/)
 
 * asyncio
-
-* pyppeteer (https://miyakogi.github.io/pyppeteer/)
 
 * pyppdf
 
