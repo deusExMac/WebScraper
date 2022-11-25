@@ -2,9 +2,11 @@
  
 WebScraper is a simple python program enabling rule-based scraping/extraction of data from web pages. Specifications on which data to extract from individual web-pages pages comes in the form or rules stored in .exr files ((EX)traction (R)ules). Each .exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain condition hold. Each rule in a exr file is responsible for extracting one specific kind of data (e.g. title, links, div content) if rule related conditions hold. 
 
-All rules of an extraction library will be applied to the same downloaded web-page before moving to the next page which triggers again the application of the library rules.  More information on how to author .exr files can be found below. exr are json formatted files that can be edited with a simple text editors. exr files are encoded in utf-8. IF encoding changes, this may have an effect on the result returned by rules.
+All rules of an library will be applied to the same downloaded web-page before moving to the next page which triggers again the application of the library rules.  exr are json formatted files that can be edited with a simple text editors. exr files are encoded in utf-8. If the file encoding changes, this may have an effect on the result returned by rules.
 
-**IMPORTANT: This software is currently in alpha release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
+When WebScraper is executed, the .exr file processing the downloaded pages has to be specified.
+
+**IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
 
 # Required python modules
@@ -32,13 +34,13 @@ Make sure you have the following python packages installed before running the ap
 * pyjokes
 
 
-# Specifying extraction rules using .exr files
+# Extractuon rules in .exr files
 
-.exr files are files in json format defining the rules specifying conditions the page must meet, what data to extract, what conditions the extracted data must meet, from which pages to extract the data and how to return them. Such specfications are referred to as 'extraction rules' and  a set of extraction rules is called an extraction libraries. Extraction libraries are stored in .exr files in JSON format. All rules inside an .exr files are applied to each individual page downloaded from the Web, when rule-specific conditions are met.
+.exr files are files in json format defining the extractuon rules that shoould be applied to a web page. Each rule in an .exr file specifies the conditions the page must meet in order to apply the rules, the data to extract, the conditions the extracted data must meet and how to return the extracted data. Such specfications are referred to as 'extraction rules' and  a set of extraction rules is called an extraction libraries. Extraction libraries are stored in .exr files in JSON format. All rules inside an .exr files are applied to each individual page downloaded from the Web, when rule-specific conditions are met.
 
-In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following description:
+In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following scenario:
 
-*"Once a Web page has been downloaded fo the following for each rule inside the .exr file:  If the web-page URL matches the rule's activation condition, check if the web-page's content matches zero or more page preconditions. If all these page conditions hold, extract the data from the web-page specified by a CSS selector. After extraction, Check if the extracted data meets preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
+*"Once a Web page has been downloaded do the following for each rule inside the current .exr file:  If the web-page URL matches the rule's activation condition, check if the web-page's content matches zero or more page preconditions. If all these page conditions hold, extract the data from the web-page specified by a CSS selector. If preconditions do not hold, do not extract data and return empty data (1 <--footnote for better description). After extraction, Check if the extracted data meets other preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
 
 The above description sumplifies the process but attempts to give the general idea. 
 The overall idea is that each individual rule inside a library when applied to a downloaded web page is responsible of extracting only one particular kind of data from the web page which it returns in the form of key:value.
