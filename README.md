@@ -55,25 +55,21 @@ TODO: Fix below picture...
               -----data    
 
 
-Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file with the very specific name ```getLinks``` (this is because this rule are handled  differently by WebScraper) 
+Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file and must have the very specific name ```getLinks``` (this is because such rules are handled  differently by WebScraper) 
 
-in this case This holds also for rules that extract links that need to be followed  Rule may return only one string value as the result of the extraction process, return a list of string values or a list of objects. If a rule is not applied the rule returns an empty string.
+Each rule returns the extracted/scraped data always as a string. Rules may return only one string value as the result of the extraction, return a list of string values or a list of objects. If a rule is not applied, an empty string is returned.
 
-Each rule in an .exr file specifies the conditions the page must meet in order to apply the rules, the data to extract, the conditions the extracted data must meet and how to return the extracted data. Such specfications are referred to as 'extraction rules' and  a set of extraction rules is called an extraction libraries. Extraction libraries are stored in .exr files in JSON format. All rules inside an .exr files are applied to each individual page downloaded from the Web, when rule-specific conditions are met.
+Each rule in an exr file may specify a set of optional preconditions the page must meet in order to apply the rule. These preconditions may refer to the downloaded page's URL and its content. If these rule preconditions hold the rule is applied and the specified element extracted; if preconditions do not hold, the rule is not applied and an empty value is returned as the rule's extraction value. If no preconditions have been specified, the rule is applied on the page. 
 
-In general, .exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following scenario:
+In general, exr files, when applied to content (web-page) downloaded from the WWW, attempt to extract the data according to the following scenario:
 
-*"Once a Web page has been downloaded do the following for each rule inside the current .exr file:  If the web-page URL matches the rule's activation condition, check if the web-page's content matches zero or more page preconditions. If all these page conditions hold, extract the data from the web-page specified by a CSS selector. If preconditions do not hold, do not extract data and return empty data (1 <--footnote for better description). After extraction, Check if the extracted data meets other preconditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
+*"Once a Web page has been downloaded do the following for each rule inside the current exr file:  If the web-page do not match the rule's preconditions do not apply the rule and return an empty value. Otherwise, extract the data from the web-page specified by a CSS selector. After extraction, check if the extracted data meets other conditions. If so, return it as the extracted/scraped data. If not, return empty extracted/scraped data."*   
 
-The above description sumplifies the process but attempts to give the general idea. 
-The overall idea is that each individual rule inside a library when applied to a downloaded web page is responsible of extracting only one particular kind of data from the web page which it returns in the form of key:value.
-.exr files when applied to a URL and may return: 1) a single record containing the extracted data as values of keys for a given web page or 2) a list of records containing the extracted data as values of keys for a single page.
+A rule may also specify conditions (post conditions) that are applied on data after these have been extracted from a page; if post-conditions are specified in a rule, only the extracted data meeting these post-conditions will be returned.
 
-During WebScraper's startup the preferred .exr file can be specified via the -r option on the command line. If no .exr file is specified, the default extraction rules file default.exr is loaded. If no .exr file is loaded, WebScraper does not start. 
-
-.exr files can also been set as arguments during individual commands in the application's shell. The used .exr file and all the rules it contains are applied to each individual page that the application downloads. Currently only one .exr can be specified and used during the extraction process.
 
 Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
+
 
 ## .exr files: Supported fields
 
