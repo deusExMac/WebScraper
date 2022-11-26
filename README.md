@@ -1,6 +1,6 @@
 # About WebScraper
  
-WebScraper is a simple python program enabling rule-based scraping/extraction of data from web pages. Rules specifying what part of a page to extract from individual web-pages pages are stored exr files ((EX)traction (R)ules). Such files can be recognized in this distribution by the extension .exr . Each exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain rule-specific condition hold. 
+WebScraper is a simple python program enabling rule-based scraping/extraction of data from html web pages. Rules specifying what part of a page to extract from individual web-pages pages are stored exr files ((EX)traction (R)ules). Such files can be recognized in this distribution by the extension .exr . Each exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain rule-specific condition hold. 
 
 
 **IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
@@ -55,7 +55,7 @@ TODO: Fix below picture...
               -----data    
 
 
-Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file and must have the very specific name ```getLinks``` (this is because such rules are handled  differently by WebScraper) 
+Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file and must have the very specific name ```getLinks``` (this is because such rules are handled  differently by WebScraper). Currently, extraction is supported only from html resources.  
 
 Each rule returns the extracted/scraped data always as a string. Rules may return only one string value as the result of the extraction, return a list of string values or a list of objects. If a rule is not applied, an empty string is returned.
 
@@ -70,7 +70,7 @@ A rule may also specify conditions (post conditions) that are applied on data af
 
 Authoring rules in exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
 
-Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers to use, if and how to interact with the downloaded page before applying the rules etc.
+Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers and/or cookies to use, if and how to interact with the downloaded page (e.g. scrolling, filling boxes, clicking etc) before applying the rules etc.
 
 
 # .exr files
@@ -100,74 +100,46 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 # Description of the library
 
-"libraryDescription": "",
-"csvLineFormat":[],
-"requiredFilledFields": [<RULE NAME | RETURNED VALUE NAME (recordlist)>, <RULE NAME | RETURNED VALUE NAME (recordlist)>],
-"allowedMinimumFilled" : <REAL NUMBER IN RANGE [0,1]>,
-"renderPages":True|False,
+"libraryDescription": <string>,
+"csvLineFormat": <list of strings specifying rule names>,
+"requiredFilledFields": <list of strings specifying rule names>,
+"allowedMinimumFilled" : <float>,
+"renderPages":<True|False>,
 
-"launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
+"launchParameters" : { "executablePath":"<path to chrome browser on local machine>", "userDataDir" : "<path to user directory>" },
 
 "requestCookies": {
-                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. key-value pairs must be separated by commas. >
-                   
-                   Example:
-                   
-                   "CONSENT": "YES+cb.20211005-08-p0.en+FX+206" 
+                   <comma separated "key":"value" pairs (strings)> 
                    },
 
-"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
+"requestUserAgent": <string>,
 
 
 "requestHeader": {
-                   <COMMA SEPARATED key-value pairs with format: "KEY":"VALUE". Keys and values must be strings and in double quotes. Many key-value pairs should be separated by commas.>
-                   
-                   Examples:
-                   
-                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                   "Accept-Encoding": "gzip, deflate, br",
-                   "Accept-Language": "en-US,en;q=0.5",
-                   "Connection": "keep-alive",
-                   "Sec-Fetch-Dest":"document",
-                   "Sec-Fetch-Mode":"navigate",
-                   "Sec-Fetch-Site":"none",
-                   "Sec-Fetch-User":"?1",
-                   "Upgrade-Insecure-Requests": "1" 
+                   <comma separated "key":"value" pairs (strings)> 
                    },
 
+# list of dynamic elements
 "ruleDynamicElements": [ 
 
-          Examples:
-           
+               
+                  <list of comma separated dynamic elements>
+
+                 # dynamic element 
 		 {
 		     "dpcType":"<'click' | 'js' | 'fill' | 'scrollpage' | 'scroll'>",
-		     "dpcPageElement":"",
-		     "dpcScrolldown":<INTEGER>,
-		     "dpcWaitFor":"",
-		     "dpcFillContent": "",
-		     "dpcURLActivationCondition":"",
-		     "dpcIsSubmit": True|False,
-		     "dpcRedirects" : True | False
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": "", "scrollTargetCount":"<INTEGER>" },		     
-		 },
-		 
-		 {
-		     "dpcType":"<'click' | 'js' | 'fill' | 'scrollpage' | 'scroll'>",
-		     "dpcPageElement":"",
-		     "dpcScrolldown":<NUMBER>,
-		     "dpcWaitFor":"",
-		     "dpcFillContent": "",
-		     "dpcURLActivationCondition":"",
-		     "dpcIsSubmit": True|False,
-		     "dpcRedirects" : True | False
-		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": <CSS SELECTOR>, "scrollTargetCount":"<INTEGER>" },		     
+		     "dpcPageElement":<string, css selector>,
+		     "dpcScrolldown":<integer>,
+		     "dpcWaitFor":"<string, css selector>",
+		     "dpcFillContent": "<string css selector>",
+		     "dpcURLActivationCondition":"<string, regular expression>",
+		     "dpcIsSubmit": <True|False>,
+		     "dpcRedirects" : <True | False>
+		     "dpcScrollTargetElementCount" : { "scrollTargetSelector": <string, css selector>, "scrollTargetCount":"<integer>" },		   
 		 }
 
-		 # Next dynamic element here... dynamic elements separated rules by comma.
+		 
 ],
-
-
-
 
 
 
@@ -181,36 +153,30 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 #
 ######################################################################################
 
+# list of comma separted rules to apply on every page
 "library": [
 
    {
         
         # Rule definition starts here
         
-        "ruleName": "<MUST BE UNIQUE>", 
-        "ruleDescription": "Extracts ....",
-        "ruleURLActivationCondition": ["youtube\.com", "wikipedia\.com[\]$"],
+        "ruleName": <string>, 
+        "ruleDescription": <string>,
+        "ruleURLActivationCondition": <list of regular expressions>,
         "ruleTarget": <'html' | 'js'>,
         
-        "rulePreconditionType": <'ANY', 'AND', 'EVAL'>,
-        "rulePreconditionExpression": 'p1 AND p2 AND p3 AND ( (p4 AND p5) OR (p6 AND p7) OR (p8 AND p9) ) <ONLY IN CASE OF EVAL>',
+        "rulePreconditionType": <'ANY' | 'AND'|'EVAL'>,
+        "rulePreconditionExpression": <string>,
         
         "rulePreconditions" : [ 
 	                          {
 	                             
-	                             "ecName": "p1",
-	                             "ecCSSSelector" : "#mw-normal-catlinks", 
-	                             "ecTextCondition" : "(?i)\bphysicists\b"
+	                             "ecName": <string>,
+	                             "ecCSSSelector" : <string, css selector>, 
+	                             "ecTextCondition" : <string, regular expression>"
                               },
                                   
-                              {
-				  	                             
-				                 "ecName": "p2",
-				                 "ecCSSSelector" : "#mw-normal-catlinks", 
-				                 "ecTextCondition" : "(?i)\bphysicists\b"
-                              }
-                                  
-                                  # Next rule precondition here... rule precondition separated rules by comma.
+                
                           
                              ] , # end of rule preconditions
        
