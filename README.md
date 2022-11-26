@@ -41,7 +41,7 @@ All the rules specified in an exr file will be applied to the same downloaded we
 TODO: Fix below picture... 
 
 
-![alt text]([https://github.com/[username]/[reponame]/blob/[branch]/image.jpg](https://github.com/deusExMac/WebScraper/blob/main/doc/procOutline.jpg)?raw=true)
+![alt text]([xxx]([https://github.com/deusExMac/WebScraper/blob/main/doc/procOutline.jpg](https://github.com/deusExMac/WebScraper/blob/main/doc/procOutline.jpg))?raw=true)
 
 		   Download one 
 	      |->  page
