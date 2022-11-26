@@ -73,8 +73,9 @@ Authoring rules in exr files requires basic knowledge of [css selectors] (https:
 Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers to use, if and how to interact with the downloaded page before applying the rules etc.
 
 
-# .exr files: Supported fields
+# .exr files
 
+## Template of exr file
  
 Below is a template of an exr file, presenting all supported fields. The supported fields by exr files are explained in greater detail in this section.
 
@@ -268,7 +269,7 @@ Below is a template of an exr file, presenting all supported fields. The support
 ```
 
 
-## Structure of rules in .exr file
+## Fields in .exr files
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
 -``[csvLineFormat]``: List of rule names (string - see below) that specify the extracted data from which rules should be stored in .csv files.
