@@ -75,9 +75,9 @@ Besides rules, exr files can also specify/dioctate other aspects of the extracti
 
 # .exr files
 
-## Template of exr file
+## Overview of exr file
  
-Below is a template of an exr file, presenting all supported fields. The supported fields by exr files are explained in greater detail in this section.
+Below is an overview of an exr file, presenting all supported fields. The supported fields are explained in greater detail in this section.
 
 
 ```
