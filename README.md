@@ -183,18 +183,20 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
        
        
        
-        "ruleCSSSelector": "a[href]", 
-        "ruleTargetAttribute": "href" <ELEMENT ATTRIBUTE | 'text'>,
+        "ruleCSSSelector": <string, css selector>, 
+        "ruleTargetAttribute": <string, element attribute | text>,
  
  
  
-        "ruleMatchPreconditionType": <'ANY'>,
+        "ruleMatchPreconditionType": 'ANY',
+	
+	<comma separated match preconditions>
         "ruleMatchPreconditions": [
   	                                 
 	                                 {
-	                                   "ecCSSSelector" : "td:nth-child(2)", 
-	                                   "ecTextCondition" : "([4-9]|\d{2,})",
-	                                   "ecRuleCSSSelector" : "th a[href]:nth-child(2)"
+	                                   "ecCSSSelector" : <string, css selector>, 
+	                                   "ecTextCondition" : <string, regular expression>,
+	                                   "ecRuleCSSSelector" : <string, css selector>
 	                                 }
 	                                 
 	                                 # Next match precondition here... match precondition separated rules by comma.
@@ -204,21 +206,21 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
         
         
         
-        "rulePostCSSSelector" : ["th", "td:nth-child(2)", "td:nth-child(3)", "td:nth-child(4)" <LIST OF CSS SELECTORS APPLIED TO ruleCSSSelector>]
+        "rulePostCSSSelector" : <list of css selectors>,
         
-        "ruleReturnedValueNames" : ["name", "winnerCount", "runnerUpCount", "seasonsWon" <VARIABLE NAMES, STORING CORRESPONDIVE VALUES OF rulePostCSSSelector>]
+        "ruleReturnedValueNames" : <list of names, one for each css selector in rulePostCSSSelector>,
  
  
  
  
-        "ruleContentCondition": '<REGEX>',
+        "ruleContentCondition": <string, regular expression>,
  
  
         "ruleReturnsMore": True | False,
-        "ruleReturnedMatchPos": <NUMBER EXPRESSING POSITION OF ELEMENT TO RETURN. -1 FOR ALL elements>,
-        "ruleReturningMoreIsError": True | False <CURRENTLY NOT USED>,
+        "ruleReturnedMatchPos": <integer>,
+        "ruleReturningMoreIsError": True | False,
  
-        "ruleRemoveChars": [],
+        "ruleRemoveChars": <list of characters or string>,
         
    } # end of rule
 
