@@ -68,7 +68,9 @@ In general, exr files, when applied to content (web-page) downloaded from the WW
 A rule may also specify conditions (post conditions) that are applied on data after these have been extracted from a page; if post-conditions are specified in a rule, only the extracted data meeting these post-conditions will be returned.
 
 
-Authoring .exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
+Authoring rules in exr files requires basic knowledge of [css selectors] (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) and [regular expressions](https://www.regular-expressions.info/).
+
+Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers to use, if and how to interact with the downloaded page before applying the rules etc.
 
 
 ## .exr files: Supported fields
@@ -79,7 +81,8 @@ TODO: library extraction files have been  updated with new properties. Make chan
 Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
 
 ```
-#######################################################################################################################################################
+
+########################################################################################################################################################
 #
 # Template listing all supported fields.
 #                    
@@ -87,7 +90,7 @@ Below is an example of a .exr file that is used to extract data related to footb
 #
 #
 # 
-# v0.1@14/10/2022
+# v0.5@14/10/2022
 #
 ########################################################################################################################################################
 
@@ -264,6 +267,7 @@ Below is an example of a .exr file that is used to extract data related to footb
 } # library
 
 ```
+
 
 ## Structure of rules in .exr file
 
