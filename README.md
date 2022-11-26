@@ -36,7 +36,9 @@ Make sure you have the following python packages installed before running the ap
 
 exr files are files in json format defining the extraction rules that should be applied to a web page.  Since .exr files are json formatted, they can be edited with a simple text editors. exr files are encoded in utf-8. If the file encoding changes, this may have an effect on the result returned by rules. During an Web scraping process, one exr file defining the extraction rules that will be applied to downloaded pages can be specified. Exactly one exr file must be specified when WebScraper starts executing. In the current version, WebScraper supports only the loading and application of one exr file during execution.
 
-All the rules specified in an exr file will be applied to the same downloaded web-page if the rule-specific conditions hold, before moving on to the next page which will trigger again the application of the rules of the library. The 
+All the rules specified in an exr file will be applied to the same downloaded web-page if the rule-specific conditions hold, before moving on to the next page which will trigger again the application of the rules of the library. 
+
+TODO: Fix below picture... 
 
 		   Download one 
 	      |->  page
@@ -53,7 +55,9 @@ All the rules specified in an exr file will be applied to the same downloaded we
               -----data    
 
 
-Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Rule may return only one string value as the result of the extraction process, return a list of string values or a list of objects. If a rule is not applied the rule returns an empty string.
+Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file with the very specific name ```getLinks``` (this is because this rule are handled  differently by WebScraper) 
+
+in this case This holds also for rules that extract links that need to be followed  Rule may return only one string value as the result of the extraction process, return a list of string values or a list of objects. If a rule is not applied the rule returns an empty string.
 
 Each rule in an .exr file specifies the conditions the page must meet in order to apply the rules, the data to extract, the conditions the extracted data must meet and how to return the extracted data. Such specfications are referred to as 'extraction rules' and  a set of extraction rules is called an extraction libraries. Extraction libraries are stored in .exr files in JSON format. All rules inside an .exr files are applied to each individual page downloaded from the Web, when rule-specific conditions are met.
 
