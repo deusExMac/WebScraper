@@ -73,18 +73,17 @@ Authoring rules in exr files requires basic knowledge of [css selectors] (https:
 Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers to use, if and how to interact with the downloaded page before applying the rules etc.
 
 
-## .exr files: Supported fields
+# .exr files: Supported fields
 
  
+Below is a template of an exr file, presenting all supported fields. The supported fields by exr files are explained in greater detail in this section.
 
-TODO: library extraction files have been  updated with new properties. Make changes here!
-Below is an example of a .exr file that is used to extract data related to football teams from wikipedia pages. It contains 4 rules that will be applied to all wikipedia pages downloaded.
 
 ```
 
 ########################################################################################################################################################
 #
-# Template listing all supported fields.
+# Template listing all supported fields in exr files.
 #                    
 # 
 #
