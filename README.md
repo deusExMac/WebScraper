@@ -254,16 +254,14 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 -``renderPages``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium (the default build-in browser of pyppeteer(https://github.com/pyppeteer/pyppeteer) ) or Chrome will be used. Defaults to False.
 
 
--``launchParameters``: object literal. If renderPages is set to True and this field is non-empty, specifies to use Chrome browser in headless mode to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
+-``launchParameters``: object literal. Specifies using Chrome browser in headless as the rendering engine (instead of pyppeteer's build-in Chromium) to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
 
    * ``executablePath``: path to Chrome executable on local machine
    * ``userDataDir``: path to OSs user directory. Need to specify this if WebScraper is executed on Windows. On Mac, this field can be ommited.
 
-If not specified and renderPages is True, pyppeteers build in Chromium browser will be used. 
-Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium or Chrome will be used.  
+If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object.
 
 
-"launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
 
 
 
