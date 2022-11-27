@@ -465,6 +465,10 @@ class htmlRenderer:
                      
             elif dElem.dpcType == 'scroll':
 
+                 # Infinite scrolling not supported in this mode. That's because in
+                 # this mode, no target element is defined hence not may to check
+                 # if scrolling should stop.
+                 
                  # Check if element is scrollable
                  if not await self.elementIsScrollable(pg, dElem.dpcPageElement):
                     print( utils.toString(f'\t\t[DEBUG] Element {dElem.dpcPageElement} is NOT scrollable.\n') if self.debug else '', sep='', end='' )
@@ -522,6 +526,7 @@ class htmlRenderer:
       # mxTimes: maximum number of times to scroll when no change occurs. Safeguard.
       # if scrollTargetCount has negative value, this means scroll until end i.e. until
       # no change is happening on the page.
+      # # Infinite scrolling supported ONLY in this mode.
       async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=150, delta=20):
 
             #dpcScrollTargetElementCount
