@@ -272,9 +272,11 @@ If ``launchParameters`` is empty i.e. not specified and renderPages is set to Tr
 -``requestUserAgent``: string. Sepecifies the user agent to use during HTTP requests. Overwrites the User-Agent line if this is set in the requestHeader field. If not specified, the default User-Agent is used. Defaults to empty string which results in using the http requests or browser's default user-agent.
 
 
--``ruleDynamicElements``: list of json object literals. Specifies the list of operations to apply on the downloaded page before applying the rules in the exr file i.e. the extraction process. Each json object literal in the list specifies one action to carry out on a downloaded page. These operations are applied only if renderPages is set to True i.e. a rendering engine is used to download the pages. If renderPages is set to False, no operation is carried out on page and this field is ignored. Operations in this list will be qpplied in the same sequence as they appear in this list. The object literal specifying an operation on the page has the following fields:
+-``ruleDynamicElements``: list of json object literals. Specifies the list of operations to apply on the downloaded page before applying the rules in the exr file i.e. the extraction process. Each json object literal in the list specifies one action to carry out on a downloaded page. These operations are applied only if renderPages is set to True i.e. a rendering engine is used to download the pages. If renderPages is set to False, no operation is carried out on page and this field is ignored. Operations in this list will be qpplied in the same sequence as they appear in this list. If one operation cannot be applied or returns error, the execution of operations continues. 
 
-   * ``dpcType``: operation to apply on page. Valid values: ['click' | 'js' | 'fill' | 'scrollpage' | 'scroll']
+The object literal specifying an operation on the page has the following fields:
+
+   * ``dpcType``: operation to apply on page. Valid values one of: ['click' | 'js' | 'fill' | 'scrollpage' | 'scroll']
 
 
 
