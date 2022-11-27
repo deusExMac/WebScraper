@@ -472,8 +472,7 @@ class htmlRenderer:
                 
                  selector = dElem.dpcPageElement
                  currentPosition = 0
-                 for _ in range(dElem.dpcScrolldown):
-                                          
+                 for _ in range(dElem.dpcScrolldown):                                          
                      try:                        
                         currentPosition = await self.scrollElement(pg, dElem.dpcPageElement, currentPosition, 203  )
                         if currentPosition < 0:
@@ -501,7 +500,9 @@ class htmlRenderer:
 
 
 
-      # sleepTime is currently obsolete
+      # Infinite scrolling not supported in this mode.
+      # That's because there is no way to check if scrolling
+      # to stop, if no target element is defined.
       async def scrollPageDownNumberOfTimes(self, pg, nTimes, delta=20, sleepTime=0.3):
 
             if nTimes < 0:               
