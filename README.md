@@ -254,14 +254,14 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 -``renderPages``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium (the default build-in browser of [pyppeteer](https://github.com/pyppeteer/pyppeteer) ) or Chrome will be used. Defaults to False.
 
 
--``launchParameters``: object literal. Specifies using Chrome browser in headless as the rendering engine (instead of pyppeteer's build-in Chromium) to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
+-``launchParameters``: object literal. Specifies using an *external Chrome browser installation* in headless as the rendering engine (instead of pyppeteer's build-in Chromium) to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
 
    * ``executablePath``: path to Chrome executable on local machine
    * ``userDataDir``: path to OSs user directory. Need to specify this if WebScraper is executed on Windows. On Mac, this field can be ommited.
 
 If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object.
 
-NOTE: pyppeteer's build-in Chromium browser is not able to render properly some pages. E.g. airbnb listints.
+NOTE: The version of pyppeteer used has a  build-in Chromium browser that is not able to render properly some pages. E.g. pyppeteer's Chromium does not properly render pages of airbnb listings and hence loading of these pages fail. In such cases using an external Chrome installation solves the issue.
 
 
 
