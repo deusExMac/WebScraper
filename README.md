@@ -261,7 +261,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object.
 
-NOTE: The version of pyppeteer used has a  build-in Chromium browser that is not able to render properly some pages. E.g. pyppeteer's Chromium does not properly render pages of airbnb listings and hence loading of these pages fail. In such cases using an external Chrome installation solves the issue.
+*NOTE: The version of pyppeteer used by WebScraper has a build-in Chromium browser that is not able to render properly some pages. E.g. pyppeteer's Chromium does not properly render pages of airbnb listings and hence loading of these pages fail. In such cases using an external Chrome installation solves the issue. With respect to this, [see issue #27](https://github.com/deusExMac/WebScraper/issues/27)*
 
 
 
