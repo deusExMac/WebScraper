@@ -294,12 +294,17 @@ The object literal specifying an operation on the page has the following fields:
 -``library``: list of json object literals representing an extraction rule to apply on the downloaded page. Libraries may have one or more extraction rules. Object literals define rules have the following fields:
    * ``ruleName`` String. A name for this rule. Rule must have names and rule names must be unique. Rule names are important as extracted values may be referenced inside the exr file via their rule name that extracted them. E.g. field ``csvLineFormat`` requires rule names to reference the extracted data by the referenced rules that should be written in the csv file. If a rule has no name, the extracted value by that rule cannot be referenced in other fields. Defaults to empty string.
    * ``ruleDescription`` String. A short description of what this rule does.
-   * ``ruleURLActivationCondition`` Regular expression. Specifies for which URLs to apply this rule. If the page's URL matches the regular expression, the rule is applied. If not, the rule is not applied and skipped (o value is returned). An empty value in this field means no constraint at all. 
+   * ``ruleURLActivationCondition`` List of regular expressions. Specifies for which URLs to apply this rule. If the page's URL matches any of the regular expressions in this list, the rule is applied. If not, the rule is not applied and skipped (o value is returned). An empty value in this field means no constraint at all. TODO: String instead of list of strings.
    * ``ruleTarget`` html | js. Value indicating where to apply the rule: html or javascript. This field is here for legacy reasons.
    * ``rulePreconditionType`` String. Accepted values: ANY | ALL |  EVAL . Specifies how the page preconditions specified in ``rulePreconditionExpression`` should be evaluated.
      * ANY : means page precondition evaluation will return True, if at least one precondition returns True. Akin to logical operator OR
      * ALL : means page precondition evaluation will return True, if all preconditions will return True. Akin to logical operator AND
      * EVAL: Truth value is the result of a logical expression referencing preconditions in ``rulePreconditions``. Any valid logical operator can be used in constructing logical expressions. E.g.   pc1 OR pc2 AND NOT pc3  
+
+   * ``rulePreconditions`` list of json object literals. A name for this rule. 
+
+
+
 
 
 ####################################################################################################################################################
