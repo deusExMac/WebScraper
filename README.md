@@ -300,8 +300,10 @@ The object literal specifying an operation on the page has the following fields:
      * ANY : means page precondition evaluation will return True, if at least one precondition returns True. Akin to logical operator OR
      * ALL : means page precondition evaluation will return True, if all preconditions will return True. Akin to logical operator AND
      * EVAL: Truth value is the result of a logical expression referencing preconditions in ``rulePreconditions``. Any valid logical operator can be used in constructing logical expressions. E.g.   pc1 OR pc2 AND NOT pc3  
+   * ``rulePreconditionExpression`` string. Must represent a logical expression referencing preconditions by their name. Keeps the logical expression that must be evaluated when ``rulePreconditionType`` has value EVAL.  
 
-   * ``rulePreconditions`` list of json object literals. A name for this rule. 
+   * ``rulePreconditions`` list of json object literals representing one or more preconditions. Preconditons specify conditions the entire page must hold before applying the rule. If page preconditions do not hold, rule is not applied and an empty value for the rule is returned. Preconditions are json object literals with the following fields:
+       * ``ecName`` String. Name of preconditions. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.   
 
 
 
