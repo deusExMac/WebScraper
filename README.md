@@ -305,7 +305,7 @@ The object literal specifying an operation on the page has the following fields:
    * ``rulePreconditions`` list of json object literals representing one or more preconditions. Preconditons specify conditions the entire page must hold before applying the rule. Depending on the ``rulePreconditionType``,  if page preconditions hold (i.e. return True) rule is applied; if they do not hold (i.e. return False), rule is not applied and an empty value for the rule is returned. Preconditions are json object literals with the following fields:
        * ``ecName`` String. Name of precondition. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.
        * ``ecCSSSelector`` string. CSS expression. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
-       * ``ecTextCondition`` steing. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
+       * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
 
 
 
