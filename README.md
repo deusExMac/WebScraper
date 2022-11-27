@@ -257,6 +257,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 -``[launchParameters]``: object literal. If renderPages is set to True and this field is non-empty, specifies to use Chrome browser in headless mode to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
 
    * ``[executablePath]``: path to Chrome executable on local machine
+   * ``[userDataDir]``: path to OSs user directory. Need to specify this if WebScraper is executed on Windows. On Mac, this field can be ommited.
 
 Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium or Chrome will be used.  
 
