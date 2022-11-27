@@ -243,8 +243,21 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 ## Fields in .exr files
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
--``[csvLineFormat]``: List of rule names (string - see below) that specify the extracted data from which rules should be stored in .csv files.
--``[renderPages]``: If downloaded html pages should be rendered i.e. 
+
+-``[csvLineFormat]``: List of rule names (string - see below) that specify the extracted data from which rules should be stored in .csv files. WebScraper tags extracted data with the rule name that resulted in extracting this data.
+
+-``[requiredFilledFields]``: List of strings. List of rule names that must extract non-empty data from a page in order to consider the extraction process successful and the data be stored in the csv file.  
+
+-``[allowedMinimumFilled]``: floating point numner. TODO +++  
+
+
+-``[renderPages]``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium or Chrome will be used.  
+
+
+
+
+
+
 -``[library]``: list of rules defining this library.
 
 
