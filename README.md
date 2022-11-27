@@ -288,6 +288,10 @@ The object literal specifying an operation on the page has the following fields:
    * ``dpcScrollTargetElementCount``: json object literal. Specifies scrolling until a specific count/number of css elements will appear. Json object literal has the following fields: ``dpcType``.
      * ``scrollTargetSelector`` css selector defining the elements to count
      * ``scrollTargetCount`` number of html elements defined by ``scrollTargetSelector`` that must appear before stopping (exact value cannot always be guaranteed as scrolling may load many such elements). If ``scrollTargetCount`` is negative, this means infinite scrolling i.e. scrolling until no new elements appear. This is the only way infinite scrolling is supported. If boh ``dpcScrolldown`` and ``dpcScrollTargetElementCount`` is specified, ``dpcScrollTargetElementCount`` takes precedence. Defaults to an empty json object meaning no scrolling target count.
+     * ``dpcWaitFor`` string. CSS element. The element to wait for to appear, when operation is scroll or scrollpage.
+     * ``dpcFillContent`` string. The value to  insert in input boxes when operation is fill. Defaults to empty string value. 
+     * ``dpcIsSubmit`` True | False. Specifies if a click on an element will result in submitting a form (i.e. data to the server). Used when ``dpcType`` has value click. Defaults to False.
+     * ``dpcRedirects`` True | False. Specifies if the operation redirects to another page. Used when ``dpcType`` has value click. Defaults to False.
 
 
 
@@ -304,10 +308,13 @@ The object literal specifying an operation on the page has the following fields:
 
    * ``rulePreconditions`` list of json object literals representing one or more preconditions. Preconditons specify conditions the entire page must hold before applying the rule. Depending on the ``rulePreconditionType``,  if page preconditions hold (i.e. return True) rule is applied; if they do not hold (i.e. return False), rule is not applied and an empty value for the rule is returned. Preconditions are json object literals with the following fields:
        * ``ecName`` String. Name of precondition. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.
-       * ``ecCSSSelector`` string. CSS expression. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
+       * ``ecCSSSelector`` string. CSS selector. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
        * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
 
+   * ``ruleCSSSelector`` String. CSS selector. The actual CSS selector extracting the rule's data from the page. Must have a value as this is the central extraction specification defining the rule. If empty, nothing is extracted. Defaults to empty string. Extracted data maybe one string value or a list of string values.
 
+
+ruleTargetAttribute
 
 
 
