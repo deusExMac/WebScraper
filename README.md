@@ -276,7 +276,13 @@ If ``launchParameters`` is empty i.e. not specified and renderPages is set to Tr
 
 The object literal specifying an operation on the page has the following fields:
 
-   * ``dpcType``: One of: ['click' | 'js' | 'fill' | 'scrollpage' | 'scroll']. Operation to apply on page or element. 
+   * ``dpcType``: One of: ['click' | 'js' | 'fill' | 'scrollpage' | 'scroll']. Operation to apply on page or element. Values:
+     click: Used when the operation denotes a click on an element. 
+     js: Special value to indicate execution of a javascipt function. Has not been tested. Use with caution.
+     fill: Filling an input element with some specified value
+     scrollpage: Scrolling the entire web page/browser viewport
+     scroll: Scrolling an html element (not entire page) that is scrollable e.g.  div, subwindow, textarea etc
+     
    * ``dpcPageElement``: css selector. On which html element on the downloaded page to perform operation specified in ``dpcType``.
    * ``dpcScrolldown``: integer > 0. How many times to scroll an html element (specified by ``dpcPageElement``) or the entire page (scrollpage). Scrolling using this option does not check if elements appear on page: it just scrolls element or entire page without any test or control. If integer is <= 0, scrolling is disabled. Default value 0.
 
