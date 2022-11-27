@@ -244,17 +244,24 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 -``[libraryDescription]``: A human readable description of the .exr file. What it is used for etc.
 
--``[csvLineFormat]``: List of rule names (string - see below) that specify the extracted data from which rules should be stored in .csv files. WebScraper tags extracted data with the rule name that resulted in extracting this data.
+-``[csvLineFormat]``: List of rule names (string - see below) specifies the rule names the extracted data of whose should be stored in the .csv files. E.g. if value is ["pageTitle"] this means that in the csv file only the extracted value of rule pageTitle will be stored. WebScraper tags extracted data with the rule name that extracted the data. If an empty list is specified, nothing is written in the csv file.
 
--``[requiredFilledFields]``: List of strings. List of rule names that must extract non-empty data from a page in order to consider the extraction process successful and the data be stored in the csv file.  
+-``[requiredFilledFields]``: List of strings. List of rule names that must extract non-empty data from a page in order to consider the extraction process successful and the data be written in the csv file.  If at least one rule (indentified by rule name) in this list returns an empty value, the extraction process is unsuccessfully and nothing is written in the csv file. Default value [] (empty list).
 
--``[allowedMinimumFilled]``: floating point numner. TODO +++  
+-``[allowedMinimumFilled]``: floating point numner. Minimum percentage of extracted rule names that must extract a nono-empty value. If this value is 0.8 this means that the extraction process is successful if 80% of rules extracted non-empty value. If < 80% of rules extracted non-empty values, the extraction process is unsunccessful and nothing is written in the csv file. A negative value disables this setting. Default value -1.    
 
 
 -``[renderPages]``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium or Chrome will be used.  
 
 
+-``[launchParameters]``: object literal. If renderPages is set to True and this field is non-empty, specifies to use Chrome browser in headless mode to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
 
+--``[executablePath]``: path to Chrome executable on local machine
+
+Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium or Chrome will be used.  
+
+
+"launchParameters" : { "executablePath":"<PATH TO BROWSER>", "userDataDir" : "<PATH TO USER DIRECTORY>" },
 
 
 
