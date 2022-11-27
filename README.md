@@ -302,6 +302,8 @@ The object literal specifying an operation on the page has the following fields:
      * EVAL: Truth value is the result of a logical expression referencing preconditions in ``rulePreconditions``. Any valid logical operator can be used in constructing logical expressions. E.g.   pc1 OR pc2 AND NOT pc3  
 
 
+####################################################################################################################################################
+
 Rule attributes/properties:
 
 - ``[ruleName]``: String. Name of the rule. In the current version, rule names should not contain spaces. Rule names are important as these names are used to store extracted values, by that rule, with these keys in python dictionaries.
