@@ -306,15 +306,21 @@ The object literal specifying an operation on the page has the following fields:
      * EVAL: Truth value is the result of a logical expression referencing preconditions in ``rulePreconditions``. Any valid logical operator can be used in constructing logical expressions. E.g.   pc1 OR pc2 AND NOT pc3  
    * ``rulePreconditionExpression`` string. Must represent a logical expression referencing preconditions by their name. Keeps the logical expression that must be evaluated when ``rulePreconditionType`` has value EVAL.  
 
-   * ``rulePreconditions`` list of json object literals representing one or more preconditions. Preconditons specify conditions the entire page must hold before applying the rule. Depending on the ``rulePreconditionType``,  if page preconditions hold (i.e. return True) rule is applied; if they do not hold (i.e. return False), rule is not applied and an empty value for the rule is returned. Preconditions are json object literals with the following fields:
+   * ``rulePreconditions`` list of json object literals representing one or more preconditions. Preconditons specify conditions the entire page must hold before applying the rule. Depending on the ``rulePreconditionType``,  if page preconditions hold (i.e. return True) rule is applied; if they do not hold (i.e. return False), rule is not applied and an empty value for the rule is returned. Currently preconditions check only the text of elements. Preconditions are json object literals with the following fields:
        * ``ecName`` String. Name of precondition. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.
        * ``ecCSSSelector`` string. CSS selector. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
        * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
 
    * ``ruleCSSSelector`` String. CSS selector. The actual CSS selector extracting the rule's data from the page. Must have a value as this is the central extraction specification defining the rule. If empty, nothing is extracted. Defaults to empty string. Extracted data maybe one string value or a list of string values.
+   * ``ruleTargetAttribute`` String. Attribute name | text. Specifies which attribute's value of the extracted element specified by ``ruleCSSSelector`` to return as the extracted data. If value is text, the text of the elements specified by ``ruleCSSSelector`` is returned as extracted value.
+   * ``ruleMatchPreconditions`` list of json object literals. Specifies the conditions the extracted data by ``ruleCSSSelector`` must meet. Elements that do not match these conditions are removed from the result. conditions have exactly the same fields are the preconditions presented in the preconditions field:
+     * ``ecName`` String. Name of precondition. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.
+     * ``ecCSSSelector`` string. CSS selector. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
+     * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
+ 
 
 
-ruleTargetAttribute
+
 
 
 
