@@ -261,6 +261,8 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object.
 
+NOTE: pyppeteer's build-in Chromium browser is not able to render properly some pages. E.g. airbnb listints.
+
 
 
 
