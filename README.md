@@ -264,6 +264,18 @@ If ``launchParameters`` is empty i.e. not specified and renderPages is set to Tr
 *NOTE: The version of pyppeteer used by WebScraper has a build-in Chromium browser that is not able to render properly some pages. E.g. pyppeteer's Chromium does not properly render pages of airbnb listings and hence loading of these pages fail. In such cases using an external Chrome installation solves the issue. With respect to this, [see issue #27](https://github.com/deusExMac/WebScraper/issues/27)*
 
 
+-``requestCookies``: json object literal with arbitrary key:value pairs. Specifies the request cookies that should be used with every HTTP request. Cookies should be specified in the form of comma separated  "cookieName":"cookieValue" pairs. If not specified, no request cookie will be set during reguests. If set, these cookies will be used for ALL requests issued on the server: no URL filtering is carried out.  Defaults to {} i.e. empty cookie json object i.e. no cookie.
+
+-``requestHeader``: json object literal with arbitrary key:value pairs. Sepecifies the HTTP header lines that will be used during requests. These header lines will replace lines of existing fields or add new ones. Any HTTP header line can be set, except the first request line (GE/POST). Header lines should be specified in the form of comma separated "field":"value" pairs e.g. "Accept-Language": "en-US,en;q=0.5" . field:value pairs should be in double quotes. If not specified, default header lines will be used. Defaults to {} i.e. no modification/addition to header lines. 
+
+
+-``requestUserAgent``: string. Sepecifies the user agent to use during HTTP requests. Overwrites the User-Agent line if this is set in the requestHeader field. If not specified, the default User-Agent is used. Defaults to empty string which results in using the http requests or browser's default user-agent.
+
+
+-``ruleDynamicElements``: list of json object literals. Specifies the list of operations to apply on the downloaded page before applying the rules in the exr file i.e. the extraction process. Each json object literal in the list specifies one action to carry out on a downloaded page. These operations are applied only if renderPages is set to True i.e. a rendering engine is used to download the pages. If renderPages is set to False, no operation is carried out on page and this field is ignored. Operations in this list will be qpplied in the same sequence as they appear in this list. The object literal specifying an operation on the page has the following fields:
+
+   * ``dpcType``: operation to apply on page. Valid values: ['click' | 'js' | 'fill' | 'scrollpage' | 'scroll']
+
 
 
 
