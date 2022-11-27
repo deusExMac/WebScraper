@@ -251,7 +251,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 -``allowedMinimumFilled``: floating point numner. Minimum percentage of extracted rule names that must extract a nono-empty value. If this value is 0.8 this means that the extraction process is successful if 80% of rules extracted non-empty value. If < 80% of rules extracted non-empty values, the extraction process is unsunccessful and nothing is written in the csv file. A negative value disables this setting. Default value -1.    
 
 
--``renderPages``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium (the default build-in browser of pyppeteer(https://github.com/pyppeteer/pyppeteer) ) or Chrome will be used. Defaults to False.
+-``renderPages``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium (the default build-in browser of [pyppeteer](https://github.com/pyppeteer/pyppeteer) ) or Chrome will be used. Defaults to False.
 
 
 -``launchParameters``: object literal. Specifies using Chrome browser in headless as the rendering engine (instead of pyppeteer's build-in Chromium) to download web pages. The associated value specifies location of the Chrome broser on the local machine along with the user data directory. The object literal has the following fields:
