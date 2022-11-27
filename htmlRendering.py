@@ -526,7 +526,7 @@ class htmlRenderer:
       # mxTimes: maximum number of times to scroll when no change occurs. Safeguard.
       # if scrollTargetCount has negative value, this means scroll until end i.e. until
       # no change is happening on the page.
-      # # Infinite scrolling supported ONLY in this mode.
+      # Infinite scrolling supported ONLY in this mode.
       async def scrollPageDownByElementCount(self, pg, scrollCondition, mxTimes=150, delta=20):
 
             #dpcScrollTargetElementCount
