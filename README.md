@@ -5,14 +5,14 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
 **IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
 
-# Table Of Contents
+# Table of Contents
 
 - [About WebScraper](#about-webscraper)
 - [Required python modules](#required-python-modules)
 - [.exr files](#exr-files)
 - [Overview of .exr files](#overview-of-exr-files)
   * [Supported fields](#supported-fields)
-  * [Details of fields in .exr files](#details-of-fields-in-exr-files)
+  * [Fields in .exr files](#fields-in-exr-files)
   * [Order of checks carried out as specified by rules in exr files](#order-of-checks-carried-out-as-specified-by-rules-in-exr-files)
     + [i. ruleURLActivationCondition](#i-ruleurlactivationcondition)
     + [ii. rulePreconditions](#ii-rulepreconditions)
@@ -24,6 +24,7 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
 - [Related projects](#related-projects)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 
 
@@ -265,7 +266,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 ```
 
 
-## Details of fields in .exr files
+## Fields in .exr files
 
 -``libraryDescription``: A human readable description of the .exr file. What it is used for etc.
 
