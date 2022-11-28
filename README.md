@@ -313,12 +313,14 @@ The object literal specifying an operation on the page has the following fields:
 
    * ``ruleCSSSelector`` String. CSS selector. The actual CSS selector extracting the rule's data from the page. Must have a value as this is the central extraction specification defining the rule. If empty, nothing is extracted. Defaults to empty string. Extracted data maybe one string value or a list of string values.
    * ``ruleTargetAttribute`` String. Attribute name | text. Specifies which attribute's value of the extracted element specified by ``ruleCSSSelector`` to return as the extracted data. If value is text, the text of the elements specified by ``ruleCSSSelector`` is returned as extracted value.
-   * ``ruleMatchPreconditions`` list of json object literals. Specifies the conditions the extracted data by ``ruleCSSSelector`` must meet. Elements that do not match these conditions are removed from the result. conditions have exactly the same fields are the preconditions presented in the preconditions field:
+   * ``ruleMatchPreconditions`` list of json object literals. Specifies the conditions the extracted data by ``ruleCSSSelector`` must meet. Conditions defined in ``ruleMatchPreconditions`` will be applied after the css selector in ``ruleCSSSelector`` has been applied to the page. Elements that do not match these conditions are removed from the result. conditions have exactly the same fields are the preconditions presented in the preconditions field:
      * ``ecName`` String. Name of precondition. Precondition names must be unique. Precondition names are not required except when preconditionss must be referenced in EVAL expressions.
      * ``ecCSSSelector`` string. CSS selector. Specifies the element whose text that is to be checked. Currently page preconditions can only check the text of html elements.
      * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
  
-
+   * ``rulePostCSSSelector`` list of strings. Each string in this list must be a css selector. Specifies css selectors that all of them will be applied to each of the extracted elements by ``ruleCSSSelector`` (and after apllying ``ruleMatchPreconditions``) seperately. Extracts from each specific element the specified sub-elements. 
+   * ``ruleReturnedValueNames`` list of strings. Each string is user defined and should not contain the characters: empty char, whitespace, -, !, , (comma), *, /, \,?. Specifies each name of the extracted sub-element by ``rulePostCSSSelector`` . ``ruleReturnedValueNames`` is exclusively used with ``rulePostCSSSelector`` . Returns a list of objects, having as key-names the strings defined in ``ruleReturnedValueNames`` and as key-values the extracted data specified by css selector ``rulePostCSSSelector`` in the same position. 
+E.g. if ``rulePostCSSSelector`` has the value ["title", ".details"] and  ``ruleReturnedValueNames`` the value ["pageTitle", "description"] then the extraction process will result in defining a key with name "pageTitle" and value the text of element title and a key with name description having as value the data extracted by selector ".details" from each result of 
 
 
 
