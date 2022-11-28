@@ -4,7 +4,7 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
 
 **IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
-# TOC
+# Table Of Contents
 
 - [About WebScraper](#about-webscraper)
 - [Required python modules](#required-python-modules)
