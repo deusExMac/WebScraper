@@ -4,25 +4,28 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
 
 **IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
 
+
 # Table Of Contents
 
 - [About WebScraper](#about-webscraper)
 - [Required python modules](#required-python-modules)
 - [.exr files](#exr-files)
-- [.exr files](#exr-files-1)
-  * [Overview of exr file](#overview-of-exr-file)
-  * [Fields in .exr files](#fields-in-exr-files)
+- [Overview of .exr files](#overview-of-exr-files)
+  * [Supported fields](#supported-fields)
+  * [Details of fields in .exr files](#details-of-fields-in-exr-files)
+  * [Order of checks carried out as specified by rules in exr files](#order-of-checks-carried-out-as-specified-by-rules-in-exr-files)
+    + [i. ruleURLActivationCondition](#i-ruleurlactivationcondition)
+    + [ii. rulePreconditions](#ii-rulepreconditions)
+    + [iii. ruleCSSSelector](#iii-rulecssselector)
+    + [iv. ruleMatchPreconditions](#iv-rulematchpreconditions)
+    + [v. ruleContentCondition](#v-rulecontentcondition)
+    + [vi. rulePostCSSSelector](#vi-rulepostcssselector)
   * [Example .exr files](#example-exr-files)
-- [Order of checks carried out as specified by rules in exr files](#order-of-checks-carried-out-as-specified-by-rules-in-exr-files)
-  * [i. ruleURLActivationCondition](#i-ruleurlactivationcondition)
-  * [ii. rulePreconditions](#ii-rulepreconditions)
-  * [iii. ruleCSSSelector](#iii-rulecssselector)
-  * [iv. ruleMatchPreconditions](#iv-rulematchpreconditions)
-  * [v. ruleContentCondition](#v-rulecontentcondition)
-  * [vi. rulePostCSSSelector](#vi-rulepostcssselector)
 - [Related projects](#related-projects)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 
 
 
@@ -98,9 +101,9 @@ Authoring rules in exr files requires basic knowledge of [css selectors] (https:
 Besides rules, exr files can also specify/dioctate other aspects of the extraction process such as how to render/fetch the page, what HTTP headers and/or cookies to use, if and how to interact with the downloaded page (e.g. scrolling, filling boxes, clicking etc) before applying the rules etc.
 
 
-# .exr files
+# Overview of .exr files
 
-## Overview of exr file
+## Supported fields
  
 Below is an overview of an exr file, presenting all supported fields. The supported fields are explained in greater detail in this section.
 
@@ -262,7 +265,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 ```
 
 
-## Fields in .exr files
+## Details of fields in .exr files
 
 -``libraryDescription``: A human readable description of the .exr file. What it is used for etc.
 
