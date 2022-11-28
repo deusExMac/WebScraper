@@ -320,7 +320,7 @@ The object literal specifying an operation on the page has the following fields:
  
    * ``rulePostCSSSelector`` list of strings. Each string in this list must be a css selector. Specifies css selectors that all of them will be applied to each of the extracted elements by ``ruleCSSSelector`` (and after apllying ``ruleMatchPreconditions``) seperately. Extracts from each specific element the specified sub-elements. 
    * ``ruleReturnedValueNames`` list of strings. Each string is user defined and should not contain the characters: empty char, whitespace, -, !, , (comma), \*, /, \,?. Specifies each name of the extracted sub-element by ``rulePostCSSSelector`` . ``ruleReturnedValueNames`` is exclusively used with ``rulePostCSSSelector`` . Returns a list of objects, having as key-names the strings defined in ``ruleReturnedValueNames`` and as key-values the extracted data specified by css selector ``rulePostCSSSelector`` in the same position. 
-   * 
+  
 E.g. if ``rulePostCSSSelector`` has the value ["title", ".details"] and  ``ruleReturnedValueNames`` the value ["pageTitle", "description"] then the extraction process will result in defining a key with name "pageTitle" and value the text of element title and a key with name description having as value the data extracted by selector ".details" from each result of 
 
 
