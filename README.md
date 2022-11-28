@@ -355,7 +355,7 @@ The object literal specifying an operation on the page has the following fields:
 
 You may find working examples of pre-authored exr file in the rules/ directory that will help in understanding how the the above fields should be used. The [file index.html will help you in browsing the list of files in the rules direcory](https://htmlpreview.github.io/?https://github.com/deusExMac/WebScraper/blob/main/rules/index.html).
 
-TODO: use RAWGIT linek this instead of htmlpreview: https://rawgit.com/necolas/css3-social-signin-buttons/master/index.html
+TODO: use RAWGIT linek this instead of htmlpreview: https://rawgit.com/necolas/css3-social-signin-buttons/master/index.html OR the gh-branch approach described here: https://stackoverflow.com/questions/8446218/how-to-see-an-html-page-on-github-as-a-normal-rendered-html-page-to-see-preview
 
 
 ####################################################################################################################################################
