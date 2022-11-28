@@ -352,11 +352,49 @@ The object literal specifying an operation on the page has the following fields:
    *  ``ruleRemoveChars`` list of strings. Specified the characters to be removed from the text values returned by the extraction process. Empty list means no replacement of any character. Defaults to empty list. E.g. values  ['€', '$'] means removing these characters from extracted texts of elements. exr files should be stored in utf-8 encoding in order make such fields work properly.
 
 
+## Order of checks carried out as specified by rules in exr files
+
+When applying rules to html file, checks and extraction is carried out in the following order for each rule in the exr file:
+
+### i. ruleURLActivationCondition 
+
+First url of downloaded page is checked if it matches any of the regular expression specified in ruleURLActivationCondition.
+if URL of downloaded resource does not match any regular expression in ruleURLActivationCondition, rule is not applied. Otherwise rule continues.
+
+### ii. rulePreconditions
+
+Then page rule preconditions are applied. The expression in page preconditions, which check if the html content meets the css element conditions specified in rulePreconditions, is evaluated. If evaluation of page preconditions return False, the extraction specified by the rule stops.  Otherwise, it continues. NOTE: page preconditions may overwrite the ruleCSSSelector.
+
+### iii. ruleCSSSelector
+
+ruleCSSSelector extracts the actual target (sourght after) information from the downloaded page. Specified ruleCSSSelector may be overwritten by rulePrecondition. May return a single value or a set/list of values (specified by ruleReturnsMore).
+
+### iv. ruleMatchPreconditions
+
+If specified, on the result set returned by ruleCSSSelector, the ruleMatchPreconditions are applied. These check if each result match a very specific condition. Results that do not meet the conditions specified by ruleMatchPreconditions are removed from the ruleCSSSelector result set and not returned. Although more than one match precondition can be specified, only the ANY operator (s supported (i.e. ruleMatchPreconditionType can only take value ANY). Match preconditions are applied to the results after the extraction process in contrast to page preconditions that are applied before.
+
+### v. ruleContentCondition
+
+If specifies, the regular expression specified in ruleContentCondition is applied to all extracted content in the result set. If ruleContentCondition is  empty, no conditions are enforced on the extracted content i.e. the rcurrent esult set is unafected.
+
+
+### vi. rulePostCSSSelector
+
+If specified, it applies the css selector list specified in rulePostCSSSelector to cut each and every element of the results set returned by ruleCSSSelector into smaller pieces. May return a list of strings or a list of dictionaries. List of dictionaries are returned, if field ruleReturnedValueNames is specified which has a list of strings acting as keys corresponding to the css selectors one-by-one in rulePostCSSSelector.   
+
+
+After these steps, the result set is returned as the value of the extracted information after applying one single rule. As already mentioned, the idea of exr files is that each rule extracts one specific information of the downloaded Web page.
+
+
+
 ## Example .exr files
 
-You may find working examples of pre-authored exr file in the rules/ directory that will help in understanding how the the above fields should be used. The [file index.html will help you in browsing the list of files in the rules direcory](https://htmlpreview.github.io/?https://github.com/deusExMac/WebScraper/blob/main/rules/index.html).
+You may find working examples of pre-authored exr file in the rules/ directory that will help in understanding how the the above fields should be used. The [file index.html in the same directory will help you in browsing and understanding the exr files in the rules direcory. We encourage you to use this file to check the available exr files.](https://htmlpreview.github.io/?https://github.com/deusExMac/WebScraper/blob/main/rules/index.html).
 
 TODO: use RAWGIT linek this instead of htmlpreview: https://rawgit.com/necolas/css3-social-signin-buttons/master/index.html OR the gh-branch approach described here: https://stackoverflow.com/questions/8446218/how-to-see-an-html-page-on-github-as-a-normal-rendered-html-page-to-see-preview
+
+
+
 
 
 ####################################################################################################################################################
@@ -383,38 +421,7 @@ Rule attributes/properties:
 
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
-# Order of checks carried out as specified by rules in exr files
 
-When applying rules to html file, checks and extraction is carried out in the following order for each rule in the exr file:
-
-## i. ruleURLActivationCondition 
-
-First url of downloaded page is checked if it matches any of the regular expression specified in ruleURLActivationCondition.
-if URL of downloaded resource does not match any regular expression in ruleURLActivationCondition, rule is not applied. Otherwise rule continues.
-
-## ii. rulePreconditions
-
-Then page rule preconditions are applied. The expression in page preconditions, which check if the html content meets the css element conditions specified in rulePreconditions, is evaluated. If evaluation of page preconditions return False, the extraction specified by the rule stops.  Otherwise, it continues. NOTE: page preconditions may overwrite the ruleCSSSelector.
-
-## iii. ruleCSSSelector
-
-ruleCSSSelector extracts the actual target (sourght after) information from the downloaded page. Specified ruleCSSSelector may be overwritten by rulePrecondition. May return a single value or a set/list of values (specified by ruleReturnsMore).
-
-## iv. ruleMatchPreconditions
-
-If specified, on the result set returned by ruleCSSSelector, the ruleMatchPreconditions are applied. These check if each result match a very specific condition. Results that do not meet the conditions specified by ruleMatchPreconditions are removed from the ruleCSSSelector result set and not returned. Although more than one match precondition can be specified, only the ANY operator (s supported (i.e. ruleMatchPreconditionType can only take value ANY). Match preconditions are applied to the results after the extraction process in contrast to page preconditions that are applied before.
-
-## v. ruleContentCondition
-
-If specifies, the regular expression specified in ruleContentCondition is applied to all extracted content in the result set. If ruleContentCondition is  empty, no conditions are enforced on the extracted content i.e. the rcurrent esult set is unafected.
-
-
-## vi. rulePostCSSSelector
-
-If specified, it applies the css selector list specified in rulePostCSSSelector to cut each and every element of the results set returned by ruleCSSSelector into smaller pieces. May return a list of strings or a list of dictionaries. List of dictionaries are returned, if field ruleReturnedValueNames is specified which has a list of strings acting as keys corresponding to the css selectors one-by-one in rulePostCSSSelector.   
-
-
-After these steps, the result set is returned as the value of the extracted information after applying one single rule. As already mentioned, the idea of exr files is that each rule extracts one specific information of the downloaded Web page.
 
 
 # Related projects
