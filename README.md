@@ -351,6 +351,10 @@ The object literal specifying an operation on the page has the following fields:
    *  ``ruleRemoveChars`` list of strings. Specified the characters to be removed from the text values returned by the extraction process. Empty list means no replacement of any character. Defaults to empty list. E.g. values  ['€', '$'] means removing these characters from extracted texts of elements. exr files should be stored in utf-8 encoding in order make such fields work properly.
 
 
+## Example .exr files
+
+You may find working examples of pre-authored exr file in the rules/ directory. The [file index.html will helo you in browsing the list of files in the rules direcory](https://htmlpreview.github.io/?https://github.com/deusExMac/WebScraper/blob/main/rules/index.html).
+
 
 
 ####################################################################################################################################################
