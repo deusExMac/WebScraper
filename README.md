@@ -413,14 +413,29 @@ When starting execution, WebScraper looks for and loads a default configuration 
 
 WebScraper's configuration file defines and initializes the values on some important aspects that are required during its execution. The configuration file initializes these settings during startup; these settings can be altered when WebScraper executes using command line arguments or WebScraper shell arguments. WebScraper's configuration file is separated in sections, each section controlling a specific aspect of the program. Below is a list of each section and a list of supported settings:
 
-* Shell
+* Shell 
+
+  This section has settings related to the shell that appears only when WebScraper is executed in interactive mode.
 
   - ``commandPrompt ``: string. The string that will appear as the command prompt when WebScraper is executed in interactive mode.
   - ``historySize  ``: integer. Specifies the number of commands to keep in shell history when WebScraper operates in interacive mode. Shell supports history of commands to make it easier to type and execute application shell commands.
 
 * Rules 
 
+  This section has settings related to the default exr file loaded during execution. Current version requires loading of at least one exr file.
+  
+  - ``ruleFile  ``: path to exr file. Default exr file to load if no exr file is specified on the command line.
 
+* Rules 
+
+  This section has settings related to the fetching of web resources.
+  
+  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being killed in case Chromium (pyppeteer's default browser) is used to fetch pages. Takles effect only if renderPages is set to True and no external browser is used (TODO: check this???).
+  
+   - ``forceBrowserCleanup``: True | False | Auto. Specifies if Chromium  instances should be killed forcibly by WebScraper when renderPages is True. Due to a bug in pyppeteer, Chromium instances (aka zombie processes) may remaining after properly closing browsers in headless mode. Depending on the value of ``forceBrowserCleanup``, this setting will kill these zombie processes in the following way:
+     - True : killing of zombies will be carried out when WebScraper terminates.
+     - Auto : killing of zombies will be carried out after each use of Chromium to fetch pages.
+     - False: no killing of zombies will be carried out.     
 
 ####################################################################################################################################################
 
