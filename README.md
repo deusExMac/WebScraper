@@ -426,7 +426,7 @@ WebScraper's configuration file defines and initializes the values on some impor
   
   - ``ruleFile  ``: path to exr file. Default exr file to load if no exr file is specified on the command line.
 
-* Rules 
+* Crawler 
 
   This section has settings related to the fetching of web resources.
   
@@ -444,7 +444,8 @@ WebScraper's configuration file defines and initializes the values on some impor
    - ``linuxChrome``: Regular expression. The pattern identifying the name of Chrome processes on Linux machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto.
    - ``androidChrome``: Regular expression. The pattern identifying the name of Chrome processes on Android machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto. 
        
-    
+   - ``traversalStrategy``: bfs | dfs. What traversal strategy to use to crawl a site. [bfs=breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search), [dfs=depth first search](https://en.wikipedia.org/wiki/Depth-first_search). Defaults to bfs.
+ 
 
 ####################################################################################################################################################
 
