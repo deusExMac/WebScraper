@@ -415,8 +415,8 @@ WebScraper's configuration file defines and initializes the values on some impor
 
 * Shell
 
-- ``commandPrompt ``: string. The string that will appear as the command prompt when WebScraper is executed in interactive mode.
-- ``historySize  ``: integer. Specifies the number of commands to keep in shell history when WebScraper operates in interacive mode. Shell supports history of commands to make it easier to type and execute application shell commands.
+  - ``commandPrompt ``: string. The string that will appear as the command prompt when WebScraper is executed in interactive mode.
+  - ``historySize  ``: integer. Specifies the number of commands to keep in shell history when WebScraper operates in interacive mode. Shell supports history of commands to make it easier to type and execute application shell commands.
 
 * Rules 
 
