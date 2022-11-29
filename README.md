@@ -399,6 +399,22 @@ TODO: use RAWGIT linek this instead of htmlpreview: https://rawgit.com/necolas/c
 
 
 
+# Running WebScraper 
+
+WebScraper's main module is WebScraper.py which must be loaded and executed in your development environment. WebScraper has been developed and tested on IDLE.
+
+
+# WebScraper configuration file
+
+When starting execution, WebScraper looks for and loads a default configuration file named [webscraper.conf](https://github.com/deusExMac/WebScraper/blob/main/webscraper.conf) in the local directory. A different configuration file can be specified on the command line using the -r switch . If no configuration file is loaded, WebScraper continues with default settings.
+
+
+## Configuration settings
+
+WebScraper's configuration file defines and initializes the values on some important aspects that are required during its execution. The configuration file initializes these settings during startup; these settings can be altered when WebScraper executes using command line arguments or WebScraper shell arguments. 
+
+
+
 
 
 ####################################################################################################################################################
