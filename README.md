@@ -488,13 +488,20 @@ IMPORTANT: Some properties are not fully supported and/or may result in errors a
 WebScraper's command line arguments allow the overwriting of settings defined in configuration file. Command line options supported:
 
 -c <configuration file> : will result in loading  <configuration file> as configuration file
+
 -r <exr file>: will load <exr file> as the default exr file
+
 -B: will execute WebScraper in batch mode i.e. no shell will be displayed and crawling will start immediately.
+
 -M: will enable mirroring i.e storing all downloaded pages locally mirroring the remote website. Fetched pages will be stored using as local root directory the directory specified in ``mirrorRoot`` (see Crawler section above).
+
 -n <number>: will fetch/process a maximum of <number> pages before stopping. If number if negative, no number of pages limit is enforced i.e. infinite pages.
+
 -s <float>: amount of time to sleep between consecutive requests to the same server. Has effect only if  ``delayModel`` is set to c .
+
 -o <output csv file>: will store all extracted data from pages in the csv file <output csv file>.
--q <queue file>: will use file <queue file> as the file to store the URL queue. If no -q option if present, default URL queue file is .queue .
+
+-q <queue file>: will use file <queue file> as the file to store the URL queue when WebScraper terminates or saves periodically the queue. If no -q option if present, default URL queue file is .queue .
 
 	
 
