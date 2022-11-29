@@ -430,12 +430,14 @@ WebScraper's configuration file defines and initializes the values on some impor
 
   This section has settings related to the fetching of web resources.
   
-  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being killed in case Chromium (pyppeteer's default browser) is used to fetch pages. Takles effect only if renderPages is set to True and no external browser is used (TODO: check this???).
+  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being forcibly killed in case Chromium (pyppeteer's default browser) or an external Chrome installation is used to fetch pages. Takles effect only if renderPages is set to True and no external browser is used (TODO: check this???).
   
-   - ``forceBrowserCleanup``: True | False | Auto. Specifies if Chromium  instances should be killed forcibly by WebScraper when renderPages is True. Due to a bug in pyppeteer, Chromium instances (aka zombie processes) may remaining after properly closing browsers in headless mode. Depending on the value of ``forceBrowserCleanup``, this setting will kill these zombie processes in the following way:
-     - True : killing of zombies will be carried out when WebScraper terminates.
-     - Auto : killing of zombies will be carried out after each use of Chromium to fetch pages.
+   - ``forceBrowserCleanup``: True | False | Auto. Specifies if Chromium and external Chrome instances should be killed forcibly by WebScraper when renderPages is True. Due to a bug in pyppeteer, Chromium and external Chrome instances spawned by WebScraper may remaining after properly closing browsers in headless mode (aka zombie processes). In order to avoid memory leaks, WebScraper may forcibly kill these instances. Depending on the value of ``forceBrowserCleanup``, this setting will kill these zombie processes in the following ways:
+     - True : killing of zombies will be carried out only once, when WebScraper terminates execution.
+     - Auto : killing of zombies will be carried out after each use of Chromium/Chrome to fetch pages.
      - False: no killing of zombies will be carried out.     
+
+     In order to avoid killing Chrome browsers that the user is using while WebScraper executes, you may set ``guardRunningChromeInstances`` to True. Otherwise, killing of Chrome instances will also result in forcibly killing of the user's Chrome invokations.
 
 ####################################################################################################################################################
 
