@@ -501,7 +501,26 @@ WebScraper's command line arguments allow the overwriting of settings defined in
 
 -o output csv file: will store all extracted data from pages in the csv file <output csv file>.
 
--q queue file: will use file <queue file> as the file to store the URL queue when WebScraper terminates or saves periodically the queue. If no -q option if present, default URL queue file is .queue .
+-q queue file: will use file <queue file> as the file to store the URL queue when WebScraper terminates or saves periodically the queue. If no -q option if present, default URL queue file is .queue . Whenevr WebScraper starts, the queue file is reinitialized except when the -C option is specified.
+
+-C: will not create a new URL queue file but uses the existing one and continues processing of urls in queue file, fetching and processing pending urls.
+	
+-D: will apply a depth first strategy for site traversal
+	
+-HR pct: uses pct as the minimum hit rate percentage. If pct is negative, minimum hit rate is disabled.
+
+-CT regular expression: during fetching and processing of pages content type of downloaded pages mus match regular expression. Allows changing accepted content type of pages. 
+	
+-R: fetches pages using pyppeteer;s browser (Chromium or Chrome depending on other settings).
+
+-U: Entering update mode i.e. using existing url queue file and checking if pages have been modigied. Will re-extract data from pages that have been visited and from where data has been extracted. TODO: Not thoroughly tested.
+	
+-p pos: starting fetching urls starting from position pos of URL queue file.
+	
+-G: enables debug mode. Prints debug messages on screen.	
+
+	
+-	
 
 	
 
