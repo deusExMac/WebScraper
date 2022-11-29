@@ -496,7 +496,7 @@ Command line options supported:
 
 -r exr file: will load <exr file> as the default exr file
 
--B: will execute WebScraper in batch mode i.e. no shell will be displayed and crawling will start immediately.
+-B: will execute WebScraper in batch mode i.e. no shell will be displayed and crawling/extraction will start immediately from start url..
 
 -M: will enable mirroring i.e storing all downloaded pages locally mirroring the remote website. Fetched pages will be stored using as local root directory the directory specified in ``mirrorRoot`` (see Crawler section above).
 
