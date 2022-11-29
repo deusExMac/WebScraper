@@ -437,7 +437,14 @@ WebScraper's configuration file defines and initializes the values on some impor
      - Auto : killing of zombies will be carried out after each use of Chromium/Chrome to fetch pages.
      - False: no killing of zombies will be carried out.     
 
-     In order to avoid killing Chrome browsers that the user is using while WebScraper executes, you may set ``guardRunningChromeInstances`` to True. Otherwise, killing of Chrome instances will also result in forcibly killing of the user's Chrome invokations.
+     In order to avoid killing Chrome browsers that the user is using while WebScraper executes, you may set ``guardRunningChromeInstances`` to True. Otherwise, all Chrome instances will be killed, including those instances started execution by the user.
+     
+   - ``windowsChrome``: Regular expression. The pattern identifying the name Chrome processes on Windows machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto.
+   - ``macosChrome``: Regular expression. The pattern identifying the name of Chrome processes on MacOS machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto.
+   - ``linuxChrome``: Regular expression. The pattern identifying the name of Chrome processes on Linux machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto.
+   - ``androidChrome``: Regular expression. The pattern identifying the name of Chrome processes on Android machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto. 
+       
+    
 
 ####################################################################################################################################################
 
