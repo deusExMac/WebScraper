@@ -444,8 +444,15 @@ WebScraper's configuration file defines and initializes the values on some impor
    - ``linuxChrome``: Regular expression. The pattern identifying the name of Chrome processes on Linux machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto.
    - ``androidChrome``: Regular expression. The pattern identifying the name of Chrome processes on Android machines that should be forcibly killed. Used only when ``forceBrowserCleanup`` is set to True or Auto. 
        
-   - ``traversalStrategy``: bfs | dfs. What traversal strategy to use to crawl a site. [bfs=breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search), [dfs=depth first search](https://en.wikipedia.org/wiki/Depth-first_search). Defaults to bfs.
+   - ``traversalStrategy``: bfs | dfs. What traversal strategy to use to crawl a site. bfs will do a [breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search) while dfs will perform a [depth first search](https://en.wikipedia.org/wiki/Depth-first_search). Defaults to bfs.
  
+   - ``maxPages``: integer. Maximum number pages to fetch/process/extract from when crawling an entire site. Negative values means no limit.
+   - ``allowedSchemes``: http, https. Allwed URL schemes (TODO: should be a regular expression).
+   - ``ignoreResponseCookies``: True | False. Specifies if response cookies should be ignored or not. If set to False, any response cookies received will be stored and used in any subsequent request to the same server. If set to True, any response cookie will be ignored.
+   - ``ignoredCookies ``: string. Comma separated cookie names. Names of individual response cookies to ignore i.e. not to be stored and used in any subsequent request to the same server. (TODO: should be a regular expression). Takes effect only if ``ignoreResponseCookies`` is set to False. Deafults to empty string i.e. do not ingnore any response cookie.
+  
+  
+   
 
 ####################################################################################################################################################
 
