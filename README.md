@@ -450,9 +450,13 @@ WebScraper's configuration file defines and initializes the values on some impor
    - ``allowedSchemes``: http, https. Allwed URL schemes (TODO: should be a regular expression).
    - ``ignoreResponseCookies``: True | False. Specifies if response cookies should be ignored or not. If set to False, any response cookies received will be stored and used in any subsequent request to the same server. If set to True, any response cookie will be ignored.
    - ``ignoredCookies ``: string. Comma separated cookie names. Names of individual response cookies to ignore i.e. not to be stored and used in any subsequent request to the same server. (TODO: should be a regular expression). Takes effect only if ``ignoreResponseCookies`` is set to False. Deafults to empty string i.e. do not ingnore any response cookie.
+  - ``allowedContentTypes``: string. Regular expression. Specifies the content type the page must match in order to be processed. Pages whose content type do not match regular expression ``allowedContentTypes`` are ignored. The Content-line response header line is checked against this regular expression pattern.
+  - ``takePageScreenShot``: True | False. If a screenshot of the downloaded page should be taken. Works only when renderPages is set to True i.e. pyppeteer  (Chromium or Chrome) is used for downloading the page. Used usually for debugging purposes.
   
   
    
+   
+    
 
 ####################################################################################################################################################
 
