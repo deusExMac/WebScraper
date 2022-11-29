@@ -476,9 +476,9 @@ WebScraper's configuration file defines and initializes the values on some impor
    
  * DEBUG 
 
-  This section controls debugging issues. 
+   This section controls debugging issues. 
   
-  - ``debugging``: True | False. If set, debug messages will be displayed.
+   - ``debugging``: True | False. If set, debug messages will be displayed.
  
   
    
