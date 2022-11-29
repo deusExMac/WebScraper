@@ -411,9 +411,14 @@ When starting execution, WebScraper looks for and loads a default configuration 
 
 ### Configuration settings
 
-WebScraper's configuration file defines and initializes the values on some important aspects that are required during its execution. The configuration file initializes these settings during startup; these settings can be altered when WebScraper executes using command line arguments or WebScraper shell arguments. 
+WebScraper's configuration file defines and initializes the values on some important aspects that are required during its execution. The configuration file initializes these settings during startup; these settings can be altered when WebScraper executes using command line arguments or WebScraper shell arguments. WebScraper's configuration file is separated in sections, each section controlling a specific aspect of the program. Below is a list of each section and a list of supported settings:
 
+*[Shell]
 
+- ``commandPrompt ``: The string that will appear as the command prompt when WebScraper is executed in interactive mode.
+- ``historySize  ``: integer. Specifies the number of commands to keep in shell history when WebScraper operates in interacive mode. Shell supports history of commands to make it easier to type and execute application shell commands.
+
+*[Rules]
 
 
 
