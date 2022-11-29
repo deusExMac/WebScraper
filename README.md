@@ -485,7 +485,12 @@ IMPORTANT: Some properties are not fully supported and/or may result in errors a
 
 ## WebScraper command line arguments
 
-WebScraper's command line arguments allow the overwriting of settings defined in configuration file. Command line options supported:
+WebScraper's command line arguments allow the overwriting of settings defined in configuration file. Usage:
+
+``webScraper.py [-c configuration file] [-r exr file] [-B] [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [=R] [-U[ [-p pos] [-G] start_url``
+
+
+Command line options supported:
 
 -c configuration file : will result in loading  <configuration file> as configuration file
 
@@ -517,7 +522,9 @@ WebScraper's command line arguments allow the overwriting of settings defined in
 	
 -p pos: starting fetching urls starting from position pos of URL queue file.
 	
--G: enables debug mode. Prints debug messages on screen.	
+-G: enables debug mode. Prints debug messages on screen.
+	
+start_url: url to start downloading and apply exreaction rules. Depending on set of rules and number of pages desired to download will crawl entire site extracting the specified data.	
 
 	
 -	
