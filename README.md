@@ -482,30 +482,7 @@ WebScraper's configuration file defines and initializes the values on some impor
  
   
    
-    
-
-####################################################################################################################################################
-
-Rule attributes/properties:
-
-- ``[ruleName]``: String. Name of the rule. In the current version, rule names should not contain spaces. Rule names are important as these names are used to store extracted values, by that rule, with these keys in python dictionaries.
-- ``[ruleDescription]``: String. A human readable description of the rule's aim i.e. what it does. 
-- ``[ruleURLActivationCondition]``: List of regular expressions.  List of regular expression that the URL of the web page must match. Rule is applied if ANY of the regular expressions in this list is matched. If no regular expression is matched, rule if not applied. If this list is empty, rule is applied. Example: ruleURLActivationCondition: ["en\.wikipedia\.org", "C://downloadedPages//"] meaning if URL matches en.wikipedia.org or C://downloadedPages//, then apply this rule. If URL (or file name) does not match any of regular expressions in this list rule will not applied. NOTE . is escaped as it is also a metacharacter.
-- ``rulePreconditionType``: Values ``Any`` or ``All`` . Specifies if all preconditions (all) or at least one  (any) the content must hold in order for the rule to be applied. Preconditions are specified in the rulePreconditions property (see below)
-- ``rulePreconditions``: List of preconditions. Each precondition has the following properties:
-    - ``ecCSSSelector``: String. Specifies a CSS selector on content of the web pages.
-    - ``ecTextCondition``: String. Regular expression. The regular expression the text of css selector ``ecCSSSelector`` has to match. if matched, the precondition is evaluation to True and hence holds.
-    - ``ecRuleCSSSelector``: String. CSS selector. If non-empty and precondition matches and ``rulePreconditionType`` is any, the CSS selector specified here will replace the CSS slector of this rule (``ruleCSSSelector``) 
-- ``ruleCSSSelector``: String. CSS selector. The CSS selector to extract actual data from the web page if conditions hold (URL regular expression and preconditions). This is the sought after data. Can be ovewritten by ``ecRuleCSSSelector`` under specific circumstances (see ``ecRuleCSSSelector``)
-- ``ruleTargetAttribute``: String. Attribute of the ``ruleCSSSelector`` element to return as the extracted data. If equal to ``text`` the text of the element is returned. Otherwise the named attribute of the CSS element.
-- ``ruleContentCondition``: String. Regular expression. The regular expression the extracted data has to match. If extracted data matches this regular expression, extracted data is returned. If not, empty extracted data is returned.
-- ``ruleReturnsMore``: Boolean. True or False. Specifies if CSS selector ``ruleCSSSelector`` will return more than one matching result.
-- ``ruleReturnedMatchPos``: Integer. If ``ruleReturnsMore``is True, this specifies which result to return as valid match.
-- ``rulePostCSSSelector``: css selector. TODO: Fill this....
-- ``ruleReturnedValueNames``: List of strings. Specifies +++
-- ``ruleMatchPreconditions``: List of [rule preconditions] . These preconditions will be applied after application of ruleCSSSelector and on each match returned by ruleCSSSelector. These preconditions allow users to apply more complicatied conditions on matches. ruleMatchPreconditions may even replace a match returned with another. Currently only disjunctive match preconditions are supported. 
-- ``ruleMatchPreconditionType``: ANY | AND. How the match preconditions specified in ruleMatchPreconditions should be combined (currently ANY, AND values supported.)
-
+   
 IMPORTANT: Some properties are not fully supported and/or may result in errors and exceptions. 
 
 
