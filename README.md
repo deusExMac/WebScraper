@@ -451,10 +451,36 @@ WebScraper's configuration file defines and initializes the values on some impor
    - ``ignoreResponseCookies``: True | False. Specifies if response cookies should be ignored or not. If set to False, any response cookies received will be stored and used in any subsequent request to the same server. If set to True, any response cookie will be ignored.
    - ``ignoredCookies ``: string. Comma separated cookie names. Names of individual response cookies to ignore i.e. not to be stored and used in any subsequent request to the same server. (TODO: should be a regular expression). Takes effect only if ``ignoreResponseCookies`` is set to False. Deafults to empty string i.e. do not ingnore any response cookie.
   - ``allowedContentTypes``: string. Regular expression. Specifies the content type the page must match in order to be processed. Pages whose content type do not match regular expression ``allowedContentTypes`` are ignored. The Content-line response header line is checked against this regular expression pattern.
-  - ``takePageScreenShot``: True | False. If a screenshot of the downloaded page should be taken. Works only when renderPages is set to True i.e. pyppeteer  (Chromium or Chrome) is used for downloading the page. Used usually for debugging purposes.
+  - ``takePageScreenShot``: True | False. If a screenshot of the downloaded page should be taken. Works only when renderPages is set to True i.e. pyppeteer  (Chromium or Chrome) is used for downloading the page. If this setting is set to True, screenshots will be stored in directory specified by setting ``screenShotPath`` in the Storage section. Used usually for debugging purposes.
+  - ``asyncWaitTime``: Float. Time to wait after an interaction/operation has been applied on the loaded page. Takes effect only if renderPages is True.
+  - ``minHitRate``: Float in range [0,1]. Specifies the minimum percentage of pages (defined as number of pages successflly extracted data  / total number of pages downloaded and processed) from which valid data have been extracted using the rules up until now. If this percentage falls below this limit, WebScraper stops. If  ``minHitRate`` is negative, no rate limit is enforced i.e. this setting is disabled.
+  - ``minHitRateSamples`` integer. Number of consecutive hit rate samples that have to be below ``minHitRate`` in order to terminate the extraction process. I.e. if ``minHitRate`` has value 0.01 and ``minHitRateSamples`` has value 50 this means that if for 50 consecutive pages the hit rate is below 0.01 (i.e. 1%), terminate the extraction process and WebScraper. Takes only effect when ``minHitRate`` is > 0.
+  - ``maxQueueSize`` integer.  Allowed maximum number of URLs in URL queue (keeping the to-be-visited URLs). If this threshold is reached, new URLs will not be added to the queue. Fetching/processing will continue but URL queue will never exceed this number. Negative value means no maximum number.
+  - ``maxQueueMemorySize`` integer expressing memory capacity. Allowed maximum size of URL queue in memory. If this size is reached, no new urls are added to the queue. Values may specify K, M, G at the end for units e.g. 8M for 8 Megabyte. If no unit is specified, number is interpreted as bytes. Negative value means no limit.
+  - ``delayModel``: c | h. What model to use for wait times between two consecutive requests on the same server. c (constant): constant wait time meaning a constant specific time is waited, h (human): a variable waiting time is used simulating human browsing i.e. a random amount of time is waited. 
+  - ``sleepTime``: float. Actual time in seconds to wait/sleep between two consecutive requests on the same server, if ``delayModel`` has value c .
+  - ``humanSleepTimeAvg`` and ``humanSleepTimeSigma`` : floats. Specify the waiting/sleeping times if ``delayModel`` is set to h. These settings specify a random waiting time that is drawn from a normal distribution having average ``humanSleepTimeAvg`` and standard deviation  ``humanSleepTimeSigma`` . 
+  - ``autoSave``: True | False. If URL queue and extracted data (csv file) should be periodically saved to file.
+  - ``autoSaveInterval``: float. Numeric value specifying period of autosaves in seconds i.e. the interval that must elapse before autosaving. ``autoSaveInterval`` takes effect only when ``autoSave`` is set to True.
+  - ``maxTPPSamples``: integer. Number of samples to use for calculating average speed in pages/seconds.
+ 
   
+* Storage 
+
+  This section has settings related to places to downloaded files and screenshots.
+  
+  - ``mirrorRoot``: string. Path to local directory. Directory root to store and mirror downloaded pages if the -M option is set. 
+  - ``screenShotPath``: string. Path to local directory. Directory to store screenshots of webpages. Take effect only if renderPages is set to True. Screenshots are saved in files with names calculated out of their URL.
   
    
+   
+ * DEBUG 
+
+  This section controls debugging issues. 
+  
+  - ``debugging``: True | False. If set, debug messages will be displayed.
+ 
+  
    
     
 
