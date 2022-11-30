@@ -563,7 +563,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 
 #### Example	
 
-``(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists`` 	
+     ``(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists`` 	
 	
 # Related projects
 
