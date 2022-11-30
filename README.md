@@ -557,7 +557,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 #### Supported application shell commands
 	
-#### Usage	
+#### *crawl* command	
 	
    ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression] [-R] [-U] [-p pos] [-G] start_url``
      
@@ -577,6 +577,7 @@ Loading extraction rule library [./default.exr]...done
 Starting INTERACTIVE mode
 
 (v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
+
 ```
 	
 # Related projects
