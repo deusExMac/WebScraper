@@ -563,7 +563,7 @@ crawl starts the downloading of webpages and the extraction process based on the
 
 #### Example	
 
-     `(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists`
+``(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists``
 	
 # Related projects
 
