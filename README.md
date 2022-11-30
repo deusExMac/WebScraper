@@ -557,9 +557,12 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 #### Supported application shell commands
 	
+#### Usage	
+	
    ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-U[ [-p pos] [-G] start_url``
      
-crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above TODO: add link here](#) . 
+#### Description	
+	crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above TODO: add link here](#) . 
 
 #### Example	
 
