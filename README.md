@@ -533,11 +533,11 @@ WebScraper can be executed in batch or interactive mode.
 
 ### batch mode
 
-WebScraper can be executed in batch and interactive mode. In batch mode, WebScraper starts execution, fetches and processes web resources based on the arguments and terminates its execution when no other resource is available. Specifying option -B on the command line, will execute WebScraper in batch mode.	
+In batch mode, WebScraper starts execution, fetches and processes web resources based on the arguments and terminates its execution when no other resource is available. Specifying option -B on the command line, will execute WebScraper in batch mode.	
 
 ### interactive mode	
 
-If option -B is not specified on the command line, WebScraper executes in interactive mode (the default). In interactive mode, WebScrpaer displays an application shell that allows users to execute a set of supported shell commands. When executed in interactive mode, WebScraper's application shell will appear:
+If option -B is not specified on the command line, WebScraper executes in interactive mode (the default). In interactive mode, WebScrpaer displays an application shell that allows users to execute a set of supported shell commands. Ιn interactive mode, WebScraper's application shell will appear:
 
 ```
 [v0.3.6a 20/10/2022]
@@ -553,14 +553,18 @@ Instatiating MacOS platform object
 (v0.3.6a){0}WebScraper >>
 
 ```
-
+At the displayed prompt, a set of shell commands can be executed along with a set of shell command arguments. Below a list of supported shell commands. 
 	
 #### Supported application shell commands
 	
-   * config
+   * ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-U[ [-p pos] [-G] start_url``
      
-     Displays loaded	
+     crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above TODO: add link here](#) . 
 
+#### Example	
+
+``(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists`` 	
+	
 # Related projects
 
 To make life easier, you may use the following extensions to extract the relevant css selectors that are required in .ecr files:
