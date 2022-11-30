@@ -559,14 +559,25 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 #### Usage	
 	
-   ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-U[ [-p pos] [-G] start_url``
+   ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression] [-R] [-U] [-p pos] [-G] start_url``
      
 #### Description	
 crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above TODO: add link here](#) . 
 
 #### Example	
 
-``(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists``
+```
+[v0.3.6a 20/10/2022]
+Execution started on Darwin release 21.6.0 (posix)
+
+Loading configuration settings from [ ./webscraper.conf ]....ok.
+Loading extraction rule library [./default.exr]...done
+	Total of  1  extraction rules loaded.
+
+Starting INTERACTIVE mode
+
+(v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
+```
 	
 # Related projects
 
