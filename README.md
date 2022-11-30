@@ -527,9 +527,19 @@ Command line options supported:
 start_url: url to start downloading and apply exreaction rules. Depending on set of rules and number of pages desired to download will crawl entire site extracting the specified data.	
 
 	
--	
+## WebScraper execution modes
 
-	
+WebScraper can be executed in batch or interactive mode.
+
+### batch mode
+
+WebScraper can be executed in batch and interactive mode. In batch mode, WebScraper starts execution, fetches and processes web resources based on the arguments and terminates its execution when no other resource is available. Specifying option -B on the command line, will execute WebScraper in batch mode.	
+
+### interactive mode	
+
+If option -B is not specified on the command line, WebScraper executes in interactive mode (the default). In interactive mode, WebScrpaer displays an application shell that allows users to execute a set of supported shell commands.
+
+
 
 # Related projects
 
