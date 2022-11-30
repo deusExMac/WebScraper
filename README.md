@@ -539,7 +539,8 @@ WebScraper can be executed in batch and interactive mode. In batch mode, WebScra
 
 If option -B is not specified on the command line, WebScraper executes in interactive mode (the default). In interactive mode, WebScrpaer displays an application shell that allows users to execute a set of supported shell commands. When executed in interactive mode, WebScraper's application shell will appear:
 
-``[v0.3.6a 20/10/2022]
+```
+[v0.3.6a 20/10/2022]
 Execution started on Darwin release 21.6.0 (posix)
 
 Loading configuration settings from [ ./webscraper.conf ]....ok.
@@ -549,7 +550,9 @@ Loading extraction rule library [./default.exr]...done
 Starting INTERACTIVE mode
 
 Instatiating MacOS platform object
-(v0.3.6a){0}WebScraper >>``
+(v0.3.6a){0}WebScraper >>
+
+```
 
 	
 #### Supported application shell commands
