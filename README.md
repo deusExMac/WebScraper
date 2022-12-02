@@ -747,6 +747,26 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 
   ```	
 	
+- #### !!  	
+	
+  Syntax: ``!!``	
+  
+  #### Description
+	
+  (Re-)Executes the last command as entered via WebScraper's shell
+
+	
+
+- #### !  	
+	
+  Syntax: ``!<number>``	
+  
+  #### Description
+	
+  (Re-)Executes command at position <number> in the history list.
+
+	
+	
 # Related projects
 
 To make life easier, you may use the following extensions to extract the relevant css selectors that are required in .ecr files:
