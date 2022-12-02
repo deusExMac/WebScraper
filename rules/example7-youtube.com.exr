@@ -49,7 +49,7 @@
 #     2) Open the WebScraper configuration file (default webscraper.conf) and make sure that option ignoreResponseCookies is set to True
 #     3) Deploy this exr file by executing the following command: 
 #
-#            crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/
+#            crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/
 #
 #        -M option is important as it will store all downloaded files on the disk, mirroring the remote website locally. Saved pages can be found in the directory
 #        specified by mirrorRoot in for configuration (.conf) file.

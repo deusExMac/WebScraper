@@ -13,6 +13,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 	  padding: 0;
 	}
 
+    html {background-color: #faf3d4;}    
 
     /* required beacuse of font style in **/
     b{font-weight:bold;}
@@ -539,7 +540,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label"><b>target:</b><br/> This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" found on the page https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals the name of the teams, the times they won the Champions League, the times they were runner-ups as well as the seasons they won the Champions League and it does this only for those teams that have won the champions league title more than 3 times. <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields, ruleMatchPreconditions </i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
+      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
   </div> <!-- block -->
 
 
@@ -559,7 +560,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       may add cookies related to session ids or authentication information in order to access websites as an authenticated user. You may get such authentication/session cookies using a browser's Web development tools and capture http request headers. <a href="example9-youtube.com-cookies.exr">Rule file contains instructions on how to specify and format such cookies.</a> <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent, requestHeader </i></div>
-      <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example9-youtube.exr -o csv/example9.csv  https://www.youtube.com/</div>
+      <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/</div>
   </div> <!-- block -->
 
 
@@ -582,13 +583,13 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label"><b>target:</b><br/>
       This example extracts the article of wikipedia articles using a browser rendering engine. WebScraper has two ways
 	  to download pages via the WWW: 1) using simple http requests 2) using a browser rendering engine.
-	  A browser rendering engine (chromium or chrome inparticular) is used to download, load and process pages when the field renderPages in .exr is set to True.
+	  A browser rendering engine (chromium or chrome in particular) is used to download, load and process pages when the field renderPages in .exr is set to True.
 	  If renderPages is set to False, a simple http request is used. Using a browser rendering engine to download
 	  pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.<br>
 	  NOTE: Setting renderPages to true will result in slower web page retrieval and processing.
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
-      <div class="label smaller code"><b>Usage:</b> crawl  -r rules/example10-en.wikipedia.exr -o csv/example10.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+      <div class="label smaller code"><b>Usage:</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)</div>
   </div> <!-- block -->
 
 
@@ -617,7 +618,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.1-youtube.com.exr -o csv/example10.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
       </div>
 
 </div> <!-- block -->
@@ -644,8 +645,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example10.2-youtube.com.exr -o csv/example10.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
-      </div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
 
 </div> <!-- block -->
 
@@ -691,8 +691,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example13-ClickButton-PostForm.exr -o csv/example13.csv  https://www.google.com/
-      </div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div>
 
 </div> <!-- block -->
 
@@ -716,8 +715,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n 1 -r rules/airbnb-Comments.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/42242106
-      </div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907</div>
 
 </div> <!-- block -->
 
