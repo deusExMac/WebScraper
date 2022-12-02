@@ -765,7 +765,35 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   (Re-)Executes command at position <number> in the history list.
 
+
+- #### ^	
 	
+  Syntax: ``^<string>^<replacement string>``	
+  
+  #### Description
+	
+  Replaces all occurences of <string> in last command with <replacement> and executes modified command.
+
+	
+  #### Example	
+
+  ```	
+           [v0.3.6a 20/10/2022]
+           Execution started on Darwin release 21.6.0 (posix)
+
+           Loading configuration settings from [ ./webscraper.conf ]....ok.
+           Loading extraction rule library [./default.exr]...done
+	           Total of  1  extraction rules loaded.
+
+           Starting INTERACTIVE mode
+
+           Instatiating MacOS platform object
+           (v0.3.6a){0}WebScraper >>h 1
+           h 1
+	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
+           (v0.3.6a){0}WebScraper >>
+	
+  ```	
 	
 # Related projects
 
