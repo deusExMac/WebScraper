@@ -578,6 +578,8 @@ At the displayed prompt, a set of shell commands can be executed along with a se
           Starting INTERACTIVE mode
 
           (v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
+	  
+	  1) >>> Doing [https://en.wikipedia.org/wiki/List_of_physicists] Queue:1 (mem: 476B/0.00M/-1) Pending:1 Fetched:0 Extracted:0  [Avg pps:--- (0.000KB/sec) Hit rate:0.0000 (min:-1.0000)]
 
   ```
 
@@ -602,6 +604,52 @@ At the displayed prompt, a set of shell commands can be executed along with a se
           Starting INTERACTIVE mode
 
           (v0.3.6a){0}WebScraper >> config
+	  Section [Default]
+	- outputdir = ./articles
+	- maxarticles = 12
+	- contentdownload = true
+	- csvsave = true
+	- csvfilename = allArticles.csv
+	- csvseparator = ;
+Section [Shell]
+	- commandprompt = WebScraper >>
+	- historysize = 700
+Section [Rules]
+	- rulefile = ./default.exr
+Section [Crawler]
+	- guardrunningchromeinstances = True
+	- forcebrowsercleanup = True
+	- windowschrome = ^chrome.exe$
+	- macoschrome = ^(?i)^(Google Chrome)
+	- linuxchrome = 
+	- androidchrome = 
+	- traversalstrategy = dfs
+	- httpuseragent = 
+	- maxpages = 10
+	- allowedschemes = http,https
+	- ignoreresponsecookies = False
+	- ignoredcookies = 
+	- allowedcontenttypes = (?i)(text/html?|application/.*)
+	- takepagescreenshot = False
+	- asyncwaittime = 1.2
+	- minhitrate = -1
+	- minhitratesamples = 121
+	- maxqueuesize = -1
+	- maxqueuememorysize = -1
+	- delaymodel = h
+	- sleeptime = 3.4
+	- humansleeptimeavg = 12.4
+	- humansleeptimesigma = 4.136
+	- autosave = True
+	- autosaveinterval = 131
+	- maxtppsamples = 150
+Section [Storage]
+	- mirrorroot = etc
+	- screenshotpath = etc/sshots
+Section [DEBUG]
+	- debugging = False
+Section [__Runtime]
+	- __configsource = ./webscraper.conf
 
   ```	
 	
