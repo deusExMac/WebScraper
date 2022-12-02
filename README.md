@@ -665,9 +665,10 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Syntax: ``h [-s] [argument]``	
   
-  -s argument : if argument is an integer, displays the argument first commands in history entered by the user.
-  argument: integer or string. If argument is an integer (without -s option) displays the argument last commands in history entered by the user.
-	    if argument is a string, string value is interpreted as a regular expression and displays only those commands in the history that matches the regular expression pattern. If no argument is given, entire history is displayed. Size of history is configurable (see ``historySize`` in configuration file). History of commands is preserved between executions of WebScraper and is stored in a local file with the default name .history .
+  -s argument : integer. Displays the [argument] number of first commands in history entered by the user.
+ 
+	
+  argument: If argument is an integer displays the [argument] number of last commands in history entered by the user. if argument is a string, the string value is interpreted as a regular expression and displays only those commands in the history that matches the regular expression pattern. If no argument is given, entire history is displayed. Size of history is configurable (see ``historySize`` in configuration file). History of commands is preserved between executions of WebScraper and is stored in a local file with the default name .history .
 	
   #### Description
 	
