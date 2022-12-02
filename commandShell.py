@@ -269,7 +269,7 @@ class commandShell:
           if self.cmdExecutioner.configuration.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'true':
              osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()             
              if not osP.processIsRunning():
-                print('Not running.')
+                print( utils.toString('Not running.\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
              else:
                 #print('Process running. Killing it...')
                 print( utils.toString('\t[DEBUG] Chrome/Chromium processes running. Checking and killing...') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '')

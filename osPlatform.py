@@ -19,7 +19,6 @@ class OSPlatformFactory:
           if   isWindows():   
                 return( osPlatform(self.config.get('Crawler', 'windowsChrome', fallback=''), dbgMode ) ) 
           elif isMac():
-                   print('Instatiating MacOS platform object')
                    return( osPlatform(self.config.get('Crawler', 'macosChrome', fallback=''), dbgMode) )  
           elif  isLinux():
                    return( osPlatform(self.config.get('Crawler', 'linuxChrome', fallback=''), dbgMode) )
