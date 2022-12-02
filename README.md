@@ -791,7 +791,13 @@ At the displayed prompt, a set of shell commands can be executed along with a se
            (v0.3.6a){0}WebScraper >>h 1
            h 1
 	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
-           (v0.3.6a){0}WebScraper >>
+           
+	   (v0.3.6a){0}WebScraper >>^-1^16
+              crawl -M -n 16 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
+              Instatiating MacOS platform object
+
+              1) >>> Doing [https://www.stanford.edu/] Queue:1 (mem: 355B/0.00M/-1) Pending:1 Fetched:0 Extracted:0  [Avg pps:--- (0.000KB/sec) Hit rate:0.0000 (min:-1.0000)]
+	      ...
 	
   ```	
 	
