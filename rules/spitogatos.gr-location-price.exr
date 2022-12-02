@@ -228,7 +228,7 @@
  "ruleReturningMoreIsError": False,
  
  # List of characters to remove from the extracted value (text or attribute)
- "ruleRemoveChars": [],
+ "ruleRemoveChars": ['€'],
 },
 
 
