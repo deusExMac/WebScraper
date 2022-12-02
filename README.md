@@ -719,6 +719,34 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 
   ```
 
+ h -s number 
+	
+  ```
+           [v0.3.6a 20/10/2022]
+           Execution started on Darwin release 21.6.0 (posix)
+
+           Loading configuration settings from [ ./webscraper.conf ]....ok.
+           Loading extraction rule library [./default.exr]...done
+	   Total of  1  extraction rules loaded.
+
+           Starting INTERACTIVE mode
+
+           Instatiating MacOS platform object
+           (v0.3.6a){0}WebScraper >>h -s 10
+            h -s 10
+	          1.   crawl -M -n 1000 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  https://en.wikipedia.org/wiki/Statistics
+	          2.   crawl -M -n 1000 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  https://en.wikipedia.org/wiki/Statistics
+	          3.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  https://en.wikipedia.org/wiki/Statistics
+	          4.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  -C https://en.wikipedia.org/wiki/Statistics
+	          5.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  -C https://en.wikipedia.org/wiki/Statistics
+	          6.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  -C https://en.wikipedia.org/wiki/Statistics
+	          7.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv  -C https://en.wikipedia.org/wiki/Statistics
+	          8.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv   https://en.wikipedia.org/wiki/Statistics
+	          9.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+	         10.   crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics
+
+  ```	
+	
 # Related projects
 
 To make life easier, you may use the following extensions to extract the relevant css selectors that are required in .ecr files:
