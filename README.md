@@ -59,7 +59,7 @@ Make sure you have the following python packages installed before running the ap
 * psutil
 
 
-NOTE: If you are using Python 3.11 and encounter errors installing module requests_html related to lxml, [follow these instructions to install lxml] (https://stackoverflow.com/questions/71152710/failing-to-install-lxml-using-pip) and then reinstall requests_html using pip . You may also need to install https://visualstudio.microsoft.com/visual-cpp-build-tools/ (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).
+NOTE: If you are using Python 3.11 and encounter errors installing module requests_html related to lxml, [follow these instructions to install lxml](https://stackoverflow.com/questions/71152710/failing-to-install-lxml-using-pip) and then reinstall requests_html using pip . You may also need to install Microsoft C++ build tools that you may download from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).
 
 
 # .exr files
