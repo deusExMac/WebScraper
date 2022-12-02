@@ -59,6 +59,9 @@ Make sure you have the following python packages installed before running the ap
 * psutil
 
 
+NOTE: If you are using Python 3.11 and encounter errors installing module requests_html related to lxml, [follow these instructions to install lxml] (https://stackoverflow.com/questions/71152710/failing-to-install-lxml-using-pip) and then reinstall requests_html using pip . 
+
+
 # .exr files
 
 
