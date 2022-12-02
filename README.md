@@ -56,6 +56,8 @@ Make sure you have the following python packages installed before running the ap
 
 * pyjokes
 
+* psutils
+
 
 # .exr files
 
