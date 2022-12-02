@@ -580,7 +580,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
           (v0.3.6a){0}WebScraper >> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
 	  
 	  1) >>> Doing [https://en.wikipedia.org/wiki/List_of_physicists] Queue:1 (mem: 476B/0.00M/-1) Pending:1 Fetched:0 Extracted:0  [Avg pps:--- (0.000KB/sec) Hit rate:0.0000 (min:-1.0000)]
-
+           ...   
   ```
 
 - #### config 	
@@ -658,6 +658,39 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	   - __configsource = ./webscraper.conf
 
   ```	
+
+- #### history (or h) 	
+	
+  Syntax: ``h [-s] [argument]``	
+  
+  -s argument : if argument is an integer, displays the argument first commands in history entered by the user.
+  argument: integer or string. If argument is an integer (without -s option) displays the argument last commands in history entered by the user.
+	    if argument is a string, string value is interpreted as a regular expression and displays only those commands in the history that matches the regular expression pattern. If no argument is given, entire history is displayed. Size of history is configurable (see ``historySize`` in configuration file). History of commands is preserved between executions of WebScraper and is stored in a local file with the default name .history .
+	
+  #### Description
+	
+  Displays the entire or a subset of the history of shell commands as entered/executed by the user using WebScraper's shell.
+	
+  #### Example	
+
+  ```
+          [v0.3.6a 20/10/2022]
+          Execution started on Darwin release 21.6.0 (posix)
+
+          Loading configuration settings from [ ./webscraper.conf ]....ok.
+          Loading extraction rule library [./default.exr]...done
+	       Total of  1  extraction rules loaded.
+
+          Starting INTERACTIVE mode
+
+          (v0.3.6a){0}WebScraper >> h 4
+	    697.  crawl -M -n -1 -r rules/upatras.gr.exr -o csv/up.csv -HR 0.8 -s 0.6 http://www.upatras.gr/
+	    698.  config
+	    699.  crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
+	    700.  config
+	
+  ```	
+	
 	
 # Related projects
 
