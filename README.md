@@ -695,8 +695,10 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	          700.  config
 	
   ```	
-ddd	
-```
+
+  h with string argument
+	
+  ```
            [v0.3.6a 20/10/2022]
            Execution started on Darwin release 21.6.0 (posix)
 
@@ -715,7 +717,7 @@ ddd
 	         464.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478?source_impression_id=p3_1667250461_pn4Vd1GkeoLOymMX
 	         557.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/34749360
 
-```
+  ```
 
 # Related projects
 
