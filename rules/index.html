@@ -380,7 +380,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label subexample"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
-      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example5-en.wikipedia.exr -o csv/STATSORALG.csv -G https://en.wikipedia.org/wiki/Statistics</div>
+      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics</div>
 
   </div> <!-- block -->
 
@@ -406,8 +406,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ALL), getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/USPysicistsBornJanMarMayOct.csv https://en.wikipedia.org/wiki/List_of_physicists
-      </div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists </div>
 
 </div> <!-- block -->
 
@@ -442,8 +441,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL)  ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b>crawl -M -n -1 -r rules/example5.2-en.wikipedia.exr -o csv/example5.2.csv https://en.wikipedia.org/wiki/List_of_physicists
-      </div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists</div>
 
 </div> <!-- block -->
 
@@ -465,7 +463,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label subexample"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.4-en.wikipedia.exr -o csv/example4.4.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div> <!-- block -->
 
@@ -495,8 +493,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
       <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history. A record is returned where the names of matching football teams is returned in a list which is the value of the key with the rule name.<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example7-en.wikipedia.exr -o csv/example7.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-</div>
+      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
 
 </div> <!-- block -->
 
@@ -520,7 +517,7 @@ a:hover.template { color:darkseagreen; text-decoration: none; }
           <br>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example7.1-en.wikipedia.exr -o csv/example7.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+      <div class="label smaller code subexample"><b>Usage</b> crawl -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/example5.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals 
       </div>
 
 </div> <!-- block -->
@@ -819,7 +816,7 @@ in this rule file.
        YYYY
        </div>
        <div class="label smaller"><i><b>demonstrated fields:</b>  </i></div>
-       <div class="label smaller code"><b>Usage:</b> </div>
+       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374</div>
   </div> <!-- block -->
 
 

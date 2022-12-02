@@ -1,5 +1,10 @@
-
-
+#
+#
+#
+#
+# How to execute:
+#
+#  crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374
 #
 # IMPORTANT! Site identified that it is a bot.
 #
