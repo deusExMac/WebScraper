@@ -697,27 +697,23 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   ```	
 ddd	
 ```
-[v0.3.6a 20/10/2022]
-Execution started on Darwin release 21.6.0 (posix)
+           [v0.3.6a 20/10/2022]
+           Execution started on Darwin release 21.6.0 (posix)
 
-Loading configuration settings from [ ./webscraper.conf ]....ok.
-Loading extraction rule library [./default.exr]...done
-	Total of  1  extraction rules loaded.
+           Loading configuration settings from [ ./webscraper.conf ]....ok.
+           Loading extraction rule library [./default.exr]...done
+	   Total of  1  extraction rules loaded.
 
-Starting INTERACTIVE mode
+           Starting INTERACTIVE mode
 
-Instatiating MacOS platform object
-(v0.3.6a){0}WebScraper >>h airbnb
-h airbnb
-	77.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/AIRNBN-comments.csv -G https://www.airbnb.com/rooms/48856899
-	174.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/AIRNBN-comments.csv -G https://www.airbnb.com/rooms/48856899
-	463.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478?source_impression_id=p3_1667250461_pn4Vd1GkeoLOymMX
-	464.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478?source_impression_id=p3_1667250461_pn4Vd1GkeoLOymMX
-	465.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478
-	466.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/49476632
-	467.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/49476632
-	556.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/34749360
-	557.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/34749360
+           Instatiating MacOS platform object
+           (v0.3.6a){0}WebScraper >>h airbnb
+            h airbnb
+	          77.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/AIRNBN-comments.csv -G https://www.airbnb.com/rooms/48856899
+	         174.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/AIRNBN-comments.csv -G https://www.airbnb.com/rooms/48856899
+	         463.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478?source_impression_id=p3_1667250461_pn4Vd1GkeoLOymMX
+	         464.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/676044415326884478?source_impression_id=p3_1667250461_pn4Vd1GkeoLOymMX
+	         557.   crawl -M -n 1 -r rules/airbnb-Title.exr -o csv/airbnb.csv -G https://www.airbnb.com/rooms/34749360
 
 ```
 
