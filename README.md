@@ -687,6 +687,8 @@ At the displayed prompt, a set of shell commands can be executed along with a se
           Starting INTERACTIVE mode
 
           (v0.3.6a){0}WebScraper >> h 4
+	
+	
 	    697.  crawl -M -n -1 -r rules/upatras.gr.exr -o csv/up.csv -HR 0.8 -s 0.6 http://www.upatras.gr/
 	    698.  config
 	    699.  crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists
