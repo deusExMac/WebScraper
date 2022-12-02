@@ -611,12 +611,15 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	   - csvsave = true
 	   - csvfilename = allArticles.csv
 	   - csvseparator = ;
-          Section [Shell]
+          
+	  Section [Shell]
 	   - commandprompt = WebScraper >>
 	   - historysize = 700
-          Section [Rules]
+          
+	  Section [Rules]
 	   - rulefile = ./default.exr
-          Section [Crawler]
+          
+	  Section [Crawler]
 	   - guardrunningchromeinstances = True
 	   - forcebrowsercleanup = True
 	   - windowschrome = ^chrome.exe$
@@ -643,12 +646,15 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	   - autosave = True
 	   - autosaveinterval = 131
 	   - maxtppsamples = 150
-          Section [Storage]
+         
+	  Section [Storage]
 	   - mirrorroot = etc
 	   - screenshotpath = etc/sshots
-          Section [DEBUG]
+          
+	  Section [DEBUG]
 	   - debugging = False
-          Section [__Runtime]
+          
+	  Section [__Runtime]
 	   - __configsource = ./webscraper.conf
 
   ```	
