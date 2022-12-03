@@ -816,13 +816,13 @@ To make life easier, you may use the following browser extensions that may help 
 
 # Related projects
 
-[Scrapy](https://github.com/scrapy/scrapy)
+* [Scrapy](https://github.com/scrapy/scrapy)
 
-[Scrapy-cluster](https://github.com/istresearch/scrapy-cluster)
+* [Scrapy-cluster](https://github.com/istresearch/scrapy-cluster)
 
-[Djano dynamic scraper](https://github.com/holgerd77/django-dynamic-scraper)
+* [Djano dynamic scraper](https://github.com/holgerd77/django-dynamic-scraper)
 
-[Power BU](https://www.phdata.io/blog/web-scraping-in-power-bi/)
+* [Power BU](https://www.phdata.io/blog/web-scraping-in-power-bi/)
 
-[Portia](https://github.com/scrapinghub/portia)
+* [Portia](https://github.com/scrapinghub/portia)
 
