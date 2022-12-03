@@ -804,10 +804,25 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   ```	
 	
-# Related projects
+# Useful tools/projects
 
-To make life easier, you may use the following extensions to extract the relevant css selectors that are required in .ecr files:
+To make life easier, you may use the following browser extensions that may help you in specifying the  relevant css selectors that are required when authoring an .exr file:
 
-* Chrome extension SelectorGadget to specify CSS seslectors used in .exr files. See: https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb?hl=en and   https://selectorgadget.com/   
+* Chrome extension SelectorGadget to effortlessly determine CSS seslectors for html elements that can be used in .exr files. See: https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb?hl=en  and   https://selectorgadget.com/   
 
 * Firefox extension ScrapeMate. See https://addons.mozilla.org/en-US/firefox/addon/scrapemate/
+
+
+
+# Related projects
+
+[Scrapy](https://github.com/scrapy/scrapy)
+
+[Scrapy-cluster](https://github.com/istresearch/scrapy-cluster)
+
+[Djano dynamic scraper](https://github.com/holgerd77/django-dynamic-scraper)
+
+[Power BU](https://www.phdata.io/blog/web-scraping-in-power-bi/)
+
+[Portia](https://github.com/scrapinghub/portia)
+
