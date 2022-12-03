@@ -826,3 +826,14 @@ To make life easier, you may use the following browser extensions that may help 
 
 * [Portia](https://github.com/scrapinghub/portia)
 
+* [Crawlee](https://github.com/apify/crawlee)
+	
+* [web.scraper.workers.dev](https://github.com/adamschwartz/web.scraper.workers.dev)
+	
+* [Crawly](https://crawly.diffbot.com/)
+
+* [Scrape-it](https://github.com/IonicaBizau/scrape-it)
+
+	
+You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers#scrape-it) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
+	
