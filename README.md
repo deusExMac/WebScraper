@@ -835,5 +835,5 @@ To make life easier, you may use the following browser extensions that may help 
 * [Scrape-it](https://github.com/IonicaBizau/scrape-it)
 
 	
-You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers#scrape-it) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
+You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
 	
