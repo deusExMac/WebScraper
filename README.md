@@ -771,11 +771,11 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 
 - #### ^	
 	
-  Syntax: ``^<string>^<replacement string>``	
+  Syntax: ``^<string>^<replacement>``	
   
   #### Description
 	
-  Replaces all occurences of <string> in last command with <replacement> and executes modified command.
+  Replaces all occurences of < string > in last command with < replacement > and executes modified command.
 
 	
   #### Example	
