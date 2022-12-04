@@ -13,7 +13,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 	  padding: 0;
 	}
 
-    html {background-color: #fcfced;}    
+    html {background-color: #FAF7F0;}    
 
     /* required beacuse of font style in **/
     b{font-weight:bold;}
@@ -29,7 +29,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         font: 24pt helvetica, arial, sans-serif;
         color: white;/*#4c7aba;*/
         #border: 2px solid red;
-        background-color:  #abb9f5;
+        background-color:  #0800e6;
         line-height: 55px;
         }
 
@@ -46,7 +46,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 
 
 .redcaption {
-      background-color:  red;
+      background-color:  #554994;
 }
 
 
@@ -66,13 +66,13 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 }
 
 .rowbackground1{
-   background-color:#e4e9f7;
+   background-color:#e6e6ff;
    margin-top: 0px;
 }
 
 
 .rowbackground2{
-   background-color:#fceae8;
+   background-color:#d0cce6;
    margin-top: 0px;
    /*padding-bottom:40px;*/    
 }
@@ -754,7 +754,9 @@ in this rule file.
            <font color="black"> <b>description:</b> </font><br/>
             Extracts data from youtube video pages and in particular extracts
             from each comment the following data: user making the comment, vote up-count 
-            of comment and the content of the comment. Does not extract all comments;
+            of comment and the content of the comment. Makes unauthenticated access to video
+            pages (i.e. guest access).
+            Does not extract all comments;
             scrolls the video page a number of times (here exactly 6 times) and extracts 
             all the comments that were loaded. Number of data items (comment data) extracted 
             may differ depending on the youtube video.
@@ -778,7 +780,8 @@ in this rule file.
            <font color="black"> <b>description:</b> </font>This set of rules extracts user names and 
            comments from airbnb listings. It uses an external browser (Chrome), 
            not pyppeteer's default Chromium, as Chromium seems to be unable load/render 
-           properly such pages.<br/><br/>
+           properly such pages. Makes unauthenticated access to airbnb listing
+           page (i.e. guest access).<br/><br/>
            <font color="red"><b>This library/rule set makes use of launchParameters field in .exr files. <br/>
            Make sure to properly adjust launchParameters field for your platform before 
                using this exr file!</b></font>
@@ -819,7 +822,8 @@ in this rule file.
        <div class="blocktitle" style="background-color: #f9fad2;"><a href="spitogatos.gr-location-price.exr">Area, price of listings on Spitogatos</a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
-            xxx
+            Makes unauthenticated access to airbnb listing
+           page (i.e. guest access).
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
