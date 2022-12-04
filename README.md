@@ -900,3 +900,6 @@ To make life easier, you may use the following browser extensions that may help 
 	
 You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
 	
+
+
+[top](#About-WebScraper)
