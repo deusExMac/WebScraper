@@ -283,7 +283,6 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 
 -``renderPages``: True | False. Specifies how the WWW page should be downloaded: using simple HTTP method or using a browser engine (Chromium or Chrome). If set to True, Chromium (the default build-in browser of [pyppeteer](https://github.com/pyppeteer/pyppeteer) ) or an external Chrome installation will be used. Defaults to False. 
-
 **NOTE: when renderPages is set to True, fetching and processing of pages is slower.**
 
 
