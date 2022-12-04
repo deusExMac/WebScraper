@@ -1,0 +1,122 @@
+########################################################################################################################################################
+#
+# Example: Extracts title, username and vote count from posts on the reddit home page  
+#          
+#                       
+# 
+# Related fields: ++++
+#
+# How to use:
+#  
+#  crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/
+#
+# version 0.25@04/12/2022
+#
+#
+########################################################################################################################################################
+
+{
+"libraryDescription": "Library to that extracts data from reddit's home page.",
+
+# These extracted field names will be stored in
+# the csv file
+"csvLineFormat":["postUsername", "postTitle", "postVotes"],
+
+
+# Chromium, default pyppeteer browser will be used.
+"renderPages": True,
+
+
+
+
+
+
+"ruleDynamicElements": [ 
+            
+		 
+		 # Accept cookies if not authenticated user access
+		 {
+		 		     "dpcType":"click",
+		 		     "dpcPageElement":"._2BNSty-Ld4uppTeWGfEe8r section:nth-child(1) .HNozj_dKjQZ59ZsfEegz8",
+		 		     "dpcScrolldown":0,
+		 		     "dpcWaitFor":""
+		 }
+
+         
+ 
+],
+
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+
+
+
+"library": [
+
+# Rule to get data from posts on the reddit home page.
+# Rule getPost returns a recordlist of extracted title, username and votes.
+{
+ "ruleName": "getPost"
+ "ruleDescription": "Extracting post title, username posting, vote count from reddit's main page only"
+ "ruleURLActivationCondition": ["www\.reddit\.com/?$"]
+ "rulePreconditionType": "Any"
+ "rulePreconditions" : []
+ 
+ "ruleCSSSelector": ".Post"
+ "ruleTargetAttribute": "text",
+ "ruleContentCondition": "",
+ 
+ # These selectors will be applied to all elements 
+ # returned by ruleCSSSelector
+ # It is assumed that these selectors return ONLY one
+ # matchine element. Currently only the text of these elements is
+ # extracted.
+ "rulePostCSSSelector" : ["._eYtD2XCVieq6emjKBH3m", ".oQctV4n0yUb0uiHDdGnmE", "._23h0-EcaBUorIHC-JZyh6J"],
+ 
+ # One-to-one correspondence with rulePostCSSSelector 
+ # selector list. E.g. here, data extracted by h3._14i3z6h
+ # will be named usename. 
+ "ruleReturnedValueNames" : ["postTitle", "postUsername", "postVotes"],
+
+ # This refers to the result of ruleCSSSelector
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+}, # getUserAndComments
+
+
+
+
+# Rule to get links pointing to airbnb listings from the airbnb main page
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting the links to airbnb listings",
+ 
+ # We have 2 patterns here because the main page seem to redirect
+ "ruleURLActivationCondition": ["www\.airbnb\.com\/?$", "_set_bev_on_new_domain"],
+ "rulePreconditionType": "Any",
+ "rulePreconditions" : [],
+ 
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ 
+ # Extract/keep only links to listings. This url will activate the getUserAndComments above.
+ "ruleContentCondition": "www\.airbnb\.com/rooms.*",
+ 
+ 
+
+ # This refers to the result of ruleCSSSelector
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+} # getLinks
+
+
+
+] # library
+
+
+}

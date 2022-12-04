@@ -13,7 +13,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 	  padding: 0;
 	}
 
-    html {background-color: #FFE9A0;}    
+    html {background-color: #FFFFFF;}    
 
     /* required beacuse of font style in **/
     b{font-weight:bold;}
@@ -780,7 +780,8 @@ in this rule file.
            <font color="black"> <b>description:</b> </font>This set of rules extracts user names and 
            comments from airbnb listings. It uses an external browser (Chrome), 
            not pyppeteer's default Chromium, as Chromium seems to be unable load/render 
-           properly such pages. Makes unauthenticated access to airbnb listing
+           properly such pages. It scrolls the comment window a constant number of times
+           (8) to load comments. Makes unauthenticated access to airbnb listing
            page (i.e. guest access).<br/><br/>
            <font color="red"><b>This library/rule set makes use of launchParameters field in .exr files. <br/>
            Make sure to properly adjust launchParameters field for your platform before 
@@ -790,7 +791,7 @@ in this rule file.
        <div class="label"><b>target:</b><br/>
        airbnb listings like this:
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
+       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages, launchParameters, ruleDynamicElements, dpcType (click) , dpcScrolldown</i></div>
        <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714</div>
   </div> <!-- block -->
 
@@ -800,14 +801,17 @@ in this rule file.
 
  <div id="eIII" class="block clrblock4 hoveredblock">
        <span><font color="#edef6c">III</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;"><a href="reddit.exr">Username, comments from Reddit subreddit pages</a></div>
+       <div class="blocktitle" style="background-color: #f9fad2;">
+           <a href="reddit-user-title-upvote.exr">Post title, username, vote count from 
+               Reddit's main page page</a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
-            xxx
+            Extracts from posts on reddit's main page https://www.reddit.com/ 
+            the post title, post username and vote count. 
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
-       YYYY
+       reddit main page (new one, not old)
        </div>
        <div class="label smaller"><i><b>demonstrated fields:</b>  </i></div>
        <div class="label smaller code"><b>Usage:</b> </div>
@@ -822,14 +826,17 @@ in this rule file.
        <div class="blocktitle" style="background-color: #f9fad2;"><a href="spitogatos.gr-location-price.exr">Area, price of listings on Spitogatos</a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
-            Makes unauthenticated access to airbnb listing
-           page (i.e. guest access).
+            Downloads location and price from listings on the greek real estate site spitogatos. 
+            This site has been chosen since it detects bot access on its pages. You may 
+            need to update the requestCookies field in order to make it work.
+            Makes unauthenticated access to airbnb listing. 
+            page (i.e. guest access).
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
-       YYYY
+       spitogatos.gr
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b>  </i></div>
+       <div class="label smaller"><i><b>demonstrated fields:</b>requestHeader, requestCookies </i></div>
        <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374</div>
   </div> <!-- block -->
 
