@@ -18,7 +18,8 @@
 
 
 # List of rule names, whose extracted data should be stored in the csv file. 
-# IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
+# IMPORTANT: date the url was accessed (dateaccessed) and the url are 
+# always automatically added to the csv file for all successfully extracted data. 
 
 "csvLineFormat":["propertyLocation", "propertyPrice"],
 
@@ -87,81 +88,42 @@
 "allowedMinimumFilled" : 0.5
 
 
-# How should the downloaded html page be rendered.
-# WebScraper supports two modes of URL downloads:
-# static: meaning that the web page does not load its content dynamically (via js or ajax) and one http request is enough to get
-#         the entire page content. 
-# dynamic: meaning the athe web page has dynamic content that is loaded via js or ajax once the web page has
-#          been downloaded or is scrolled. Example of such dynamic pages are e.g. youtube pages where comments are only displayed
-#          when the user scrolls down. Scraping such dynamic pages is also supported by WebScraper. Dynamic pages load slower though.
-# 
-# If renderPages has a value of False, this means the no page rendering is carried out and should be used only in case of pages that
-# do not load content dynamicaly.
-# If renderPages has a value of True, this means the page rendering is done and should be used only in case of pages that load content
-# dynamically. 
-# 
-# Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
-# will make page loading faster. If renderPages is missing, it defaults to False.
 
-#"renderPages":False,
 
 
 
 # List of individual rules comprising this library and that will be applied to each page downloaded. 
-# NOTE: all rules mentioned below will ALWAYS be applied to a single page; this is done for all pages downloaded. 
+# NOTE: all rules mentioned below will ALWAYS be checked if they are applicable to the single page; 
+# this is done for all pages downloaded. 
 
 "library": [
 
-# Rule to extract/scrape the title of the downloaded article. The title
-# is assumed to be the teams name, not it's full name (or formal name)
+
 
 {
 
- # If no ruleName is specified, the extracted data of this rule cannot be used
- # in  the csvLineFormat attribute.
+ 
  
  "ruleName": "propertyLocation",
  
- 
- # Short description
- 
- "ruleDescription": "Extracts property price",
- 
- 
- 
- # Regular expression specifying which URL pattern will trigger the
- # execution of this rule. 
- # This is a list ([]) meaning you may add many disjunctive regular expressions
- # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
- # Special regular expression metacharacters (.) are escaped.
+ "ruleDescription": "Extracts property loation from listing pages i.e. a single property page",
  
  "ruleURLActivationCondition": ["spitogatos\.gr/aggelia/\d+$"],
  
- 
- # A CSS selector specifying the element on the page to scrape.
- # NOTE: the CSS selector may return more than one mathing element.
- 
  "ruleCSSSelector": "span.property__address",
  
- 
- # Once the CSS selector element in  ruleCSSSelector has been found, what 
- # exactly to extract from element: the text or some other attribute. 
- # text means simply return the text of the scraped element.
  "ruleTargetAttribute": "text",
  
- # Regular expression that specifies the condition the extracted text or attribute value has to
- # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ 
  "ruleContentCondition": "",
  
- # Does this rule return more than one result?
+ 
  "ruleReturnsMore": False,
  
- # If the rule returns more than one result, which result to return. Negative means all elements. 
- # This takes only effect if ruleReturnsMore is set to True.
+ 
  "ruleReturnedMatchPos": 0,
  
- # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
- # an error?
+ # NOT YET SUPPORTED. 
  "ruleReturningMoreIsError": False,
  
  # List of characters to remove from the extracted value (text or attribute)
@@ -183,11 +145,8 @@
  
  "ruleName": "propertyPrice",
  
+ "ruleDescription": "Extracts property price from listing pages i.e. a single property page",
  
- # Short description
- "ruleDescription": "Extracts property price from pages related to a single property",
- 
- # Pattern propery pages match
  "ruleURLActivationCondition": ["spitogatos\.gr/aggelia/\d+$"],
  
  
@@ -221,18 +180,12 @@
  
  "ruleContentCondition": "",
  
- # Does this rule return more than one result?
  "ruleReturnsMore": False,
  
- # If the rule returns more than one result, which result to return. Negative means all elements. 
- # This takes only effect if ruleReturnsMore is set to True.
  "ruleReturnedMatchPos": 0,
  
- # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
- # an error?
  "ruleReturningMoreIsError": False,
  
- # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": ['€'],
 },
 
@@ -243,62 +196,38 @@
 
 {
 
- # If no ruleName is specified, the extracted data of this rule cannot be used
- # in  the csvLineFormat attribute.
+ 
  
  "ruleName": "properties",
  
  
- # Short description
+ "ruleDescription": "Extracts property (type, location, price) from search results page",
  
- "ruleDescription": "Extracts property data from search results page",
- 
- 
- 
- # Regular expression specifying which URL pattern will trigger the
- # execution of this rule. 
- # This is a list ([]) meaning you may add many disjunctive regular expressions
- # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
- # Special regular expression metacharacters (.) are escaped.
  
  "ruleURLActivationCondition": ["spitogatos\.gr/.*-katoikies.*/.*"],
  
  
- 
- # A CSS selector specifying the element on the page to scrape.
- # NOTE: the CSS selector may return more than one mathing element.
- 
  "ruleCSSSelector": ".ordered-element",
  
  
- # Once the CSS selector element in  ruleCSSSelector has been found, what 
- # exactly to extract from element: the text or some other attribute. 
- # text means simply return the text of the scraped element.
  "ruleTargetAttribute": "text",
- 
- 
  
  
  "rulePostCSSSelector" : ["h3:nth-child(1)", "h3:nth-child(2)", ".price__text"]
  "ruleReturnedValueNames" : ["propertyType", "propertyLocation", "propertyPrice"]
   
  
- # Regular expression that specifies the condition the extracted text or attribute value has to
- # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
  "ruleContentCondition": "",
  
- # Does this rule return more than one result?
+ 
  "ruleReturnsMore": True,
  
- # If the rule returns more than one result, which result to return. Negative means all elements. 
- # This takes only effect if ruleReturnsMore is set to True.
+ 
  "ruleReturnedMatchPos": 0,
  
- # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
- # an error?
+ 
  "ruleReturningMoreIsError": False,
  
- # List of characters to remove from the extracted value (text or attribute)
  "ruleRemoveChars": ['€'],
 },
 
@@ -308,28 +237,20 @@
 
 
 
-                        
- 
-
-# Rule for extracting links from the page
-# A the name getLinks is a keyword signifying a rule that extracts
-# hyperlinks found on the page what match the specified conditions.
-#
-
+                
 
 
 {
 
- # Name of rule. Remember getLinks is a reserved word implying
- # a very specific behavior.
+ 
  "ruleName": "getLinks",
  
  "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
  
- # Regular expression specifying for which URLs/pages to activate this rule.
+ 
  "ruleURLActivationCondition": ["spitogatos\.gr.*$"],
  
- # CSS selector containing the information (hyperlink) to extract
+ 
  "ruleCSSSelector": "a[href]",
  
  # From the specified selector, we are interested only in the value of the
@@ -337,10 +258,7 @@
  # NOTICE: WebScraper takes care of relative links
  "ruleTargetAttribute": "href",
  
- # Once we got the value of the target attribute, this regular expression
- # specifies a condition that the value has to meet. Here, we are interested 
- # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
- # of the english wikipedia site will not be extracted and hence won't be followed.
+ 
  "ruleContentCondition": "spitogatos",
  
  # This signifies that this rule will not return only one chunk of information, but

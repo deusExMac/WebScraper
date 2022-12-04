@@ -224,7 +224,7 @@ class urlQueue:
        
 
       def updateStatus(self, u, sts):
-          print('STATUS:[', sts, '] URL:[', u, ']', sep='')  
+          #print('STATUS:[', sts, '] URL:[', u, ']', sep='')  
           self.queue.loc[ self.queue['url'] == u, 'status' ] = sts
 
 
