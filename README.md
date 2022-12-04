@@ -351,7 +351,7 @@ The object literal specifying an operation on the page has the following fields:
      * ``ecTextCondition`` string. Regular expression. The regular expression the text of element specifid in ``ecCSSSelector`` must match. If matched, precondition returns True, if not precondition returns False.
  
    * ``rulePostCSSSelector`` list of strings. Each string in this list must be a css selector. Specifies css selectors that all of them will be applied to each of the extracted elements by ``ruleCSSSelector`` (and after apllying ``ruleMatchPreconditions``) seperately. Extracts from each specific element the specified sub-elements. Currently, rulePostCSSSelectors support the extraction only of text from designated elements. Defaults to empty list. 
-   NOTE: ``rulePostCSSSelector`` to work properly, field ``ruleTargetAttribute`` must have value 'text'.
+   **NOTE: For ``rulePostCSSSelector`` to work properly, field ``ruleTargetAttribute`` must have value 'text'.**
    
    * ``ruleReturnedValueNames`` list of strings. Each string is user defined and should not contain the characters: empty char, whitespace, -, !, , (comma), \*, /, \,?. Specifies each name of the extracted sub-element by ``rulePostCSSSelector`` . ``ruleReturnedValueNames`` is exclusively used with ``rulePostCSSSelector`` . Returns a list of objects, having as key-names the strings defined in ``ruleReturnedValueNames`` and as key-values the extracted data specified by css selector ``rulePostCSSSelector`` in the same position. 
   
