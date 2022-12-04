@@ -752,14 +752,19 @@ in this rule file.
        <div class="blocktitle" style="background-color: #800000;"><a href="youtube.com-user-comments-votecount.exr"><font color="white">Usernames, content, thumbs up count from youtube video pages</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
-            xxx
+            Extracts data from youtube video pages and in particular extracts
+            from each comment the following data: user making the comment, vote up-count 
+            of comment and the content of the comment. Does not extract all pages;
+            scrolls the video page a number of times (exactly 6 times) and extracts 
+            all the comments that were loaded. Data extracted may differe depending
+            on the youtube video.
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
-       YYYY
+       comment section youtube video pages
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
-       <div class="label smaller code"><b>Usage:</b> crawl  -r ZZZZZ</div>
+       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages, ruleDynamicElements </i></div>
+       <div class="label smaller code"><b>Usage:</b> crawl -n 1 -r rules/youtube.com-user-comments-votecount.exr -o csv/ytComments.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
   </div> <!-- block -->
 
 
@@ -770,8 +775,13 @@ in this rule file.
        <span><font color="#edef6c">II</font></span>
        <div class="blocktitle" style="background-color: #f9fad2;"><a href="airbnb-user-comments.exr">TODO: Check if the same with 8.3: Usernames, content, from airbnb accommodation pages</a></div>
        <div class="label">
-           <font color="black"> <b>description:</b> </font>This set of rules extracts user names and comments from airbnb listings. It uses an external browser (Chrome), not pyppeteer's default Chromium, as Chromium seems to be unable load/render properly such pages.<br/>
-           This library/rule set makes use of launchParameters field in .exr files.
+           <font color="black"> <b>description:</b> </font>This set of rules extracts user names and 
+           comments from airbnb listings. It uses an external browser (Chrome), 
+           not pyppeteer's default Chromium, as Chromium seems to be unable load/render 
+           properly such pages.<br/><br/>
+           <font color="red"><b>This library/rule set makes use of launchParameters field in .exr files. <br/>
+           Make sure to properly adjust launchParameters field for your platform before 
+               using this exr file!</b></font>
            <br/>
        </div>
        <div class="label"><b>target:</b><br/>
