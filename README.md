@@ -852,14 +852,12 @@ At the displayed prompt, a set of shell commands can be executed along with a se
            Starting INTERACTIVE mode
 
            Instatiating MacOS platform object
-           (v0.3.6a){0}WebScraper >>h 1
-           h 1
-	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
            
 	   (v0.3.6a){0}WebScraper >> reload
                    reload
                    Loading configuration file: [./webscraper.conf]
                    Configuration file [./webscraper.conf] successfully loaded.
+	   (v0.3.6a){1}WebScraper >>
 	      
 	
   ```		
