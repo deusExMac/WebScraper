@@ -1,4 +1,5 @@
 
-TODO exr files
+TODO exr files ideas
   - amazon.com get all links (click on "See all reviews")
-  
+  - binance home page (unauthenticated)
+  - 
