@@ -21,13 +21,34 @@ WebScraper is a simple python program enabling rule-based scraping/extraction of
     + [v. ruleContentCondition](#v-rulecontentcondition)
     + [vi. rulePostCSSSelector](#vi-rulepostcssselector)
   * [Example .exr files](#example-exr-files)
+- [Running WebScraper](#running-webscraper)
+  * [WebScraper configuration file](#webscraper-configuration-file)
+    + [Configuration settings](#configuration-settings)
+  * [WebScraper command line arguments](#webscraper-command-line-arguments)
+  * [WebScraper execution modes](#webscraper-execution-modes)
+    + [batch mode](#batch-mode)
+    + [interactive mode](#interactive-mode)
+      - [Supported application shell commands](#supported-application-shell-commands)
+      - [crawl](#crawl)
+      - [Description](#description)
+      - [Example](#example)
+      - [config](#config)
+      - [Description](#description-1)
+      - [Example](#example-1)
+      - [history (or h)](#history--or-h-)
+      - [Description](#description-2)
+      - [Example](#example-2)
+      - [!!](#--)
+      - [Description](#description-3)
+      - [!](#-)
+      - [Description](#description-4)
+      - [^](#-)
+      - [Description](#description-5)
+      - [Example](#example-3)
+- [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
-
-
 
 
 
