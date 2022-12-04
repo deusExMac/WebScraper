@@ -616,11 +616,11 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Syntax: ``config``	
 	
-  #### Description
+  ##### Description
 	
   Displays the loaded configuration settings.
 
-  #### Example	
+  ##### Example	
 
   ```
           [v0.3.6a 20/10/2022]
@@ -697,11 +697,11 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   argument: If argument is an integer displays the [argument] number of last commands in history entered by the user. if argument is a string, the string value is interpreted as a regular expression and displays only those commands in the history that matches the regular expression pattern. If no argument is given, entire history is displayed. Size of history is configurable (see ``historySize`` in configuration file). History of commands is preserved between executions of WebScraper and is stored in a local file with the default name .history .
 	
-  #### Description
+  ##### Description
 	
   Displays the entire or a subset of the history of shell commands as entered/executed by the user using WebScraper's shell.
 	
-  #### Example	
+  ##### Example	
 
   ```
           [v0.3.6a 20/10/2022]
@@ -778,7 +778,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Syntax: ``!!``	
   
-  #### Description
+  ##### Description
 	
   (Re-)Executes the last command as entered via WebScraper's shell
 
@@ -788,7 +788,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Syntax: ``!<number>``	
   
-  #### Description
+  ##### Description
 	
   (Re-)Executes command at position <number> in the history list.
 
@@ -797,12 +797,12 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Syntax: ``^<string>^<replacement>``	
   
-  #### Description
+  ##### Description
 	
   Replaces all occurences of < string > in last command with < replacement > and executes modified command.
 
 	
-  #### Example	
+  ##### Example	
 
   ```	
            [v0.3.6a 20/10/2022]
@@ -827,6 +827,44 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	      ...
 	
   ```	
+
+	
+- #### reload  	
+	
+  Syntax: ``reload [-c configuration_file]``
+
+  -c configuration_file: path to configuration file. If -c option is specified, the specified configuration file is loaded. If no -c option is specified, the same configuration file that was loaded when WebScraper started execution is reloaded again (default webscraper.conf). 	 
+  
+  ##### Description
+	
+  Reloads the already loaded or loads a new configuration file. After successfully loading a configuration file, any new extraction process will use the newly loaded settings.
+
+##### Example	
+
+  ```	
+           [v0.3.6a 20/10/2022]
+           Execution started on Darwin release 21.6.0 (posix)
+
+           Loading configuration settings from [ ./webscraper.conf ]....ok.
+           Loading extraction rule library [./default.exr]...done
+	           Total of  1  extraction rules loaded.
+
+           Starting INTERACTIVE mode
+
+           Instatiating MacOS platform object
+           (v0.3.6a){0}WebScraper >>h 1
+           h 1
+	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
+           
+	   (v0.3.6a){0}WebScraper >> reload
+                   reload
+                   Loading configuration file: [./webscraper.conf]
+                   Configuration file [./webscraper.conf] successfully loaded.
+	      
+	
+  ```		
+	
+	
 	
 # Useful tools/projects
 
