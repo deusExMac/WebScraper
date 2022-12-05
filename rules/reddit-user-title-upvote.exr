@@ -40,6 +40,13 @@
 		 		     "dpcPageElement":"._2BNSty-Ld4uppTeWGfEe8r section:nth-child(1) .HNozj_dKjQZ59ZsfEegz8",
 		 		     "dpcScrolldown":0,
 		 		     "dpcWaitFor":""
+		 },
+         
+         {
+		 		     "dpcType":"scrollpage",
+		 		     "dpcPageElement":"",
+		 		     "dpcScrolldown":20,
+		 		     "dpcWaitFor":""
 		 }
 
          
