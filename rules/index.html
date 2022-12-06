@@ -153,7 +153,14 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
            margin-top:6px;
         }
 
-
+.smallergreen {color: #3e704b;
+               font-size:95%;
+               margin-top:6px; }        
+        
+.smallerpink {color: #c736cf;
+               font-size:95%;
+               margin-top:6px; } 
+        
 .subexample {
           padding-left: 75px;
         }
@@ -166,6 +173,21 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     color:#5e62db;
 }
 
+.codegreen {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#3e704b;
+}        
+    
+.codepink {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#c736cf;
+}               
+        
+        
 .codesnipped {
           font: 12pt Times New Roman;
 }
@@ -362,8 +384,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       <div class="label"><b>target:</b><br/>Extracts manager's name from infobox if the infobox's ninth row has a value of Manager or Head coach (the precondition). If the precondition holds, rule is applied. If not, rule is not applied and an
       empty string as rule value is returned (default for page preconditions).<br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> rulePreconditions, ecCSSSelector, ecTextCondition, getLinks</i></div>
-      <div class="label smaller code"><b>Example</b> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smallergreen"><i><b>demonstrated fields:</b> rulePreconditions, ecCSSSelector, ecTextCondition, getLinks</i></div>
+      <div class="label smaller codegreen"><b>Example</b> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div>
 
@@ -383,8 +405,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       </div>
       <div class="label subexample"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
-      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics</div>
+      <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
+      <div class="label smallergreen codegreen subexample"><b>Example</b> crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics</div>
 
   </div> <!-- block -->
 
@@ -409,8 +431,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
           3)  have an american nationality.
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ALL), getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists </div>
+      <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ALL), getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists </div>
 
 </div> <!-- block -->
 
@@ -444,8 +466,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
 
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL)  ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists</div>
+      <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL)  ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists</div>
 
 </div> <!-- block -->
 
@@ -466,8 +488,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       </div>
       <div class="label subexample"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.4-en.wikipedia.exr -o csv/example4.4.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.4-en.wikipedia.exr -o csv/example4.4.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div> <!-- block -->
 
@@ -496,8 +518,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       </div>
       <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history. A record is returned where the names of matching football teams is returned in a list which is the value of the key with the rule name.<br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
+      <div class="label smallerpink"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
+      <div class="label smallerpink codepink"><b>Usage</b> crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
 
 </div> <!-- block -->
 
