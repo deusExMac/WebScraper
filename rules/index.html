@@ -147,20 +147,35 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
 
 
 
+
 .smaller {
            color:#5e62db;
            font-size:95%;
            margin-top:6px;
+           /*overflow-wrap: anywhere;*/
         }
 
 .smallergreen {color: #3e704b;
                font-size:95%;
-               margin-top:6px; }        
-        
+               margin-top:6px; }
+
 .smallerpink {color: #c736cf;
                font-size:95%;
-               margin-top:6px; } 
-        
+               margin-top:6px; }
+
+.smalleryellow {color: #bab14a;
+               font-size:95%;
+               margin-top:6px; }
+
+.smallerpurple {color: #7b1e94;
+               font-size:95%;
+               margin-top:6px; }
+
+
+.smallerdarkyellow {color: #b0ab12;
+               font-size:95%;
+               margin-top:6px; }
+
 .subexample {
           padding-left: 75px;
         }
@@ -178,16 +193,38 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     font-size:90%;
     overflow-wrap: anywhere;
     color:#3e704b;
-}        
-    
+}
+
 .codepink {
     font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
     font-size:90%;
     overflow-wrap: anywhere;
     color:#c736cf;
-}               
-        
-        
+}
+
+.codeyellow {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#bab14a;
+}
+
+.codepurple {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#7b1e94;
+}
+
+
+.codedarkyellow {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#b0ab12;
+}
+
+
 .codesnipped {
           font: 12pt Times New Roman;
 }
@@ -216,7 +253,7 @@ span {
 	  position: absolute;
 	  line-height: 25px;
       font: bold 24pt helvetica, arial, sans-serif;
-      color:#d2cfed; ##dfddf0; ##d0d2d6;
+      color:#d2cfed;
 	  #border:1px dotted blue;
       margin-top: 3px;
 
@@ -247,6 +284,25 @@ a:visited.template {color:yellow;}
 a:hover.template { color:darkseagreen; text-decoration: underline; }
 
 </style>
+
+<script>
+function copyToClipboard(eId) {
+  alert("Will copy : [" + eId + "]");
+  // Get the text field
+  var copyText = document.getElementById(eId);
+  //alert("Copied the text: [" + copyText.textContent + "]");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.textContent);
+
+  // Alert the copied text
+  alert("Copied the text: [" + copyText.textContent + "]");
+}
+</script>
 
 <title>Index to .exr files in rules directory demonstrating supported fileds</title>
 
@@ -297,7 +353,7 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       </div>
 
 
-      <div class="label smaller"><i><b>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
+      <div class="label smalleryellow"><i><b>demonstrated fields:</b> ruleName, ruleCSSSelector, ruleURLActivationCondition, csvLineFormat, ruleReturnsMore, ruleReturnedMatchPos, library</i></div>
   </div> <!-- block -->
 
 
@@ -323,9 +379,9 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
       </div>
 
 
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
+      <div class="label smalleryellow subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
 
-      <div class="label smaller code subexample"><b>Example</b> crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div>
+      <div class="label smalleryellow codeyellow subexample"><b>Usage</b> crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div>
   </div> <!-- block -->
 
 
@@ -613,8 +669,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
 	  pages allows WebScraper to use a greater range of functionalities such as interacting with the downloaded page.<br>
 	  NOTE: Setting renderPages to true will result in slower web page retrieval and processing.
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> renderPages </i></div>
-      <div class="label smaller code"><b>Usage:</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+      <div class="label smallerdarkyellow"><i><b>demonstrated fields:</b> renderPages </i></div>
+      <div class="label smallerdarkyellow codedarkyellow"><b>Usage:</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)</div>
   </div> <!-- block -->
 
 
@@ -642,8 +698,8 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
 		  the page must be scrolled down. The more the page is scrolled down, the more comments will appear. This example shows how to scroll page and configure some aspects of scrolling process.
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
       </div>
 
 </div> <!-- block -->
@@ -669,8 +725,8 @@ in this rule file.
           This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. It first scrolls the youtube page as many times as required until a predefined number (scrollTargetCount) of elements (scrollTargetSelector) has been loaded. The exraction of usernames and like count starts as soon as the number of elements has been loaded. A negative value for number of elements means infinite scrolling i.e. load all comments.
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
 
 </div> <!-- block -->
 
@@ -692,8 +748,8 @@ in this rule file.
           Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up. This window/div needs to be scrolled to load comments
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-airbnb.exr -o csv/example8.3.csv  https://www.airbnb.com/rooms/4062487
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-airbnb.exr -o csv/example8.3.csv  https://www.airbnb.com/rooms/4062487
       </div>
 
 </div> <!-- block -->
@@ -715,8 +771,8 @@ in this rule file.
           on the consent form, fills in the search box with the word 'python' and clicks on the submit button. It extracts the links from the returned results search page.
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div>
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div>
 
 </div> <!-- block -->
 
@@ -739,8 +795,8 @@ in this rule file.
           is only taken into consideration when renderPages is set to True. Otherwise it is ignored. launchParameters requires supplying values to two fields: <font class="codesnipped">executablePath</font>, which is the path to external Chrome installation and <font class="codesnipped">userDataDir</font> which is required on Windows platforms.
           <br>
       </div>
-      <div class="label smaller subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
-      <div class="label smaller code subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907</div>
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907</div>
 
 </div> <!-- block -->
 
@@ -772,7 +828,7 @@ in this rule file.
 
  <div id="eI" class="block clrblock4 hoveredblock">
        <span><font color="#964bcc">I</font></span>
-       <div class="blocktitle" style="background-color: #800000;"><a href="youtube.com-user-comments-votecount.exr"><font color="white">Usernames, content, thumbs up count from youtube video pages</font></a></div>
+       <div class="blocktitle" style="background-color:#813a94;"><a href="youtube.com-user-comments-votecount.exr"><font color="white">Usernames, content, thumbs up count from youtube video pages</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
             Extracts data from youtube video pages and in particular extracts
@@ -788,8 +844,8 @@ in this rule file.
        <div class="label"><b>target:</b><br/>
        comment section youtube video pages
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages, ruleDynamicElements </i></div>
-       <div class="label smaller code"><b>Usage:</b> crawl -n 1 -r rules/youtube.com-user-comments-votecount.exr -o csv/ytComments.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
+       <div class="label smallerpurple"><i><b>demonstrated fields:</b> renderPages, ruleDynamicElements </i></div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b> crawl -n 1 -r rules/youtube.com-user-comments-votecount.exr -o csv/ytComments.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
   </div> <!-- block -->
 
 
@@ -797,25 +853,25 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
 <div id="eII" class="block clrblock4 hoveredblock">
-       <span><font color="#edef6c">II</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;"><a href="airbnb-user-comments.exr">TODO: Check if the same with 8.3: Usernames, content, from airbnb accommodation pages</a></div>
+       <span><font color="#813a94">II</font></span>
+       <div class="blocktitle" style="background-color:#813a94;"><a href="airbnb-user-comments.exr"><font color="white">TODO: Check if the same with 8.3: Usernames, content, from airbnb accommodation pages</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font>This set of rules extracts user names and
            comments from airbnb listings. It uses an external browser (Chrome),
            not pyppeteer's default Chromium, as Chromium seems to be unable load/render
            properly such pages. It scrolls the comment window a constant number of times
            (8) to load comments. Makes unauthenticated access to airbnb listing
-           page (i.e. guest access).<br/><br/>
-           <font color="red"><b>This library/rule set makes use of launchParameters field in .exr files. <br/>
+           page (i.e. guest access).<br/>
+           <font color="#7b1e94"><b>NOTE:</b> This library/rule set makes use of launchParameters field in .exr files. <br/>
            Make sure to properly adjust launchParameters field for your platform before
-               using this exr file!</b></font>
+               using this exr file!</font>
            <br/>
        </div>
        <div class="label"><b>target:</b><br/>
        airbnb listings like this:
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b> renderPages, launchParameters, ruleDynamicElements, dpcType (click) , dpcScrolldown</i></div>
-       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714</div>
+       <div class="label smallerpurple"><i><b>demonstrated fields:</b> renderPages, launchParameters, ruleDynamicElements, dpcType (click) , dpcScrolldown</i></div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714</div>
   </div> <!-- block -->
 
 
@@ -823,10 +879,10 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
  <div id="eIII" class="block clrblock4 hoveredblock">
-       <span><font color="#edef6c">III</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;">
-           <a href="reddit-user-title-upvote.exr">Post title, username, vote count from
-               Reddit's home page</a></div>
+       <span><font color="#813a94">III</font></span>
+       <div class="blocktitle" style="background-color: #813a94;">
+           <a href="reddit-user-title-upvote.exr"><font color="white">Post title, username, vote count from
+               Reddit's home page</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
             Extracts from posts on reddit's main page https://www.reddit.com/
@@ -836,8 +892,8 @@ in this rule file.
        <div class="label"><b>target:</b><br/>
        reddit main page (new one, not old)
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b>  </i></div>
-       <div class="label smaller code"><b>Usage:</b>crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/</div>
+       <div class="label smallerpurple"><i><b>demonstrated fields:</b>  </i></div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b>crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/</div>
   </div> <!-- block -->
 
 
@@ -845,8 +901,8 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
  <div id="IV" class="block clrblock4 hoveredblock">
-       <span><font color="#edef6c">IV</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;"><a href="spitogatos.gr-location-price.exr">Area, price of listings on Spitogatos</a></div>
+       <span><font color="#813a94">IV</font></span>
+       <div class="blocktitle" style="background-color: #813a94;"><a href="spitogatos.gr-location-price.exr"><font color="white">Area, price of listings on Spitogatos</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
             Downloads location and price from listings on the greek real estate site spitogatos.
@@ -859,8 +915,8 @@ in this rule file.
        <div class="label"><b>target:</b><br/>
        spitogatos.gr
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b>requestHeader, requestCookies </i></div>
-       <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374</div>
+       <div class="label smallerpurple"><i><b>demonstrated fields:</b>requestHeader, requestCookies </i></div>
+       <div id="uIV" class="label smallerpurple codepurple"><b>Usage:</b> <span id="uIVs" class="label smallerpurple codepurple">crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374</span> </div>
   </div> <!-- block -->
 
 
@@ -868,8 +924,8 @@ in this rule file.
 <!-- XXXXXXXXXXX -->
 
  <div id="eV" class="block clrblock4 hoveredblock">
-       <span><font color="#edef6c">V</font></span>
-       <div class="blocktitle" style="background-color: #f9fad2;"><a href="fb.exr">Facebook feed authenticated used</a></div>
+       <span><font color="#813a94">V</font></span>
+       <div class="blocktitle" style="background-color: #813a94;"><a href="fb.exr"><font color="white">Facebook feed authenticated used</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
             xxx
@@ -878,8 +934,8 @@ in this rule file.
        <div class="label"><b>target:</b><br/>
        YYYY
        </div>
-       <div class="label smaller"><i><b>demonstrated fields:</b>  </i></div>
-       <div class="label smaller code"><b>Usage:</b> </div>
+       <div class="label smallerpurple"><i><b>demonstrated fields:</b>  </i></div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b> </div>
   </div> <!-- block -->
 
 
