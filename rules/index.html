@@ -283,24 +283,30 @@ a:link.template {color:white;}
 a:visited.template {color:yellow;}
 a:hover.template { color:darkseagreen; text-decoration: underline; }
 
+#hover-content {
+    display:none;
+}
+
+#u1.1:hover #hover-content {
+    display:block;
+}
+
+
+
 </style>
 
 <script>
 function copyToClipboard(eId) {
-  alert("Will copy : [" + eId + "]");
-  // Get the text field
-  var copyText = document.getElementById(eId);
-  //alert("Copied the text: [" + copyText.textContent + "]");
 
-  // Select the text field
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); // For mobile devices
 
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(copyText.textContent);
+  var elem = document.getElementById(eId);
+  if (!elem){
+      return(-1)
+  }
 
-  // Alert the copied text
-  alert("Copied the text: [" + copyText.textContent + "]");
+  navigator.clipboard.writeText(elem.textContent);
+  //alert("Copied the text: [" + elem.textContent + "]");
+  return(0)
 }
 </script>
 
@@ -312,7 +318,12 @@ function copyToClipboard(eId) {
 
 <body>
 
-  <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly. If some exr files use request cookies, these may need to be updated periodically.</div>
+  <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly.
+  If some exr files use request cookies, these may need to be updated periodically.<br/>
+  <br/>
+  <font color="navy">NOTE: Double click on the usage example given in each case to copy the command to the clipboard and paste it on WebScraper's shell.</font>
+  <br/>
+  </div>
   <div class="caption">List of example .exr files</div>
   <div class="row rowbackground1">
 
@@ -381,7 +392,7 @@ function copyToClipboard(eId) {
 
       <div class="label smalleryellow subexample"><i><b>demonstrated fields:</b> getLinks, +++++ </i></div>
 
-      <div class="label smalleryellow codeyellow subexample"><b>Usage</b> crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div>
+      <div class="label smalleryellow codeyellow subexample"><b>Usage:</b><div id="u1.1" class="label smalleryellow codeyellow" onclick="copyToClipboard('u1.1')">crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/</div></div>
   </div> <!-- block -->
 
 
@@ -406,7 +417,7 @@ function copyToClipboard(eId) {
        wikipedia title<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> getLinks, ruleCSSSelector, library, ruleURLActivationCondition</i></div>
-      <div class="label smaller code"><b>Example</b> crawl  -r rules/example2-en.wikipedia.exr -o csv/example2.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+      <div class="label smaller code"><b>Usage:</b><div id="u2" class="label smaller code" onclick="copyToClipboard('u2')">crawl  -r rules/example2-en.wikipedia.exr -o csv/example2.csv https://en.wikipedia.org/wiki/Python_(programming_language)</div></div>
   </div> <!-- block -->
 
 
@@ -423,7 +434,7 @@ function copyToClipboard(eId) {
       <div class="label"><b>target:</b><br/>extracts the team name, team full name and links (leading to wikipedia) from infobox of wikipedia articles related to football clubs<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks</i></div>
-      <div class="label smaller code"><b>Example</b> crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy</div>
+      <div class="label smaller code"><b>Usage:</b><div id="u3" class="label smaller code" onclick="copyToClipboard('u3')">crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy</div></div>
 
   </div>
 
@@ -441,7 +452,7 @@ function copyToClipboard(eId) {
       empty string as rule value is returned (default for page preconditions).<br>
       </div>
       <div class="label smallergreen"><i><b>demonstrated fields:</b> rulePreconditions, ecCSSSelector, ecTextCondition, getLinks</i></div>
-      <div class="label smaller codegreen"><b>Example</b> crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smaller codegreen"><b>Example: </b>crawl -n -1 -r rules/example4-en.wikipedia.exr -o csv/example4.csv https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
 
   </div>
 
@@ -462,7 +473,7 @@ function copyToClipboard(eId) {
       <div class="label subexample"><b>target:</b><br/> extracts the title of english wikipedia articles that are about statistics OR algebra.<br>
       </div>
       <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ANY) </i></div>
-      <div class="label smallergreen codegreen subexample"><b>Example</b> crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics</div>
+      <div class="label smallergreen codegreen subexample"><b>Example</b><div id="u4.1" class="label smallergreen codegreen" onclick="copyToClipboard('u4.1')">crawl -M -n -1 -r rules/example4.1-en.wikipedia.exr -o csv/example4.1.csv https://en.wikipedia.org/wiki/Statistics</div></div>
 
   </div> <!-- block -->
 
@@ -488,7 +499,7 @@ function copyToClipboard(eId) {
           <br>
       </div>
       <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (ALL), getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists </div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b><div id="u4.2" class="label smallergreen codegreen" onclick="copyToClipboard('u4.2')">crawl -M -n -1 -r rules/example4.2-en.wikipedia.exr -o csv/example4.2.csv https://en.wikipedia.org/wiki/List_of_physicists </div></div>
 
 </div> <!-- block -->
 
@@ -523,7 +534,7 @@ function copyToClipboard(eId) {
           <br>
       </div>
       <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> rulePreconditions, rulePreconditionType (EVAL)  ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists</div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b><div id="u4.3" class="label smallergreen codegreen" onclick="copyToClipboard('u4.3')">crawl -M -n -1 -r rules/example4.3-en.wikipedia.exr -o csv/example4.3.csv https://en.wikipedia.org/wiki/List_of_physicists</div></div>
 
 </div> <!-- block -->
 
@@ -545,7 +556,7 @@ function copyToClipboard(eId) {
       <div class="label subexample"><b>target:</b><br/> extracts the manager's name by searching sequentially rows of the infobox until it finds the row for the manager/coach and changes the selector accordingly<br>
       </div>
       <div class="label smallergreen subexample"><i><b>demonstrated fields:</b> ecRuleCSSSelector, rulePreconditions, ruleCSSSelector, rulePreconditionType (ANY)</i></div>
-      <div class="label smallergreen codegreen subexample"><b>Usage</b> crawl -M -n -1 -r rules/example4.4-en.wikipedia.exr -o csv/example4.4.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div>
+      <div class="label smallergreen codegreen subexample"><b>Usage</b><div id="u4.4" class="label smallergreen codegreen" onclick="copyToClipboard('u4.4')">crawl -M -n -1 -r rules/example4.4-en.wikipedia.exr -o csv/example4.4.csv  https://en.wikipedia.org/wiki/List_of_Premier_League_clubs</div></div>
 
   </div> <!-- block -->
 
@@ -575,7 +586,7 @@ function copyToClipboard(eId) {
       <div class="label"><b>target:</b><br/> extracts from the wikipedia page on champions league finals the name of football teams that have won the champions league more than three times (>3) in their club history. A record is returned where the names of matching football teams is returned in a list which is the value of the key with the rule name.<br>
       </div>
       <div class="label smallerpink"><i><b>demonstrated fields:</b> ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smallerpink codepink"><b>Usage</b> crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
+      <div class="label smallerpink codepink"><b>Usage</b><div id="u5" class="label smallerpink codepink" onclick="copyToClipboard('u5')">crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div></div>
 
 </div> <!-- block -->
 
@@ -599,8 +610,7 @@ function copyToClipboard(eId) {
           <br>
       </div>
       <div class="label smallerpink subexample"><i><b>demonstrated fields:</b> ruleMatchPreconditions, getLinks, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector </i></div>
-      <div class="label smallerpink codepink subexample"><b>Usage</b> crawl -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/example5.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
-      </div>
+      <div class="label smallerpink codepink subexample"><b>Usage</b> <div id="u5.1" class="label smallerpink codepink" onclick="copyToClipboard('u5.1')">crawl -n -1 -r rules/example5.1-en.wikipedia.exr -o csv/example5.1.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div></div>
 
 </div> <!-- block -->
 
@@ -621,7 +631,7 @@ function copyToClipboard(eId) {
       <div class="label"><b>target:</b><br/> This example extracts from a table captioned "Performances in the European Cup and UEFA Champions League by club" found on the page https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals the name of the teams, the times they won the Champions League, the times they were runner-ups as well as the seasons they won the Champions League and it does this only for those teams that have won the champions league title more than 3 times. <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> rulePostCSSSelector, ruleReturnedValueNames, ruleCSSSelector, csvLineFormat, requiredFilledFields, ruleMatchPreconditions </i></div>
-      <div class="label smaller code"><b>Usage</b> crawl -n 1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div>
+      <div class="label smaller code"><b>Usage</b><div id="u6" class="label smaller code" onclick="copyToClipboard('u6')">crawl -n 1 -r rules/example6-en.wikipedia.exr -o csv/example6.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals</div></div>
   </div> <!-- block -->
 
 
@@ -641,7 +651,7 @@ function copyToClipboard(eId) {
       may add cookies related to session ids or authentication information in order to access websites as an authenticated user. You may get such authentication/session cookies using a browser's Web development tools and capture http request headers. <a href="example9-youtube.com-cookies.exr">Rule file contains instructions on how to specify and format such cookies.</a> <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent, requestHeader </i></div>
-      <div class="label smaller code"><b>Usage:</b> crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/</div>
+      <div class="label smaller code"><b>Usage:</b><div id="u7" class="label smaller code" onclick="copyToClipboard('u7')">crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/</div></div>
   </div> <!-- block -->
 
 
@@ -670,7 +680,7 @@ function copyToClipboard(eId) {
 	  NOTE: Setting renderPages to true will result in slower web page retrieval and processing.
       </div>
       <div class="label smallerdarkyellow"><i><b>demonstrated fields:</b> renderPages </i></div>
-      <div class="label smallerdarkyellow codedarkyellow"><b>Usage:</b> crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)</div>
+      <div class="label smallerdarkyellow codedarkyellow"><b>Usage:</b><div id="u8" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8')">crawl -n 1 -r rules/example8-en.wikipedia.exr -o csv/example8.csv  https://en.wikipedia.org/wiki/Python_(programming_language)</div></div>
   </div> <!-- block -->
 
 
@@ -699,8 +709,7 @@ function copyToClipboard(eId) {
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s
-      </div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u8.1" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8.1')">crawl -n 1 -r rules/example8.1-youtube.com.exr -o csv/example8.1.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div></div>
 
 </div> <!-- block -->
 
@@ -726,7 +735,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u8.2" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8.2')">crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div></div>
 
 </div> <!-- block -->
 
@@ -749,8 +758,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-airbnb.exr -o csv/example8.3.csv  https://www.airbnb.com/rooms/4062487
-      </div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u8.3" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8.3')">crawl -n 1 -r rules/example8.3-airbnb.exr -o csv/example8.3.csv  https://www.airbnb.com/rooms/4062487 </div></div>
 
 </div> <!-- block -->
 
@@ -772,7 +780,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u8.4" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8.4')">crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div></div>
 
 </div> <!-- block -->
 
@@ -796,7 +804,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> launchParameters, renderPages</i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b> crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907</div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u8.5" class="label smallerdarkyellow codedarkyellow" onclick="copyToClipboard('u8.5')">crawl -n 1 -r rules/example8.3-youtube.com.exr -o csv/example8.3.csv https://www.airbnb.com/rooms/38874907</div></div>
 
 </div> <!-- block -->
 
@@ -845,7 +853,7 @@ in this rule file.
        comment section youtube video pages
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b> renderPages, ruleDynamicElements </i></div>
-       <div class="label smallerpurple codepurple"><b>Usage:</b> crawl -n 1 -r rules/youtube.com-user-comments-votecount.exr -o csv/ytComments.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b><div id="ui" class="label smallerpurple codepurple" onclick="copyToClipboard('ui')">crawl -n 1 -r rules/youtube.com-user-comments-votecount.exr -o csv/ytComments.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div></div>
   </div> <!-- block -->
 
 
@@ -871,7 +879,7 @@ in this rule file.
        airbnb listings like this:
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b> renderPages, launchParameters, ruleDynamicElements, dpcType (click) , dpcScrolldown</i></div>
-       <div class="label smallerpurple codepurple"><b>Usage:</b> crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714</div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b><div id="uii" class="label smallerpurple codepurple" onclick="copyToClipboard('uii')">crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714 </div></div>
   </div> <!-- block -->
 
 
@@ -893,7 +901,7 @@ in this rule file.
        reddit main page (new one, not old)
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b>  </i></div>
-       <div class="label smallerpurple codepurple"><b>Usage:</b>crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/</div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b><div id="uiii" class="label smallerpurple codepurple" onclick="copyToClipboard('uiii')">crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/</div></div>
   </div> <!-- block -->
 
 
@@ -916,7 +924,7 @@ in this rule file.
        spitogatos.gr
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b>requestHeader, requestCookies </i></div>
-       <div id="uIV" class="label smallerpurple codepurple"><b>Usage:</b> crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374 </div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b> <div id="uiv" class="label smallerpurple codepurple" onclick="copyToClipboard('uiv')">crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv https://www.spitogatos.gr/aggelia/1112719374</div> </div>
   </div> <!-- block -->
 
 
