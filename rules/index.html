@@ -295,6 +295,9 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
 
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <script>
 function copyToClipboard(eId) {
 
@@ -306,8 +309,13 @@ function copyToClipboard(eId) {
 
   navigator.clipboard.writeText(elem.textContent);
   //alert("Copied the text: [" + elem.textContent + "]");
+  $('#'+eId).effect('highlight',{},3000);
+
+  //alert("Copied the text: [" + elem.textContent + "]");
   return(0)
 }
+
+
 </script>
 
 <title>Index to .exr files in rules directory demonstrating supported fileds</title>
