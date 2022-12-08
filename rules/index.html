@@ -143,6 +143,7 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
             margin-top:2px;
             padding-left: 50px;
             overflow-wrap: anywhere;
+            cursor: pointer;
         }
 
 
@@ -284,20 +285,27 @@ a:visited.template {color:yellow;}
 a:hover.template { color:darkseagreen; text-decoration: underline; }
 
 .fixedElement {
-    font: 18pt helvetica, arial, sans-serif;
-    background-color: #212e20;
-    color:white;
     position:fixed;
+    margin:0 auto;
+
+    font: 16pt helvetica, arial, sans-serif;
+    background-color: #027032;
+    color:white;
+
     top:0;
-    width:100%;
-    height:50px;
+    width:50%;
+
+    height:40px;
     z-index:100;
     display:none;
-    #justify-content: center;
-    #align-items: center;
+    border: 2px solid #024a21;
     text-align: center;
 	vertical-align: middle;
-    line-height: 50px;
+    line-height: 40px;
+
+    transform: translate(50%, 50%);
+
+
 }
 
 
@@ -315,10 +323,21 @@ function makeBold(eId){
          $('#'+eId).css('font-weight', 'bold');
          setTimeout(function(){
 		   $('#'+eId).css("font-weight", "");
-         }, 200);
+         }, 700);
 
 }
 
+
+
+function makeItalic(eId){
+         //var elem = document.getElementById(eId);
+         //valueInRow= $('#'+eId).closest(".label.imaged");
+         $('#'+eId).css('font-style', 'italic');
+         setTimeout(function(){
+		   $('#'+eId).css('font-style', '');
+         }, 700);
+
+}
 
 function copyToClipboard(eId) {
 
@@ -335,14 +354,14 @@ function copyToClipboard(eId) {
        return(-2)
   }
 
-  $('#'+eId).effect('highlight',{color:"#fcfdf0; font-weight: bold;font-size: 24;"},3000);
+  //$('#'+eId).effect('highlight',{color:"#fcfdf0; font-weight: bold;font-size: 24;"},700);
   $("#msgWindow").show();
   setTimeout(function(){
   		   $("#msgWindow").hide();
          }, 700);
 
-  makeBold(eId)
-
+  //makeBold(eId)
+  makeItalic(eId)
 
 
 
@@ -365,7 +384,7 @@ function copyToClipboard(eId) {
   <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly.
   If some exr files use request cookies, these may need to be updated periodically.<br/>
   <br/>
-  <font color="navy">NOTE: Double click on the usage example given in each case to copy the command to the clipboard and paste it on WebScraper's shell.</font>
+  <font color="navy">NOTE: Click on the usage example given in each case to copy the command to the clipboard and paste it in WebScraper's shell to execute the command.</font>
   <br/>
   </div>
   <div class="caption">List of example .exr files</div>
