@@ -283,7 +283,22 @@ a:link.template {color:white;}
 a:visited.template {color:yellow;}
 a:hover.template { color:darkseagreen; text-decoration: underline; }
 
-
+.fixedElement {
+    font: 18pt helvetica, arial, sans-serif;
+    background-color: #212e20;
+    color:white;
+    position:fixed;
+    top:0;
+    width:100%;
+    height:50px;
+    z-index:100;
+    display:none;
+    #justify-content: center;
+    #align-items: center;
+    text-align: center;
+	vertical-align: middle;
+    line-height: 50px;
+}
 
 
 </style>
@@ -292,24 +307,44 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
 <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script>
-function copyToClipboard(eId) {
+// TODO: Fix/refactor/cleanup this mess of functions
 
+function makeBold(eId){
+         //var elem = document.getElementById(eId);
+         //valueInRow= $('#'+eId).closest(".label.imaged");
+         $('#'+eId).css('font-weight', 'bold');
+         setTimeout(function(){
+		   $('#'+eId).css("font-weight", "");
+         }, 200);
+
+}
+
+
+function copyToClipboard(eId) {
 
   var elem = document.getElementById(eId);
   if (!elem){
       return(-1)
   }
 
-  //alert('Copying to clipboard: [' + elem.textContent + ']');    
+  //alert('Copying to clipboard: [' + elem.textContent + ']');
   navigator.clipboard.writeText(elem.textContent);
-  //alert("Copied the text: [" + elem.textContent + "]");
-  //alert('highlighting:' + '#'+eId) ;
+
   if ( !$( "#"+eId ).length ) {
        alert('Element []' + "#"+eId + '] does not exist')
        return(-2)
-  }   
-    
+  }
+
   $('#'+eId).effect('highlight',{color:"#fcfdf0; font-weight: bold;font-size: 24;"},3000);
+  $("#msgWindow").show();
+  setTimeout(function(){
+  		   $("#msgWindow").hide();
+         }, 700);
+
+  makeBold(eId)
+
+
+
 
   //alert("Copied the text: [" + elem.textContent + "]");
   return(0)
@@ -325,6 +360,7 @@ function copyToClipboard(eId) {
 
 
 <body>
+  <div id="msgWindow" class="fixedElement">Command copied to clipboard</div>
 
   <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly.
   If some exr files use request cookies, these may need to be updated periodically.<br/>
