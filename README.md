@@ -118,7 +118,7 @@ TODO: Fix below picture...
 	      |        |
 	      |        |
 	      |	   Process the extracted 
-          | <------data / save it to csv
+          | <-data / save it to csv
 	  |        file
 	  |
 
