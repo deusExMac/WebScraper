@@ -95,7 +95,7 @@ exr files are files in json format defining the extraction rules that should be 
 
 All the rules specified in an exr file will be applied to the same downloaded web-page if the rule-specific conditions hold, before moving on to the next page which will trigger again the application of the rules of the library. 
 
-TODO: Fix below picture... 
+An overview of the extraction process is depicted below: 
 
 
 
