@@ -106,13 +106,13 @@ TODO: Fix below picture...
 	      |	       |
 	      |	   Apply all rules 
 	      |    in the loaded exr
-	      |	   file on same page
+	      |	   file to same page
 	      |    extrcting data
 	      |	       |
-	      |	       |
+	      ^	       |
 	      |	       |
 	      |    Check if extracted 
-	      |    data meet criteria
+	      |    data meets criteria
 	      |        |
 	      |        |
 	      |        |
