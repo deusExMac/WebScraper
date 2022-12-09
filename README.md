@@ -100,7 +100,7 @@ TODO: Fix below picture...
 
 
 		   Download one 
-	      |->  html page
+	      Γ->  html page
 	      |	       |
 	      |	       |
 	      |	       |
