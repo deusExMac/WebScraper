@@ -108,6 +108,7 @@ TODO: Fix below picture...
 	      |	   Apply all rules 
 	      |    in the loaded exr
 	      |	   file on same page
+	      |    extrcting data
 	      |	       |
 	      |	       |
 	      |	       |
@@ -118,7 +119,7 @@ TODO: Fix below picture...
 	      |        |
 	      |	   Process the extracted 
           | <------data / save it to csv
-	  |       file
+	  |        file
 	  |
 
 
