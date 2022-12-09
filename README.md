@@ -309,7 +309,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 -``libraryDescription``: A human readable description of the .exr file. What it is used for etc.
 
--``csvLineFormat``: List of rule names (string - see below) specifies the rule names the extracted data of whose should be stored in the .csv files. E.g. if value is ["pageTitle"] this means that in the csv file only the extracted value of rule pageTitle will be stored. WebScraper tags extracted data with the rule name that extracted the data. If an empty list is specified, nothing is written in the csv file.
+-``csvLineFormat``: List of rule names (string - see below). Specifies the rule names the extracted data of which should be stored in the .csv files. E.g. if ``csvLineFormat`` has value ["pageTitle"] this means that in the csv file only the extracted value after applying rule with name pageTitle should be stored int he csv file. WebScraper tags extracted data with the rule name that extracted the data with which the extracted data can be referenced. If an empty list is specified, nothing is written in the csv file.
 
 -``requiredFilledFields``: List of strings. List of rule names that must extract non-empty data from a page in order to consider the extraction process successful and the data be written in the csv file.  If at least one rule (indentified by rule name) in this list returns an empty value, the extraction process is unsuccessfully and nothing is written in the csv file. Default value [] (empty list).
 
