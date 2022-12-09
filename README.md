@@ -118,7 +118,7 @@ An overview of the extraction process is depicted below:
 	      |        |
 	      |        |
 	      |	   Process the extracted 
-              |    data / save it to csv
+	      |    data / save it to csv
 	      |    file
 	      |        |
   	      |<_______|
