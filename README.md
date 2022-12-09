@@ -107,7 +107,8 @@ TODO: Fix below picture...
 	      |	   Apply all rules 
 	      |    in the loaded exr
 	      |	   file to same page
-	      |    extrcting data
+	      |    extrcting data if
+	      |    conditions hold
 	      |	       |
 	      ^	       |
 	      |	       |
