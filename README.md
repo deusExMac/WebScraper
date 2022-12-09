@@ -97,7 +97,6 @@ All the rules specified in an exr file will be applied to the same downloaded we
 
 TODO: Fix below picture... 
 
-![alt text](https://github.com/deusExMac/WebScraper/blob/main/doc/procOutline.jpg?raw=true)
 
 
 		   Download one 
@@ -118,9 +117,9 @@ TODO: Fix below picture...
 	      |        |
 	      |        |
 	      |	   Process the extracted 
-          | <-data / save it to csv
-	  |        file
-	  |
+          | <--data / save it to csv
+	           file
+	  
 
 
 Each rule in a exr file is responsible for extracting only one specific kind of data  (e.g. title, links, div content, specific html elements etc) from a downloaded page, if the rule specific conditions hold. Each rule returns all the extracted data as strings. Every extraction process applied on downloaded pages needs to be considered and expressed as a rule in the exr file. Even the extraction of links, when WebScraper crawls a site, must be expressed as a specific rule in the exr file and must have the very specific name ```getLinks``` (this is because such rules are handled  differently by WebScraper). Currently, extraction is supported only from html resources.  
