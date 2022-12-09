@@ -786,7 +786,7 @@ function copyToClipboard(eId) {
 
 <div id="e8.2" class="block clrblock4 hoveredblock">
       <span class="subexamplenumber"><font color="#edef6c">08.2</font></span>
-      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.2-youtube.com.exr">scroll until number of elements appear;infinite scrolling</a></div>
+      <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.2-youtube.com.exr">Scrolling webpage until number of elements appear;infinite scrolling</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
@@ -799,7 +799,7 @@ in this rule file.
           This example extracts the names of users that have commented on a youtube video and the number of likes the comment received. It first scrolls the youtube page as many times as required until a predefined number (scrollTargetCount) of elements (scrollTargetSelector) has been loaded. The exraction of usernames and like count starts as soon as the number of elements has been loaded. A negative value for number of elements means infinite scrolling i.e. load all comments.
           <br>
       </div>
-      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType, rulePostCSSSelector, ruleReturnedValueNames</i></div>
+      <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> dpcScrollTargetElementCount, scrollTargetSelector, scrollTargetCount, ruleDynamicElements, renderPages, dpcURLActivationCondition, dpcType (scrollpage), rulePostCSSSelector, ruleReturnedValueNames</i></div>
       <div class="label smallerdarkyellow codedarkyellow subexample "><b>Usage</b><div id="u82" class="label smallerdarkyellow codedarkyellow clickable" onclick="copyToClipboard('u82')">crawl -n 1 -r rules/example8.2-youtube.com.exr -o csv/example8.2.csv https://www.youtube.com/watch?v=GJDNkVDGM_s</div></div>
 
 </div> <!-- block -->
@@ -845,7 +845,7 @@ in this rule file.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (click, fill), dpcPageElement, dpcScrolldown, dpcWaitFor, dpcFillContent, renderPages </i></div>
-      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u84" class="label smallerdarkyellow codedarkyellow clickable" onclick="copyToClipboard('u84')">crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv -G https://www.google.com/</div></div>
+      <div class="label smallerdarkyellow codedarkyellow subexample"><b>Usage</b><div id="u84" class="label smallerdarkyellow codedarkyellow clickable" onclick="copyToClipboard('u84')">crawl -M -n 1 -r rules/example8.4-google.exr -o csv/example8.4.csv https://www.google.com/</div></div>
 
 </div> <!-- block -->
 
@@ -944,7 +944,7 @@ in this rule file.
        airbnb listings like this:
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b> renderPages, launchParameters, ruleDynamicElements, dpcType (click) , dpcScrolldown</i></div>
-       <div class="label smallerpurple codepurple"><b>Usage:</b><div id="uii" class="label smallerpurple codepurple clickable" onclick="copyToClipboard('uii')">crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv -G https://www.airbnb.com/rooms/3589714 </div></div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b><div id="uii" class="label smallerpurple codepurple clickable" onclick="copyToClipboard('uii')">crawl -M -n 1 -r rules/airbnb-user-comments.exr -o csv/airbnbComments.csv https://www.airbnb.com/rooms/3589714 </div></div>
   </div> <!-- block -->
 
 
