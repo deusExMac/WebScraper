@@ -563,6 +563,8 @@ Command line options supported:
 
 -ST: Turns taking screenshots on. This is supported only when renderPages is set to True and a rendering engine is used to download the page.
 
+-ML: Mute library. Don't display librar description when starting extraction.
+
 -U: Entering update mode i.e. using existing url queue file and checking if pages have been modigied. Will re-extract data from pages that have been visited and from where data has been extracted. TODO: Not thoroughly tested.
 	
 -p pos: starting fetching urls starting from position pos of URL queue file.
