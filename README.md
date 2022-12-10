@@ -530,7 +530,7 @@ IMPORTANT: Some properties are not fully supported and/or may result in errors a
 
 WebScraper's command line arguments allow the overwriting of settings defined in configuration file. Usage:
 
-``webScraper.py [-c configuration file] [-r exr file] [-B] [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [=R] [-U[ [-p pos] [-G] start_url``
+``webScraper.py [-c configuration file] [-r exr file] [-B] [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-ST] [-U] [-p pos] [-G] start_url``
 
 
 Command line options supported:
@@ -560,6 +560,8 @@ Command line options supported:
 -CT regular expression: during fetching and processing of pages content type of downloaded pages mus match regular expression. Allows changing accepted content type of pages. 
 	
 -R: fetches pages using pyppeteer;s browser (Chromium or Chrome depending on other settings).
+
+-ST: Turns taking screenshots on. This is supported only when renderPages is set to True and a rendering engine is used to download the page.
 
 -U: Entering update mode i.e. using existing url queue file and checking if pages have been modigied. Will re-extract data from pages that have been visited and from where data has been extracted. TODO: Not thoroughly tested.
 	
