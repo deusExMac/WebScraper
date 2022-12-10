@@ -878,6 +878,7 @@ class commandImpl:
 
              # Use page pyppeteer to download page  
              cmdArgs.add_argument('-R', '--render', action='store_true' )
+             cmdArgs.add_argument('-ST', '--screenshot', action='store_true' )
              
              cmdArgs.add_argument('-U', '--update', action='store_true' )
              cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
@@ -952,6 +953,9 @@ class commandImpl:
           if args['render']:
              exRules.renderPages = True   
 
+          if args['screenshot']: 
+             cmdConfigSettings.set('Crawler', 'takePageScreenShot', 'True')
+            
           if args.get('minhitrate'):
              cmdConfigSettings.set('Crawler', 'minHitRate', args.get('minhitrate') )   
 
