@@ -175,28 +175,24 @@ class htmlRenderer:
       '''
 
             
-          
+     # This captures responses by intercepting them
+     # This is done when a page redirects.
       async def intercept_network_response(self, resp):
 
-             
-
-
+             # If reponse is a redirect i.e. response status is between
+             # [300, 400), keep the destination of the redirect
              if 300 <= resp.status  and resp.status < 400:
-                self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location') )
-                
+                self.interceptingUrl =  urljoin( resp.url, resp.headers.get('location') )                
              else:
+                 # If it's no redirect, just return
                  if self.interceptingUrl != resp.url:
                     return 
-
-             
-            
+          
              # TODO: Is this correct? 
-             
+             # Store the new response header
              self.response = resp
              
-             
-             
-
+             # Does the redirect have any cookie? 
              if resp.headers.get('set-cookie', None) is not None:
                 # Do we already have this cookie? If not, add it.
                 '''
