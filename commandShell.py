@@ -882,6 +882,9 @@ class commandImpl:
              
              cmdArgs.add_argument('-U', '--update', action='store_true' )
              cmdArgs.add_argument('-p', '--startposition', type=int, nargs='?', default=0 )
+
+             # Mute library i.e. don't print out library description when starting
+             cmdArgs.add_argument('-ML', '--mutelib', action='store_true' )
              
              cmdArgs.add_argument('-G', '--debug', action='store_true' )
              
@@ -964,7 +967,9 @@ class commandImpl:
           
 
           
-          
+          #exRules.libraryDescription
+          if not args['mutelib']:   
+             clrprint.clrprint('\nUsing library:[', exRules.libraryDescription, ']', clr='purple', sep='')   
 
           #
           # We update the pid of running Chrome instances
