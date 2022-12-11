@@ -1688,12 +1688,7 @@ class commandImpl:
           try:
              # Fetch url
              response, responseHtml = self.loadResource(args['url'][0], xL = xLib)
-             '''
-             if response is not None:
-                if xLib.renderPages:
-                   print('\tRendering page...')
-                   response.html.render(timeout=220)
-             '''
+             
           except Exception as readEx:
                   print('ERROR.', str(readEx))
                   return(False)
@@ -1739,11 +1734,40 @@ class commandImpl:
                    print('\t\tExtracted data ', i, ')', sep='')  
                    for k in ex.keys():
                        print('\t\t\t',k, ':[', ex[k],']', sep='')  
-          #               
-          # TODO: Move next out of here. In a separate command...
-          #
-          if not args['batchmode']:
-             while (True):
+          
+                  
+          return(False)   
+
+
+
+ 
+      def cssSelector(self, a):
+         try:
+            cmdArgs = ThrowingArgumentParser()
+            cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
+            
+            # Start in batch or interactive mode of applyRules
+            cmdArgs.add_argument('-B',  '--batchmode', action='store_true')
+            
+            cmdArgs.add_argument('-T', '--extracttext',  action='store_true' )
+            args = vars( cmdArgs.parse_args(a) )
+         except Exception as argEx:
+                 print('Error.', str(argEx) )
+                 return(False)  
+
+
+         try:
+             # Fetch url
+             response, responseHtml = self.loadResource(args['url'][0])             
+         except Exception as readEx:
+                  print('ERROR.', str(readEx))
+                  return(False)
+
+          
+         if args['batchmode']:
+             print('Sorry, batch mode not yet supported. Entering interactive mode')  
+               
+         while (True):
                    try:
                      clrprint.clrprint('CSS selector (type -- to exit)::', end='', clr='purple')
                      cssSel = input('')
@@ -1764,11 +1788,7 @@ class commandImpl:
                      print('Control-C seen...')    
                      return(False)    
                      #break
-                  
-          return(False)   
-
-
-        
+          
           
           
 

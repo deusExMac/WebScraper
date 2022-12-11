@@ -551,6 +551,7 @@ class extractionRule:
          # This is no simple text
                                     
          if len(res) <= 0:
+            exTractedData[self.ruleName] = ''   
             return(exTractedData)   
 
                             
@@ -677,7 +678,7 @@ class ruleLibrary:
             
           pageData = {}
           for i, r in enumerate(self.library):
-                 #print( utils.toString('\t\t[DEBUG] Total of [', str(len(extractedLinks)), '] links extracted\n') if cmdConfigSettings.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+              try:    
                  print(utils.toString('>>> Applying rule [', r.ruleName, ']\n') if debug else '', end='' )
                  print( utils.toString('\t[DEBUG] Checking if URL pattern matches activation constraints of [', r.ruleName,'].......') if debug else '', end='')
                  if not r.ruleMatches(pageUrl):
@@ -688,7 +689,9 @@ class ruleLibrary:
                  
                  xrd = r.apply(pageHtml, debug)
                  pageData.update( xrd )
-          
+              except Exception as ruleEx:
+                 print('ERROR applying rule [', r.ruleName, '] : ', str(ruleEx), sep='')   
+              
           return(pageData)       
           #pass
 

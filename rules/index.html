@@ -705,18 +705,30 @@ function copyToClipboard(eId) {
 
   <div id="e7" class="block hoveredblock">
       <span>07</span>
-      <div class="blocktitle"><a href="example7-youtube.com.exr">HTTP request header parameters</a></div>
+      <div class="blocktitle"><a href="spitogatos.gr-location-price.exr">HTTP request headers and cookies</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating how to set http request header parameters including: request cookies, user agent and http headers.
           <br>
       </div>
-      <div class="label"><b>target:</b><br/> This example sets one cookie related to the users consenting accepting cookies when accesing youtube.com, without having signed in.
-      The cookie that is set in this example named "CONSENT" has as a result that the consent form "Before you continue to YouTube" is not shown when accessing youtube's home page as an unatuthorized user.<br/>You
-      may add cookies related to session ids or authentication information in order to access websites as an authenticated user. You may get such authentication/session cookies using a browser's Web development tools and capture http request headers. <a href="example9-youtube.com-cookies.exr">Rule file contains instructions on how to specify and format such cookies.</a> <br>
+      <div class="label"><b>target:</b><br/> This example uses specific request 
+          headers and a number of request cookies when accessing listings and search results
+          on the website spitogatos, a 
+          greek webpage related to real estate.<br/> 
+      <a href="example7-youtube.com.exr">In another example where youtube's home page 
+          is accessed as
+          unauthorized user (guest)</a>, only one request cookie is set named "CONSENT" 
+          in order to avoid displaying the consent form showing "Before you continue 
+          to YouTube" 
+          when the home page is accessed as an unatuthorized user.<br/>You
+      may add cookies related to session ids or authentication information in 
+          order to access websites as an authenticated user. You may get 
+          such authentication/session cookies using a browser's Web development 
+          tools and capture http request headers.  <br>
       </div>
-      <div class="label smaller"><i><b>demonstrated fields:</b> requestCookies, requestUserAgent, requestHeader </i></div>
-      <div class="label smaller code"><b>Usage:</b><div id="u7" class="label smaller code clickable" onclick="copyToClipboard('u7')">crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/</div></div>
+      <div class="label smaller"><i><b>demonstrated fields:</b> requestHeader, requestCookies, requestUserAgent </i></div>
+      <div class="label smaller code"><b>Usage:</b><div id="u71" class="label smaller code clickable" onclick="copyToClipboard('u71')">crawl -M -n 1 -r rules/example7-youtube.com.exr -o csv/example7.csv  https://www.youtube.com/</div></div>
+      <div class="label smaller code"><b>Usage:</b><div id="u72" class="label smaller code clickable" onclick="copyToClipboard('u72')">crawl -M -n 1 -r rules/spitogatos.gr-location-price.exr -o csv/spitogatos.csv  https://www.spitogatos.gr/aggelia/1112719374</div></div>
   </div> <!-- block -->
 
 
