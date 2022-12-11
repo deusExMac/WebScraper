@@ -1600,7 +1600,8 @@ class commandImpl:
       #
       # TODO: What to do with this method? Keep, remove, refactor???
       #
-      def loadResource( self, resource ):
+      def loadResource( self, resource, xL=xRules.ruleLibrary() ):
+          # Is this a file?  
           if os.path.exists(resource):
              with open(resource,mode='r') as f:
                 fcnt = f.read()
@@ -1608,9 +1609,14 @@ class commandImpl:
              h = HTML(html=fcnt) 
              return(None, h)
 
+          rsp =self.downloadURL( dUrl=resource, rCookies=xL.requestCookies, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=xL.renderPages, cfg=self.configuration)
+          return(rsp, rsp.html)
+      
+          '''
           s = HTMLSession()
           response = s.get(resource)
           return( response, response.html )
+          '''
 
 
 
@@ -1677,12 +1683,13 @@ class commandImpl:
 
           try:
              # Fetch url
-             response, responseHtml = self.loadResource(args['url'][0])
+             response, responseHtml = self.loadResource(args['url'][0], xL = xLib)
+             '''
              if response is not None:
                 if xLib.renderPages:
                    print('\tRendering page...')
                    response.html.render(timeout=220)
-             
+             '''
           except Exception as readEx:
                   print('ERROR.', str(readEx))
                   return(False)
@@ -1968,7 +1975,8 @@ class commandImpl:
                  return(False)
             
       
-     
+
+      
 
 
 
