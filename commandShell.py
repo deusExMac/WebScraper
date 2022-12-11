@@ -1739,8 +1739,9 @@ class commandImpl:
                    print('\t\tExtracted data ', i, ')', sep='')  
                    for k in ex.keys():
                        print('\t\t\t',k, ':[', ex[k],']', sep='')  
-                         
-          # TODO: Move next out of here. In a separate command...  
+          #               
+          # TODO: Move next out of here. In a separate command...
+          #
           if not args['batchmode']:
              while (True):
                    try:
