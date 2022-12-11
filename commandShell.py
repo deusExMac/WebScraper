@@ -1935,6 +1935,7 @@ class commandImpl:
           ccc = {}
           if exRules is not None:
              ccc = exRules.requestCookies
+
              
           try:
             #print('Downloading', args['url'], '...')
@@ -1950,7 +1951,7 @@ class commandImpl:
             
             print('>>>> RENDERED ', args['url'][0])
             
-            respR = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=True)
+            respR = self.downloadURL( dUrl=args['url'][0], rCookies=ccc, uAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0", renderPage=True, cfg=self.configuration)
             if respR is None:
                print('\t[ERROR] Error downloading url')
             else:   
