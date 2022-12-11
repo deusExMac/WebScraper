@@ -1740,12 +1740,12 @@ class commandImpl:
                    for k in ex.keys():
                        print('\t\t\t',k, ':[', ex[k],']', sep='')  
                          
-            
+          # TODO: Move next out of here. In a separate command...  
           if not args['batchmode']:
              while (True):
                    try:
-                     
-                     cssSel = input('CSS selector (type -- to exit)::')
+                     clrprint.clrprint('CSS selector (type -- to exit)::', end='', clr='purple')
+                     cssSel = input('')
                      if cssSel == '':
                         continue
 
