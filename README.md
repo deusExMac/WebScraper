@@ -630,6 +630,17 @@ At the displayed prompt, a set of shell commands can be executed along with a se
            ...   
   ```
 
+
+- #### cssSelector
+  
+  Syntax: ``cssSelector [-T] url``
+  
+  ##### Description
+	
+  Downloads a webpage and displays a primitive interface to apply css selectors to loaded document. Used for testing/debugging purposes in order to see the result of specific selectors.  
+  
+  
+
 - #### config 	
 	
   Syntax: ``config``	
