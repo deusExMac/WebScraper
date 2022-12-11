@@ -1634,6 +1634,8 @@ class commandImpl:
 
             # Start in batch or interactive mode of applyRules
             cmdArgs.add_argument('-B',  '--batchmode', action='store_true')
+            
+            cmdArgs.add_argument('-T', '--extracttext',  action='store_true' )
 
             args = vars( cmdArgs.parse_args(a) )
           except Exception as argEx:
@@ -1743,15 +1745,24 @@ class commandImpl:
              while (True):
                    try:
                      
-                     cssSel = input('CSS selector for loaded url ::')
+                     cssSel = input('CSS selector (type -- to exit)::')
                      if cssSel == '':
                         continue
 
+                     if cssSel == '--':
+                        print('exiting....')   
+                        break   
+
                      matchedElements = responseHtml.find(cssSel, first=False)
                      print( 'Found', len(matchedElements), ' matching elemens' )
+                     if args['extracttext']:
+                        for e in  matchedElements:
+                            clrprint.clrprint('\t', e.text, clr='green')  
                      
                    except KeyboardInterrupt:
-                     break
+                     print('Control-C seen...')    
+                     return(False)    
+                     #break
                   
           return(False)   
 
