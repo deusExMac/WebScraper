@@ -631,15 +631,33 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   ```
 
 
+- #### applyRules
+  
+  Syntax: ``applyRules [-r exr file] [-R rule name] url``
+  
+  ##### Description
+	
+  Applies exr file to a specific web page.  Used for testing/debugging purposes in order to see the result of specific selectors.  	
+	
+  **TODO: Complete me**	
+	
+	
+	
+	
 - #### cssSelector
   
   Syntax: ``cssSelector [-T] url``
   
+  -T : Display text content of matching element of css selector. 
+	
   ##### Description
 	
   Downloads a webpage and displays a primitive interface to apply css selectors to loaded document. Used for testing/debugging purposes in order to see the result of specific selectors.  
   
-  
+    **TODO: Complete me**	
+
+	
+	
 
 - #### config 	
 	
