@@ -1631,7 +1631,9 @@ class commandImpl:
             cmdArgs.add_argument('url',   nargs=argparse.REMAINDER, default=[] )
             cmdArgs.add_argument('-r', '--rules',  nargs='?' )
             cmdArgs.add_argument('-R', '--rulename',  nargs='?' )
-            #cmdArgs.add_argument('-D',  '--render', action='store_true')
+
+            # Start in batch or interactive mode of applyRules
+            cmdArgs.add_argument('-B',  '--batchmode', action='store_true')
 
             args = vars( cmdArgs.parse_args(a) )
           except Exception as argEx:
@@ -1737,7 +1739,20 @@ class commandImpl:
                        print('\t\t\t',k, ':[', ex[k],']', sep='')  
                          
             
-             
+          if not args['batchmode']:
+             while (True):
+                   try:
+                     
+                     cssSel = input('CSS selector for loaded url ::')
+                     if cssSel == '':
+                        continue
+
+                     matchedElements = responseHtml.find(cssSel, first=False)
+                     print( 'Found', len(matchedElements), ' matching elemens' )
+                     
+                   except KeyboardInterrupt:
+                     break
+                  
           return(False)   
 
 
