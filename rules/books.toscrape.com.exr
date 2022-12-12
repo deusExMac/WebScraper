@@ -1,0 +1,68 @@
+
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "Crawling books.toscrape.com",
+
+"renderPages":False,
+
+
+
+#These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+
+"library": [
+
+# Rule named popularBrandCategories extracts the title of all categories
+# that are featured in the section 'Explore popular brands' on ebay's
+# home page. This means that rule popularBrandCategories will not return one
+# value but a list of values.
+
+{
+
+ 
+ 
+ "ruleName": "getLinks",
+ 
+ 
+ "ruleDescription": "Extracts links.",
+ 
+ 
+ "ruleURLActivationCondition": ["books\.toscrape\.com"],
+ 
+ # A CSS selector specifying the element on the page to scrape. 
+ # Title of the categories are all h3 elements inside a div with id destinations_list1
+ # (this was valid 04/09/2022 and might change) 
+ # NOTE: the CSS selector may return more than one mathing element.
+ "ruleCSSSelector": "a[href]",
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "href",
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "books\.toscrape\.com",
+ 
+ # Does this rule return more than one result?
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+
+}
+
+]
+
+
+}
