@@ -580,7 +580,7 @@ WebScraper can be executed in batch or interactive mode.
 
 ### batch mode
 
-In batch mode, WebScraper starts execution, fetches and processes web resources based on the arguments and terminates its execution when no other resource is available. Specifying option -B on the command line, will execute WebScraper in batch mode.	
+If option -B is specified on the command line, WebScraper executes in batch mode. In batch mode, WebScraper starts execution and fetches/processes/extracts data from web resources based on the arguments and terminates its execution when no other resource is available to be processed. In batch mode, WebScraper executes he crawl command as described below in interactive mode.	
 
 ### interactive mode	
 
