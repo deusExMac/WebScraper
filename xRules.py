@@ -162,7 +162,7 @@ class extractionRule:
     # key to store the extracted values (i.e. the text of each element)
     ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])
 
-    
+    # TODO: Should default change to -1?
     ruleReturnedMatchPos: int  = 0    
     ruleReturningMoreIsError: bool  = False
 
