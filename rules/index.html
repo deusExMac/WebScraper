@@ -311,6 +311,7 @@ a:hover.template { color:darkseagreen; text-decoration: underline; }
     cursor: pointer;
 }
 
+ul {margin-left:80px;}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -386,7 +387,17 @@ function copyToClipboard(eId) {
   <div class="introtext">Note: The next .exr files have been tested Nov 20, 2022 and all seem to work. If the demonstrated websites change the html content of the targeted pages, the respective .exr files need to change accordingly.
   If some exr files use request cookies, these may need to be updated periodically.<br/>
   <br/>
-  <font color="navy">NOTE: Click on the usage example given in each case to copy the command to the clipboard and paste it in WebScraper's shell to execute the command.</font>
+  NOTE:
+  <ul>
+   <font color="navy">
+   <li>Click on the header of each box to load the exr file demonstrating the fields/example discussed.
+   </li>
+   <li>Click on the usage example section of each box to copy the command to the clipboard and paste it in WebScraper's shell to execute the command.
+   </li>
+   </font>
+   </ul>
+   <br/>
+   <font style="font-size: 75%; font-style: italic; color:#a1a6a3;">Last update:11/12/2022</font>
   <br/>
   </div>
   <div class="caption">List of example .exr files</div>
@@ -711,19 +722,19 @@ function copyToClipboard(eId) {
            Demonstrating how to set http request header parameters including: request cookies, user agent and http headers.
           <br>
       </div>
-      <div class="label"><b>target:</b><br/> This example uses specific request 
+      <div class="label"><b>target:</b><br/> This example uses specific request
           headers and a number of request cookies when accessing listings and search results
-          on the website spitogatos, a 
-          greek webpage related to real estate.<br/> 
-      <a href="example7-youtube.com.exr">In another example where youtube's home page 
+          on the website spitogatos, a
+          greek webpage related to real estate.<br/>
+      <a href="example7-youtube.com.exr">In another example where youtube's home page
           is accessed as
-          unauthorized user (guest)</a>, only one request cookie is set named "CONSENT" 
-          in order to avoid displaying the consent form showing "Before you continue 
-          to YouTube" 
+          unauthorized user (guest)</a>, only one request cookie is set named "CONSENT"
+          in order to avoid displaying the consent form showing "Before you continue
+          to YouTube"
           when the home page is accessed as an unatuthorized user.<br/>You
-      may add cookies related to session ids or authentication information in 
-          order to access websites as an authenticated user. You may get 
-          such authentication/session cookies using a browser's Web development 
+      may add cookies related to session ids or authentication information in
+          order to access websites as an authenticated user. You may get
+          such authentication/session cookies using a browser's Web development
           tools and capture http request headers.  <br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> requestHeader, requestCookies, requestUserAgent </i></div>
@@ -972,7 +983,7 @@ in this rule file.
            <font color="black"> <b>description:</b> </font><br/>
             Extracts from posts on reddit's main page https://www.reddit.com/
             the post title, post username and vote count. Makes unauthenticated
-            access to Reddit's home page. 
+            access to Reddit's home page.
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
