@@ -382,6 +382,10 @@ class extractionRule:
 
         exTractedData = {}
         exTractedData['datatype'] = 'record'
+
+        if htmlContent is None:
+           return(exTractedData)   
+
         
         '''
         # Check if there are preconditions and they are met.

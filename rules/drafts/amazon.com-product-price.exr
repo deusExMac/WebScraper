@@ -12,15 +12,15 @@
 # Fields to store in csv file. Note that these 
 # field names refer to rule names and their extracted
 # data
-"csvLineFormat":["productName", "productPrice"],
+"csvLineFormat":["productCategory", "productPrice"],
 "renderPages":True,
 "library": [
 
 {
- "ruleName": "productName"
+ "ruleName": "productCategory"
  "ruleDescription": "Get name of product"
  "ruleURLActivationCondition": ["www\.amazon\.com/"]
- "ruleCSSSelector": "#productTitle"
+ "ruleCSSSelector": ".headline"
  "ruleTargetAttribute": "text"
  "ruleContentCondition": ""
  "ruleReturnsMore": False
