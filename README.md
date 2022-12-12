@@ -635,10 +635,23 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   
   Syntax: ``applyRules [-r exr file] [-R rule name] url``
   
+  -r exr file: exr file to apply on web page
+  
+  -R rule name: applying only the specific rule, as defined in exr file specified by -r option, to downloaded web page. If no -R option is provided, all rules in tht exr file will be applied.
+  
+  url : Webpage onto which rule(s) will be applied. Rule will be applied only to this one webpage. No other Webpage is downloaded. No crawling is initiated.
+  
   ##### Description
 	
-  Applies exr file to a specific web page.  Used for testing/debugging purposes in order to see the result of specific selectors.  	
+  Applies all the rules in specifid exr file, or one specific rule specified by rule name, to one web page.  Used for testing/debugging purposes in order to see the result when the exr file is applied to the webpage. Application of rules in exr files will enforce all checks and constraints.    	
 	
+  ##### Example	
+
+  ```
+          [v0.3.6a 20/10/2022]
+          Execution started on Darwin release 21.6.0 (posix)
+  ```	  
+  
   **TODO: Complete me**	
 	
 	
