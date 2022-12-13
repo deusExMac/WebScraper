@@ -564,7 +564,11 @@ class extractionRule:
          
          if self.ruleReturnedMatchPos >= 0:
             print( utils.toString('>>>>> Got  [', res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute), ']\n') if debug else '', sep='', end='' )
-            exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
+            if self.ruleReturnsMore:
+               exTractedData[self.ruleName] = [res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)]
+            else:   
+               exTractedData[self.ruleName] = res[self.ruleReturnedMatchPos].attrs.get(self.ruleTargetAttribute)
+                           
             numExtracted += 1
          else:
                         
