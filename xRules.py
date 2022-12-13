@@ -162,8 +162,8 @@ class extractionRule:
     # key to store the extracted values (i.e. the text of each element)
     ruleReturnedValueNames: List[str] = field(default_factory=lambda:[])
 
-    # TODO: Should default change to -1?
-    ruleReturnedMatchPos: int  = 0    
+    # Default value changed from 0 to -1.
+    ruleReturnedMatchPos: int  = -1    
     ruleReturningMoreIsError: bool  = False
 
     # If non-empty, applies this css selector to each result returned by ruleCSSSelector

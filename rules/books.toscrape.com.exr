@@ -10,11 +10,57 @@
 
 "renderPages":False,
 
+"csvLineFormat":["bookTitle", "bookPrice"],
 
 
 #These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
 
 "library": [
+
+
+
+{
+"ruleName": "bookTitle",
+"ruleDescription": "Gets title of pages presenting a book",
+
+"ruleURLActivationCondition": ["books\.toscrape\.com/(?!catalogue/category).*$"],
+"ruleCSSSelector": "h1",
+
+"ruleTargetAttribute": "text",
+"ruleContentCondition": "",
+
+"ruleReturnsMore": False,
+
+"ruleReturnedMatchPos": -1,
+
+"ruleReturningMoreIsError": False,
+"ruleRemoveChars": [],
+
+}
+
+
+
+
+{
+"ruleName": "bookPrice",
+"ruleDescription": "Gets title of pages presenting a book",
+
+"ruleURLActivationCondition": ["books\.toscrape\.com/(?!catalogue/category).*$"],
+"ruleCSSSelector": ".product_main .price_color",
+
+"ruleTargetAttribute": "text",
+"ruleContentCondition": "",
+
+"ruleReturnsMore": False,
+
+"ruleReturnedMatchPos": -1,
+
+"ruleReturningMoreIsError": False,
+"ruleRemoveChars": ["£"],
+
+}
+
+
 
 # Rule named popularBrandCategories extracts the title of all categories
 # that are featured in the section 'Explore popular brands' on ebay's
@@ -51,7 +97,7 @@
  # Does this rule return more than one result?
  "ruleReturnsMore": True,
  
- "ruleReturnedMatchPos": -1,
+ #"ruleReturnedMatchPos": -1,
  
  # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
  # an error?

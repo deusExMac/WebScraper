@@ -336,8 +336,10 @@ function makeItalic(eId){
          //var elem = document.getElementById(eId);
          //valueInRow= $('#'+eId).closest(".label.imaged");
          $('#'+eId).css('font-style', 'italic');
+         $('#'+eId).css('color', 'red');
          setTimeout(function(){
 		   $('#'+eId).css('font-style', '');
+           $('#'+eId).css('color', '');     
          }, 700);
 
 }
@@ -519,6 +521,34 @@ function copyToClipboard(eId) {
 
 <!-- XXXXXXXXXXX -->
 
+
+<div id="e31" class="block hoveredblock">
+      <span class="subexamplenumber">03.1</span>
+      <div class="blocktitle blocktitlesubexample"><a href="books.toscrape.com.exr">Crawling and scraping</a></div>
+      <div class="label subexample">
+          <font color="black"> <b>description:</b><br/></font>
+          Demonstrating crawling a website and applying rules to scrape from specific 
+          pages. Contains rule to extract rules that populates the pool of crawled URLs.
+          <br>
+      </div>
+      <div class="label subexample"><b>target:</b><br/>Crawls books.toscrape.com and extracts book title and price
+          only from pages presenting a book (not from category pages). Removes pound sign
+          from price.<br/>
+          Note: books.toscrape.com is a site to test scraping used by many 
+          articles and <a href="https://www.geeksforgeeks.org/scrap-books-using-beautifulsoup-from-books-toscrape-in-python/">examples</a>
+      </div>
+      <div class="label smaller subexample"><i><b>demonstrated fields:</b> TODO: +++</i></div>
+      <div class="label smaller code subexample"><b>Usage:</b><div id="u31" class="label smaller code clickable" onclick="copyToClipboard('u31')">
+          crawl -M -n -1 -r rules/books.toscrape.com.exr http://books.toscrape.com/index.html</div></div>
+
+  </div>
+
+
+<!-- XXXXXXXXXXX -->
+      
+      
+      
+      
 
   <div id="e4" class="block clrblock2 hoveredblock">
       <span><font color="#9ef386">04</font></span>
