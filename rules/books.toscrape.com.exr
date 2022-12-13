@@ -51,7 +51,7 @@
  # Does this rule return more than one result?
  "ruleReturnsMore": True,
  
- "ruleReturnedMatchPos": 0,
+ "ruleReturnedMatchPos": -1,
  
  # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
  # an error?
