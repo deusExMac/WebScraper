@@ -936,6 +936,9 @@ To make life easier, you may use the following browser extensions that may help 
 
 # Related projects
 
+Some related projects are listed below. A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
+	
+	
 * [Scrapy](https://github.com/scrapy/scrapy)
 
 * [Scrapy-cluster](https://github.com/istresearch/scrapy-cluster)
@@ -955,7 +958,7 @@ To make life easier, you may use the following browser extensions that may help 
 * [Scrape-it](https://github.com/IonicaBizau/scrape-it)
 
 	
-A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
+
 	
 
 
