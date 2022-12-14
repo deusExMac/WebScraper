@@ -1027,14 +1027,14 @@ in this rule file.
        <div class="label">
            <font color="black"> <b>description:</b> </font><br/>
             Extracts from posts on reddit's main page https://www.reddit.com/
-            the post title, post username and vote count. Makes unauthenticated
+            the post title, post username and vote count. Makes unauthenticated (i.e. guest)
             access to Reddit's home page.
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
-       reddit main page (new one, not old)
+       reddit main page http://www.reddit.com/ (new one, not old)
        </div>
-       <div class="label smallerpurple"><i><b>demonstrated fields:</b>  </i></div>
+       <div class="label smallerpurple"><i><b>demonstrated fields: renderPages, ruleDynamicElements</b>  </i></div>
        <div class="label smallerpurple codepurple"><b>Usage:</b><div id="uiii" class="label smallerpurple codepurple clickable" onclick="copyToClipboard('uiii')">crawl -M -n 1 -r rules/reddit-user-title-upvote.exr -o csv/redditPages.csv https://www.reddit.com/</div></div>
   </div> <!-- block -->
 
@@ -1067,17 +1067,20 @@ in this rule file.
 
  <div id="eV" class="block clrblock4 hoveredblock">
        <span><font color="#813a94">V</font></span>
-       <div class="blocktitle" style="background-color: #813a94;"><a href="fb.exr"><font color="white">Facebook feed authenticated used</font></a></div>
+       <div class="blocktitle" style="background-color: #813a94;"><a href="twitter-date-content.exr"><font color="white">Twitter date and content from posts on
+       public profiles.</font></a></div>
        <div class="label">
-           <font color="black"> <b>description:</b> </font><br/>
-            xxx
+           <font color="black"> <b>description:</b> Gets post content and date from public twitter profiles. Does not scroll page to load
+           tweets. Makes unauthenticated access to the public profile. </font><br/>
+
            <br>
        </div>
        <div class="label"><b>target:</b><br/>
-       YYYY
+       twitter public profiles like: https://twitter.com/justinbieber, https://twitter.com/BarackObama, https://twitter.com/NASA etc
        </div>
        <div class="label smallerpurple"><i><b>demonstrated fields:</b>  </i></div>
-       <div class="label smallerpurple codepurple"><b>Usage:</b> </div>
+       <div class="label smallerpurple codepurple"><b>Usage:</b> <div id="uv" class="label smallerpurple codepurple clickable" onclick="copyToClipboard('uv')">crawl -M -n 1 -r rules/twitter-date-content.exr -o csv/NASA.csv https://twitter.com/NASA</div> </div>
+
   </div> <!-- block -->
 
 

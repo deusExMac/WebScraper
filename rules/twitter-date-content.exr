@@ -1,0 +1,83 @@
+
+
+{
+"libraryDescription": "Tweets from public twitter accounts",
+
+# These extracted field names will be stored in
+# the csv file
+"csvLineFormat":["postTime", "postContent"],
+
+
+# Chromium, default pyppeteer browser will be used.
+"renderPages": True,
+
+# We accept only data, for which all rules exrtracted non-empty parts.
+# i.e. ALL fields (postTime, postContent) should have non empty value.
+"allowedMinimumFilled": 1,
+
+
+# Clicks on forms appearing related to cookies and consent due to 
+# unauthenticated access. Does NOT scroll page/stream though.
+"ruleDynamicElements": [ 
+            
+		 
+		 # First dialog shown
+		 {
+		 		     "dpcType":"click",
+		 		     "dpcPageElement":".r-1wzrnnt.r-lrvibr",
+		 		     "dpcScrolldown":0,
+		 		     "dpcWaitFor":""
+		 },
+
+                 # Accept all cookies click
+                 {
+		 		     "dpcType":"click",
+		 		     "dpcPageElement":".r-lif3th:nth-child(1)",
+		 		     "dpcScrolldown":0,
+		 		     "dpcWaitFor":""
+		 }
+
+         
+ 
+],
+
+"requestUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0",
+
+
+
+"library": [
+
+
+{
+ "ruleName": "getPostDateAndContent",
+ "ruleDescription": "Extracting twitter post content",
+ "ruleURLActivationCondition": ["twitter\.com"],
+ "rulePreconditionType": "Any",
+ "rulePreconditions" : [],
+ 
+ "ruleCSSSelector": ".r-i023vh",
+ "ruleTargetAttribute": "text",
+ "ruleContentCondition": "",
+ 
+ 
+ "rulePostCSSSelector" : [".r-16dba41.r-bnwqim .r-qvutc0", "time"],
+ 
+ 
+ "ruleReturnedValueNames" : ["postContent", "postTime"],
+
+ 
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+} 
+
+
+
+
+
+] # library
+
+
+}

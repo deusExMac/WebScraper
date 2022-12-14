@@ -2,5 +2,5 @@
 TODO exr files ideas
   - amazon.com get all links (click on "See all reviews")
   - binance home page (unauthenticated)
-  - Twitter public profile
+  - Twitter public profile (unauthenticated)
   - Send form with redirect
