@@ -959,6 +959,14 @@ Some related projects are listed below. These include different types such as de
 
 * [Web Scraper](https://addons.mozilla.org/en-US/firefox/addon/web-scraper/) by webscraper.io 
 
+* [Data Scraper - Easy Web Scraping](https://chrome.google.com/webstore/detail/data-scraper-easy-web-scr/nndknepjnldbdbepjfgmncbggmopgden?hl=en-US)
+
+* [Scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd?hl=en)
+
+* [ContentGrabber](https://contentgrabber.com/Manual/understanding_the_concept.htm)	
+
+	
+
 	
 
 	
