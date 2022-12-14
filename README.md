@@ -7,9 +7,7 @@ WebScraper is a python program enabling rule-based scraping/extraction of data f
 For a definition and overview of WebScraping you may find this publication useful: [Persson, E.: "Evaluating tools and
 techniques for web scraping", School of Electrical Engineering and Computer Science, KTH Royal Institute of Technology, 2019](https://www.diva-portal.org/smash/get/diva2:1415998/FULLTEXT01.pdf)
 
-**IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. 
-
-Please have mercy.**
+*IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. Please have mercy.*
 
 
 # Table of Contents
