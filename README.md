@@ -955,7 +955,7 @@ To make life easier, you may use the following browser extensions that may help 
 * [Scrape-it](https://github.com/IonicaBizau/scrape-it)
 
 	
-You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
+A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
 	
 
 
