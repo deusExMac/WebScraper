@@ -936,6 +936,9 @@ To make life easier, you may use the following browser extensions that may help 
 
 # Related projects
 
+Some related projects are listed below. These include different types such as desktop-based, plugins and extensions as well as web-based. A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
+	
+	
 * [Scrapy](https://github.com/scrapy/scrapy)
 
 * [Scrapy-cluster](https://github.com/istresearch/scrapy-cluster)
@@ -954,8 +957,18 @@ To make life easier, you may use the following browser extensions that may help 
 
 * [Scrape-it](https://github.com/IonicaBizau/scrape-it)
 
+* [Web Scraper](https://addons.mozilla.org/en-US/firefox/addon/web-scraper/) by webscraper.io 
+
+* [Data Scraper - Easy Web Scraping](https://chrome.google.com/webstore/detail/data-scraper-easy-web-scr/nndknepjnldbdbepjfgmncbggmopgden?hl=en-US)
+
+* [Scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd?hl=en)
+
+* [ContentGrabber](https://contentgrabber.com/Manual/understanding_the_concept.htm)	
+
 	
-You can find exhaustive lists of scrapers [here](https://github.com/cassidoo/scrapers) and a list crawlers [here](https://github.com/BruceDone/awesome-crawler)
+
+	
+
 	
 
 
