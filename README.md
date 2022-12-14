@@ -308,9 +308,9 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
 
 ## Fields in .exr files
 
--``libraryDescription``: A human readable description of the .exr file. What it is used for etc.
+-``libraryDescription``: A human readable description of the .exr file. What it is used for etc. Defaults to empty string.
 
--``csvLineFormat``: List of rule names (string - see below). Specifies the rule names the extracted data of which should be stored in the .csv files. E.g. if ``csvLineFormat`` has value ["pageTitle"] this means that in the csv file only the extracted value after applying rule with name pageTitle should be stored int he csv file. WebScraper tags extracted data with the rule name that extracted the data with which the extracted data can be referenced. If an empty list is specified, nothing is written in the csv file.
+-``csvLineFormat``: List of rule names (string - see below). Specifies the rule names the extracted data of which should be stored in the .csv files. E.g. if ``csvLineFormat`` has value ["pageTitle"] this means that in the csv file only the extracted value after applying rule with name pageTitle should be stored int he csv file. WebScraper tags extracted data with the rule name that extracted the data with which the extracted data can be referenced. If an empty list is specified, nothing is written in the csv file. Default value [] (empty list).
 
 -``requiredFilledFields``: List of strings. List of rule names that must extract non-empty data from a page in order to consider the extraction process successful and the data be written in the csv file.  If at least one rule (indentified by rule name) in this list returns an empty value, the extraction process is unsuccessfully and nothing is written in the csv file. Default value [] (empty list).
 
@@ -326,7 +326,7 @@ Below is an overview of an exr file, presenting all supported fields. The suppor
    * ``executablePath``: path to Chrome executable on local machine
    * ``userDataDir``: path to OSs user directory. Need to specify this if WebScraper is executed on Windows. On Mac, this field can be ommited.
 
-If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object.
+If ``launchParameters`` is empty i.e. not specified and renderPages is set to True, pyppeteers build in Chromium browser will be used. Defaults to an empty object ({}).
 
 *NOTE: The version of pyppeteer used by WebScraper has a build-in Chromium browser that is not able to render properly some pages. E.g. pyppeteer's Chromium does not properly render pages of airbnb listings and hence loading of these pages fail. In such cases using an external Chrome installation solves the issue. With respect to this, [see issue #27](https://github.com/deusExMac/WebScraper/issues/27)*
 
@@ -336,7 +336,7 @@ If ``launchParameters`` is empty i.e. not specified and renderPages is set to Tr
 -``requestHeader``: json object literal with arbitrary key:value pairs. Sepecifies the HTTP header lines that will be used during requests. These header lines will replace lines of existing fields or add new ones. Any HTTP header line can be set, except the first request line (GE/POST). Header lines should be specified in the form of comma separated "field":"value" pairs e.g. "Accept-Language": "en-US,en;q=0.5" . field:value pairs should be in double quotes. If not specified, default header lines will be used. Defaults to {} i.e. no modification/addition to header lines. 
 
 
--``requestUserAgent``: string. Sepecifies the user agent to use during HTTP requests. Overwrites the User-Agent line if this is set in the requestHeader field. If not specified, the default User-Agent is used. Defaults to empty string which results in using the http requests or browser's default user-agent.
+-``requestUserAgent``: string. Sepecifies the user agent to use during HTTP requests. Overwrites the User-Agent line if this is set in the requestHeader field. If not specified, the default User-Agent is used. Defaults to empty string which results in using the http requests or browser's default user-agent. Default value "".
 
 
 -``ruleDynamicElements``: list of json object literals. Specifies the list of operations to apply on the downloaded page before applying the rules in the exr file i.e. the extraction process. Each json object literal in the list specifies one action to carry out on a downloaded page. These operations are applied only if renderPages is set to True i.e. a rendering engine is used to download the pages. If renderPages is set to False, no operation is carried out on page and this field is ignored. Operations in this list will be qpplied on the page in the order in twhich they appear in this list (i.e. first operation will be executed first, then second, then third etc). If one operation cannot be applied or returns error, the execution of other, subsequent operations will continue. 
@@ -349,17 +349,19 @@ The object literal specifying an operation on the page has the following fields:
      * *fill*: Filling an input element with some specified value
      * *scrollpage*: Scrolling the entire web page/browser viewport
      * *scroll*: Scrolling an html element (not entire page) that is scrollable e.g.  div, subwindow, textarea etc
+     Default value js.
      
-   * ``dpcPageElement``: css selector. On which html element on the downloaded page to perform operation specified in ``dpcType``.
+   * ``dpcPageElement``: css selector. On which html element on the downloaded page to perform operation specified in ``dpcType``. Default value "".
    * ``dpcScrolldown``: integer > 0. How many times to scroll an html element (specified by ``dpcPageElement``) or the entire page (scrollpage). Scrolling using this option does not check if elements appear on page: it just scrolls element or entire page without any test or control. If integer is <= 0, scrolling is disabled. Default value 0.
-   * ``dpcScrollTargetElementCount``: json object literal. Specifies scrolling until a specific count/number of css elements will appear. Json object literal has the following fields: ``dpcType``.
+   * ``dpcScrollTargetElementCount``: json object literal. Specifies scrolling until a specific count/number of css elements will appear. Json object literal has the following fields: ``dpcType``. Default value {}.
      * ``scrollTargetSelector`` css selector defining the elements to count
      * ``scrollTargetCount`` number of html elements defined by ``scrollTargetSelector`` that must appear before stopping (exact value cannot always be guaranteed as scrolling may load many such elements). If ``scrollTargetCount`` is negative, this means infinite scrolling i.e. scrolling until no new elements appear. This is the only way infinite scrolling is supported. If boh ``dpcScrolldown`` and ``dpcScrollTargetElementCount`` is specified, ``dpcScrollTargetElementCount`` takes precedence. Defaults to an empty json object meaning no scrolling target count.
-     * ``dpcWaitFor`` string. CSS element. The element to wait for to appear, when operation is scroll or scrollpage.
+     * ``dpcWaitFor`` string. CSS element. The element to wait for to appear, when operation is scroll or scrollpage. default value "".
      * ``dpcFillContent`` string. The value to  insert in input boxes when operation is fill. Defaults to empty string value. 
      * ``dpcIsSubmit`` True | False. Specifies if a click on an element will result in submitting a form (i.e. data to the server). Used when ``dpcType`` has value click. Defaults to False.
      * ``dpcRedirects`` True | False. Specifies if the operation redirects to another page. Used when ``dpcType`` has value click. Defaults to False.
 
+Defaults to empty list [] .
 
 
 -``library``: list of json object literals representing an extraction rule to apply on the downloaded page. Libraries may have one or more extraction rules. Object literals define rules have the following fields:
