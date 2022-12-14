@@ -936,7 +936,7 @@ To make life easier, you may use the following browser extensions that may help 
 
 # Related projects
 
-Some related projects are listed below. A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
+Some related projects are listed below. These include different types such as desktop-based, plugins and extensions as well as web-based. A greater lists of Web scrapers can be found  [here](https://github.com/cassidoo/scrapers). A list crawlers can be found [here](https://github.com/BruceDone/awesome-crawler) with some of them supporting scraping.
 	
 	
 * [Scrapy](https://github.com/scrapy/scrapy)
