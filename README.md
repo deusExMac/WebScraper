@@ -957,6 +957,8 @@ Some related projects are listed below. These include different types such as de
 
 * [Scrape-it](https://github.com/IonicaBizau/scrape-it)
 
+* [Web Scraper](https://addons.mozilla.org/en-US/firefox/addon/web-scraper/) by webscraper.io 
+
 	
 
 	
