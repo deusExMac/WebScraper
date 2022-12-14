@@ -4,7 +4,10 @@
  
 WebScraper is a python program enabling rule-based scraping/extraction of data from html web pages. Rules specifying what part to extract from individual web-pages, if optional rule-specific conditions hold,  are stored exr files ((EX)traction (R)ules). Such files can be recognized in this distribution by the extension .exr . Each exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain rule-specific condition hold. 
 
-**IMPORTANT: This software is currently in beta release and under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (may) have serious bugs.**
+For a definition and overview of WebScraping you may find this publication useful: [Rersson, E.: "Evaluating tools and
+techniques for web scraping", SCHOOL OF ELECTRICAL ENGINEERING AND COMPUTER SCIENCE, KTH ROYAL INSTITUTE OF TECHNOLOGY, 2019](https://www.diva-portal.org/smash/get/diva2:1415998/FULLTEXT01.pdf)
+
+**IMPORTANT: This software is still under heavy development development. This means features may not work, may work inconsistently, are only implemented as a proof of concept and (certainly) have serious bugs.**
 
 
 # Table of Contents
