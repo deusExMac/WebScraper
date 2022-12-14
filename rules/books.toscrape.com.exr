@@ -6,14 +6,15 @@
 
 # Description of the library
 
-"libraryDescription": "Crawling books.toscrape.com",
+"libraryDescription": "Crawling books.toscrape.com scraping book title and price",
 
 "renderPages":False,
 
+# The data extracted from these rules will be stored in csv files
 "csvLineFormat":["bookTitle", "bookPrice"],
 
 
-#These keys/variables can be references inside thi rule file e.g. see csvLineFormat field above.
+
 
 "library": [
 

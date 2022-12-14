@@ -139,6 +139,11 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
         }
 
 
+.clrblock5{
+            border:2px solid #87fde7;
+        }
+
+
 .label {
             margin-top:2px;
             padding-left: 50px;
@@ -194,6 +199,15 @@ https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-
     overflow-wrap: anywhere;
     color:#3e704b;
 }
+
+
+.codeteal {
+    font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
+    font-size:90%;
+    overflow-wrap: anywhere;
+    color:#03b090;
+}
+
 
 .codepink {
     font: 11pt Trebuchet MS, Times New Roman,Tahoma, sans-serif, helvetica;
@@ -339,7 +353,7 @@ function makeItalic(eId){
          $('#'+eId).css('color', 'red');
          setTimeout(function(){
 		   $('#'+eId).css('font-style', '');
-           $('#'+eId).css('color', '');     
+           $('#'+eId).css('color', '');
          }, 700);
 
 }
@@ -387,7 +401,7 @@ function copyToClipboard(eId) {
   <div id="msgWindow" class="fixedElement">Command copied to clipboard</div>
 
   <div class="introtext"> Please note that some exr may not work.
-      If the target websites change the html content of  pages, 
+      If the target websites change the html content of  pages,
       the respective .exr files need to be updated accordingly.
   If some exr files use request cookies, these may need to be updated .<br/>
   <br/>
@@ -505,8 +519,8 @@ function copyToClipboard(eId) {
 
 
   <div id="e3" class="block hoveredblock">
-      <span>03</span>
-      <div class="blocktitle"><a href="example3-en.wikipedia.exr">Three rules scraping different parts of same page</a></div>
+      <span><font color="#03e2b9">03</font></span>
+      <div class="blocktitle" style="background-color:#87fde7;"><a href="example3-en.wikipedia.exr">Three rules scraping different parts of same page</a></div>
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
           Demonstrating application of three rules on a downloaded page, each extracting different parts of the same page. One of these rules extracts hyperlinks. <br>
@@ -514,7 +528,7 @@ function copyToClipboard(eId) {
       <div class="label"><b>target:</b><br/>extracts the team name, team full name and links (leading to wikipedia) from infobox of wikipedia articles related to football clubs<br>
       </div>
       <div class="label smaller"><i><b>demonstrated fields:</b> library, ruleCSSSelector, getLinks</i></div>
-      <div class="label smaller code"><b>Usage:</b><div id="u3" class="label smaller code clickable" onclick="copyToClipboard('u3')">crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy</div></div>
+      <div class="label smaller codeteal"><b>Usage:</b><div id="u3" class="label smaller codeteal clickable" onclick="copyToClipboard('u3')">crawl  -r rules/example3-en.wikipedia.exr -o csv/example3.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Italy</div></div>
 
   </div>
 
@@ -522,33 +536,32 @@ function copyToClipboard(eId) {
 <!-- XXXXXXXXXXX -->
 
 
-<div id="e3.1" class="block hoveredblock">
+<div id="e3.1" class="block clrblock5 hoveredblock">
       <span class="subexamplenumber"><font color="#03e2b9">03.1</font></span>
       <div class="blocktitle blocktitlesubexample" style="background-color:#87fde7;"><a href="books.toscrape.com.exr">Crawling and scraping</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b><br/></font>
-          Demonstrating crawling a website and applying rules to scrape from specific 
+          Demonstrating crawling a website and applying rules to scrape from specific
           pages. Contains rule to extract rules that populates the pool of crawled URLs.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>Crawls books.toscrape.com and extracts book title and price
           only from pages presenting a book (not from category pages). Removes pound sign
           from price.<br/>
-          Note: books.toscrape.com is a site to test scraping used by many 
+          Note: books.toscrape.com is a site to test scraping used by many
           articles and <a href="https://www.geeksforgeeks.org/scrap-books-using-beautifulsoup-from-books-toscrape-in-python/">examples</a>
       </div>
       <div class="label smaller subexample"><i><b>demonstrated fields:</b> TODO: +++</i></div>
-      <div class="label smaller code subexample"><b>Usage:</b><div id="u31" class="label smaller code clickable" onclick="copyToClipboard('u31')">
-          crawl -M -n -1 -r rules/books.toscrape.com.exr http://books.toscrape.com/index.html</div></div>
+      <div class="label smaller code subexample codeteal"><b>Usage:</b><div id="u31" class="label smaller code codeteal clickable" onclick="copyToClipboard('u31')">crawl -M -n -1 -r rules/books.toscrape.com.exr http://books.toscrape.com/index.html</div></div>
 
   </div>
 
 
 <!-- XXXXXXXXXXX -->
-      
-      
-      
-      
+
+
+
+
 
   <div id="e4" class="block clrblock2 hoveredblock">
       <span><font color="#9ef386">04</font></span>
@@ -982,13 +995,13 @@ in this rule file.
 
 <div id="eII" class="block clrblock4 hoveredblock">
        <span><font color="#813a94">II</font></span>
-       <div class="blocktitle" style="background-color:#813a94;"><a href="airbnb-user-comments.exr"><font color="white">TODO: Check if the same with 8.3: Usernames, content, from airbnb accommodation pages</font></a></div>
+       <div class="blocktitle" style="background-color:#813a94;"><a href="airbnb-user-comments.exr"><font color="white">Usernames and comments from airbnb listings</font></a></div>
        <div class="label">
            <font color="black"> <b>description:</b> </font>This set of rules extracts user names and
            comments from airbnb listings. It uses an external browser (Chrome),
            not pyppeteer's default Chromium, as Chromium seems to be unable load/render
            properly such pages. It scrolls the comment window a constant number of times
-           (8) to load comments. Makes unauthenticated access to airbnb listing
+           (8) to load a number of comments. Makes unauthenticated access to airbnb listing
            page (i.e. guest access).<br/>
            <font color="#7b1e94"><b>NOTE:</b> This library/rule set makes use of launchParameters field in .exr files. <br/>
            Make sure to properly adjust launchParameters field for your platform before
