@@ -51,13 +51,17 @@ class osPlatform:
           return(ps)
 
 
-      def getProcessInfoByName(self, nameRegex=''):
+      def getProcessInfoByName(self, nameRegex=''): 
           pi = []
           for proc in psutil.process_iter():
-              pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])  
-              if re.search(nameRegex, pinfo['name'] ):
-                 pi.append( pinfo )
-
+              pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
+              try:
+                 if re.search(nameRegex, pinfo['name'] ):
+                    pi.append( pinfo )
+              except Exception as pinfoEx:
+                    print(str(pinfoEx))
+                    continue
+                  
           return(pi)
 
 
