@@ -1,4 +1,4 @@
-[Go to bottom](#References)
+[Bottom](#References)
 
 # About WebScraper
  
@@ -981,4 +981,8 @@ Web Scraping: State-of-the-Art and Areas of Application. IEEE BigData 2019: 6040
 [Roman Egger, Markus Kroner & Andreas Stöckl. Web Scraping - Collecting and Retrieving Data from the Web, Applied Data Science in Tourism pp 67–82, 2022](https://link.springer.com/chapter/10.1007/978-3-030-88389-8_5)	
 
 
-[Go to top](#About-WebScraper)
+[Seppe vanden Broucke , Bart Baesens,  Practical Web Scraping for Data Science - Best Practices and Examples with Python, Apress, 2018](https://link.springer.com/book/10.1007/978-1-4842-3582-9)
+	
+	
+	
+[top](#About-WebScraper)
