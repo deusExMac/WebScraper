@@ -400,7 +400,11 @@ function copyToClipboard(eId) {
 <body>
   <div id="msgWindow" class="fixedElement">Command copied to clipboard</div>
 
-  <div class="introtext"> Please note that some exr may not work.
+  <div class="introtext">
+      <br/>
+      <i><font style="font-size:65%;">This file is subject to change.</font></i>
+      <br/>
+      <br/>Please note that some exr may not work.
       If the target websites change the html content of  pages,
       the respective .exr files need to be updated accordingly.
   If some exr files use request cookies, these may need to be updated .<br/>
@@ -418,7 +422,7 @@ function copyToClipboard(eId) {
    <font style="font-size: 75%; font-style: italic; color:#a1a6a3;">Last update:11/12/2022</font>
   <br/>
   </div>
-  <div class="caption">List of example .exr files</div>
+  <div class="caption">exr files demonstrating fields</div>
   <div class="row rowbackground1">
 
 
@@ -449,7 +453,8 @@ function copyToClipboard(eId) {
 
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
-           Simple library with just one rule. No rule to extract/harvest links.  <br>
+           Simple library with just one rule. No rule to extract links; hence 
+          links are not followed.<br>
       </div>
 
 
@@ -475,7 +480,10 @@ function copyToClipboard(eId) {
 
       <div class="label subexample">
           <font color="black"> <b>description:</b><br/></font>
-           Simple library with just one rule to harvest and extract links. No data is extracted from page.<br>
+           Simple library with just one rule to harvest/extract links that are 
+           followed. 
+           No data is extracted from pages visited; Pages are only
+          stored locally.<br>
       </div>
 
 
