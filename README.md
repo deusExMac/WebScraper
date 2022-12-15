@@ -1,4 +1,4 @@
-[Go to bottom](#Related-projects)
+[Go to bottom](#References)
 
 # About WebScraper
  
@@ -978,7 +978,7 @@ techniques for web scraping", School of Electrical Engineering and Computer Scie
 [Rabiyatou Diouf, Edouard Ngor Sarr, Ousmane Sall, Babiga Birregah, Mamadou Bousso, Sény Ndiaye Mbaye:
 Web Scraping: State-of-the-Art and Areas of Application. IEEE BigData 2019: 6040-6042](https://ieeexplore.ieee.org/document/9005594)
 
-	
+[Roman Egger, Markus Kroner & Andreas Stöckl. Web Scraping - Collecting and Retrieving Data from the Web, Applied Data Science in Tourism pp 67–82, 2022](https://link.springer.com/chapter/10.1007/978-3-030-88389-8_5)	
 
 
 [Go to top](#About-WebScraper)
