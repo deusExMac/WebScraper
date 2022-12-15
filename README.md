@@ -5,7 +5,6 @@
 WebScraper is a python program enabling rule-based scraping/extraction of data from html web pages. Rules specifying what part to extract from individual web-pages, if optional rule-specific conditions hold,  are stored exr files ((EX)traction (R)ules). Such files can be recognized in this distribution by the extension .exr . Each exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain rule-specific condition hold. 
 
 
-
 *IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. Please have mercy.*
 
 
@@ -36,24 +35,30 @@ WebScraper is a python program enabling rule-based scraping/extraction of data f
       - [crawl](#crawl)
         * [Description](#description)
         * [Example](#example)
-      - [config](#config)
+      - [applyRules](#applyrules)
         * [Description](#description-1)
         * [Example](#example-1)
-      - [history (or h)](#history--or-h-)
+      - [cssSelector](#cssselector)
         * [Description](#description-2)
-        * [Example](#example-2)
-      - [!!](#--)
+      - [config](#config)
         * [Description](#description-3)
-      - [!](#-)
+        * [Example](#example-2)
+      - [history (or h)](#history--or-h-)
         * [Description](#description-4)
-      - [^](#-)
-        * [Description](#description-5)
         * [Example](#example-3)
-      - [reload](#reload)
+      - [!!](#--)
+        * [Description](#description-5)
+      - [!](#-)
         * [Description](#description-6)
+      - [^](#-)
+        * [Description](#description-7)
         * [Example](#example-4)
+      - [reload](#reload)
+        * [Description](#description-8)
+        * [Example](#example-5)
 - [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
+- [References](#references)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
