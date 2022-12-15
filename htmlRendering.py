@@ -336,12 +336,16 @@ class htmlRenderer:
               attemptStart = time.perf_counter() # start counting request time
               print( utils.toString('\t[DEBUG] Fetching url. Timeout=', timeout, '\n') if self.debug else '', sep='', end='' )
               self.response = await self.page.goto(url, options={'waitUntil':'networkidle0', 'timeout': int(timeout * 1000)})
+              
               # TODO: Do we REALLY need a sleep here??
-              #await asyncio.sleep(timeout)
+              #await asyncio.sleep(1.4)
 
               # TODO: Add here a waitForSelector?
               #       Needs support in .exr files
               #await self.page.waitForSelector( 'div.t1bgcr6e') #'._11eqlma4')
+
+              # TODO: Does this work??? 
+              #await self.page.waitForNavigation()
               
               #self.page.on('response', lambda res: asyncio.ensure_future(intercept_network_response(res)) ) 
               print( utils.toString('\t[DEBUG] Fetching url DONE\n') if self.debug else '', sep='', end='' )
@@ -386,13 +390,13 @@ class htmlRenderer:
            
            if self.debug and self.takePageScreenshot:
               # Next is for debugging purposes ONLY! 
-              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'BEFORE-'+ de.dpcPageElement + '-', url) + '.png' })
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'BEFORE-'+ de.dpcPageElement.replace(':', '-') + '-', url) + '.png' })
 
 
            await self.executeDynamicElement(self.page, de)
            if self.debug and self.takePageScreenshot:
               # Next is for debugging purposes ONLY! 
-              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-'+ de.dpcPageElement + '-', url) + '.png' })
+              await self.page.screenshot({'path': utils.urlToPlainFilename(self.screenShotStoragePath, 'AFTER-'+ de.dpcPageElement.replace(':', '-') + '-', url) + '.png' })
 
 
               

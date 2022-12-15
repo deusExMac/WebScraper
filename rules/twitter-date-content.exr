@@ -11,6 +11,10 @@
 # Chromium, default pyppeteer browser will be used.
 "renderPages": True,
 
+# NOTE: Sometimes Google Chrome chokes on it's own user data directory. In
+# this case, leave userDataDir blank.
+#"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" },
+
 # We accept only data, for which all rules exrtracted non-empty parts.
 # i.e. ALL fields (postTime, postContent) should have non empty value.
 "allowedMinimumFilled": 1,
