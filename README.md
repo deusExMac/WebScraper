@@ -620,7 +620,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
      
   ##### Description
 	
-  crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above TODO: add link here](#) . 
+  crawl starts the downloading of webpages and the extraction process based on the arguments given. The arguments of crawl are the same as WebScraper's command line arguments there were presented [above](#WebScraper-command-line-arguments). 
 
   ##### Example	
 
