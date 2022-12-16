@@ -93,9 +93,12 @@ class osPlatform:
              pName = self.processName
               
           for proc in psutil.process_iter():
+            try:    
               if re.search( pName, proc.name()):
                  return(proc)
-
+            except Exception as rEx:
+                 continue
+            
           return(None)
 
 
@@ -119,7 +122,7 @@ class osPlatform:
              targetPattern = self.processName
 
           
-          print( utils.toString('Process name target pattern:', targetPattern) if self.debug  else '', end='' )
+          print( utils.toString('\t[DEBUG] Process name target pattern:', targetPattern) if self.debug  else '' )
           
           if targetPattern == '':
              return(False)
@@ -142,8 +145,8 @@ class osPlatform:
                        print( utils.toString(' YES. NOT killing\n') if self.debug  else '', end='' )
                        
            except Exception as killEx:
-                   print( str(killEx) )
-                   print(utils.toString( 'Caught exception... but ignoring. Zombie?', str(killEx), '\n') if self.debug  else '', sep='', end='' )
+                   #print( str(killEx) )
+                   print(utils.toString( '\t[DEBUG] Caught exception... but ignoring. Zombie?', str(killEx), '\n') if self.debug  else '', sep='', end='' )
                    continue   
            
           return(True)

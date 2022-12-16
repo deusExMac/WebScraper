@@ -268,14 +268,11 @@ class commandShell:
           # kill any Chrome zombie process that remained when pyppeteer was used to download and process pages
           if self.cmdExecutioner.configuration.get('Crawler', 'forceBrowserCleanup', fallback='False').lower() == 'true':
              osP = osPlatform.OSPlatformFactory(self.cmdExecutioner.configuration).createPlatform()             
-             if not osP.processIsRunning():
-                print( utils.toString('Not running.\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='' )
-             else:
-                #print('Process running. Killing it...')
-                print( utils.toString('\t[DEBUG] Chrome/Chromium processes running. Checking and killing...\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
-                # We kill all Chrome instances but excluding all these that were running
-                # before start of WebScraper. These are in runningChromeInstances
-                osP.killProcess(excludedPids=self.cmdExecutioner.runningChromeInstances)
+             print( utils.toString('\t[DEBUG] Chrome/Chromium processes running. Checking and killing...\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
+             # We kill all Chrome instances but excluding all these that were running
+             # before start of WebScraper. These are in runningChromeInstances
+             osP.killProcess(excludedPids=self.cmdExecutioner.runningChromeInstances)
+             print( utils.toString('\t[DEBUG] Killed ', str(osP.nkilled),' processes\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
              
              
           return
