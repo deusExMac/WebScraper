@@ -45,8 +45,20 @@ class osPlatform:
       def filterProcesses(self, nameRegex=''):
           ps = []
           for proc in psutil.process_iter():
-              if re.search(nameRegex, proc.name() ):
-                 ps.append( proc.name() )
+              try:  
+                pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
+              except psutil.NoSuchProcess:
+                continue
+              except psutil.ZombieProcess:
+                continue
+
+              if pinfo.get('name', '') is None:
+                 continue
+            
+              
+               
+              if re.search(nameRegex, pinfo.get('name', '') ):      
+                 ps.append( pinfo.get('name', '') )
 
           return(ps)
 
@@ -56,7 +68,10 @@ class osPlatform:
           for proc in psutil.process_iter():
               pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
               try:
-                 if re.search(nameRegex, pinfo['name'] ):
+                 if pinfo.get('name', '') is None:
+                    continue
+               
+                 if re.search(nameRegex, pinfo.get('name', '') ):
                     pi.append( pinfo )
               except Exception as pinfoEx:
                     print(str(pinfoEx))
