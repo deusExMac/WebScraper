@@ -4,7 +4,7 @@
  
 WebScraper (codename *Athena*) is a python program enabling rule-based scraping/extraction of data from html web pages. Rules specifying what part to extract from individual web-pages, if optional rule-specific conditions hold,  are stored exr files ((EX)traction (R)ules). Such files can be recognized in this distribution by the extension .exr . Each exr file contains one or more extraction rules, collectively called an extraction library or just library, that will be applied to a single web-page if certain rule-specific condition hold. 
 
-If you don't have the patience to go through the entire Reame.md and want the bare essention info, read the section [Web Scraper interactive mode](#interactive-mode) and use the [index.html]rules/index.html) file to copy a command and execute it using WebScraper's shell.
+If you don't have the patience to go through the entire Reame.md and want the bare essention info, read the section [Web Scraper interactive mode](#interactive-mode) and use the [index.html](rules/index.html) file to copy a command and execute it using WebScraper's shell.
 
 *IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. Please have mercy.*
 
