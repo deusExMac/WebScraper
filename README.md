@@ -488,7 +488,7 @@ WebScraper's configuration file defines and initializes the values on some impor
 
   This section has settings related to the fetching of web resources.
   
-  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being forcibly killed in case Chromium (pyppeteer's default browser) or an external Chrome installation is used to fetch pages. Takles effect only if renderPages is set to True and no external browser is used (TODO: check this???).
+  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being forcibly killed in case Chromium (pyppeteer's default browser) or an external Chrome installation is used to fetch pages. Takes effect only if renderPages is set to True and no external browser is used.
   
    - ``forceBrowserCleanup``: True | False | Auto. Specifies if Chromium and external Chrome instances should be killed forcibly by WebScraper when renderPages is True. Due to a bug in pyppeteer (see also [Issue 27](https://github.com/deusExMac/WebScraper/issues/27) ), Chromium and external Chrome instances spawned by WebScraper may remaining after properly closing browsers in headless mode (aka zombie processes). In order to avoid memory leaks, WebScraper may forcibly kill these instances. Depending on the value of ``forceBrowserCleanup``, this setting will kill these zombie processes in the following ways:
      - True : killing of zombies will be carried out only once, when WebScraper terminates execution.
@@ -688,7 +688,6 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Downloads a webpage and displays a primitive interface to apply css selectors to loaded document. Used for testing/debugging purposes in order to see the result of specific selectors.  
   
-    **TODO: Complete me**	
 
 	
 
