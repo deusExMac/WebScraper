@@ -453,7 +453,7 @@ function copyToClipboard(eId) {
 
       <div class="label">
           <font color="black"> <b>description:</b><br/></font>
-           Simple library with just one rule. No rule to extract links; hence 
+           Simple library with just one rule. No rule to extract links; hence
           links are not followed.<br>
       </div>
 
@@ -480,8 +480,8 @@ function copyToClipboard(eId) {
 
       <div class="label subexample">
           <font color="black"> <b>description:</b><br/></font>
-           Simple library with just one rule to harvest/extract links that are 
-           followed. 
+           Simple library with just one rule to harvest/extract links that are
+           followed.
            No data is extracted from pages visited; Pages are only
           stored locally.<br>
       </div>
@@ -772,7 +772,7 @@ function copyToClipboard(eId) {
       <div class="blocktitle"><a href="spitogatos.gr-location-price.exr">HTTP request headers and cookies</a></div>
       <div class="label">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating how to set http request header parameters including: request cookies, user agent and http headers.
+           Demonstrating how to set http request header parameters including: request cookies, user agent and http headers. Makes unauthenticated access to website.
           <br>
       </div>
       <div class="label"><b>target:</b><br/> This example uses specific request
@@ -840,13 +840,15 @@ function copyToClipboard(eId) {
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
 		   example, one simple interaction is shown namely scrolling of the web page in order to load
 		   more of its content before extracting/scraping data.
-		   This example uses number of times to control scrolling; it scrolls the entire page a specified number of times specified in this .exr file.
+		   This example uses number of times to control scrolling; it scrolls the entire page a specified number of times specified in
+		   this .exr file. Uses the default Chromium engine.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
           This example extracts the names of users that have commented on youtube videos. A youtube page, when loaded
 		  does not immediately load the comment section beneath the video. On youtube in order for the video comments to appear/load,
-		  the page must be scrolled down. The more the page is scrolled down, the more comments will appear. This example shows how to scroll page and configure some aspects of scrolling process.
+		  the page must be scrolled down. The more the page is scrolled down, the more comments will appear.
+		  This example shows how to scroll page and configure some aspects of scrolling process.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcScrolldown, dpcType, renderPages, dpcURLActivationCondition</i></div>
@@ -868,7 +870,7 @@ function copyToClipboard(eId) {
            Demonstrating interacting with the downloaded web page to load dynamically its content. In this
 example, one simple interaction is shown namely scrolling of the web page in order to load
  more of its content. This example scrolls down the web page until a predefined (maximum) number of html elements will appear on the page specified
-in this rule file.
+in this rule file. Uses the default Chromium engine.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
@@ -892,10 +894,12 @@ in this rule file.
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            TODO: Finish me. Demonstrating XXXX How to scroll html element that is scrollable (e.g. a div or control).
+           Uses the default Chromium engine. Makes unauthenticated access to airbnb listings.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up. This window/div needs to be scrolled to load comments
+          Downloads comments from airbnb listings. In these listing, comments are shown in windows/divs that pop up.
+          This window/div needs to be scrolled to load comments.
           <br>
       </div>
       <div class="label smallerdarkyellow subexample"><i><b>demonstrated fields:</b> ruleDynamicElements, dpcType (scroll), dpcPageElement, dpcScrolldown, dpcWaitFor, renderPages </i></div>
@@ -912,11 +916,12 @@ in this rule file.
       <div class="blocktitle blocktitlesubexample" style="background-color: #f9fad2;"><a href="example8.4-google.exr">fill inputs, click button, submit form</a></div>
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
-           Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes and submitting forms executed in sequence.
+           Demonstrating how to interact with web pages: demonstrates how to click on buttons, fill input boxes
+           and submitting forms executed in sequence. Uses the default Chromium engine.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>
-          This example performs a google search for python. It visits the google main page and since it accesses it as an unauthorized user a consent form is shown. This rule clicks
+          This example performs a google search for python. It visits the google main page and since it accesses it as an unauthenticated user a consent form is shown. This rule clicks
           on the consent form, fills in the search box with the word 'python' and clicks on the submit button. It extracts the links from the returned results search page.
           <br>
       </div>
@@ -935,7 +940,7 @@ in this rule file.
       <div class="label subexample">
           <font color="black"> <b>description:</b> </font><br/>
            Demonstrating launching an external Chrome installation in headless mode as the rendering engine to download and interact with webpages (instead of the default Chromium engine used by pyppeteer)
-           by specifying the <font class="codesnipped">launchParameters</font> field.
+           by specifying the <font class="codesnipped">launchParameters</font> field. Makes unauthenticated access to web page.
           <br>
       </div>
       <div class="label subexample"><b>target:</b><br/>

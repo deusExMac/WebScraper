@@ -1554,15 +1554,23 @@ class commandImpl:
                  print('Error.', str(argEx) )
                  return(False)
 
+
          osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
+         tp = ''
          if args['pimagename']:
             pList = osP.getProcessInfoByName( args['pimagename'][0] )
+            tp = args['pimagename'][0]
          else:
-            pList = osP.getImageProcessesInfo()   
+            pList = osP.getImageProcessesInfo()
+            tp = osP.processName
 
-         print('Total of', len(pList))
+         print('Querying for [', tp, '] Total of', len(pList), sep='')
          for p in pList:
-              print('\t', p['pid'], p['name'], p['create_time'])
+              if p['pid'] in self.runningChromeInstances: 
+                 print('\t', p['pid'], p['name'], p['create_time'], '(IN running chrome list)')
+              else:
+                 print('\t', p['pid'], p['name'], p['create_time'], '(NOT IN running chrome list)')   
+                    
 
          return(False)    
 
