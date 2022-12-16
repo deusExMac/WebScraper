@@ -41,27 +41,32 @@ If you don't have the patience to go through the entire Reame.md and want the ba
         * [Example](#example-1)
       - [cssSelector](#cssselector)
         * [Description](#description-2)
-      - [config](#config)
+      - [ps](#ps)
         * [Description](#description-3)
+      - [killChrome](#killchrome)
+        * [Description](#description-4)
+      - [config](#config)
+        * [Description](#description-5)
         * [Example](#example-2)
       - [history (or h)](#history--or-h-)
-        * [Description](#description-4)
+        * [Description](#description-6)
         * [Example](#example-3)
       - [!!](#--)
-        * [Description](#description-5)
-      - [!](#-)
-        * [Description](#description-6)
-      - [^](#-)
         * [Description](#description-7)
+      - [!](#-)
+        * [Description](#description-8)
+      - [^](#-)
+        * [Description](#description-9)
         * [Example](#example-4)
       - [reload](#reload)
-        * [Description](#description-8)
+        * [Description](#description-10)
         * [Example](#example-5)
 - [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
 - [References](#references)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 
 
@@ -483,7 +488,7 @@ WebScraper's configuration file defines and initializes the values on some impor
 
   This section has settings related to the fetching of web resources.
   
-  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being forcibly killed in case Chromium (pyppeteer's default browser) or an external Chrome installation is used to fetch pages. Takles effect only if renderPages is set to True and no external browser is used (TODO: check this???).
+  - ``guardRunningChromeInstances``: True | False. Specifies if existing Chrome instances (started by the user in head mode) should be protected from being forcibly killed in case Chromium (pyppeteer's default browser) or an external Chrome installation is used to fetch pages. Takes effect only if renderPages is set to True and no external browser is used.
   
    - ``forceBrowserCleanup``: True | False | Auto. Specifies if Chromium and external Chrome instances should be killed forcibly by WebScraper when renderPages is True. Due to a bug in pyppeteer (see also [Issue 27](https://github.com/deusExMac/WebScraper/issues/27) ), Chromium and external Chrome instances spawned by WebScraper may remaining after properly closing browsers in headless mode (aka zombie processes). In order to avoid memory leaks, WebScraper may forcibly kill these instances. Depending on the value of ``forceBrowserCleanup``, this setting will kill these zombie processes in the following ways:
      - True : killing of zombies will be carried out only once, when WebScraper terminates execution.
@@ -660,9 +665,15 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   ```
           [v0.3.6a 20/10/2022]
           Execution started on Darwin release 21.6.0 (posix)
+          Loading configuration settings from [ ./webscraper.conf ]....ok.
+          Loading extraction rule library [./default.exr]...done
+	       Total of  1  extraction rules loaded.
+
+          Starting INTERACTIVE mode
+
+          (v0.3.6a){0}WebScraper >>applyRules -r rules/xample4.1-en.wikipedia.exr https://en.wikipedia.org/wiki/Statistics
   ```	  
   
-  **TODO: Complete me**	
 	
 	
 	
@@ -677,7 +688,6 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   Downloads a webpage and displays a primitive interface to apply css selectors to loaded document. Used for testing/debugging purposes in order to see the result of specific selectors.  
   
-    **TODO: Complete me**	
 
 	
 
@@ -690,7 +700,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   ##### Description
 	
-  Shows running processes on the local machine with a name that matches a specific reges pattern. If no regex pattern is specified, the OS specific specification for Chrome processes is shwon as specified by options  windowsChrome, macosChrome etc in the configuartion file.
+  Shows running processes on the local machine with a name that matches a specific regex pattern. If no regex pattern is specified, the OS specific regex for Chrome processes is shwon as specified by options  windowsChrome, macosChrome etc in the configuartion file. Used to cleanup Chrome/Chromium browsers when automatic cleanup did not work properly.
 
 
 
@@ -698,11 +708,11 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   
   Syntax: ``killChrome [-A]``
   
-  -A : Kills all currently runnng Chrome instances.
+  -A : Forcicly terminated (kills) all currently runnng Chrome instances.
 	
   ##### Description
 	
-  Kills Chrome instances. This is used when renderPages is set to True and the default pyppeteer browser (Chromium) is used to fetch pages. In this situations and due to a bug, Chromium instances are not properly cleaned up, clocging the system. This command may be used to manually kill Chromium instance. Although, remaining Chromium processes are automatically killed when ``forceBrowserCleanup`` is set to True or Auto this command may come handy if everything else fails. 
+  Forcibly terminates (kills) Chrome instances. This is used when renderPages is set to True and the default pyppeteer browser (Chromium) is used to fetch pages. In this situations and due to a bug, Chromium instances are not properly cleaned up, clocging the system. This command may be used to manually kill Chromium instance. Although, remaining Chromium processes are automatically killed when ``forceBrowserCleanup`` is set to True or Auto this command may come handy if everything else fails.  If no -A option is specified, Chrome instances that were executing before the execution of WebScraper are not forcibly killed if ``guardRunningChromeInstances`` has been set to True.
   
     
 
