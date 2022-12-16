@@ -665,7 +665,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   ```
           [v0.3.6a 20/10/2022]
           Execution started on Darwin release 21.6.0 (posix)
-	  Loading configuration settings from [ ./webscraper.conf ]....ok.
+          Loading configuration settings from [ ./webscraper.conf ]....ok.
           Loading extraction rule library [./default.exr]...done
 	       Total of  1  extraction rules loaded.
 
