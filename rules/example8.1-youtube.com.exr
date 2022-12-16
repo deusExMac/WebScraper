@@ -229,7 +229,7 @@
  "ruleTargetAttribute": "href",
  
  
- "ruleContentCondition": "(www\.youtube\.com\/watch\?v=)((?!&lc=).)*$",
+ "ruleContentCondition": "(www\.youtube\.com\/watch\?v=)((?!&lc=|t=).)*$",
  
  
  "ruleReturnsMore": True,

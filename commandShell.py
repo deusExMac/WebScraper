@@ -275,7 +275,7 @@ class commandShell:
                 print( utils.toString('\t[DEBUG] Chrome/Chromium processes running. Checking and killing...\n') if self.cmdExecutioner.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                 # We kill all Chrome instances but excluding all these that were running
                 # before start of WebScraper. These are in runningChromeInstances
-                osP.killProcess(self.cmdExecutioner.runningChromeInstances)
+                osP.killProcess(excludedPids=self.cmdExecutioner.runningChromeInstances)
              
              
           return
@@ -1564,7 +1564,7 @@ class commandImpl:
             pList = osP.getImageProcessesInfo()
             tp = osP.processName
 
-         print('Querying for [', tp, '] Total of', len(pList), sep='')
+         print('Querying for [', tp, '] Total of ', len(pList), sep='')
          for p in pList:
               if p['pid'] in self.runningChromeInstances: 
                  print('\t', p['pid'], p['name'], p['create_time'], '(IN running chrome list)')
@@ -1578,6 +1578,14 @@ class commandImpl:
 
 
       def killChrome(self, a):
+          try:
+            cmdArgs = ThrowingArgumentParser()    
+            cmdArgs.add_argument('-A', '--allprocs',  action='store_true' )
+            args = vars( cmdArgs.parse_args(a) )
+          except Exception as argEx:
+                print(str(argEx))
+                return(False)
+            
           osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
           #pList = osP.filterProcesses( '(?i)chrome' )
           #print( pList )
@@ -1586,7 +1594,10 @@ class commandImpl:
           else:
                 #print('Process running. Killing it...')
                 print( utils.toString('[DEBUG] Chrome/Chromium processes running. Checking and killing...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '')
-                osP.killProcess(self.runningChromeInstances)   
+                if args['allprocs']:
+                   osP.killProcess()
+                else:   
+                   osP.killProcess(excludedPids=self.runningChromeInstances)   
 
           return(False)
 

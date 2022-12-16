@@ -73,6 +73,7 @@ class osPlatform:
                
                  if re.search(nameRegex, pinfo.get('name', '') ):
                     pi.append( pinfo )
+                    
               except Exception as pinfoEx:
                     print(str(pinfoEx))
                     continue
@@ -109,22 +110,26 @@ class osPlatform:
           
 
           
-      def killProcess(self, excludedPids=[]):
-            
-          if self.processName == '':
-             return(False)
+      def killProcess(self, namePattern='', excludedPids=[]):
 
-          pf = self.filterProcesses( self.processName )
-          #print('Matching processes:', pf)
-          print( utils.toString('\t[DEBUG] Matched processes: [', ', '.join(pf), ']\n') if self.debug  else '', end='' )
-          if len(pf) <= 0:
+          targetPattern = ''
+          if namePattern != '':
+             targetPattern = namePattern
+          else:
+             targetPattern = self.processName
+
+          
+          print( utils.toString('Process name target pattern:', targetPattern) if self.debug  else '', end='' )
+          
+          if targetPattern == '':
              return(False)
 
           
+      
           for proc in psutil.process_iter():
            try:                 
-             if re.search(self.processName, proc.name()):
-                  #if not proc.
+             if re.search(targetPattern, proc.name()):
+                  
                   pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])                  
                   print( utils.toString('\t[DEBUG] Checking if ', pinfo['pid'], ' in [', ', '.join( [str(m) for m in excludedPids]), ']...') if self.debug  else '', sep='', end='') 
                   
@@ -134,11 +139,13 @@ class osPlatform:
                      proc.kill()
                      self.nkilled += 1
                   else:
-                       print( utils.toString(' YES. NOT killing\n') if self.debug  else '', end='' ) 
+                       print( utils.toString(' YES. NOT killing\n') if self.debug  else '', end='' )
+                       
            except Exception as killEx:
-                   #print('Caught exception... but ignoring.')
+                   print( str(killEx) )
+                   print(utils.toString( 'Caught exception... but ignoring. Zombie?', str(killEx), '\n') if self.debug  else '', sep='', end='' )
                    continue   
-
+           
           return(True)
 
 
