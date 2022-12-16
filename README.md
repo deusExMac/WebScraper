@@ -690,7 +690,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   ##### Description
 	
-  Shows running processes on the local machine with a name that matches a specific reges pattern. If no regex pattern is specified, the OS specific specification for Chrome processes is shwon as specified by options  windowsChrome, macosChrome etc in the configuartion file.
+  Shows running processes on the local machine with a name that matches a specific regex pattern. If no regex pattern is specified, the OS specific regex for Chrome processes is shwon as specified by options  windowsChrome, macosChrome etc in the configuartion file. Used to cleanup Chrome/Chromium browsers when automatic cleanup did not work properly.
 
 
 
@@ -698,11 +698,11 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   
   Syntax: ``killChrome [-A]``
   
-  -A : Kills all currently runnng Chrome instances.
+  -A : Forcicly terminated (kills) all currently runnng Chrome instances.
 	
   ##### Description
 	
-  Kills Chrome instances. This is used when renderPages is set to True and the default pyppeteer browser (Chromium) is used to fetch pages. In this situations and due to a bug, Chromium instances are not properly cleaned up, clocging the system. This command may be used to manually kill Chromium instance. Although, remaining Chromium processes are automatically killed when ``forceBrowserCleanup`` is set to True or Auto this command may come handy if everything else fails. 
+  Forcibly terminates (kills) Chrome instances. This is used when renderPages is set to True and the default pyppeteer browser (Chromium) is used to fetch pages. In this situations and due to a bug, Chromium instances are not properly cleaned up, clocging the system. This command may be used to manually kill Chromium instance. Although, remaining Chromium processes are automatically killed when ``forceBrowserCleanup`` is set to True or Auto this command may come handy if everything else fails.  If no -A option is specified, Chrome instances that were executing before the execution of WebScraper are not forcibly killed if ``guardRunningChromeInstances`` has been set to True.
   
     
 
