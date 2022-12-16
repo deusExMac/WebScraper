@@ -665,9 +665,15 @@ At the displayed prompt, a set of shell commands can be executed along with a se
   ```
           [v0.3.6a 20/10/2022]
           Execution started on Darwin release 21.6.0 (posix)
+	  Loading configuration settings from [ ./webscraper.conf ]....ok.
+          Loading extraction rule library [./default.exr]...done
+	       Total of  1  extraction rules loaded.
+
+          Starting INTERACTIVE mode
+
+          (v0.3.6a){0}WebScraper >>applyRules -r rules/xample4.1-en.wikipedia.exr https://en.wikipedia.org/wiki/Statistics
   ```	  
   
-  **TODO: Complete me**	
 	
 	
 	
