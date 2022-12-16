@@ -1590,7 +1590,7 @@ class commandImpl:
              print('Not running.')
           else:
                 #print('Process running. Killing it...')
-                print( utils.toString('[DEBUG] Chrome/Chromium processes running. Checking and killing...') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '')
+                print( utils.toString('[DEBUG] Chrome/Chromium processes running. Checking and killing...\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', end='')
                 if args['allprocs']:
                    osP.killProcess()
                 else:   
@@ -1599,11 +1599,11 @@ class commandImpl:
           return(False)
 
 
-      def rcpids( self, a):
+      def runningChrome( self, a):
           print( self.runningChromeInstances)
           return(False)
 
-      def urcpids(self, a):
+      def updateChrome(self, a):
           osP = osPlatform.OSPlatformFactory(self.configuration).createPlatform()
           rcI = osP.getImageProcessesInfo()
           self.runningChromeInstances = []

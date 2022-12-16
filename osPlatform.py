@@ -122,7 +122,7 @@ class osPlatform:
              targetPattern = self.processName
 
           
-          print( utils.toString('\t[DEBUG] Process name target pattern:', targetPattern) if self.debug  else '' )
+          print( utils.toString('\t[DEBUG] Process name target pattern:', targetPattern, '\n') if self.debug  else '', end='' )
           
           if targetPattern == '':
              return(False)
