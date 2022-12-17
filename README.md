@@ -453,8 +453,7 @@ After these steps, the result set is returned as the value of the extracted info
 
 You may find working examples of pre-authored exr file in the rules/ directory that will help in understanding how the the above fields should be used. The [file index.html in the same directory will help you in browsing and understanding the exr files in the rules direcory. It is encouraged to use this file to navigate through/browse the available exr files in the directory](https://htmlpreview.github.io/?https://github.com/deusExMac/WebScraper/blob/main/rules/index.html).
 
-TODO: use RAWGIT linek this instead of htmlpreview: https://rawgit.com/necolas/css3-social-signin-buttons/master/index.html OR the gh-branch approach described here: https://stackoverflow.com/questions/8446218/how-to-see-an-html-page-on-github-as-a-normal-rendered-html-page-to-see-preview
-
+Subdirectory rule/drafts contains unfinished, untested exr files that may be added as examples in future versions.
 
 
 # Running WebScraper 
