@@ -544,10 +544,12 @@ IMPORTANT: Some properties are not fully supported and/or may result in errors a
 
 WebScraper's command line arguments allow the overwriting of settings defined in configuration file. Usage:
 
-``webScraper.py [-c configuration file] [-r exr file] [-B] [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-ST] [-U] [-p pos] [-G] start_url``
+``webScraper.py [-W working directory path] [-c configuration file] [-r exr file] [-B] [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression[ [-R] [-ST] [-U] [-p pos] [-G] start_url``
 
 
 Command line options supported:
+
+-W working directory path: setting new working directory for the application to <working directory path>. Should working directory path contain spaces, enclose path of working directory in double quotes.
 
 -c configuration file : will result in loading  <configuration file> as configuration file
 
