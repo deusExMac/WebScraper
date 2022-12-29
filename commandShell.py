@@ -526,7 +526,10 @@ class commandImpl:
           return(False)
 
 
-      
+      def pwd(self, a):
+           print( os.getcwd() )
+           return(False)
+
       
       def joke(self, a):
           try:

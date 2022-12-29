@@ -63,6 +63,8 @@ def main():
    cmdArgParser = argparse.ArgumentParser(description='Command line arguments', add_help=False)
    cmdArgParser.add_argument('-c', '--config', default="./webscraper.conf")
    cmdArgParser.add_argument('-r', '--rules', default="./default.exr")
+
+   cmdArgParser.add_argument('-W', '--workingdirectory', default="")
    
    cmdArgParser.add_argument('-B', '--batch', action='store_true')
    cmdArgParser.add_argument('-J', '--joke',  action='store_true')
@@ -76,6 +78,20 @@ def main():
    knownArgs, unknownArgs = cmdArgParser.parse_known_args()
    args = vars( knownArgs )
    
+   # Check if the apps working directory should change
+   # i.e. if the -W option was set on the command line
+   if args['workingdirectory'] != '':
+      if os.path.exists(args['workingdirectory']):
+         try: 
+            os.chdir(args['workingdirectory'])
+            #print('Working directory changed to [', args['workingdirectory'], ']',   sep='')
+         except Exception as chEx:
+           print('Error changing working to [', args['workingdirectory'], ']:', str(chEx),  sep='')
+           sys.exit(-6)
+         
+      else:
+           print('Working directory [', args['workingdirectory'], '] does not exist.', sep='')
+           sys.exit(-7)
    
    
    # Config file that will be used.
