@@ -549,7 +549,7 @@ WebScraper's command line arguments allow the overwriting of settings defined in
 
 Command line options supported:
 
--W working directory path: setting new working directory for the application to <working directory path>. Should working directory path contain spaces, enclose path of working directory in double quotes.
+-W working directory path: sets new working directory for the application to < working directory path >. Should the working directory path contain spaces, enclose path in double quotes e.g. "C:\My project\working dir\"
 
 -c configuration file : will result in loading  <configuration file> as configuration file
 
