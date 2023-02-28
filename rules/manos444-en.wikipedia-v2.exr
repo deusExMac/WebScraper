@@ -1,10 +1,11 @@
 
 ########################################################################################################################################################
-#
+# NOTE: updated exr file correcting some ommissions in exr sent by Manos Mprardhs for his EAP diploma (sent file was:manos444-en.wikipedia.exr). 
+# Was sent to me on 22/02/2023 to check it and correct correct it. Corrections resulted into this.
 # 
 # How to apply this rule:
 #
-# v0.05a){1}WebScraper >> crawl -n -1 -r rules/manos444-en.wikipedia.exr -o csv/manos444a.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Greece
+# v0.05a){1}WebScraper >> crawl -n -1 -r rules/manos444-en.wikipedia-v2.exr -o csv/manos444a.csv https://en.wikipedia.org/wiki/List_of_football_clubs_in_Greece
 #
 # 
 ########################################################################################################################################################
@@ -137,10 +138,34 @@
  
 
 
- 
+  
 
 
    "rulePreconditions" : [ 
+                          {                                     
+                                        "ecCSSSelector" : "tr:nth-child(3) .infobox-label", 
+                                        "ecTextCondition" : "(?i)(Manager|Head coach)",
+                                        "ecRuleCSSSelector": "tr:nth-child(3) .agent"
+                           },
+                           
+                          {                                     
+                                     "ecCSSSelector" : "tr:nth-child(4) .infobox-label", 
+                                     "ecTextCondition" : "(?i)(Manager|Head coach)",
+                                     "ecRuleCSSSelector": "tr:nth-child(4) .agent"
+                           },
+                           
+                           {                                     
+                                  "ecCSSSelector" : "tr:nth-child(5) .infobox-label", 
+                                  "ecTextCondition" : "(?i)(Manager|Head coach)",
+                                  "ecRuleCSSSelector": "tr:nth-child(5) .agent"
+                           },
+                           
+                           {                                     
+                               "ecCSSSelector" : "tr:nth-child(6) .infobox-label", 
+                               "ecTextCondition" : "(?i)(Manager|Head coach)",
+                               "ecRuleCSSSelector": "tr:nth-child(6) .agent"
+                           },
+                           
                            {                                     
                             "ecCSSSelector" : "tr:nth-child(7) .infobox-label", 
                             "ecTextCondition" : "(?i)(Manager|Head coach)",
@@ -181,6 +206,24 @@
                               "ecCSSSelector" : "tr:nth-child(10) .infobox-label", 
                               "ecTextCondition" : "(?i)(Manager|Head coach)",
                               "ecRuleCSSSelector": "tr:nth-child(10) .agent"
+                            },
+                            
+                            {                                     
+			     "ecCSSSelector" : "tr:nth-child(11) .infobox-label", 
+			     "ecTextCondition" : "(?i)(Manager|Head coach)",
+			     "ecRuleCSSSelector": "tr:nth-child(11) .agent"
+                            },
+                            
+                            {                                     
+			    	"ecCSSSelector" : "tr:nth-child(12) .infobox-label", 
+			    	"ecTextCondition" : "(?i)(Manager|Head coach)",
+			    	"ecRuleCSSSelector": "tr:nth-child(12) .agent"
+                            },
+                            
+                            {                                     
+			        "ecCSSSelector" : "tr:nth-child(13) .infobox-label", 
+			    	"ecTextCondition" : "(?i)(Manager|Head coach)",
+			    	"ecRuleCSSSelector": "tr:nth-child(13) .agent"
                             }
 
 

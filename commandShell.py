@@ -971,7 +971,7 @@ class commandImpl:
           if not args['mutelib']:   
              #clrprint.clrprint('\nUsing library:[', exRules.libraryDescription, ']', clr='purple', sep='')   
              print('')
-             clrprint.clrprint( utils.fL('Using library:[' +  exRules.libraryDescription + ']\n', every=60,  startOver=True), clr='purple', sep='' )
+             clrprint.clrprint( utils.fL('Using library:[' +  exRules.libraryDescription + ']\n', every=80,  startOver=True), clr='purple', sep='' )
 
           #
           # We update the pid of running Chrome instances
