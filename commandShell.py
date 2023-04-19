@@ -1040,6 +1040,7 @@ class commandImpl:
           if args['continue']:
              if os.path.exists( args['outputcsvfile'] ):
                print( utils.toString('\t[DEBUG] Loading existing csv file [', args['outputcsvfile'], ']\n') if self.configuration.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='')    
+               # We load the existing csv file  
                xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)
 
           # Create URLqueue object   
