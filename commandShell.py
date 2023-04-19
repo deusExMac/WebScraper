@@ -863,6 +863,7 @@ class commandImpl:
              cmdArgs.add_argument('-n', '--numpages', type=int, nargs='?' )
              cmdArgs.add_argument('-s', '--sleeptime', type=float, nargs='?' )
              cmdArgs.add_argument('-o', '--outputcsvfile', type=str, nargs='?', default='extracted' + datetime.datetime.now().strftime("%d-%m-%Y@%H-%M-%S") + '.csv' )
+             cmdArgs.add_argument('-A', '--fileappend', action='store_true' )
              cmdArgs.add_argument('-q', '--queuefile', type=str, default='.queue' )
              
              cmdArgs.add_argument('-M', '--mirror', action='store_true' )
@@ -1050,7 +1051,16 @@ class commandImpl:
                                  qF=args['queuefile'], sQ=True, tS=cmdConfigSettings.get('Crawler', 'traversalStrategy', fallback='bfs') ) 
 
 
-
+          # Check if we should append to existing file. If so, load existing
+          # and add to existing one.
+          #
+          # TODO: This is an easy solution in order to not inflict many changes to existing method. that needs to change.
+          #       This option (-A/--fileappend) was added a lot later than the development of webScraper.
+          #       In general, the way the in-memory dataframe is managed needs to change in order to not
+          #       bloat memory.
+          if args['fileappend']:
+             if os.path.exists( args['outputcsvfile'] ):   
+                xDataDF = pd.read_csv( args['outputcsvfile'], sep=';', header=0, quoting=csv.QUOTE_NONNUMERIC)   
            
 
           if not args['url']:
