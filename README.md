@@ -622,7 +622,7 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 - #### crawl 	
 	
-  Syntax: ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression] [-R] [-U] [-p pos] [-G] start_url``
+  Syntax: ``crawl  [-r exr file]  [-M] [-n number] [-s amount] [-o output] [-q queue] [-C] [-D] [-HR pct] [-CT regular expression] [-R] [-U] [-p pos] [-G] [-A] start_url``
      
   ##### Description
 	
