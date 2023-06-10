@@ -67,6 +67,10 @@ import htmlRendering
 import osPlatform
 
 
+# Used when execution is started from the web.
+from wwwInterface import transportIF
+
+
 # The following two classes are used to parse
 # arguments on the shell 'scommand line
 class ArgumentParserError(Exception): pass
@@ -393,6 +397,26 @@ class commandImpl:
           self.totalCommands = 0
           self.commandsExecuted = 0
           self.extractionRules = rules
+
+
+          # Next two instance variables
+          # are related to web interface
+          
+          # Storing statistics related
+          # to the scraping run executed.
+          # Used when webScraper is started as a thread.
+          self.execStats = None
+
+          # Interface to pipe messages through
+          # via www socketio when started
+          # as a thread.
+          #
+          # Used only when scraper is started as
+          # a thread.
+          self.transportI = None
+
+
+
 
           # Here we gather all the ids of Chrome processes
           # that are *currently* running that we assume
@@ -834,6 +858,28 @@ class commandImpl:
 
 
                 
+
+
+
+      # WWWUI
+      #
+      # Starts crawling. Calls crawl() method. Sets a transport parameter
+      # before calling crawl.
+      #
+      # This however is a special method to be called when
+      # a transport endpoint is setup i.e.
+      # when webScraper is started as a thread and
+      # a client needs bidirectional data exchange with the thread
+      #
+      def crawlI(self, scrapeParams,  transport=None,):          
+
+          if transport is None:
+             return(-1)
+            
+          self.transportI = transport
+          self.crawl(scrapeParams)
+          
+          return(0)
 
 
 
