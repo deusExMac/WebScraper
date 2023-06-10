@@ -974,7 +974,8 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 ### web mode
 
-Web scraper can also be executed and controlled from whithin Web browsers. When executed that way, 
+Web scraper can also be executed and controlled from whithin Web browsers. Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
+TODO: More info on this.......
 	
 	
 # Useful tools/projects
