@@ -972,6 +972,9 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
   ```		
 	
+### web mode
+
+Web scraper can also be executed and controlled from whithin Web browsers. When executed that way, 
 	
 	
 # Useful tools/projects
