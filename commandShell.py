@@ -874,7 +874,7 @@ class commandImpl:
       def crawlI(self, scrapeParams,  transport=None,):          
 
           if transport is None:
-             return(-1)
+             return(-3)
             
           self.transportI = transport
           self.crawl(scrapeParams)
@@ -1151,6 +1151,26 @@ class commandImpl:
           try:
                 
             while (True):
+
+                 # 
+                 # This is useful when webCrawler is started as a thread.
+                 # 
+                 #
+                 '''
+                 if os.path.exists( cmdConfigSettings.get('Crawler', 'stopFile', fallback='.webscraper') ):
+                    os.remove( cmdConfigSettings.get('Crawler', 'stopFile', fallback='.webscraper') )   
+                    raise KeyboardInterrupt('Emulated due to thread')
+                 '''
+                 # WWWUI
+                 if self.transportI is not None:
+                    # Check .events instance variable in transportIF to see
+                    # if a signal is set. If so, this means
+                    # termination is requested and termination need to commence
+                    if not self.transportI.signalIsSet():
+                       print('ThreadEvent NOT SET! Raising Exception...')   
+                       raise KeyboardInterrupt('Emulated due to thread')   
+
+
                   
                  try:                                                        
                   currentUrl = uQ.getNext()
@@ -1178,6 +1198,15 @@ class commandImpl:
                     exHitRate = numExtracted/uQ.fetchedUrlsCount()
                     
                  clrprint.clrprint('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' (', '{:.3f}'.format(kBPerSec),  'KB/sec) Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]', clr='yellow', sep='')
+
+                 # If we have a transport endpoint, this means
+                 # we started the scraper from a web interface.
+                 # Send back current status via the transport endpoint back
+                 # to browser.
+                 if self.transportI is not None:
+                     #print( json.dumps( {'status':0, 'nproc':numProcessed, 'nextracted':numExtracted, 'qsize':uQ.queueSize(), 'avgpps':pgsPerSec, 'url':currentUrl}), sep='', sckt = self.socketio)
+                     self.transportI.send2('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' (', '{:.3f}'.format(kBPerSec),  'KB/sec) Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]' )  
+                     self.transportI.send2( json.dumps( {'status':0, 'nproc':numProcessed, 'nextracted':numExtracted, 'qsize':uQ.queueSize(), 'avgpps':pgsPerSec, 'kbps': '{:.3f}'.format(kBPerSec), 'hitrate':'{:.4f}'.format(exHitRate), 'url':currentUrl}) )   
 
                  tmStart = time.perf_counter() # start counting time
 
@@ -1594,9 +1623,35 @@ class commandImpl:
 
           # Display some statistics 
           exRules.libStats()
+
+          # WWWUI
+          # This is a poor way of returning the stats of the last run.
+          #
+          # This, however, has been added to return the stats
+          # that the web interface needs to send back to the client.
+          # If no web interface is present, execStats is not used. It's
+          # actually ingnored.
+          # TODO: Change this ??
+          self.execStats = {'elapsed':str(datetime.timedelta(seconds= float('{:.0}'.format(time.perf_counter() - crawlStarted)))),
+                            'nproc':numProcessed,
+                            'nextracted':numExtracted,
+                            'qsize':uQ.queueSize(),
+                            'avsgpps':pgsPerSec,
+                            'kbps': '{:.3f}'.format(kBPerSec),
+                            'hitrate': '{:.4f}'.format(exHitRate),
+                            'outputfile': args['outputcsvfile']}
+
+
           
           print('\nFinished in (h:m:s) ', str(datetime.timedelta(seconds= float('{:.0}'.format(time.perf_counter() - crawlStarted)))) )
           return(False)
+
+
+
+
+
+
+
 
 
       def ps(self, a):
