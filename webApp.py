@@ -79,6 +79,10 @@ async_mode = None
 # if e.g. config files are stored outside of working path in order 
 # to exclude them from versioning,
 # See: https://flask.palletsprojects.com/en/2.2.x/config/#instance-folders
+#
+# Also use template_folder='../../frontend/src' to change template dir
+# if needed.
+#
 app = Flask(__name__)
 
 
