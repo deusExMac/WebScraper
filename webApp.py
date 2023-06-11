@@ -96,7 +96,7 @@ app.secret_key = 'super secret key'
 #app.config['SESSION_TYPE'] = 'filesystem'
 
 # Load flask app settings from file
-app.config.from_pyfile(os.path.join(".", "app.conf"), silent=False)
+app.config.from_pyfile(os.path.join(".", "webApp.conf"), silent=False)
 
 # Path to store session files
 app.config['SESSION_FILE_DIR'] = mkdtemp()
