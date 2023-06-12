@@ -404,7 +404,9 @@ class commandImpl:
           
           # Storing statistics related
           # to the scraping run executed.
-          # Used when webScraper is started as a thread.
+          # Used when webScraper is started as a thread,
+          # in "web mode".
+          # TODO: Future versions should change this.
           self.execStats = None
 
           # Interface to pipe messages through
