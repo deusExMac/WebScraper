@@ -412,7 +412,8 @@ class commandImpl:
           # as a thread.
           #
           # Used only when scraper is started as
-          # a thread.
+          # a thread via a Web browser. 
+          # See "web mode" execution mode.
           self.transportI = None
 
 
