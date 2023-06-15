@@ -1,0 +1,30 @@
+I) Before you start FLASK app:
+  1) Istall python modules (see README-IMPORTANT.txt for details)
+  2) Place/install monaco editor source in proper directory. 
+     Update ALL paths for monaco editor in exrEditor.html. Currently, paths 
+     have a /static/ in front of them. Change them appropriatelly.
+  3) Folder mthemes in /static/ contains third-party/additional monaco skins. 
+     This folder is used by the app to set the editor skin. Place it in the 
+     appropriate folder and change relative paths in file exrEditor.html .
+     Themes downloaded from: https://github.com/brijeshb42/monaco-themes
+  
+II) How to run FLASK app (main file: app.py):
+
+* change directory into your flask application folder.
+
+* On Windows: C:\...>env\Scripts\activate
+
+* On MacOS: $>. env/bin/activate
+
+After activating environment,  run main flask app .py file with 2 ways:
+
+# if environment variable set
+(env)$>flask run
+
+# if webApp.py is the main app file to be executed
+(env)$>flask --app webApp.py run
+
+Now your app is ready to recieve requests.
+
+NOTE: This is only for debugging purposes. flask apps can also be executed in the context of Wamp or any
+other Web server.
