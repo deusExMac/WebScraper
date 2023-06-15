@@ -18,7 +18,7 @@ import requests
 import mimetypes
 
 # flask related
-from flask import Flask, render_template, redirect, session, current_app, request, Response, send_file
+from flask import Flask, render_template, redirect, session, current_app, request, Response, send_file, abort
 from flask_socketio import SocketIO, emit
 
 
@@ -46,10 +46,8 @@ from wwwInterface import executionThread, transportIF
 # scraper/ folder has an __ini__.py file
 # The next line will enable importing py files as modules from the
 # scraper/ folder where the webScraper code resides.
-#
-# NOTE: Not needed anymore
-#sys.path.append('scraper/')
-#from scraper import commandShell, xRules
+sys.path.append('scraper/')
+from scraper import commandShell, xRules
 
 
 
@@ -75,15 +73,50 @@ from wwwInterface import executionThread, transportIF
 # the best option based on installed packages.
 async_mode = None
 
-# use parameter instance_relative_config = True or instance_path
+
+
+print('\n\nStarting webApp. Starting initialization...')
+
+# Initialize flask object.
+#
+# Use parameter instance_relative_config = True or instance_path
 # if e.g. config files are stored outside of working path in order 
 # to exclude them from versioning,
 # See: https://flask.palletsprojects.com/en/2.2.x/config/#instance-folders
+app = Flask(__name__, static_url_path='')
+
+
+print('\t>>>Application path:[', os.path.abspath('.'), ']', sep='')
+
+
+
+# Load flask app settings from file
+print('\t>>>Loading webApp configuration file: [webApp.conf]')
+app.config.from_pyfile(os.path.join(".", "webApp.conf"), silent=False)
+
+
+
+
 #
-# Also use template_folder='../../frontend/src' to change template dir
-# if needed.
+# Set template path.
+# Defaults to templates
 #
-app = Flask(__name__)
+app.template_folder= app.config.get('APP_TEMPLATE_DIR', 'templates' ) 
+print('\t>>>Template folder: [', app.template_folder, ']', sep='')
+
+
+
+
+#
+# Set static url path. 
+#
+
+# Set static url path from config file
+# Defaults to static
+
+app.static_folder =  app.config.get('APP_STATIC_DIR', 'static/' )
+print('\t>>>Static folder: [', app.static_folder, ']', sep='')
+
 
 
 # Here SERVER SIDE session management is
@@ -92,25 +125,25 @@ app = Flask(__name__)
 # session management
 # 
 # 
-print('>>>Setting secret key')
+print('\t>>>Setting secret key')
 app.secret_key = 'super secret key'
 
 
 #app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
 #app.config['SESSION_TYPE'] = 'filesystem'
 
-# Load flask app settings from file
-app.config.from_pyfile(os.path.join(".", "webApp.conf"), silent=False)
 
 # Path to store session files
 app.config['SESSION_FILE_DIR'] = mkdtemp()
+print('\t>>>Session file dir initialized: [', app.config['SESSION_FILE_DIR'], ']')
 
 # Initialize server-side session for app
+print('\t>>>Initializing server side session')
 sSess = Session(app)
 sSess.init_app(app)
 
 
-
+print('\t>>>Initializing transport socket...')
 # TODO: Move socketio and it's creation inside transportIF???
 socketio = SocketIO(app, async_mode=async_mode, ping_interval=12)
 
@@ -123,16 +156,16 @@ socketio = SocketIO(app, async_mode=async_mode, ping_interval=12)
 # 
 # TODO: Use this to replace
 # variables below.
+print('\t>>>Initializing execution thread wrapper...')
 threadContext = executionThread()
 
+print('\n\n=== webApp initialized === \n\n')
 
-
-
-
-
+############################################################################
+#
 # End of global variable initialization section
-
-
+#
+############################################################################
 
 
 
@@ -319,8 +352,8 @@ def background_thread(executionParams):
     
     # make sure specified configuration file exists
     if not os.path.exists(cfgFile):
-       transportIF(socketio, threadContext.teEvents).send2( json.dumps( {'status':-5, 'nproc':'???', 'nextracted':'???', 'qsize':'???', 'avgpps':'???', 'url':'???'}) )
-       transportIF(socketio, threadContext.teEvents).send2('Configuration file [' + cfgFile + '] does not exist. Scraper not started.')                                                     
+       transportIF(socketio, threadContext.teEvents).sendResponse( json.dumps( {'status':-5, 'nproc':'???', 'nextracted':'???', 'qsize':'???', 'avgpps':'???', 'url':'???'}) )
+       transportIF(socketio, threadContext.teEvents).sendResponse('Configuration file [' + cfgFile + '] does not exist. Scraper not started.')                                                     
        return(-5)
 
 
@@ -355,16 +388,21 @@ def background_thread(executionParams):
     #       received from the client.
     # TODO: Change this? Rename method (Start/stop)?
     threadContext.startThread()
-    
+
+
+    # We instantiate and start web crawler now.
     executioner = commandShell.commandImpl(config, None)
     executioner.crawlI( argumentList, transportIF(socketio, threadContext.teEvents) )
 
+
+    
+
     # Since we've finished, send back stats to client.
     if executioner.execStats is None:
-       transportIF(socketio, threadContext.teEvents).send2( json.dumps( {'status':-2, 'nproc':'???', 'nextracted':'???', 'qsize':'???', 'avgpps':'???', 'url':'???'})   ) 
+       transportIF(socketio, threadContext.teEvents).sendResponse( json.dumps( {'status':-2, 'nproc':'???', 'nextracted':'???', 'qsize':'???', 'avgpps':'???', 'url':'???'})   ) 
     else:   
        # ΤODO: Send stats here.
-       transportIF(socketio, threadContext.teEvents).send2( json.dumps( {'status':-1, 'nproc':executioner.execStats['nproc'], 'nextracted':executioner.execStats['nextracted'], 'qsize':executioner.execStats['qsize'], 'avgpps':executioner.execStats['avsgpps'], 'url':''})) 
+       transportIF(socketio, threadContext.teEvents).sendResponse( json.dumps( {'status':-1, 'nproc':executioner.execStats['nproc'], 'nextracted':executioner.execStats['nextracted'], 'qsize':executioner.execStats['qsize'], 'avgpps':executioner.execStats['avsgpps'], 'url':''})) 
        print('\n\n')
        print('####### ', executioner.execStats)
        print('\n\n')
@@ -432,7 +470,28 @@ def index():
     
 
 
- 
+
+'''
+@app.route('/static')
+@app.route('/static/')
+@app.route('/static/<path:filename>')
+def serveFile(filename=''):
+
+    #print('Serving file [', filename, ']', sep='')
+    
+    if filename == '':
+       abort(404)
+
+    staticRoot = app.config.get('APP_STATIC_DIR', '/static/' )
+    print('*** Accessing [',  os.path.abspath('.') + staticRoot + filename, ']', sep='')    
+    if not os.path.exists(os.path.abspath('.') + '/' + staticRoot + filename):
+       abort(404)
+      
+    return( send_file(os.path.abspath('.') + '/' +  staticRoot + filename) )
+
+'''
+
+
 
 @app.route('/login', methods=["POST", "GET"])
 @app.route('/login/', methods=["POST", "GET"]) 
@@ -741,7 +800,7 @@ def my_event(message):
 def handle_message(data):
     print('received message: ' + str(data))
     # emit('my_response', {'data': 'Test response sent'})
-    transportIF(socketio, None).send2('Test message ack.')
+    transportIF(socketio, None).sendResponse('Test message ack.')
 
 
 
@@ -772,16 +831,16 @@ def startScraper(data):
               print('STARTING background thread...')
               threadContext.teThread = socketio.start_background_task(background_thread, data['data'])
               #socketio.emit('my_response', {'data': 'Worker thread started.', 'count': 0})
-              transportIF(socketio, None).send2('Worker thread started successfully.')
+              transportIF(socketio, None).sendResponse('Worker thread started successfully.')
            else:
               print('Thread ALREADY running...')
-              transportIF(socketio, None).send2('Worker thread not started. Thread already running.')
+              transportIF(socketio, None).sendResponse('Worker thread not started. Thread already running.')
               #socketio.emit('my_response', {'data': 'Worker thread already running.', 'count': 0})
             
         
     except Exception as ssEx:
         print('Error!', str(ssEx) )
-        transportIF(socketio, None).send2('Exception while trying to stop thread', str(ssEx))
+        transportIF(socketio, None).sendResponse('Exception while trying to stop thread', str(ssEx))
     
 
 @socketio.on('stopScraper')
@@ -792,18 +851,18 @@ def stopScraper(data):
     print('Calling stopScraper...')
     if not threadContext.threadRunning():
        #emit('my_response', {'data': 'Scraper not running.', 'count': 0})
-       transportIF(socketio, None).send2('WebScraper not running.')
+       transportIF(socketio, None).sendResponse('WebScraper not running.')
     else:    
        print('>>> Stopping scraper. Waiting for scraper to stop...', end='')
        threadContext.stopThread()         
        print('ok. Stopped.')
-       transportIF(socketio, None).send2('[', threadContext.teTmStopped, '] WebScraper stopped')
+       transportIF(socketio, None).sendResponse('[', threadContext.teTmStopped, '] WebScraper stopped')
     
 
 @socketio.on('testScraper')
 def testScraper(data):
     print('Calling testScraper')
-    transportIF(socketio, None).send2( '{status:-6, comment:"Hahahahah"}' )
+    transportIF(socketio, None).sendResponse( '{status:-6, comment:"Hahahahah"}' )
     #emit('my_response', {'data': 'testScraper ack!'})
     return
    

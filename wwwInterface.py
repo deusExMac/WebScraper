@@ -112,7 +112,9 @@ class executionThread:
           
           # This is used to send events to the executing thread.
           # Passed to transportIF which the executing thread
-          # checks periodically to see if any message is queued.
+          # checks periodically to see if any message has been sent.
+          #
+          # Used mainly to signal to executing thread that it must stop.
           self.teEvents = Event()
           
           self.teThreadLock = Lock()
@@ -167,9 +169,10 @@ class executionThread:
 
 
 # transport InterFace.
-# Allows communication of a client (i.e. the web browser)
-# via socketio with the running webScraper when started as a thread.
-# Enables also 
+# This keeps all the necessary variables that allows communication of a client (i.e. the web browser)
+# with the executing webScraper when started as a thread.
+# This class has also the methods to send back to the client messages.
+#  
 #
 # For socketio, see https://python-socketio.readthedocs.io/en/latest/
 class transportIF:
@@ -186,14 +189,25 @@ class transportIF:
 
 
 
-      # TODO: Remove this method.
-      #       send2 is the correct one. 
-      def send(self, data):
-          self.socketio.emit('my_response',
-                        {'data': data, 'count': -1})
+      # Generic send method.
+      # method: my_response, broadcast (currently)
+      # data: json object containing data field. Can also be a plain string (i.e. no json).
+      #       Client, upon revceiving the message, checks if its a json object or not.
+      def send(self, method, data):
+          try:              
+              self.socketio.emit(method, data)
+              return(0)
+            
+          except Exception as sendEx:
+              print('Error sending message on socketio.', str(sendEx) )
+              return(-2)
 
 
-      # Send data back to client
+
+
+      # For testing purposes only
+      #
+      # TODO: Check this!
       def send2(self, *args):
           if self.socketio is None:
              print('No socketio. Message not send.')
@@ -203,6 +217,35 @@ class transportIF:
                              {'data': ' '.join(str(v) for v in args), 'count': -1})
           except Exception as sendEx:
                  print('Error sending message on socketio.', str(sendEx) )
+
+
+
+
+
+      # The basic/main method to send response data from the
+      # executing thread to the client i.e. browser.
+      # The method here is by default my_response that signals
+      # to clients a response object and the client is expected to
+      # receive.
+      def sendResponse(self, *args):
+          
+          if self.socketio is None:
+             print('No socketio. Message not send.')
+             return(-1)
+            
+          try:
+             # Marshal the arguments into the proper format. i.e.
+             # in a data field
+             # NOTE: count is not used. Legacy code and can be removed.
+             sts = self.send('my_response', {'data': ' '.join(str(v) for v in args), 'count': -1} )
+             return(sts)
+                
+          except Exception as sendEx:
+                 print('Error sending message on socketio.', str(sendEx) )
+                 return(-3)
+
+
+
 
 
       def resetSignal(self):

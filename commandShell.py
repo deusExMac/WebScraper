@@ -1208,8 +1208,8 @@ class commandImpl:
                  # to browser.
                  if self.transportI is not None:
                      #print( json.dumps( {'status':0, 'nproc':numProcessed, 'nextracted':numExtracted, 'qsize':uQ.queueSize(), 'avgpps':pgsPerSec, 'url':currentUrl}), sep='', sckt = self.socketio)
-                     self.transportI.send2('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' (', '{:.3f}'.format(kBPerSec),  'KB/sec) Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]' )  
-                     self.transportI.send2( json.dumps( {'status':0, 'nproc':numProcessed, 'nextracted':numExtracted, 'qsize':uQ.queueSize(), 'avgpps':pgsPerSec, 'kbps': '{:.3f}'.format(kBPerSec), 'hitrate':'{:.4f}'.format(exHitRate), 'url':currentUrl}) )   
+                     self.transportI.sendResponse('\n', (numProcessed + 1), ') >>> Doing [', currentUrl, '] Queue:', uQ.queueSize(), ' (mem: ', uQ.queueMemorySize(), 'B/', "{:.2f}".format(uQ.queueMemorySize()/(1024*1024)), 'M/', uQ.qMemorySize ,') Pending:', uQ.pendingUrlsCount(),  ' Fetched:', uQ.fetchedUrlsCount(), ' Extracted:', numExtracted, '  [Avg pps:', pgsPerSec, ' (', '{:.3f}'.format(kBPerSec),  'KB/sec) Hit rate:', "{:.4f}".format(exHitRate) , ' (min:', "{:.4f}".format( cmdConfigSettings.getfloat('Crawler', 'minHitRate', fallback=-1.0) ) , ')]' )  
+                     self.transportI.sendResponse( json.dumps( {'status':0, 'nproc':numProcessed, 'nextracted':numExtracted, 'qsize':uQ.queueSize(), 'avgpps':pgsPerSec, 'kbps': '{:.3f}'.format(kBPerSec), 'hitrate':'{:.4f}'.format(exHitRate), 'url':currentUrl}) )   
 
                  tmStart = time.perf_counter() # start counting time
 
