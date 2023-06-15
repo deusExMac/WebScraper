@@ -46,9 +46,11 @@ from wwwInterface import executionThread, transportIF
 # scraper/ folder has an __ini__.py file
 # The next line will enable importing py files as modules from the
 # scraper/ folder where the webScraper code resides.
-sys.path.append('scraper/')
-from scraper import commandShell, xRules
+# NOTE: Next 2 lines were from earlier development environment.
+#sys.path.append('scraper/')
+#from scraper import commandShell, xRules
 
+import commandShell, xRules
 
 
 
