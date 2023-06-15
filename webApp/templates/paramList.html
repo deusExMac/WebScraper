@@ -1,0 +1,18 @@
+    <style>
+        
+    </style>
+
+    <table width="80%" style="margin:0 auto;">
+        <thead>
+         <tr>
+          <th></th>
+          <th></th>
+        </tr>
+       </thead>
+
+        <tbody>
+    {% for prm in executionParameterList %}
+            <tr> <td width="70%">{{loop.index0 + 1}}) {{ prm['date'] }} <br/><spam style="padding-left:15px;"><font size="-1" color="#9c5eef">[{{ prm['elapsed'] }}][{{ prm['nproc'] }}][{{ prm['nextracted']}}]</font></spam> </td><td width="30%">|  [<a href="#" onclick="fillWebCrawlerParameters( $.parseJSON( '{{jsons[loop.index0]}}' ) )">use</a> | <a href="{{url_for('getfile', fnm=prm['outputfile']) }}">{{prm['outputfile']}}</a>]</td></tr>
+    {% endfor %}
+    </tbody>
+    </table>

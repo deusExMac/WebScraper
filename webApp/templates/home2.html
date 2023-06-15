@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="buttonStyles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Genos:wght@100;300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500&display=swap');
+  	    @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500&family=Raleway:ital,wght@0,300;1,200&display=swap');
+  	    @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500&family=Raleway:ital,wght@0,300;1,200&family=Roboto+Mono:wght@500&display=swap');
+
+
+
+
+        #cheader {margin:0 auto; margin-top:0px; padding:20px 20px 10px 20px; width:68%; border: 0px dotted red; background-color:white}
+
+        #content {margin:0 auto; margin-top:0px; padding:8px 20px 20px 20px; width:70%; border: 1px dotted yellow;
+          display: grid;
+          grid-template-columns: 40% 60%;
+          background-color:white;
+        }
+
+        #left { border:1px dotted blue;}
+        #right { float:right; border:1px dotted orange;}
+
+
+        #exrfiles {}
+        #object2 {border:1px solid #4531b1;}
+        #object3 {margin:0 auto; font-size:14px; font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+        #object4 {margin:0 auto; width:97%;}
+        #object5 {border:1px solid lime; margin-top:5px;}
+
+
+
+
+        .blockcontent {background:#00FCDE;height:500px; max-height:500px; overflow-y:auto;}
+
+
+        .simpleblock {
+
+		                min-width:100%;
+		                max-width: 100%;
+		                height:450px;
+		                #max-height: 500px;
+		                #border: 1px solid black;
+		                min-width: 50px;
+		                min-height: 50px;
+		                #background-color: skyblue;
+           }
+
+        .resizableblock {
+                overflow: hidden;
+                resize: vertical;
+                min-width:100%;
+                max-width: 100%;
+                height:150px;
+                max-height: 500px;
+                #border: 1px solid black;
+                min-width: 50px;
+                min-height: 50px;
+                #background-color: skyblue;
+           }
+
+        .resizableblockLARGE {width:97%; min-width:97%; max-width:97%; height:700px; max-height:900px;}
+
+        .nofirstbock {margin-top:10px;}
+
+        .block1 {border:1px solid {{darkcolor}}; }
+        .block2 {border:1px solid {{darkcolor}}; margin-bottom:10px; height:380px; font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+        .block3 {border:1px solid {{darkcolor}}; height:380px;  font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+        .block4 {border:1px solid {{darkcolor}};}
+
+
+        .blocktitle {background:red; padding:5px;
+	                font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+
+        .blocktitle1 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+        .blockcontent1 {background:{{lightcolor}}; padding:19px; font-size:14px; font-family:Helvetica;}
+
+        .blocktitle2 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+        .blockcontent2 {background:{{lightcolor}}; font-size:14px; }
+
+        .blocktitle3 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+        .blockcontent3{background:{{lightcolor}}; color:#610b79;}
+
+        .blocktitle4 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+        .blockcontent4 {background:{{lightcolor}}; height:320px;}
+
+        .xarg {padding:3px; border:0px solid yellow; }
+        .messageScreen {width:100%; height:30%; max-height:40%; overflow-y: auto; background:black; color:lime; font-size:10px; font-family: Raleway, MuseoModerno, Genos, Verdana, Calisto MT, Calibri, Helvetica}
+        .screenWrapper{margin-top:0px;  background:{{lightcolor}}; color:navy; font-family:RobotoMono, Raleway, MuseoModerno, Genos, Verdana, Calisto MT, Calibri, Helvetica; font-size:14px;}
+    [draggable=true] {
+           cursor: move;
+     }
+
+
+
+
+   /****
+     Any styling of elements begins here
+    ***/
+   .button {
+     border: none;
+     color: white;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     margin: 4px 2px;
+     cursor: pointer;
+}
+
+/* Green */
+.button1 {background-color: navy; padding: 5px 19px;}
+.button2 {background-color: green; padding: 5px 19px;}
+.button3 {background-color: red; padding: 5px 19px;}
+
+
+ /*
+  *
+  *  tabs
+  *  From: https://www.w3schools.com/howto/howto_js_tabs.asp
+  *
+  */
+
+        /* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-bottom:0px;
+  background-color: {{darkcolor}};
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  transition: 0.0s;
+  font-size: 12px;
+  color:#b3b3ab;
+}
+
+        
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color:{{lightcolor}};
+  color:#b3b3ab;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: {{lightcolor}};
+  border-bottom:0px;
+  border-top:2px solid navy;
+  font-weight: bold;
+  color:black;
+
+
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  height:150px;
+}
+
+/* Style the close button */
+.topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.topright:hover {color: red;}
+
+tr:hover {
+  background-color: {{darkcolor}};
+  color: navy;
+}
+
+
+
+
+
+    </style>
+
+    <!-- TODO: Do we need next script??? -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+
+    <script>
+    /*
+       Global variables.
+       TODO: Do we need them all????
+     */
+    var nMessages = 0;
+
+    var gRULEPATH = null;
+    var serverChannel = null;
+
+    function isJson(str) {
+	    try {
+	        JSON.parse(str);
+	    } catch (e) {
+	        return false;
+	    }
+	    return true;
+    }
+
+
+    function currentTime(){
+       var today = new Date();
+       return( today.toLocaleString() );
+    }
+
+
+
+
+/**
+ **
+ ** Definition of event listeners for socketio.
+ ** An object constructor returning an object
+ ** with the functions that need to be registered
+ ** for socketio events.
+ **
+ ** Overwrite the functions to define your own
+ ** listeners/handlers.
+ **
+ ** TODO: use eventList instead of properties holding the functons????
+ **
+ **/
+function eventListeners() {
+
+         // TODO: TEST THIS!!!! NOT YET USED!
+         this.eventList = [
+                            {
+                              event: "connect",
+                              handler: function(){
+                                          $(".messageScreen").css("border", "4px solid green");
+                                          $(".messageScreen").css("background", "green");
+                                          $(".messageScreen").css("color", "white");
+                                          $(".messageScreen").html("Connected!");
+                                       }
+                            },
+
+                            {
+                              event: "disconnect",
+                              handler: function(){
+                                          $(".messageScreen").css("background", "red");
+                                          $(".messageScreen").css("color", "white");
+                                          $(".messageScreen").append("<br>DISCONNECTED!<br>");
+                                       }
+                            }
+         ];
+
+
+         // supported events relevant to this app.
+         // TODO: Currently this data member is not used.
+         this.events = ["connect", "disconnect", "connect_failed",
+                        "my_response",  "broadcast_response",
+                        "test_response"];
+
+
+         /**
+         ** function definitions to be used when registering
+         ** listeners for socketio events.
+         **
+         ** Define here your own functions if different handling
+         ** of events is desired.
+         **/
+
+
+         // when connected
+         this.onconnect = function(){
+                           $(".messageScreen").css("border", "4px solid green");
+                           $(".messageScreen").css("background", "green");
+                           $(".messageScreen").css("color", "white");
+                           $(".messageScreen").html("Connected!");
+         };
+
+         // when connection is lost
+         this.ondisconnect = function(){
+              $(".messageScreen").css("background", "red");
+              $(".messageScreen").css("color", "white");
+              $(".messageScreen").append("<br>DISCONNECTED!<br>");
+         };
+
+         // ???
+         this.onconnectiofailed = function(){};
+
+
+         // Fired when receiving data from server (my_response)
+         this.onresponse = function(msg, cb){
+
+               if (isJson(msg.data)){
+
+                    jobj = JSON.parse(msg.data);
+
+                    $('#sts').text(jobj['status']);
+                    $('#nurls').text(jobj['nproc']);
+                    $('#nextracted').text(jobj['nextracted']);
+                    $('#qsize').text(jobj['qsize']);
+                    $('#avgpps').text(jobj['avgpps']);
+                    $('#kbps').text(jobj['kbps']);
+                    $('#hitrate').text(jobj['hitrate']);
+                    $('#curl').html( '<a href="' + jobj['url'] + '" target="_blank">' + jobj['url'] + '</a><font size="-1" color="green">[' + currentTime() + '</font>]' );
+
+                    if ( parseInt(jobj['status']) < 0 ){
+					     sendTerminate();
+					     getLKP();
+                    }
+
+                } else {
+                        $('#object4 .messageScreen').html('Received #' + msg.count + ': ' + msg.data);
+                }
+
+                nMessages++;
+                if (cb)
+                    cb();
+         };
+
+
+         //NOTE: Listens to and is fired when the following message is received:
+         //      socket.emit('broadcast_message', {data: 'broadcast triggered'});
+         //
+         this.onbroadcastresponse = function(msg){
+                nMessages++;
+                $('#object4 .messageScreen').append( 'BROADCAST >>> ' + msg.data);
+         };
+
+        //NOTE: Listens to and is fired when the following message is received:
+        // socket.emit('test_message', {data: 'Test message sent'});
+        //
+        this.ontestresponse =  function(msg) {
+                if (nMessages > 10) {
+                   clearMessages();
+                   nMessages = 0;
+                }
+
+                nMessages++;
+                $('#object4 .messageScreen').append('<br>' + $('<div/>').text(msg.data).html());
+            };
+
+}   // eventListeners
+
+
+
+
+
+/**
+ **
+ ** Abstracting  the channel for socketio. Any operation on
+ ** channel (i.e. send/receive, add listeners) is carried out
+ ** through this object.
+ **
+ ** This is an object constructor returning an object
+ ** representng the channel.
+ **
+ ** NOTE: Supports currently only ASYNCHRONOUS communication
+ **
+ **/
+
+function wsChannel(){
+         this.socketIO = null;
+         this.lastMessage = null;
+
+         // list of supported events
+         //this.events = ["connect", "connect_failed", "my_response"];
+}
+
+
+/**
+ ** listeners: an eventListeners object defining the
+ ** the relevant listeners. If no listeners argument is
+ ** given, default listeners will be installed.
+ **/
+wsChannel.prototype.connect = function(sio=null, enableListeners=true,
+                                       listeners=null){
+          if (sio === null)
+              this.socketIO = io();
+          else
+             this.socketIO = sio;
+
+          if (enableListeners)
+              this.installListeners(listeners);
+
+          return(0);
+}
+
+
+// Sends data to server.
+wsChannel.prototype.send = function (evnt, data){
+
+                              if (this.socketIO === null){
+                                  return(-4);
+                              }
+
+                              this.socketIO.emit(evnt, data);
+                              return(0);
+                           }
+
+
+
+wsChannel.prototype.installListeners = function(lstnrs = null){
+
+        if (this.socketIO === null){
+            return(-3);
+        }
+
+
+        if (lstnrs !== null){
+            $("#message").css("color", "yellow");
+            this.socketIO.on('connect', lstnrs.onconnect);
+            this.socketIO.on('disconnect', lstnrs.ondisconnect);
+            this.socketIO.on('connect_failed', lstnrs.onconnectiofailed);
+            this.socketIO.on('my_response', lstnrs.onresponse);
+            this.socketIO.on('broadcast_response', lstnrs.onbroadcastresponse);
+            this.socketIO.on('test_response', lstnrs.ontestresponse);
+
+            /* Added for testing; to see if we get ping messages */
+            this.socketIO.on('packet', function (packet) {
+			  if (packet.type === 'ping')
+			      $(".messageScreen").html("Got ping!");
+            });
+
+            return(0);
+        }
+
+
+        // installing default listeners if 
+        // listeners given in argument are not present.
+        try {
+
+                this.socketIO.on('connect', function() {
+                        $("#message").css("border", "4px solid green");
+                        $("#message").css("background", "green");
+                        $("#message").css("color", "white");
+                        $("#message").append("Connected!");
+                });
+
+                // Event listener/handler for when connections FAIL.
+                this.socketIO.on('connect_failed', function() {
+                       $("#message").append("ERROR ! NOT CONNECTED!");
+                });
+
+
+                // Event handler for when data arrives.
+                this.socketIO.on('my_response', function(msg, cb) {
+
+                       if (isJson(msg))
+                           jobj = JSON.parse(msg.data);
+
+                       $("#message").append(msg.data);
+                });
+
+
+                return(0);
+
+
+        }
+        catch {
+           return(-6);
+        }
+} //installListeners
+
+
+
+
+
+
+// Removes ALL listeners of a specific event using its name
+// (if evnt is not null) or listeners of all events.
+wsChannel.prototype.removeAllEventListeners = function(evnt=null){
+
+       if (this.socketIO === null){
+            return(-3);
+        }
+
+       if (evnt !== null)
+           this.socketIO.removeAllListeners(evnt);
+       else
+           this.socketIO.removeAllListeners();
+
+       return(0);
+}
+
+
+//
+// end of wsChannel
+//
+
+
+
+    function clearMessageScreen(){
+             $('#sts').text('');
+             $('#nurls').text('');
+			 $('#nextracted').text('');
+			 $('#qsize').text('');
+			 $('#avgpps').text('');
+             $('#kbps').text('');
+             $('#hitrate').text('');
+
+             $('#curl').html( '' );
+    }
+
+    function setRuleFileParameter(el){
+             /*alert($(el).text());*/
+
+             /*$("#r").val( $(el).text() );*/
+             $("#r").val( $(el).text() );
+    }
+
+
+    function clearMessages(){
+         $('#object4 .messageScreen').html('');
+    }
+
+
+    function fillWebCrawlerParameters(prms){
+
+             if(prms.hasOwnProperty('-n')){
+                $("#n").val(prms['-n']);
+             }
+
+             if(prms.hasOwnProperty('-r')){
+			    $("#r").val(prms['-r']);
+             }
+
+             if(prms.hasOwnProperty('-c')){
+			 	$("#c").val(prms['-c']);
+             }
+
+             if(prms.hasOwnProperty('-o')){
+			 	$("#o").val(prms['-o']);
+             }
+
+             if(prms.hasOwnProperty('-A')){
+			 	$( "#A" ).prop( "checked", true );
+             } else
+                $( "#A" ).prop( "checked", false );
+
+             if(prms.hasOwnProperty('-R')){
+			 	$( "#rnd" ).val( prms['-R'] );
+             }
+
+             if(prms.hasOwnProperty('-M')){
+			 	$( "#m" ).prop( "checked", true );
+             } else
+                $( "#m" ).prop( "checked", false );
+
+             if (prms.hasOwnProperty('u')){
+                 $("#u").val(prms['u']);
+             }
+    }
+
+
+
+    /***
+     **
+     ** TODO: Add some additional parameters
+     **
+     **/
+    function getWebCrawlerParameters(){
+             var wcParams = {};
+
+             wcParams['-n'] = $("#n").val();
+             wcParams['-r'] = $("#r").val();
+             wcParams['-c'] = $("#c").val();
+             if ($("#m").is(':checked')) {
+                wcParams['-M'] = true;
+             }
+
+             if ($("#D").is(':checked')) {
+			     wcParams['-D'] = true;
+             }
+
+             if ($("#G").is(':checked')) {
+			     wcParams['-G'] = true;
+             }
+
+             if ($("#upd").is(':checked')) {
+			 	 wcParams['-U'] = true;
+			 }
+
+			 if ($("#cntx").is(':checked')) {
+			  	 wcParams['-C'] = true;
+			 }
+
+
+             if ( $.trim($("#o").val()) ){
+                  wcParams['-o'] = $("#o").val();
+             }
+
+
+             if ($("#A").is(':checked')) {
+			 	 wcParams['-A'] = true;
+			 }
+
+             if ( $.trim($("#HR").val()) ){
+                  wcParams['-HR'] = $("#HR").val();
+             }
+
+             if ( ($("#rnd").val() == 'pyppeteer') || ($("#rnd").val() == 'chrome')  ) {
+                   wcParams['-R'] = $("#rnd").val();
+             }
+
+
+             wcParams['u']= $("#u").val();
+
+
+
+             return(wcParams);
+
+    }
+
+
+
+
+    /* NOT TESTED */
+    async function check(name){
+     /*return new Promise(resolve => gSOCKET.emit('testScraper', name))*/
+     return new Promise(resolve => gSOCKET.emit('testScraper', name)).then(function(result) {
+                              alert(result); // "Stuff worked!"
+                            },
+           function(err) {
+                              alert(err); // Error: "It broke"
+                         }
+          );
+    }
+
+    async function send(evnt, sdata){
+
+            if (gSOCKET == null){
+                alert('ERROR: Cannot send request and parameters: No socket.io connection available.\nConnect first.');
+                return;
+            }
+
+            res = await check('aaaa');
+            alert(res);
+
+
+
+    } /*send*/
+
+
+
+
+    function sendStart(parameter){
+
+            clearMessageScreen();
+            $("#xsts").html('Starting execution...');
+            serverChannel.send('startScraper', {data: JSON.stringify(getWebCrawlerParameters())});
+
+
+            //gSOCKET.emit('startScraper', {data: JSON.stringify(getWebCrawlerParameters())});
+
+    }
+
+
+    function sendTerminate(parameter){
+
+
+            //serverChannel.send('startScraper', {data: JSON.stringify(getWebCrawlerParameters())});
+            $("#xsts").html('Stopping...');
+            serverChannel.send('stopScraper', {data: {'n':$("#n").val(),
+			                                    'r':$("#r").val(),
+			                                    'c':$("#c").val(),
+                                                'u':$("#u").val() } });
+    }
+
+
+
+    function queryStatus(){
+
+             $.ajax({
+	         url: '/status',
+	         type: "GET",
+	         data: '',
+	         dataType: 'html',
+	         beforeSend: function() {
+	             /*$('#object4 .messageScreen').append("loading..");*/
+	             },
+	         success: function(res) {
+                                     console.log(res);
+                                     /*alert(res);*/
+                                     obj = $.parseJSON(res);
+                                     $("#appsettings .blockcontent").html( '<b>user:</b> <i>' + obj['user'] + '</i><br>' +
+                                                                           '<b>BG thread:</b> <i>' + (obj['backgroundthread']=='Running'?'<font color="green"><b>Running</b></font>':'<font color="red"><b>Not running</b></font>') + '</i><br>' +
+                                                                           '<b>BG started:</b> <i>' + obj['backgroundstartdate'] + '</i><br>' +
+                                                                           '<b>Rule file path:</b> <i>' + obj['exrPath'] + '</i>'
+                                                                         );
+
+                                     $("#xsts").html( '<i>' + (obj['backgroundthread']=='Running'?'<font color="green"><b>Running</b></font>':'<font color="red"><b>Not running</b></font>') + '</i> (' + obj['backgroundstartdate'] + '-' + obj['backgroundstopdate'] + ')');
+                                     /* set global variable representing
+                                        rule path on server.
+                                        TODO: do we really need this?
+                                      */
+                                     gRULEPATH = obj['exrPath'];
+
+                                     /* Quick way to reconnect if thread is running and client is not connected.
+                                        TODO: Change this.
+
+
+                                     if ( (obj['user'] != '') && (obj['backgroundthread']=='Running') && (gSOCKET == null) ){
+                                         $('#object4 .messageScreen').append("Connecting..");
+                                         connectToRunningScraper();
+                                     }
+                                     */
+
+                      },
+
+             error: function (jqXHR, exception) {
+							var msg = '';
+							if (jqXHR.status === 0) {
+								msg = 'Not connect.\n Verify Network.\n';
+								$(".messageScreen").css("background", "red");
+								$(".messageScreen").css("color", "white");
+
+							} else if (jqXHR.status == 404) {
+								msg = 'Requested page not found. [404]';
+							} else if (jqXHR.status == 500) {
+								msg = 'Internal Server Error [500].';
+							} else if (exception === 'parsererror') {
+								msg = 'Requested JSON parse failed.';
+							} else if (exception === 'timeout') {
+								msg = 'Time out error.';
+							} else if (exception === 'abort') {
+								msg = 'Ajax request aborted.';
+							} else {
+								msg = 'Uncaught Error.\n' + jqXHR.responseText;
+							}
+							$('#object4 .messageScreen').html(msg + '<br>');
+                      }
+	      });
+    }
+
+
+
+
+    function getLKP(){
+
+	             $.ajax({
+		         url: '/lkp',
+		         type: "GET",
+		         data: '',
+		         dataType: 'html',
+		         beforeSend: function() {
+		             /*$('#object4 .messageScreen').append("loading..");*/
+		             },
+		         success: function(res) {
+	                                     console.log(res);
+	                                     /*alert(res);*/
+
+	                                     /*alert( obj['u'] );*/
+                                         /*
+                                         obj = $.parseJSON(res);
+	                                     pList = obj['history']
+	                                     fillWebCrawlerParameters(pList[0]);
+	                                     */
+
+	                                     $("#object3 .blockcontent").html( res );
+	                      },
+
+	             error: function (jqXHR, exception) {
+								var msg = '';
+								if (jqXHR.status === 0) {
+									msg = 'Not connect.\n Verify Network.\n';
+								} else if (jqXHR.status == 404) {
+									msg = 'Requested page not found. [404]';
+								} else if (jqXHR.status == 500) {
+									msg = 'Internal Server Error [500].';
+								} else if (exception === 'parsererror') {
+									msg = 'Requested JSON parse failed.';
+								} else if (exception === 'timeout') {
+									msg = 'Time out error.';
+								} else if (exception === 'abort') {
+									msg = 'Ajax request aborted.';
+								} else {
+									msg = 'Uncaught Error.\n' + jqXHR.responseText;
+								}
+								$('#object4 .messageScreen').append(msg + '<br>');
+	                      }
+		      });
+    }
+
+
+    $(document).ready(function (){
+	       $.ajax({
+	         url: '/exr',
+	         type: "GET",
+	         data: 'format=partial',
+	         dataType: 'html',
+	         beforeSend: function() {
+	             $('#object4 .messageScreen').append("loading..");
+	             },
+	         success: function(res) {
+                                     console.log(res);
+                                     /*alert(res);*/
+                                     $("#exrfiles .blockcontent").html( res )
+                      }
+	      });
+
+        }); /* document ready */
+
+        queryStatus();
+        getLKP();
+        myVar = setInterval("queryStatus()", 3000);
+
+        /* Open the connection/socket.*/
+        $(".messageScreen").css("border", "4px solid red");
+
+
+        // Setup the channel in order
+        // to communicate with server getting feedback when
+        // scraper executes.
+        serverChannel = new wsChannel();
+
+        // open connection to server and set listeners.
+        // Creates a new WebSocket
+        serverChannel.connect(null, true,  new eventListeners());
+
+    </script>
+</head>
+
+
+
+<body>
+   <div id="cheader"></div>
+    <div id="content">
+        <!-- Div is separated into two columns: left and right -->
+
+        <div id="left">
+
+              <!-- First block with content. Blocks have a (block)title and
+              a (block)content.
+              This block is used to display .exr rule files
+              -->
+
+              <div id="appsettings" class="resizableblock block1">
+                  <!-- Block title -->
+                  <div class="blocktitle blocktitle1">Settings</div>
+                  <div class="blockcontent blockcontent1"> some settings</div>
+
+              </div>
+
+
+              <!-- block -->
+
+              <div id="exrfiles" draggable="true"; class="resizableblock nofirstbock block2">
+                  <!-- Block title -->
+                  <div class="blocktitle blocktitle2">Rule files (exr)</div>
+                  <!-- Block content. Any content is displayed
+                       here.
+                  -->
+                  <div class="blockcontent blockcontent2">
+
+                    <div style="margin:0 auto; height: 300px;">
+                     <img src="images/loading3.gif" width="40" height="50" style="display:block; margin:auto"/>
+                    </div>
+
+                  </div>
+
+              </div>
+
+
+             <!-- block -->
+             <div id="object3" class="resizableblock nofirstbock block3">
+                <!-- Block title -->
+				   <div class="blocktitle blocktitle3">Previous runs</div>
+				   <!-- Block content. Any content is displayed
+				        here.
+                    -->
+                <div class="blockcontent blockcontent3"></div>
+
+             </div>
+
+         </div> <!-- End of left column -->
+
+
+
+
+         <!-- Start of right column -->
+         <div id="right">
+             <!-- block -->
+              <div id="object4" class="simpleblock resizableblockLARGE block4">
+
+                   <div class="blockcontent blockcontent4">
+                   <div class="blocktitle blocktitle4">WebCrawler parameters</div>
+                       <div class="tab">
+  <button class="tablinks" onclick="openArguments(event, 'basic')" id="defaultOpen">Basic</button>
+  <button class="tablinks" onclick="openArguments(event, 'output')">Output</button>
+  <button class="tablinks" onclick="openArguments(event, 'traversal')">Traversal</button>
+</div>
+
+<div id="basic" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+
+
+  <fieldset style="border:1px solid blue;">
+                                   <legend style="color:blue;">Basic settings</legend>
+
+      <table>
+      <tr><td><div class="xarg"><label for="n"> Max pages:</label></div></td><td><input name="n" id="n" value="-1" size="5"/></td></tr>
+
+
+      <tr><td><div class="xarg"><label for="r">Rule file (exr):</label></div></td><td><input name="r" id="r" value="default.exr" size="30" /></td></tr>
+
+
+      <tr><td><div class="xarg"><label for="c">Config file:</label></div></td><td><input name="c" id="c" value="webScraper.conf" size="30" /></td></tr>
+
+
+          <tr><td><div class="xarg"><label for="u">Start url:</label></div></td><td><input name="u" id="u" value="https://www.econ.upatras.gr/" size="40"/></td></tr>
+      </table>
+                                </fieldset>
+</div>
+
+
+<div id="output" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <fieldset style="border:1px solid green;margin-top:10px;">
+                                   <legend style="color:green;">Output settings</legend>
+
+                                <div class="xarg"><label for="o">Output csv file:</label><input id='o' name="o" value="val.csv" />
+                                 <label for="A">Append to file:</label><input type="checkbox" id="A" name="A" value="Overwrite">
+                                </div>
+
+
+                                    <div class="xarg"><label for="G">Debug:</label><input type="checkbox" id="G" name="G" value="Debug"></div>
+
+
+                                    <div class="xarg"><label for="m">Store pages locally (mirror):</label><input type="checkbox" id="m" name="m" value="mirror"></div>
+
+                               </fieldset>
+</div>
+
+
+<div id="traversal" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">&times</span>
+  <fieldset>
+                                   <legend>Traversal</legend>
+                                   <label for="traversal_1">
+                                   <div class="xarg" style="width:150px;float:left; ">Update mode:<input type="checkbox" id="upd" name="upd" value="updatemode"></div>
+                                   <div class="xarg" style="width:250px;float:left; ">Continue previous extraction:<input type="checkbox" id="cntx" name="cntx" value="continuextractions"></div>
+                                   </label>
+                                   <br/>
+
+                                     <div class="xarg" style="width:250px;float:left; " ><label for="D">Depth first traversal:</label><input type="checkbox" id="D" name="d" value="Depth first"></div>
+
+
+                                       <div class="xarg" style="width:250px;float:left; "><label for="HR">Minimum hit rate:</label><input id="HR" name="hr" value="-1" size="5"></div>
+
+
+                                       <div class="xarg" style="width:250px;float:left; "><label for="rnd">Rendering mode:</label><select name="rnd" id="rnd"> <option value="static" selected="selected">static (default)</option><option value="pyppeteer">Chromium (pyppeteer)</option><option value="chrome">Chrome</option></select> </div>
+
+                                   <label for="traversal_4">
+                                   <div class="xarg">Delay model between requests:<select name="dm" id="dm"> <option value="constant" selected="selected">constant (default)</option><option value="human">human</option></select> </div>
+                                   </label>
+                                   <label for="traversal_5">
+                                       <div class="xarg">Constant sleep time between requests (in seconds):<input name="s" value="-1" size="5"/></div>
+                                   </label>
+                           </fieldset>
+</div>
+
+
+                       <div class="settings" style="border:1px solid #dce3f5;  margin-bottom:10px;display:flex; flex-wrap: wrap;">
+
+
+
+                           </div>
+
+                           <button id='startScraping' class="button button1" style="--clr:#39FF14" onclick="send('testScraper', 'aaa');"><span>Connect/start</span></button>
+                           <button id='startScraper' class="button button2" style="--clr:#39FF14" onclick="sendStart('123');"><span>Start scraping</span></button>
+                           <button id='stopScraping' class="button button3" style="--clr:#39FF14" onclick="sendTerminate();"><span>Stop scraping</span></button>
+                       </div>
+
+                       <div class="screenWrapper">
+                          <div class="scoreboard">
+                          Current execution:
+							  <div style="padding:15px;">
+							    <table>
+							      <tr> <td style="text-align:right; color:#000000;">State:</td><td><span id="xsts">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;">Status:</td><td><span id="sts">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;"># Urls processed:</td><td><span id="nurls">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;"># data extracted:</td><td><span id="nextracted">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;"># queue size:</td><td><span id="qsize">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;">Avg pps:</td><td><span id="avgpps">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;">KB/sec:</td><td><span id="kbps">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;">hitrate:</td><td><span id="hitrate">---</span></td></tr>
+								  <tr> <td style="text-align:right; color:#000000;">Current url:</td><td><span id="curl">---</span></td></tr>
+								</table>
+							  </div>
+
+                          </div> <!--scoreboard -->
+                          <div class="resizableblock messageScreen">
+                          </div>
+                       </div>
+
+
+              </div> <!-- End of object4 block-->
+
+              <!-- block -->
+              <div id="object5">22222</div>
+
+        </div> <!-- End of RIGHT column -->
+
+        <!-- <br style="clear:both;"/> -->
+
+</div> <!-- End of CONTENT pane containing left and right columns -->
+
+<script>
+function openArguments(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>

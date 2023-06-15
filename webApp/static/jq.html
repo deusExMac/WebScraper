@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <style>
+        html, body { height: 100%; margin:auto; }
+        #container { margin: auto; margin-top:0px; width:75%; height: 90%; border: 2px solid blue;}
+
+        #stsEnvelope {margin:auto; border:1px solid green; width:75%; height:23px; position:relative; visibility:hidden;}
+
+        .status { width:45%; height: 20px; border: 2px solid blue; position: static; visibility: visible; background:navy; font-family: 'Helvetica', 'Arial', sans-serif; color:white;}
+        .bottomstatus {margin-top:0px; }
+
+
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+	  $("#fadeOut").click(function() {
+	    $("#topStatus").fadeOut("slow");
+	  });
+
+	  $("#fadeIn").click(function() {
+	    $("#topStatus").fadeIn("slow");
+	  });
+     });
+    </script>
+
+
+
+
+</head>
+<body>
+    <div id="fadeOut" >HIDE ME!</div>
+    <div id="fadeIn" >SHOW ME!</div>
+
+    <div id="stsEnvelope"> <div id="topStatus" class='status'>MMMM</div> </div>
+    <div id="container">dfdfdfed</div>
+    <div id="stsEnvelope"><div id="bottomStatus" class='status bottomstatus'>xxxx</div> </div>
+
+
+</body>
+</html>

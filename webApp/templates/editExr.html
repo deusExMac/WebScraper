@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="/min/vs/editor/editor.main.css" />
+    <link rel="stylesheet"
+          data-name="/min/vs/editor/editor.main"
+          href="/min/vs/editor/editor.main.css" />
+    <style>
+        html, body { height: 100%; margin:auto; }
+         #content {margin:0 auto; margin-top:50px; width:70%; border: 1px dotted yellow;
+		          display: grid;
+		          grid-template-columns: 20% 80%;
+        }
+
+        #left { border:1px dotted blue;}
+        #right { float:right; border:1px dotted orange;}
+
+
+        #container { border:0px solid blue; margin: auto; margin-top:0px; width:100%; height: 650px; }
+
+        .stsEnvelope { border:0px solid green; width:70%; height:33px; position:relative; visibility:visible; display:flex; margin-top:0px;}
+        .bottomenvelope {margin-top:0px;}
+        .status {width:25%; margin-left:120px; height: 33px; border: 2px solid blue; position: static; visibility: hidden; background:navy; font-family: 'Helvetica', 'Arial', sans-serif; color:white;}
+        .bottomstatus {margin-top:0px; }
+
+        .info { border-bottom:0px solid blue; height:3px; line-height:3px; padding:15px; width:60%; background:#1A1B41; font-family:'Montserrat', 'Roboto','Open Sans', 'Helvetica'; font-size:90%; color:#DECDF5;}
+
+
+        .simpleblock {
+
+		                min-width:100%;
+		                max-width: 100%;
+		                height:450px;
+		                #max-height: 500px;
+		                #border: 1px solid black;
+		                min-width: 50px;
+		                min-height: 50px;
+		                #background-color: skyblue;
+           }
+
+        .resizableblock {
+                overflow: hidden;
+                resize: vertical;
+                min-width:100%;
+                max-width: 100%;
+                height:450px;
+                max-height: 500px;
+                #border: 1px solid black;
+                min-width: 50px;
+                min-height: 50px;
+                #background-color: skyblue;
+           }
+
+        .blockcontent {background:#00FCDE;height:500px; max-height:500px; overflow-y:auto;}
+
+        .scrollableblock {
+            overflow-y:auto;
+        }
+
+        .resizableblockLARGE {
+                              width:97%;
+                              min-width:97%;
+                              max-width:97%;
+                              height:700px;
+                              max-height:900px;
+        }
+
+        .block4 {border:1px solid {{darkcolor}};}
+
+        .blocktitle {background:{{darkcolor}}; padding:5px;
+	                font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+
+        .blocktitle4 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+
+        .blocktitle1 {background:{{darkcolor}}; color:white; border:1px solid {{darkcolor}};}
+        .blockcontent1 {background:{{lightcolor}}; padding:29px; font-size:14px; font-family:Helvetica; word-wrap:break-word;}
+
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script> -->
+    <script language="javascript">
+    {% if autosave %}
+       var AUTOSAVE=true;//global variable
+    {% else %}
+       var AUTOSAVE=false;//global variable
+    {%endif%}
+
+    // Colors for the area displaying only file name (more specificallly div with class "info").
+    // Color change depending on the editor theme so as to have matching colors.
+    // Semantics: b: background color, f: font color, bl: left border, bt: top border, br: right border
+    //TODO: Add all supported themes
+    var INFOCOLORS = {
+                          Active4D: {b:"#e6e8e8", f:"navy", bl:"1px solid #ed1405", bt:"1px solid #ed1405", br:"1px solid #ed1405"},
+                          AllHallowsEve: {b:"#000", f:"#fff", bl:"1px solid yellow", bt:"1px solid yellow", br:"1px solid yellow"},
+                          BirdsofParadise: {b:"#57370c", f:"#fff", bl:"1px solid red", bt:"1px solid red", br:"1px solid red"},
+                          ChromeDevTools: {b:"#e6e8e8", f:"navy", bl:"1px solid #ed1405", bt:"1px solid #ed1405", br:"1px solid #ed1405"}        
+    };
+
+
+    function save() {
+	   // get the value of the data
+	   var value = editor.getValue()
+	   alert(getVal);
+     }
+
+
+    function beforeSubmit() {
+        document.getElementsByName('exrContent')[0].value = editor.getValue();
+        alert( document.getElementsById('exrContent')[0].value)
+        return true
+     }
+
+
+     function loadExrContent(fname){
+              $.ajax({
+	            url: '/getfile/'+fname,
+	            type: "GET",
+	            data: '',
+	            dataType: 'html',
+	            beforeSend: function() {
+	                $('#object4 .messageScreen').append("loading..");
+	             },
+
+                success: function(res) {
+                                     /*console.log(res);*/
+                                     /*alert(res);*/
+                                     editor.getModel().setValue(res.replaceAll("&#34;", '"').replaceAll("&#39;", "'") );
+                                     $("#exrFileName").val(fname);
+                                     $(".info").html(fname);
+                                     $("#editorWindow").html('Editing exr file {' + fname + '}');
+
+                      }
+	      });
+
+     } /* loadExrContent*/
+
+
+function setWordWrap(cb){
+        if ( $(cb).is(":checked") )
+            editor.updateOptions({ wordWrap: "on" });
+        else
+            editor.updateOptions({ wordWrap: "off" });
+}
+
+
+
+
+function setTheme(selector){
+
+         let themeName = $(selector).find(":selected").val()
+         fetch('/mthemes/' + themeName + '.json')
+		 		  .then(data => data.json())
+		 		  .then(data => {
+		 		    monaco.editor.defineTheme('twl', data);
+		 		    monaco.editor.setTheme('twl');
+         });
+
+         //if theme name has white spaces, remove them before
+         //searching registered colors
+         themeName = themeName.replace(/ /g, "");
+         if (themeName in INFOCOLORS) {
+            $(".info").css('background-color', INFOCOLORS[themeName]['b']);
+            $(".info").css('color', INFOCOLORS[themeName]['f']);
+            if ('bl' in INFOCOLORS[themeName])
+                $(".info").css("border-left", INFOCOLORS[themeName]['bl']);
+            if ('bt' in INFOCOLORS[themeName])
+                $(".info").css("border-top", INFOCOLORS[themeName]['bt']);
+            if ('br' in INFOCOLORS[themeName])
+                $(".info").css("border-right", INFOCOLORS[themeName]['br']);
+         }
+
+}
+
+
+
+   $(document).ready(function (){
+	       $.ajax({
+	         url: '/exr',
+	         type: "GET",
+	         data: 'format=inplaceloading',
+	         dataType: 'html',
+	         beforeSend: function() {
+	             $('#object4 .messageScreen').append("loading..");
+	             },
+	         success: function(res) {
+                                     console.log(res);
+                                     /*alert(res);*/
+                                     $("#exrfiles .blockcontent").html( res )
+                      }
+	      });
+
+    }); /* document ready */
+
+    </script>
+
+
+
+
+</head>
+<body>
+
+<div id="content">
+        <!-- Div is separated into two columns: left and right -->
+
+ <div id="left">
+
+
+   <div id="exrfiles" class="resizableblock">
+      <div class="blocktitle blocktitle1">Exr files</div>
+      <div class="blockcontent blockcontent1">
+      </div>
+
+   </div>
+
+ </div>
+
+ <div id="right">
+
+  <div id="object4" class="simpleblock resizableblockLARGE block4">
+    <div class="blockcontent4">
+
+    <div id="editorWindow" class="blocktitle blocktitle4">Editing exr file [{{fileopened}}]</div>
+
+        <div style="padding:10px 10px 10px 10px; background:{{lightcolor}};">
+          <div style="width:100%">
+           <input type="checkbox" name="wr" id="wr" value="word wrap"onchange="setWordWrap(this)"/>
+           <label for="wr">Wrap lines</label>
+
+           <label for="cars">Choose theme</label>
+             <select name="monacotheme" id="monacotheme" onchange="setTheme(this);">
+               <option value="Active4D">Active4D</option>
+               <option value="All Hallows Eve">All Hallows Eve</option>
+               <option value="Birds of Paradise">Birds of Paradise</option>
+               <option value="Chrome DevTools">Chrome DevTools</option>
+               <option value="Clouds Midnight">Clouds Midnight</option>
+               <option value="Dominion Day">Dominion Day</option>
+               <option value="Dracula">Dracula</option>
+               <option value="Dreamweaver">Dreamweaver</option>
+                 
+                 <option value="Eiffel">Eiffel</option>
+                 <option value="Espresso Libre">Espresso Libre</option>
+                 <option value="krTheme">krTheme</option>
+                 <option value="Merbivore Soft">Merbivore Soft</option>
+                 <option value="Merbivore">Merbivore</option>
+                 <option value="monoindustrial">monoindustrial</option>
+                 <option value="Monokai Bright">Monokai Bright</option>
+                 <option value="Night Owl">Night Owl</option>
+                 <option value="Nord">Nord</option>
+                 <option value="Oceanic Next">Oceanic Next</option>
+                 <option value="Pastels on Dark">Pastels on Dark</option>
+                 <option value="Slush and Poppies">Slush and Poppies</option>
+                 <option value="Solarized-dark">Solarized-dark</option>
+                 <option value="Solarized-light">Solarized-light</option>
+                 <option value="SpaceCadet">SpaceCadet</option>
+                 <option value="Textmate (Mac Classic)">Textmate (Mac Classic)</option>
+                 <option value="themelist">themelist</option>
+                 
+
+
+
+               <option value="GitHub Dark">GitHub Dark</option>
+               <option value="GitHub Light">GitHub Light</option>
+               <option value="idleFingers">idleFingers</option>
+               <option value="iPlastic">iPlastic</option>
+                 <option value="LAZY">LAZY</option>
+                 <option value="MagicWB (Amiga)">MagicWB (Amiga)</option>
+
+               <option value="Sunburst">Sunburst</option>
+               <option value="Amy">Amy</option>
+               <option value="Cobalt">Cobalt</option>
+               <option value="Cobalt2">Cobalt2</option>
+               <option value="Dawn">Dawn</option>
+               <option value="Monokai">Monokai</option>
+               <option value="Blackboard">Blackboard</option>
+               <option value="Katzenmilch">Katzenmilch</option>
+               <option value="Kuroir Theme">Kuroir Theme</option>
+            
+               <option value="Tomorrow-Night-Blue">Tomorrow-Night-Blue</option>
+                 <option value="Tomorrow-Night-Bright">Tomorrow-Night-Bright</option>
+                 <option value="Tomorrow-Night-Eighties">Tomorrow-Night-Eighties</option>
+                 <option value="Tomorrow">Tomorrow</option>
+                 <option value="Twilight">Twilight</option>
+                 
+                 <option value="Upstream Sunburst">Upstream Sunburst</option>
+                 <option value="Vibrant Ink">Vibrant Ink</option>
+                 <option value="Xcode_default">Xcode_default</option>
+                 
+
+
+              </select>
+          </div>
+        </div>
+
+    <div id="stsEnvelope1" class="stsEnvelope"><div class="info">{{fileopened}}</div>
+        <div id="topStatus" class='status'></div>
+
+    </div>
+    <div id="container"></div>
+
+
+    <script src="/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { 'vs': '/min/vs' } });
+    </script>
+    <script src="/min/vs/editor/editor.main.nls.js"></script>
+    <script src="/min/vs/editor/editor.main.js"></script>
+    <script>
+
+       document.addEventListener('keydown', e => {
+	     if (e.ctrlKey && e.key === 's') {
+	       e.preventDefault();
+	       $("#saveexr").submit();
+	     }
+       });
+
+        var editor = monaco.editor.create(document.getElementById('container'), {
+            value: '',
+            theme: 'Cobalt',
+            language: 'json',
+            fontSize: "12px",
+            wordWrap: "off"
+        });
+
+        editor.getModel().setValue('{{ fcontent }}'.replaceAll("&#34;", '"').replaceAll("&#39;", "'") );
+
+        /***
+        editor.addCommand(monaco.KeyCode.Ctrl | monaco.KeyCode.KEY_M, () => alert("hello world"))
+        editor.addCommand(monaco.KeyMod.chord(monaco.KeyCode.KEY_S, monaco.KeyCode.Space), () => alert("Gotcha"));
+
+
+		editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_O, () => {alert("Gotcha");});
+		editor.addCommand(monaco.KeyMod.chord(monaco.KeyCode.KEY_S, monaco.KeyCode.Space), () => alert("Gotcha"));
+
+        var myBinding = editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, function() {
+		    console.log('SAVE pressed!');
+        });
+        ***/
+
+        var KM = monaco.KeyMod;
+		var KC = monaco.KeyCode;
+		editor.addCommand(KM.chord(KM.CtrlCmd | KC.KEY_K, KM.CtrlCmd | KC.KEY_M), function() {
+		 alert("PRESSED KEY!")
+         });
+
+
+		fetch('/mthemes/SpaceCadet.json')
+		  .then(data => data.json())
+		  .then(data => {
+		    monaco.editor.defineTheme('twl', data);
+		    monaco.editor.setTheme('twl');
+        });
+
+    </script>
+
+
+  <form id="saveexr" method="post">
+    <input type = "hidden" name = "exrFileNameN" id = "exrFileName" value = '{{fileopened}}' />
+    <input type = "hidden" name = "exrContentN" id = "exrContent" value = "" />
+    <input type="submit" value="Submit"  >
+  </form>
+
+
+  <script>
+      /* attach a submit handler to the form */
+  	$("#saveexr").submit(function(event) {
+
+        /*alert('Saving to file [' + $('#exrFileName').val() + ']');*/
+
+        $(".status").css("visibility","hidden");
+
+        $(".status").css("background-color", "blue");
+        $(".status").text("Sending data....");
+        $(".status").css("visibility","visible");
+
+
+        /*$(".status").toggle();*/
+         /*$(".status").toggle();*/
+
+        /*alert(editor.getValue());*/
+
+        /*$(".status").fadeIn(3000);*/
+        event.preventDefault();
+        var $form = $(this);
+        url = $form.attr('action');
+        /* Send the data using post with element id name and name2*/
+		  var posting = $.post(url, {
+			exrFileName: $('#exrFileName').val(),
+			exrContent:  editor.getValue(), /*$('#exrContent').val()*/
+			mode: 'ajax'
+		  });
+		  $(".status").text("Saving....");
+
+		  	  /* Show the results */
+		  	  posting.done(function(data) {
+                /*$(".status").fadeOut(3000);*/
+                $(".status").css("background-color", "green");
+                $(".status").css("border", "1px solid lime");
+                $(".status").text(data);
+                $(".status").css("visibility","hidden");
+
+
+		  	  });
+
+		  	  posting.fail(function(data) {
+		  	    $(".status").css("background-color", "red");
+                $(".status").css("border", "1px solid maroon");
+		  	    $(".status").text(data);
+  	           });
+
+      });
+
+      if (AUTOSAVE === true){
+          var intervalId = window.setInterval(function(){
+	                     // call your function here
+	                     $( "#saveexr" ).submit();
+                         }, 5000);
+       }
+
+    </script>
+
+      </div>
+     </div>
+
+
+     </div> <!-- right -->
+    </div> <!--content -->
+
+
+
+</body>
+</html>

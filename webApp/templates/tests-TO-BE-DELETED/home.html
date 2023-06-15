@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!--load jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+       function startExecution(execParams){
+                 alert('Starting execution');
+                 var socket = io();
+
+            // Event handler for new connections.
+            // The callback function is invoked when a connection with the
+            // server is established.
+            socket.on('connect', function() {
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
+
+            // Event handler for server sent data.
+            // The callback function is invoked whenever the server emits data
+            // to the client. The data is then displayed in the "Received"
+            // section of the page.
+            socket.on('my_response', function(msg, cb) {
+                $('#execStatus').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+                if (cb)
+                    cb();
+            });
+
+            // Test response received from server is handled here
+            socket.on('test_response', function(msg) {
+                $('#execStatus').append('<br>' + $('<div/>').text(msg.data).html());
+            })
+
+            // Broadcast response from server is handled here
+            socket.on('broadcast_response', function(msg) {
+                $('#execStatus').append('<br>' + $('<div/>').text(msg.data).html());
+            })
+
+            // Handlers for the different forms in the page.
+            // These accept data from the user and send it to the server in a
+            // variety of ways
+            $('form#test').submit(function(event) {
+                socket.emit('test_message', {data: 'Test message sent'});
+                return false;
+            });
+            $('form#broadcast').submit(function(event) {
+                socket.emit('broadcast_message', {data: 'broadcast triggered'});
+                return false;
+            });
+       }    
+        
+        
+        
+        
+       function loadExrFiles(){
+
+               /* $.get("/exr", function(data, status){
+				    alert("Data: " + data + "\nStatus: " + status);
+                 });
+
+               */
+       }
+
+
+       $(document).ready(function (){
+	       $.ajax({
+	         url: '/exr',
+	         type: "GET",
+	         data: 'format=partial',
+	         dataType: 'html',
+	         beforeSend: function() {
+	             $('#current_page').append("loading..");
+	             },
+	         success: function(res) {
+                                     console.log(res);
+                                     /*alert(res);*/
+                                     $("#exrfiles").html( res )
+                      }
+	      });
+        });
+
+    </script>
+
+    <style>
+      #container {margin:auto; margin-top:80px; width:65%;  border:1px solid yellow;  overflow-x:scroll; white-space:nowrap}
+      #container:after {
+      content: "";
+      display: table;
+      clear: both;
+      }
+        
+      #execution {  width:100%; max-height:400px; border:1px dashed orange; overflow:hidden}
+      #exrList {background-color:#dfe9f7;}
+      #exrfiles {overflow-y: scroll; max-height:210px;}
+
+      #leftside {float:left; width:45%; margin-left:0px; border:1px solid red; }     
+      #rightside {float:left; width:50%; margin-left:0px; border:1px solid green;}
+      .toolbox {width:270px; height:40%; border:1px solid blue; font-size:10px; overflow:hidden}
+
+      .block {
+	    width: 360px;
+	    margin-top:25px;
+	    margin-left:20px;
+	    padding:0px;
+	    #padding-top: 25px;
+	    padding-right:0px;
+	    padding-bottom:0px;
+	    #border:2px solid #c1c3c7;
+	    border:2px solid #b6d3fc;
+	    font: 11pt arial, sans-serif, helvetica;
+	    background-color: white;
+	  }
+
+      .blocktitle {
+	                margin-top:0px;
+	                margin-bottom:0px;
+	                margin-left:0px;
+	                font-size:130%;
+	                background-color: #b6d3fc;
+	                #padding-top:5px;
+	                #padding-bottom:5px;
+	                #padding-left:5px;
+	                padding:5px;
+	                font-family: Alberus, Trebuchet MS, sans-serif, helvetica;
+        }
+
+        .blocktitle1 {background-color: #8FC4CF;}
+        .block1 {border: 2px solid #8FC4CF;}
+        
+        .button {
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div id="container">
+
+    <div id="leftside">
+
+         <div id="exrList" class="block">
+              <div class="blocktitle">Rule files</div>
+              <div id="exrfiles"></div>
+         </div>
+
+         <div id="configfilelist" class="block block1">
+		      <div class="blocktitle blocktitle1">Configs</div>
+		      <div id="configfile">Configuration files</div>
+         </div>
+
+
+    </div>
+
+    <div id="rightside">
+         <div id="execution">
+             <input type="button" class="button" value="Start execution" onclick="startExecution();">
+             
+             <div id="execStatus" style="max-height:190px; width:100%;border:1px dashed red;height:150px;overflow-y: scroll; overflow-wrap: break-word;; word-wrap:break-word;">
+             dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak dsadsa dsadsd dsd dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak  dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak  dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak dlksadkljakjd klasj dlkaj dlkajsd klasj dklasjdklasjd klasjd klasjd klasjd klsajdklasjd klajd klasj dklasjd klsajd klsajd lkas
+                 dlksajd klsaj ldkja kldj lak 123
+             </div>
+         </div>
+    </div>
+
+</div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="buttonStyles.css">
+    <style>
+        #content {margin:0 auto; margin-top:50px; width:70%; border: 1px dotted yellow;
+          display: grid; 
+          grid-template-columns: 20% 80%;
+        }
+        
+        #left { border:1px dotted blue;}
+        #right { float:right; border:1px dotted orange;}
+         
+        
+        #exrfiles {}
+        #object2 {border:1px solid #4531b1;}
+        #object4 {margin:0 auto; width:97%;}
+        #object5 {border:1px solid lime; margin-top:5px;}
+        
+        
+        
+         
+        .blockcontent {background:#00FCDE;height:500px; max-height:500px; overflow-y:auto;}
+        
+            
+        
+        
+        .resizableblock {
+                overflow: hidden;
+                resize: vertical;
+                min-width:100%;
+                max-width: 100%;
+                height:150px;
+                max-height: 500px;
+                #border: 1px solid black;
+                min-width: 50px;
+                min-height: 50px;
+                #background-color: skyblue;
+           }  
+         
+        .resizableblockLARGE {width:97%; min-width:97%; max-width:97%; height:400px; max-height: 500px;}
+        
+        .nofirstbock {margin-top:10px;}
+        
+        .block1 {border:1px solid #001900; }
+        .block2 {border:1px solid orange;}
+        .block4 {border:1px solid #b2b200;}
+        
+        
+        .blocktitle {background:red; padding:5px;
+	                font-family: Alberus, Trebuchet MS, sans-serif, helvetica;}
+             
+        .blocktitle1 {background:green; color:white; border:1px solid maroon;}
+        .blockcontent1 {background:#e5f2e5;}
+        
+        .blocktitle2 {background:#FFA500; color:white; border:1px solid #999900;}
+        .blockcontent2 {background:#ffedcc;}
+        
+        .blocktitle3 {background:#99bdf0; color:white; border:1px solid #2c72d4;}
+        
+        .blocktitle4 {background:#e5e500; color:white; border:1px solid yellow;}
+        .blockcontent4 {background:#ffffe5;}
+        
+        
+        .messageScreen {width:100%; height:100%; background:black; color:lime; font-family:Calisto MT, Calibri, Helvetica}
+        
+    [draggable=true] {
+           cursor: move;
+     }
+    
+    </style>
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    <script>
+    function startScraper(){
+        $("#object4 .messageScreen").html('aasdasdsadsas')
+        
+    }
+    </script>
+</head>
+
+    
+    
+<body>
+    <div id="content">
+        <!-- Div is separated into two columns: left and right -->
+         
+        <div id="left">
+            
+              <!-- First block with content. Blocks have a (block)title and
+              a (block)content.
+              This block is used to display .exr rule files
+              -->
+            
+              <div id="appsettings" class="resizableblock block1">
+                  <!-- Block title -->
+                  <div class="blocktitle blocktitle1">Settings</div>
+                  <div class="blockcontent blockcontent1"> some settings</div>
+                      
+              </div>
+            
+            
+              <!-- block -->
+            
+              <div id="exrfiles" draggable="true"; class="resizableblock nofirstbock block2">
+                  <!-- Block title -->
+                  <div class="blocktitle blocktitle2">Title</div>
+                  <!-- Block content. Any content is displayed
+                       here.
+                  -->
+                  <div class="blockcontent blockcontent2">
+                     <ul>
+                        <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.google.com">google</a></li>
+                         <li><a href="www.econ.upatras.gr">econ.upatras</a></li>
+                     </ul>    
+                  </div>
+                        
+              </div>
+              
+            
+             <!-- block -->  
+             <div id="object3" class="resizableblock nofirstbock">dsds</div>
+            
+         </div> <!-- End of left column -->
+
+        
+        
+        
+         <!-- Start of right column -->
+         <div id="right">
+             <!-- block -->
+              <div id="object4" class="resizableblock resizableblockLARGE block4">              
+                   <div class="blocktitle blocktitle4">Title</div>
+                   <div class="blockcontent blockcontent4">
+                       <div class="settings" style="border:1px solid orange;">
+                           <button id='startScraping' style="--clr:#39FF14" onclick="startScraper();"><span>Start crawling</span><i></i></button>
+                       </div> 
+                       <div class="messageScreen">
+                       </div>
+                   </div> 
+              </div> <!-- End of object3 block-->
+             
+              <!-- block -->
+              <div id="object5">22222</div>
+             
+        </div> <!-- End of RIGHT column -->
+        
+        <!-- <br style="clear:both;"/> -->
+
+</div> <!-- End of CONTENT pane containing left and right columns -->
+
+
+</body>
+</html>

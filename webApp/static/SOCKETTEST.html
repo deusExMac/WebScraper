@@ -1,0 +1,250 @@
+<html>
+
+<head>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+
+<script lang="javascript">
+
+
+function isJson(str) {
+	    try {
+	        JSON.parse(str);
+	    } catch (e) {
+	        return false;
+	    }
+	    return true;
+    }
+
+
+    function currentTime(){
+       var today = new Date();
+       return( today.toLocaleString() );
+    }
+
+
+
+
+/**
+ **
+ ** Definition of event listeners for socketio.
+ ** An object constructor returning an object
+ ** with the functions that need to be registered
+ ** for socketio events.
+ **
+ ** Overwrite the functions to define your own
+ ** listeners/handlers
+ **
+ **/
+function eventListeners() {
+
+         // supported events relevant to this app.
+         this.events = ["connect", "disconnect", "connect_failed",
+                        "my_response"];
+
+         // function definitions to be used when registering
+         // listeners for socketio events.
+         this.onconnect = function(){
+                           $("#message").css("color", "yellow");
+                           $("#message").append("Connected!<br>");
+         };
+
+         this.ondisconnect = function(){
+              $("#message").css("background", "red");
+              $("#message").css("color", "white");
+              $("#message").append("<br>DISCONNECTED!<br>");
+         };
+
+         this.onconnectiofailed = function(){};
+
+
+         this.onresponse = function(msg, cb){
+               if (isJson(msg))
+                   jobj = JSON.parse(msg.data);
+
+              $("#message").css('color', 'lime');
+              $("#message").append('>>>' + msg.data + '<br>');
+         };
+}
+
+
+
+/**
+ **
+ ** Abstracting  the channel for socketio. Any operation on
+ ** channel (i.e. send/receive, add listeners) is carried out
+ ** through this object.
+ **
+ ** This is an object constructor returning an object
+ ** representng the channel.
+ **
+ ** NOTE: Supports currently only ASYNCHRONOUS communication
+ **
+ **/
+
+function wsChannel(){
+         this.socketIO = null;
+         this.lastMessage = null;
+
+         // list of supported events
+         //this.events = ["connect", "connect_failed", "my_response"];
+}
+
+
+/**
+ ** listeners: an eventListeners object defining the
+ ** the relevant listeners. If no listeners argument is
+ ** given, default listeners will be installed.
+ **/
+wsChannel.prototype.connect = function(sio=null, enableListeners=true,
+                                       listeners=null){
+          if (sio === null)
+              this.socketIO = io();
+          else
+             this.socketIO = sio;
+
+          if (enableListeners)
+              this.installListeners(listeners);
+
+          return(0);
+}
+
+
+
+wsChannel.prototype.send = function (evnt, data){
+
+                              if (this.socketIO === null){
+                                  return(-4);
+                              }
+                              //alert('Sending:' + evnt + ' --- ' + data);
+                              this.socketIO.emit(evnt, data);
+                              return(0);
+                           }
+
+
+
+wsChannel.prototype.installListeners = function(lstnrs = null){
+
+        if (this.socketIO === null){
+            return(-3);
+        }
+
+
+        if (lstnrs !== null){
+            $("#message").css("color", "yellow");
+            this.socketIO.on('connect', lstnrs.onconnect);
+            this.socketIO.on('disconnect', lstnrs.ondisconnect);
+            this.socketIO.on('connect_failed', lstnrs.onconnectiofailed);
+            this.socketIO.on('my_response', lstnrs.onresponse);
+            return(0);
+        }
+
+
+        // default listeners for most important events
+        try {
+
+                this.socketIO.on('connect', function() {
+                        $("#message").css("border", "4px solid green");
+                        $("#message").css("background", "green");
+                        $("#message").css("color", "white");
+                        $("#message").append("Connected!");
+                });
+
+                // Event listener/handler for when connections FAIL.
+                this.socketIO.on('connect_failed', function() {
+                       $("#message").append("ERROR ! NOT CONNECTED!");
+                });
+
+
+                // Event handler for when data arrives.
+                this.socketIO.on('my_response', function(msg, cb) {
+
+                       if (isJson(msg))
+                           jobj = JSON.parse(msg.data);
+
+                       $("#message").append(msg.data);
+                });
+
+
+                return(0);
+
+
+        }
+        catch {
+           return(-6);
+        }
+} //installListeners
+
+
+
+
+
+
+// Removes ALL listeners of a specific event using its name
+// (if evnt is not null) or listeners of all events.
+wsChannel.prototype.removeAllEventListeners = function(evnt=null){
+
+       if (this.socketIO === null){
+            return(-3);
+        }
+
+       if (evnt !== null)
+           this.socketIO.removeAllListeners(evnt);
+       else
+           this.socketIO.removeAllListeners();
+
+       return(0);
+}
+
+
+
+
+
+
+
+// Create the web socket to communicate, bi-directionally,
+// with the server.
+serverChannel = new wsChannel();
+
+//open connection to server and set listeners
+serverChannel.connect(null, true,  new eventListeners());
+
+
+
+
+
+
+
+
+
+
+function sendMsg(name){
+    serverChannel.send('testScraper', name);
+}
+
+
+
+
+
+
+
+</script>
+
+</head>
+
+
+<body>
+
+<div>
+    <div id="message" style="height:250px;background-color:blue;"></div>
+    <input type="button" value="send message" onclick='sendMsg("123");'/>
+</div>
+
+<script></script>
+
+</body>
+
+
+</html>

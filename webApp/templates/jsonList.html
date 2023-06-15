@@ -1,0 +1,17 @@
+    <style>
+    </style>
+
+    <table width="80%" style="margin:0 auto;">
+        <thead>
+         <tr>
+          <th></th>
+          <th></th>
+        </tr>
+       </thead>
+
+        <tbody>
+    {% for file in exrfilelist %}
+            <tr> <td width="70%"><a id=obj{{loop.index0}} href="{{url_for('editexr', fnm=file['parentdir'] + '/' + file['filename']) }}">{{ file['parentdir'] + '/'+file['filename'] }}</a> <br> <font color="#9b9e9e">{{file['description']}} </font></td><td width="30%">| [edit] | [<a href="#" onclick="setRuleFileParameter('#obj{{loop.index0}}')">use</a>]</td></tr>
+    {% endfor %}
+    </tbody>
+    </table>

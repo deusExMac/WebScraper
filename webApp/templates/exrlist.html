@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>exr files</title>
+  </head>
+  <body>
+    <ul>
+    
+    {% for file in exrfilelist %}    
+           <li><a href="{{url_for('editexr', fnm=file['parentdir'] + '/' + file['filename']) }}">{{ file['filename'] }}</a></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>

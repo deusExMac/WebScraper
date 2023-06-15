@@ -1,0 +1,17 @@
+    <style>
+    </style>
+
+    <table style="table-layout: fixed;width:100%">
+        <thead>
+         <tr>
+          <th></th>
+          
+        </tr>
+       </thead>
+
+        <tbody>
+    {% for file in exrfilelist %}
+            <tr> <td style="word-wrap: break-word;"><a id=obj{{loop.index0}} href="javascript:loadExrContent('{{file['parentdir'] + '/' + file['filename']}}')">{{ file['parentdir'] + '/'+file['filename'] }}</a> <br> <font color="#9b9e9e">{{file['description']}} </font></td></tr>
+    {% endfor %}
+    </tbody>
+    </table>

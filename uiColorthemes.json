@@ -1,0 +1,15 @@
+{          "blue": {"darkcolor":"#4676f2", "lightcolor":"#eceeff"},
+           "pastelblue": {"darkcolor":"#abc4ff", "lightcolor":"#edf2fb"},
+           "red":  {"darkcolor":"#ff1931", "lightcolor":"#f5c6ba"},
+           "green": {"darkcolor":"#17730d", "lightcolor":"#d1f7cd"},
+           "darkblue": {"darkcolor":"#0d156e", "lightcolor":"#9099f5"},
+           "lightbrown":{"darkcolor":"#d17c04", "lightcolor":"#faddb4"},
+           "purple":{"darkcolor":"#5d0999", "lightcolor":"#DFCEEB"},
+           "slategrey":{"darkcolor":"#738290", "lightcolor":"#ebf2fa"},
+           "cerulean":{"darkcolor":"#437c90", "lightcolor":"#eeebd3"},
+           "orange":{"darkcolor":"#ff7d00", "lightcolor":"#eaefbd"},
+           "charcoal":{"darkcolor":"#424b54", "lightcolor":"#ffffff"},
+           "delftblue":{"darkcolor":"#38405f", "lightcolor":"#dadff7"},
+           "lapislazuli":{"darkcolor":"#33658a", "lightcolor":"#f7ebe8"},
+           "rosequartz":{"darkcolor":"#a4969b", "lightcolor":"#fcf7ff"}
+}
