@@ -5,8 +5,8 @@ MacOS version:
    https://www.youtube.com/watch?v=0hInltB9QNY
 
 
-What modules to install, AFTER creating flask app:
-* flask
+What modules to install, AFTER ACTIVATING flask:
+* flask (this must be first)
 * pandas
 * requests
 * requests_html
