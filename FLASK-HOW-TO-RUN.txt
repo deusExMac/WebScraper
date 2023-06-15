@@ -8,7 +8,7 @@ I) Before you start FLASK app:
      appropriate folder and change relative paths in file exrEditor.html .
      Themes downloaded from: https://github.com/brijeshb42/monaco-themes
   
-II) How to run FLASK app (main file: app.py):
+II) How to run FLASK app (main file: app.py) USING THE BUILD-IN DEVELOPEMENT WEB SERVER:
 
 * change directory into your flask application folder.
 
@@ -28,3 +28,9 @@ Now your app is ready to recieve requests.
 
 NOTE: This is only for debugging purposes. flask apps can also be executed in the context of Wamp or any
 other Web server.
+
+III) How to run FLASK app  USING A WEB SERVER (e.g. APACHE/WAMP/etc)
+
+* Install  mod_wsgi: pip install mod_wsgi.
+  Before installing make sure a environment variable (FORGOT which) points to the web server location)
+* +++ TODO +++ Fill this in...  
