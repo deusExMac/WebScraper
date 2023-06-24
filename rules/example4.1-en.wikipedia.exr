@@ -120,7 +120,7 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["en\.wikipedia\.org/wiki"],
+ "ruleURLActivationCondition": ["en.wikipedia.org/wiki"],
  
  
  # rulePreconditionType specifies how to evaluate preconditions, if more than one is
@@ -201,7 +201,7 @@
                             #
                             # NOTE: case insensitive match specified
                                                         
-                            "ecTextCondition" : "\b(?i)algebra\b"
+                            "ecTextCondition" : "(?i)algebra"
                           }
  ],
  
@@ -261,7 +261,7 @@
  "ruleDescription": "Extracting hyperlinks from the downloaded webpage",
  
  # Regular expression specifying for which URLs/pages to activate this rule.
- "ruleURLActivationCondition": ["en\.wikipedia\.org.*$"],
+ "ruleURLActivationCondition": ["en.wikipedia.org.*$"],
  
  # CSS selector containing the information (hyperlink) to extract
  "ruleCSSSelector": "a[href]",
@@ -275,10 +275,10 @@
  # specifies a condition that the value has to meet. Here, we are interested 
  # only in hyperlinks that point to english wikipedia pages. I.e. pages outside
  # of the english wikipedia site will not be extracted and hence won't be followed.
- "ruleContentCondition": "en\.wikipedia\.org/.*$",
+ "ruleContentCondition": "en.wikipedia.org/.*$",
  
  # This signifies that this rule will not return only one chunk of information, but
- # a list of chunkc since a web page may have many <a href= > tags.
+ # a list of chunkc since a web page may have many &lt;a href= &gt; tags.
  "ruleReturnsMore": True,
  
  # -1 means return all matched
