@@ -1,0 +1,100 @@
+#!/bin/bash
+
+
+
+###########################################
+# Some variables
+###########################################
+
+
+# directory this script is located
+SCRIPTDIR=$(dirname $0)
+
+# In the same directory, the colors script
+# exists that defines variables for printing
+# out colored messages.
+source $SCRIPTDIR/colors
+
+
+
+
+# The directory where the python virtual environment has been
+# created.
+# NOTE: you cannot have spaces around the = sign
+# in bash shell scripts
+VIRTUALENVIRONMENTDIR="env"
+
+# Path to Flask application
+FLASKAPPLICATION="webApp.py"
+
+
+
+
+
+#
+# Printing out some basic settings before starting. Just
+# to make sure everything is ok.
+#
+
+
+printf "\n\n[$(date +"%d-%b-%Y %H:%M:%S")] Executing script with the following settings:\n"
+
+echo -n -e " \t - Script location:"
+printf "${White} $SCRIPTDIR ${NC}\n"
+
+echo -n -e "\t - Script working directory:"
+printf "${White} $PWD ${NC}\n"
+
+echo -n -e "\t - Virtual environment directory: $VIRTUALENVIRONMENTDIR"
+printf "${White} $VIRTUALENVIRONMENTDIR ${NC}\n"
+
+echo -n -e "\t - Flask application: $FLASKAPPLICATION"
+printf "${White} $FLASKAPPLICATION ${NC}\n"
+
+
+printf "\n"
+
+###########################################
+# Actual checks start from here
+###########################################
+
+
+
+printf "${BICyan}[A]${NC} Checking if virtual environment $VIRTUALENVIRONMENTDIR exists....."
+
+if [ -d $VIRTUALENVIRONMENTDIR ] 
+then
+    printf "${White}OK. Directory $VIRTUALENVIRONMENTDIR exists.${NC}\n" 
+else
+    printf "${RED}Error: Directory $VIRTUALENVIRONMENTDIR not found.${NC}\n"
+    
+    printf "${BYellow}\nPlease make sure that you have created the python virtual environment in directory [$VIRTUALENVIRONMENTDIR]. See https://docs.python.org/3/library/venv.html on how to create such virtual environments.\nScript terminating.${NC}\n"
+          
+    exit -2
+fi
+
+
+
+printf "${BICyan}[A]${NC} Activating virtual environment....."
+
+# Activate environment. Make sure that this environment exists
+. $VIRTUALENVIRONMENTDIR/bin/activate
+
+printf "${White}OK${NC}\n"
+
+printf "${BICyan}[A]${NC} Starting flask application ${White} $FLASKAPPLICATION ${NC}..."
+if [ ! -f ${FLASKAPPLICATION} ]
+then
+    printf "${RED}Error. File not found.${NC}\n"
+    printf "${BYellow}Make sure file ${FLASKAPPLICATION} exists and is a valid python script file. ${NC}\n"
+    exit -3
+else
+    printf "${IWhite}OK${NC}\n"
+fi
+
+
+
+printf "${BIYellow}=================================================${NC}\n"
+
+# Run flask application
+flask --app $FLASKAPPLICATION run
