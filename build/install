@@ -22,27 +22,47 @@ source $SCRIPTDIR/colors
 # NOTE: you cannot have spaces around the = sign
 # in bash shell scripts
 
-#virtualEnvironmentDir="env"
-
-#echo -e "Virtual environment directory: $virtualEnvironmentDir"
-
-#if [ -d $virtualEnvironmentDir ] 
-#then
-#    echo "Directory $virtualEnvironmentDir exists." 
-#else
-#    echo -e "Error: Directory $virtualEnvironmentDir not found.
-#          Please make sure that you have created the python virtual
-#          environment in directory [$virtualEnvironmentDir] .
-#          See https://docs.python.org/3/library/venv.html on how to create such virtual environments.
-#          \nCannot continue. Script terminating."
-#    exit -2
-#fi
+virtualEnvironmentDir=""
 
 
-#echo -e "Activating environment $virtualEnvironmentDir"
+
+if [ ! -z "$virtualEnvironmentDir" ] 
+then
+
+echo -e "Executing WITH Virtual environment. Directory: $virtualEnvironmentDir"
+
+
+if [ -d $virtualEnvironmentDir ] 
+then
+    echo "Directory $virtualEnvironmentDir exists." 
+else
+    echo -e "Error: Directory $virtualEnvironmentDir not found.
+          Please make sure that you have created the python virtual
+          environment in directory [$virtualEnvironmentDir] .
+          See https://docs.python.org/3/library/venv.html on how to create such virtual environments.
+          \nCannot continue. Script terminating."
+    exit -2
+fi
+
+
+
+
+
+
+echo -e "Activating environment $virtualEnvironmentDir"
 
 # Activate environment. Make sure that this environment exists
-#. $virtualEnvironmentDir/bin/activate
+. $virtualEnvironmentDir/bin/activate
+
+else
+
+echo -e "Executing WITHOUT Virtual environment."
+
+
+
+fi 
+
+
 
 # Installing python virtual environment dependencies
 printf "${Purple}Installing module dependencies... ${NC}\n" 
