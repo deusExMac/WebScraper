@@ -1,0 +1,21 @@
+{
+     "history": [
+          {
+               "avgpps": "-1",
+               "date": "28/06/2023 23:46:46",
+               "elapsed": "0:05:00",
+               "nextracted": 9,
+               "nproc": 50,
+               "outputfile": "etc/statistics.csv",
+               "params": {
+                    "-HR": "-1",
+                    "-c": "webScraper.conf",
+                    "-n": "-1",
+                    "-o": "etc/statistics.csv",
+                    "-r": "rules/example4.1-en.wikipedia.exr",
+                    "u": "https://en.wikipedia.org/wiki/Statistics"
+               },
+               "qsize": 12137
+          }
+     ]
+}
