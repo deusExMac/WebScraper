@@ -1014,7 +1014,15 @@ Press CTRL+C to quit
 
 NOTE: files having webApp in their name indicates that these files are related to the web mode execution mode.
 
-Execution of the flask appication can also be initiated by running the build/run shell script.
+Execution of the flask appication can also be initiated by running the build/run shell script. Running the application is this way, the WebScraper will be executed in the context of a development web server. 
+
+Once the application webApp.py has started, visit the URL 
+
+https://127.0.0.1:5000/ 
+
+using any web browser to see a Web interface that allows interaction with webScraper. 
+
+
 Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
 
 	
