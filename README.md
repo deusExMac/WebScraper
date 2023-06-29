@@ -95,7 +95,6 @@ Make sure you have the following python packages installed before running the ap
 * scikit_learn
 * tldextract
 
-On windows platforms, some of the above modules may require Microsoft Visual C++ to be installed on your system. You can install the required dependencies from here: https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 
 ** NOTE: 
