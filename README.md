@@ -1014,6 +1014,7 @@ Press CTRL+C to quit
 
 NOTE: files having webApp in their name indicates that these files are related to the web mode execution mode.
 
+Execution of the flask appication can also be initiated by running the build/run shell script.
 Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
 
 	
