@@ -97,6 +97,25 @@ Make sure you have the following python packages installed before running the ap
 
 * psutil
 
+* beautifulsoup4
+* clrprint
+* dataconf
+* Flask
+* flask_session
+* Flask_SocketIO
+* nltk
+* numpy
+* pandas
+* psutil
+* pyjokes
+* pyppdf
+* pyppeteer
+* python_dateutil
+* Requests
+* requests_html
+* scikit_learn
+* tldextract
+
 On windows platforms, some of the above modules may require Microsoft Visual C++ to be installed on your system. You can install the required dependencies from here: https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 
