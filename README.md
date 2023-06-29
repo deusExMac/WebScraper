@@ -102,9 +102,10 @@ On windows platforms, some of the above modules may require Microsoft Visual C++
 
 ** NOTE: 
 
-I) You may also need to install Microsoft C++ build tools. You may download these from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).*
+I) On Windows platforms you may also need to install Microsoft C++ build tools. You may download these from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).
 
 II) If you are using Python 3.11 and encounter errors installing module requests_html related to lxml, [follow these instructions to install lxml](https://stackoverflow.com/questions/71152710/failing-to-install-lxml-using-pip) and then reinstall requests_html using pip .*
+
 
 
 # .exr files
