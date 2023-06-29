@@ -8,7 +8,7 @@ If you don't have the patience to go through the entire Reame.md and want the ba
 
 *IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. Please have mercy.*
 
-
+# Table of contents
 
 - [About WebScraper](#about-webscraper)
 - [Required python modules](#required-python-modules)
@@ -61,16 +61,13 @@ If you don't have the patience to go through the entire Reame.md and want the ba
         * [Description](#description-10)
         * [Example](#example-5)
     + [web mode](#web-mode)
-  * [Installing required libraries](#installing-required-libraries)
-  * [Execute WebScraper in web mode](#execute-webscraper-in-web-mode)
+      - [Installing required libraries](#installing-required-libraries)
+      - [Execute WebScraper in web mode](#execute-webscraper-in-web-mode)
 - [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
 - [References](#references)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-
-
 
 
 
