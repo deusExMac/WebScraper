@@ -6,13 +6,17 @@
 #
 # Print data related to current directory and script
 #
+
 SCRIPTDIR=$(dirname $0)
 echo "Script location: $SCRIPTDIR"
 echo -e "Script working directory: $PWD"
 
+
+
 # In the same directory, the colors script
 # exists that defines variables for printing
 # out colored messages.
+
 source $SCRIPTDIR/colors
 
 
