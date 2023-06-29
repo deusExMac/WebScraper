@@ -1018,7 +1018,7 @@ Execution of the flask appication can also be initiated by running the build/run
 
 Once the application webApp.py has started, visit the URL 
 
-https://127.0.0.1:5000/ 
+[https://127.0.0.1:5000/ ](http://127.0.0.1:5000/)
 
 using any web browser to see a Web interface that allows interaction with webScraper. 
 
