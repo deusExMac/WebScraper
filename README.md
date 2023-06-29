@@ -9,7 +9,6 @@ If you don't have the patience to go through the entire Reame.md and want the ba
 *IMPORTANT: This software has been written in a hurry and is still under heavy development. This means features may not work, may work inconsistently, are only implemented as a proof of concept, modules require serious refactoring and (certainly) the app does have serious bugs. Please have mercy.*
 
 
-# Table of Contents
 
 - [About WebScraper](#about-webscraper)
 - [Required python modules](#required-python-modules)
@@ -61,11 +60,15 @@ If you don't have the patience to go through the entire Reame.md and want the ba
       - [reload](#reload)
         * [Description](#description-10)
         * [Example](#example-5)
+    + [web mode](#web-mode)
+  * [Installing required libraries](#installing-required-libraries)
+  * [Execute WebScraper in web mode](#execute-webscraper-in-web-mode)
 - [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
 - [References](#references)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 
 
@@ -974,8 +977,17 @@ At the displayed prompt, a set of shell commands can be executed along with a se
 	
 ### web mode
 
-Web scraper can also be executed and controlled from whithin Web browsers. Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
-TODO: More info on this.......
+Web scraper can also be executed and controlled from whithin Web browsers. In order to do this, WebScraper must be executed in Web mode. 
+
+In Web mode the execution of WebScraper can be started, monitored and controlled from within a web application that is integrated with this distribution. The application enabling such control is based on Python Flask microframework (https://flask.palletsprojects.com/en/2.3.x/). 
+
+## Installing required libraries
+To successfully executing WebScraper in web mode, the Flask module needs to be installed first.
+
+## Execute WebScraper in web mode
+To execute WebScraper in web mode the main application to execute via flask is webApp.py .
+Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
+
 	
 	
 # Useful tools/projects
