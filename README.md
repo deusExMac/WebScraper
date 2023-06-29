@@ -100,7 +100,7 @@ Make sure you have the following python packages installed before running the ap
 On windows platforms, some of the above modules may require Microsoft Visual C++ to be installed on your system. You can install the required dependencies from here: https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 
-**NOTE: 
+** NOTE: 
 
 I) You may also need to install Microsoft C++ build tools. You may download these from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).*
 
