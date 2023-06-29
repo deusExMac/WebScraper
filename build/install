@@ -23,6 +23,8 @@ source $SCRIPTDIR/colors
 
 # The directory where the python virtual environment has been
 # created.
+# If this is left empty, no virtual environment is setup and installation
+# is continued in current context
 # NOTE: you cannot have spaces around the = sign
 # in bash shell scripts
 
@@ -50,9 +52,6 @@ fi
 
 
 
-
-
-
 echo -e "Activating environment $virtualEnvironmentDir"
 
 # Activate environment. Make sure that this environment exists
@@ -61,7 +60,6 @@ echo -e "Activating environment $virtualEnvironmentDir"
 else
 
 echo -e "Executing WITHOUT Virtual environment."
-
 
 
 fi 
@@ -73,4 +71,9 @@ printf "${Purple}Installing module dependencies... ${NC}\n"
 printf "${BIYellow}"
 pip3 install -r build/module-requirements.txt
 printf "${NC}"
-echo -e "\n\nInstallation finished. From the current context, run flask application with\n\n flask --app webApp.py run\n\n"
+
+echo -e "\n\nInstallation finished. From the current context, to execute WebScraper:"
+echo -e "1) For ${BIYellow}interactive mode${NC}, execute: python webScraper.py . See documentation for optional arguments."
+echo -e "2) For ${BIYellow}batch mode${NC}, execute: python webScraper.py -B . See documentation for other optional arguments."
+echo -e "3) For ${BIYellow}web mode${NC}, execute: flask --app webApp.py run "
+
