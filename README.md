@@ -985,9 +985,11 @@ In Web mode the execution of WebScraper can be started, monitored and controlled
 Make sure that python flask has been installed on your system. If in doubt, [run the installation script again](#required-python-modules).
 
 #### Execute WebScraper in web mode
-To execute WebScraper in web mode, execute webApp.py via flask in the following way from the command line: .
+To execute WebScraper in web mode, execute ``webApp.py`` via flask in the following way from the command line: 
+
 ``flask --app webApp.py run ``
- ```	
+
+```	
            [v0.3.6a 20/10/2022]
            Execution started on Darwin release 21.6.0 (posix)
 
