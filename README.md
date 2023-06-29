@@ -982,10 +982,34 @@ Web scraper can also be executed and controlled from whithin Web browsers. In or
 In Web mode the execution of WebScraper can be started, monitored and controlled from within a web application that is integrated with this distribution. The application enabling such control is based on Python Flask microframework (https://flask.palletsprojects.com/en/2.3.x/). 
 
 #### Installing required libraries
-Make sure that python flask has been installed on your system. If in double, [run the installation script again](#required-python-modules).
+Make sure that python flask has been installed on your system. If in doubt, [run the installation script again](#required-python-modules).
 
 #### Execute WebScraper in web mode
-To execute WebScraper in web mode the main application to execute via flask is webApp.py .
+To execute WebScraper in web mode, execute webApp.py via flask in the following way from the command line: .
+``flask --app webApp.py run ``
+ ```	
+           [v0.3.6a 20/10/2022]
+           Execution started on Darwin release 21.6.0 (posix)
+
+           Loading configuration settings from [ ./webscraper.conf ]....ok.
+           Loading extraction rule library [./default.exr]...done
+	           Total of  1  extraction rules loaded.
+
+           Starting INTERACTIVE mode
+
+           Instatiating MacOS platform object
+           (v0.3.6a){0}WebScraper >>h 1
+           h 1
+	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
+           
+	   (v0.3.6a){0}WebScraper >>^-1^16
+              crawl -M -n 16 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
+              Instatiating MacOS platform object
+
+              1) >>> Doing [https://www.stanford.edu/] Queue:1 (mem: 355B/0.00M/-1) Pending:1 Fetched:0 Extracted:0  [Avg pps:--- (0.000KB/sec) Hit rate:0.0000 (min:-1.0000)]
+	      ...
+	
+  ```	
 Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
 
 	
