@@ -97,6 +97,8 @@ Make sure you have the following python packages installed before running the ap
 
 * psutil
 
+On windows platforms, some of the above modules may require Microsoft Visual C++ to be installed on your system. You can install the required dependencies from here: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 
 **NOTE: If you are using Python 3.11 and encounter errors installing module requests_html related to lxml, [follow these instructions to install lxml](https://stackoverflow.com/questions/71152710/failing-to-install-lxml-using-pip) and then reinstall requests_html using pip . You may also need to install Microsoft C++ build tools that you may download from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/) (see [here](https://stackoverflow.com/questions/64261546/how-to-solve-error-microsoft-visual-c-14-0-or-greater-is-required-when-inst/64262038#64262038) for details).**
 
@@ -1025,6 +1027,8 @@ using any web browser to see a Web interface that allows interaction with webScr
 
 Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
 
+##### Configuration file for Web mode
+Web mode has its own configuaration file that configures the Web application (but not webScraper which has its own configuration file). The default configuration file for the Web application is webApp.conf . It configures session timeout, flask related settings like the paths of template and static folders as well as settings 
 	
 	
 # Useful tools/projects
