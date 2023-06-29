@@ -22,7 +22,7 @@ source $SCRIPTDIR/colors
 # NOTE: you cannot have spaces around the = sign
 # in bash shell scripts
 
-virtualEnvironmentDir=""
+virtualEnvironmentDir="" 
 
 
 
