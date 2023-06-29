@@ -1,0 +1,76 @@
+#!/bin/bash
+
+
+
+
+#
+# Print data related to current directory and script
+#
+
+SCRIPTDIR=$(dirname $0)
+echo "Script location: $SCRIPTDIR"
+echo -e "Script working directory: $PWD"
+
+
+
+# In the same directory, the colors script
+# exists that defines variables for printing
+# out colored messages.
+
+source $SCRIPTDIR/colors
+
+
+
+# The directory where the python virtual environment has been
+# created.
+# NOTE: you cannot have spaces around the = sign
+# in bash shell scripts
+
+virtualEnvironmentDir="" 
+
+
+
+if [ ! -z "$virtualEnvironmentDir" ] 
+then
+
+echo -e "Executing WITH Virtual environment. Directory: $virtualEnvironmentDir"
+
+
+if [ -d $virtualEnvironmentDir ] 
+then
+    echo "Directory $virtualEnvironmentDir exists." 
+else
+    echo -e "Error: Directory $virtualEnvironmentDir not found.
+          Please make sure that you have created the python virtual
+          environment in directory [$virtualEnvironmentDir] .
+          See https://docs.python.org/3/library/venv.html on how to create such virtual environments.
+          \nCannot continue. Script terminating."
+    exit -2
+fi
+
+
+
+
+
+
+echo -e "Activating environment $virtualEnvironmentDir"
+
+# Activate environment. Make sure that this environment exists
+. $virtualEnvironmentDir/bin/activate
+
+else
+
+echo -e "Executing WITHOUT Virtual environment."
+
+
+
+fi 
+
+
+
+# Installing python virtual environment dependencies
+printf "${Purple}Installing module dependencies... ${NC}\n" 
+printf "${BIYellow}"
+pip3 install -r build/module-requirements.txt
+printf "${NC}"
+echo -e "\n\nInstallation finished. From the current context, run flask application with\n\n flask --app webApp.py run\n\n"
