@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+
+###########################################
+# Some variables
+###########################################
+
+
+while getopts d:a:f: flag
+do
+    case "${flag}" in
+        d) targetDirectory=${OPTARG};;
+        a) age=${OPTARG};;
+        f) fullname=${OPTARG};;
+    esac
+done
+
+# Set default if no -d option provided
+if [ -z "$targetDirectory" ]; then
+   targetDirectory="abcdefg/aaa"    
+fi
+
+
+printf " Directory: "$targetDirectory" \n"
+case "$targetDirectory" in
+  /*) absolutePath=true ;;
+  *) absolutePath=false ;;
+esac
+printf " Absolute path: "$absolutePath"\n "
