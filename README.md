@@ -982,7 +982,7 @@ Web scraper can also be executed and controlled from whithin Web browsers. In or
 In Web mode the execution of WebScraper can be started, monitored and controlled from within a web application that is integrated with this distribution. The application enabling such control is based on Python Flask microframework (https://flask.palletsprojects.com/en/2.3.x/). 
 
 #### Installing required libraries
-To successfully executing WebScraper in web mode, the Flask module needs to be installed first.
+Make sure that python flask has been installed on your system. If in double, [run the installation script again](#required-python-modules).
 
 #### Execute WebScraper in web mode
 To execute WebScraper in web mode the main application to execute via flask is webApp.py .
