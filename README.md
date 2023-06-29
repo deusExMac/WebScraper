@@ -989,29 +989,32 @@ To execute WebScraper in web mode, execute ``webApp.py`` via flask in the follow
 
 ``flask --app webApp.py run ``
 
+If the following messages appear, the execution of the flask app started successfully:
+
 ```	
-           [v0.3.6a 20/10/2022]
-           Execution started on Darwin release 21.6.0 (posix)
+Starting webApp. Starting initialization...
+        >>>Application path:[F:\home\users\tzag\MyCode\Scrapping\WebScraper]
+        >>>Loading webApp configuration file: [webApp.conf]
+        >>>Template folder: [webApp/templates/]
+        >>>Static folder: [F:\home\users\tzag\MyCode\Scrapping\WebScraper\webApp/static]
+        >>>Setting secret key
+        >>>Session file dir initialized: [ C:\Users\Manolis\AppData\Local\Temp\tmpfon7wln6 ]
+        >>>Initializing server side session
+        >>>Initializing transport socket...
+        >>>Initializing execution thread wrapper...
 
-           Loading configuration settings from [ ./webscraper.conf ]....ok.
-           Loading extraction rule library [./default.exr]...done
-	           Total of  1  extraction rules loaded.
 
-           Starting INTERACTIVE mode
+=== webApp initialized ===
 
-           Instatiating MacOS platform object
-           (v0.3.6a){0}WebScraper >>h 1
-           h 1
-	           629.   crawl -M -n -1 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
-           
-	   (v0.3.6a){0}WebScraper >>^-1^16
-              crawl -M -n 16 -r rules/example1.1-stanford.edu.exr  -CT (?i)text/html https://www.stanford.edu/
-              Instatiating MacOS platform object
 
-              1) >>> Doing [https://www.stanford.edu/] Queue:1 (mem: 355B/0.00M/-1) Pending:1 Fetched:0 Extracted:0  [Avg pps:--- (0.000KB/sec) Hit rate:0.0000 (min:-1.0000)]
-	      ...
+ * Serving Flask app 'webApp.py'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
 	
-  ```	
+```	
+
 Websockets are used to facilitate communication between the Web browser and the executing WebScraper.  
 
 	
