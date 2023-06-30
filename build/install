@@ -32,8 +32,7 @@ source "$SCRIPTDIR"/settings
 # In the same directory, the colors script
 # exists that defines variables for printing
 # out colored messages.
-
-source "$SCRIPTDIR"/colors
+#source "$SCRIPTDIR"/colors
 
 
 
@@ -111,12 +110,11 @@ else
 
 
 
-    printf ">>> ${Purple}Activating environment "$virtualEnvironmentDir"${NC}"
+    printf ">>> ${Purple}Activating environment "$virtualEnvironmentDir"${NC}\n"
 
     # Activate environment. Make sure that this environment exists
+    # NOTE: . (dot) operator is synonym for source command
     . "$virtualEnvironmentDir"/bin/activate
-
-
 
 fi 
 
@@ -132,7 +130,7 @@ pip3 install -r "$SCRIPTDIR"/module-requirements.txt
 printf "${NC}"
 
 echo -e "\n\nInstallation finished. From the current context, to execute WebScraper:"
-echo -e "1) For ${BIYellow}interactive mode${NC}, execute: python webScraper.py . See documentation for optional arguments."
-echo -e "2) For ${BIYellow}batch mode${NC}, execute: python webScraper.py -B . See documentation for other optional arguments."
-echo -e "3) For ${BIYellow}web mode${NC}, execute: flask --app webApp.py run "
+echo -e "1) For ${BIYellow}interactive mode${NC}, execute: ${Yellow}python webScraper.py ${NC}. See documentation for optional arguments."
+echo -e "2) For ${BIYellow}batch mode${NC}, execute: ${Yellow}python webScraper.py -B ${NC}. See documentation for other optional arguments."
+echo -e "3) For ${BIYellow}web mode${NC}, execute: ${Yellow}flask --app webApp.py run ${NC}\n\n"
 
