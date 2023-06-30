@@ -1,0 +1,19 @@
+
+########################################################################
+# Variables that users can modify to
+# configure the installation and execution scripts
+#
+# This file is included/sourced by all scripts
+# installing or running the applications
+# 
+########################################################################
+
+# Directory script is executed from
+EXECPATH="$(dirname -- "${BASH_SOURCE[0]}")"
+EXECUTIONDIR="$(cd -- "$EXECPATH" && pwd)"
+
+
+# The location of virtual directory
+# Assign empty value to this variable if no virtual execution environment
+# should be created.
+defaultVirtualEnvironmentDir="${EXECUTIONDIR}/SONIA" 

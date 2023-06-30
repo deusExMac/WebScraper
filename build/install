@@ -7,18 +7,26 @@
 #
 #
 
+
+
+
 #
 # Initialize some variables
 # related to paths that will be needed.
 #
 
-# Directory script is located
+# Directory the script is located
 SCRIPTDIR=$(dirname $0)
 
-# Directory script is executed from
-EXECPATH="$(dirname -- "${BASH_SOURCE[0]}")"
-EXECUTIONDIR="$(cd -- "$EXECPATH" && pwd)"
 
+
+# settings script contains
+# initialization of some important settings
+# related to paths.
+# Change the values of variables in this file
+# if you want to change paths
+
+source "$SCRIPTDIR"/settings
 
 
 # In the same directory, the colors script
@@ -30,6 +38,9 @@ source "$SCRIPTDIR"/colors
 
 
 
+
+
+
 # The directory where the python virtual environment has been
 # created.
 # If this is left empty, no virtual environment is setup and installation
@@ -37,10 +48,10 @@ source "$SCRIPTDIR"/colors
 # NOTE: you cannot have spaces around the = sign
 # in bash shell scripts
 
-virtualEnvironmentDir = ""
-defaultVirtualEnvironmentDir=" "$EXECUTIONDIR"/shiat" 
+virtualEnvironmentDir=""
 
 
+# Check if command line arguments were given to the script
 while getopts d:a:f: flag
 do
     case "${flag}" in
@@ -53,18 +64,22 @@ done
 # not needed if there are no positional parameters
 #shift $((OPTIND-1))     
 
-if [ ! -z "$virtualEnvironmentDir" ]
+
+if [ -z "$virtualEnvironmentDir" ];
 then 
+   # No argument for virtual environment given. Continue with default
    virtualEnvironmentDir="$defaultVirtualEnvironmentDir"
 fi
+
 
 
 echo "Execution source directory: : "$EXECUTIONDIR" "
 echo "Script location: "$SCRIPTDIR""
 echo -e "Script working directory: "$PWD" "
+printf "Default virtual directory: "$defaultVirtualEnvironmentDir" \n"
 printf "Virtual environment directory: "$virtualEnvironmentDir"\n"
 
-
+#exit -7
 
 
 
