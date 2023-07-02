@@ -8,16 +8,35 @@
 # 
 ########################################################################
 
+# Try to determine OS script is running on
+case "$OSTYPE" in
+  solaris*) OSPLATFORM="SOLARIS($OSTYPE)" ;;
+  darwin*)  OSPLATFORM="OSX($OSTYPE)" ;; 
+  linux*)   OSPLATFORM="LINUX($OSTYPE)" ;;
+  bsd*)     OSPLATFORM="BSD($OSTYPE)" ;;
+  msys*)    OSPLATFORM="WINDOWS($OSTYPE)" ;;
+  cygwin*)  OSPLATFORM="WINDOWS($OSTYPE)" ;;
+  *)        OSPLATFORM="unknown: $OSTYPE" ;;
+esac
+
+
+
 # Directory script is executed from
-EXECPATH="$(dirname -- "${BASH_SOURCE[0]}")"
-EXECUTIONDIR="$(cd -- "$EXECPATH" && pwd)"
+
+EXECUTIONDIR="$PWD"
 
 
-# The location of virtual directory
-# Assign empty value to this variable if no virtual execution environment
+
+
+
+# The location of virtual directory.
+# If the virtual directory does not exist, it is created
+#
+# Assign an empty value to this variable if no virtual execution environment
 # should be created.
-defaultVirtualEnvironmentDir="${EXECUTIONDIR}/SONIA" 
 
+defaultVirtualEnvironmentDir="${EXECUTIONDIR}/env" 
+ 
 
 
 

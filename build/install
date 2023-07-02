@@ -2,41 +2,29 @@
 
 
 #
-#
-# TODO: NOT FINISHED!!!!! DOES NOT EXECUTE SUCCESSFULLY!
-#
-#
-
-
-
-
-#
 # Initialize some variables
 # related to paths that will be needed.
 #
 
-# Directory the script is located
+# Directory the executed script is located
 SCRIPTDIR=$(dirname $0)
 
 
 
 # settings script contains
-# initialization of some important settings
-# related to paths.
+# initialization of some important variables 
+# required in this script.
 # Change the values of variables in this file
 # if you want to change paths
 
 source "$SCRIPTDIR"/settings
 
 
-# In the same directory, the colors script
-# exists that defines variables for printing
-# out colored messages.
-#source "$SCRIPTDIR"/colors
 
 
 
 
+printf "\n\n${BCyan}[$(date +"%d-%b-%Y %H:%M:%S")] Executing installation script on "$OSPLATFORM"${NC}\n\n"
 
 
 
@@ -64,45 +52,64 @@ done
 #shift $((OPTIND-1))     
 
 
-if [ -z "$virtualEnvironmentDir" ];
-then 
+# Check if path given in command line argument
+if [ -z "$virtualEnvironmentDir" ]; then 
    # No argument for virtual environment given. Continue with default
    virtualEnvironmentDir="$defaultVirtualEnvironmentDir"
 fi
 
+# If path availabe, generate proper absolute path
+if [ ! -z "$virtualEnvironmentDir" ]; then 
+
+  if [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(LINUX|OSX|DARWIN|BSD).* ]]; then
+    
+    # =~ ^//*
+    if [[ ! "${virtualEnvironmentDir:0:1}" == / ]];
+    then
+       virtualEnvironmentDir="${EXECUTIONDIR}/${virtualEnvironmentDir}"
+    fi
+
+  elif [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(WINDOWS|WIN32|MSYS).* ]]; then
+    if [[ ! "$virtualEnvironmentDir" == [A-Za-z]:*  ]]; then
+       virtualEnvironmentDir="${EXECUTIONDIR}/${virtualEnvironmentDir}"
+    fi
+    
+  fi
 
 
-echo "Execution source directory: : "$EXECUTIONDIR" "
-echo "Script location: "$SCRIPTDIR""
-echo -e "Script working directory: "$PWD" "
-printf "Default virtual directory: "$defaultVirtualEnvironmentDir" \n"
-printf "Virtual environment directory: "$virtualEnvironmentDir"\n"
-
-#exit -7
+fi
 
 
 
+printf "\tScript location: ${IWhite}${SCRIPTDIR}${NC}\n"
+printf "\tScript execution dir: ${IWhite}${EXECUTIONDIR}${NC}\n"
+printf "\tScript working directory: ${IWhite}"$PWD"${NC}\n"
+printf "\tDefault virtual directory: ${IWhite}"$defaultVirtualEnvironmentDir"${NC} \n"
+printf "\tVirtual environment directory: ${IWhite}"$virtualEnvironmentDir"${NC}\n"
 
 printf "\n\n"
 
+
+
+
 if [ -z "$virtualEnvironmentDir" ] 
 then
-    printf ">>> ${Purple}Executing WITHOUT Virtual environment.${NC}\n"
+    printf ">>> ${IYellow}Executing WITHOUT Virtual environment.${NC}\n"
 
 else
 
-    printf ">>> ${Purple}Executing WITH Virtual environment. Directory: "$virtualEnvironmentDir" ${NC}\n"
+    printf ">>> ${IYellow}Executing WITH Virtual environment. Directory: "$virtualEnvironmentDir" ${NC}\n"
 
 
     if [ -d "$virtualEnvironmentDir" ] 
     then
-        printf ">>> ${Purple}Directory $virtualEnvironmentDir already exists.${NC}\n" 
+        printf ">>> ${IYellow}Directory $virtualEnvironmentDir already exists.${NC}\n" 
     else
-        printf ">>> ${Purple}Directory $virtualEnvironmentDir does not exists. Creating...${NC}\n"
+        printf ">>> ${IYellow}Directory $virtualEnvironmentDir does not exists. Creating...${NC}\n"
         python3 -m venv "$virtualEnvironmentDir"
         if [ ! -d "$virtualEnvironmentDir" ] 
         then
-            printf ">>> ${Purple}Directory created not found. Script terminating...${NC}"
+            printf ">>> ${IYellow}Directory created not found. Script terminating...${NC}"
             exit -2
         fi
         
@@ -110,10 +117,10 @@ else
 
 
 
-    printf ">>> ${Purple}Activating environment "$virtualEnvironmentDir"${NC}\n"
+    printf ">>> ${IYellow}Activating environment "$virtualEnvironmentDir"${NC}\n"
 
     # Activate environment. Make sure that this environment exists
-    # NOTE: . (dot) operator is synonym for source command
+    # NOTE: . (dot) operator is a synonym for the source command
     . "$virtualEnvironmentDir"/bin/activate
 
 fi 
@@ -124,13 +131,16 @@ fi
 
 
 # Installing python virtual environment dependencies
-printf ">>> ${Purple}Installing module dependencies... ${NC}\n" 
-printf ">>> ${BIYellow}"
+printf ">>> ${IYellow}Installing module dependencies... ${NC}\n" 
+printf ">>> ${Yellow}"
 pip3 install -r "$SCRIPTDIR"/module-requirements.txt
 printf "${NC}"
 
-echo -e "\n\nInstallation finished. From the current context, to execute WebScraper:"
-echo -e "1) For ${BIYellow}interactive mode${NC}, execute: ${Yellow}python webScraper.py ${NC}. See documentation for optional arguments."
-echo -e "2) For ${BIYellow}batch mode${NC}, execute: ${Yellow}python webScraper.py -B ${NC}. See documentation for other optional arguments."
-echo -e "3) For ${BIYellow}web mode${NC}, execute: ${Yellow}flask --app webApp.py run ${NC}\n\n"
 
+printf "\n\nInstallation finished. Execute WebScraper in the following ways:\n"
+printf "\t* Automatic execution:\n"
+printf "\t\t1) run script ${BIYellow}build/run [-I][-B][-W]${NC}\n"
+printf "\t* Manual execution:\n"
+printf "\t\t1) For ${BIYellow}interactive mode${NC}, execute: ${BIYellow}python webScraper.py ${NC}. See documentation for optional arguments.\n"
+printf "\t\t2) For ${BIYellow}batch mode${NC}, execute: ${BIYellow}python webScraper.py -B ${NC}. See documentation for other optional arguments.\n"
+printf "\t\t3) For ${BIYellow}web mode${NC}, execute: ${BIYellow}flask --app webApp.py run ${NC}\n\n"

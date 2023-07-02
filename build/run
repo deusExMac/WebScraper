@@ -13,16 +13,12 @@ SCRIPTDIR=$(dirname $0)
 # In the same directory, the colors script
 # exists that defines variables for printing
 # out colored messages.
-source $SCRIPTDIR/colors
+source $SCRIPTDIR/settings
 
 
 
 
-# The directory where the python virtual environment has been
-# created.
-# NOTE: you cannot have spaces around the = sign
-# in bash shell scripts
-VIRTUALENVIRONMENTDIR="env"
+
 
 # Path to Flask application
 FLASKAPPLICATION="webApp.py"
@@ -37,64 +33,106 @@ FLASKAPPLICATION="webApp.py"
 #
 
 
-printf "\n\n[$(date +"%d-%b-%Y %H:%M:%S")] Executing script with the following settings:\n"
+printf "\n\n${BCyan}[$(date +"%d-%b-%Y %H:%M:%S")] Executing script with the following settings:${NC}\n"
 
-echo -n -e " \t - Script location:"
-printf "${White} $SCRIPTDIR ${NC}\n"
+# Default values for some settings
+virtualEnvironmentDir=""
+execmode="interactive"
 
-echo -n -e "\t - Script working directory:"
-printf "${White} $PWD ${NC}\n"
 
-echo -n -e "\t - Virtual environment directory: $VIRTUALENVIRONMENTDIR"
-printf "${White} $VIRTUALENVIRONMENTDIR ${NC}\n"
+# Check if command line arguments were given to the script
+while getopts d:a:f:IBW flag
+do
+    case "${flag}" in
+        d) virtualEnvironmentDir=${OPTARG};;
+        a) age=${OPTARG};;
+        f) fullname=${OPTARG};;
+        I) execmode="interactive";;
+        B) execmode="batch";;
+        W) execmode="web";;
+    esac
+done
 
-echo -n -e "\t - Flask application: $FLASKAPPLICATION"
-printf "${White} $FLASKAPPLICATION ${NC}\n"
-
+# Check if path given in command line argument
+if [ -z "$virtualEnvironmentDir" ]; then 
+   # No argument for virtual environment given. Continue with default
+   virtualEnvironmentDir="$defaultVirtualEnvironmentDir"
+fi
 
 printf "\n"
+
 
 ###########################################
 # Actual checks start from here
 ###########################################
 
-
-
-printf "${BICyan}[A]${NC} Checking if virtual environment $VIRTUALENVIRONMENTDIR exists....."
-
-if [ -d $VIRTUALENVIRONMENTDIR ] 
+if [ ! -z "$virtualEnvironmentDir" ] 
 then
-    printf "${White}OK. Directory $VIRTUALENVIRONMENTDIR exists.${NC}\n" 
-else
-    printf "${RED}Error: Directory $VIRTUALENVIRONMENTDIR not found.${NC}\n"
+
+  # Create absolute path   
+  if [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(LINUX|OSX|DARWIN|BSD).* ]]; then
     
-    printf "${BYellow}\nPlease make sure that you have created the python virtual environment in directory [$VIRTUALENVIRONMENTDIR]. See https://docs.python.org/3/library/venv.html on how to create such virtual environments.\nScript terminating.${NC}\n"
-          
-    exit -2
+    # =~ ^//*
+    if [[ ! "${virtualEnvironmentDir:0:1}" == / ]];
+    then
+       virtualEnvironmentDir="${EXECUTIONDIR}/${virtualEnvironmentDir}"
+    fi
+
+  elif [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(WINDOWS|WIN32|MSYS).* ]]; then
+    if [[ ! "$virtualEnvironmentDir" == [A-Za-z]:*  ]]; then
+       virtualEnvironmentDir="${EXECUTIONDIR}/${virtualEnvironmentDir}"
+    fi
+    
+  fi
+  
+  if [ ! -d $virtualEnvironmentDir ]; then
+        printf "${RED}Error: Virtual environment directory $virtualEnvironmentDir not found.${NC}\n"
+        exit -8
+  fi
+   
+  
+   printf "${BICyan}[A]${NC} Activating virtual environment at ${virtualEnvironmentDir}....."
+   
+   #Activate environment. Make sure that this environment exists
+   . ${virtualEnvironmentDir}/bin/activate
+   printf "${White}OK.${NC}\n"     
+   
 fi
 
 
+# Start the relevant execution based on the specified
+# mode (interactive, batch or web)
+# NOTE: the way webScraper must be executed depends on the OS.
 
-#printf "${BICyan}[A]${NC} Activating virtual environment....."
+printf "Starting ${execmode} mode.\n"
 
-# Activate environment. Make sure that this environment exists
-#. $VIRTUALENVIRONMENTDIR/bin/activate
-
-#printf "${White}OK${NC}\n"
-
-printf "${BICyan}[A]${NC} Starting flask application ${White} $FLASKAPPLICATION ${NC}..."
-if [ ! -f ${FLASKAPPLICATION} ]
-then
-    printf "${RED}Error. File not found.${NC}\n"
-    printf "${BYellow}Make sure file ${FLASKAPPLICATION} exists and is a valid python script file. ${NC}\n"
-    exit -3
-else
-    printf "${IWhite}OK${NC}\n"
+if [ ${execmode} == "interactive" ]; then
+    
+    if [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(LINUX|OSX|DARWIN|BSD).* ]]; then
+       python3 webScraper.py
+    elif [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(WINDOWS|WIN32|MSYS).* ]]; then
+       python webScraper.py
+    else
+       printf "${IBYellow}Unknown OS. Trying python\n"
+       python webScraper.py
+    fi
 fi
 
 
+if [ ${execmode} == "batch" ]; then
+    
+    if [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(LINUX|OSX|DARWIN|BSD).* ]]; then
+       python3 webScraper.py -B
+    elif [[ $(echo ${OSPLATFORM} | tr '[:lower:]' '[:upper:]') =~ .*(WINDOWS|WIN32|MSYS).* ]]; then
+       python webScraper.py -B
+    else
+       printf "${IBYellow}Unknown OS. Trying python\n"
+       python webScraper.py -B
+    fi
+fi
 
-printf "${BIYellow}=================================================${NC}\n"
 
-# Run flask application
-flask --app $FLASKAPPLICATION run
+if [ ${execmode} == "web" ]; then
+    flask --app webApp.py run    
+fi
+
