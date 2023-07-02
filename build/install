@@ -106,6 +106,7 @@ else
         printf ">>> ${IYellow}Directory $virtualEnvironmentDir already exists.${NC}\n" 
     else
         printf ">>> ${IYellow}Directory $virtualEnvironmentDir does not exists. Creating...${NC}\n"
+        # TODO: take into consideration OS
         python3 -m venv "$virtualEnvironmentDir"
         if [ ! -d "$virtualEnvironmentDir" ] 
         then
@@ -121,6 +122,7 @@ else
 
     # Activate environment. Make sure that this environment exists
     # NOTE: . (dot) operator is a synonym for the source command
+    # TODO: take into consideration OS
     . "$virtualEnvironmentDir"/bin/activate
 
 fi 
@@ -132,7 +134,8 @@ fi
 
 # Installing python virtual environment dependencies
 printf ">>> ${IYellow}Installing module dependencies... ${NC}\n" 
-printf ">>> ${Yellow}"
+printf "${Yellow}"
+# TODO: take into consideration OS
 pip3 install -r "$SCRIPTDIR"/module-requirements.txt
 printf "${NC}"
 
