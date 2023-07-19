@@ -95,7 +95,7 @@ Make sure you have the following python packages installed before running the ap
 * scikit_learn
 * tldextract
 
-You may run the bash script ``install`` in folder build/ which will install all necessary modules for WebScraper. install script allows installing modules in a virtual environment or not. Use the -d option to specify a directory to create the virtual environment and install webScraper in this context.  
+You may run the bash script ``install`` in folder build/ which will install all necessary modules for WebScraper. install script allows installing modules in a virtual environment or not. Use the -d option to specify a directory to create the virtual environment and install webScraper in this context.  **TODO: Make default dir EMPTY!**
 
 ** NOTE: 
 
