@@ -982,6 +982,8 @@ Web scraper can also be executed and controlled from whithin Web browsers. In or
 
 In Web mode the execution of WebScraper can be started, monitored and controlled from within a web application that is integrated with this distribution. The application enabling such control is based on Python Flask microframework (https://flask.palletsprojects.com/en/2.3.x/). 
 
+**TODO: add info about install and run scripts in build/ folder**
+
 #### Installing required libraries
 Make sure that python flask has been installed on your system. If in doubt, [run the installation script again](#required-python-modules).
 
