@@ -470,6 +470,8 @@ You may also execute the bash script ``run`` script in build/ folder to execute 
 - ``-B``: executes WebScraper in batch mode. No shell interface is shown and scraping starts with the default .exr files immediately.
 - ``-W``: executes WebScraper in web mode. Allows controlling and monitoring execution of WebScraper via a web application (which is included in the distribution).
 
+More information on these execution modes can be found in the section [WebScraper execution modes](#webscraper-execution-modes)
+
 ## WebScraper configuration file
 
 When starting execution, WebScraper looks for and loads a default configuration file named [webscraper.conf](https://github.com/deusExMac/WebScraper/blob/main/webscraper.conf) in the local directory. A different configuration file can be specified on the command line using the -r switch . If no configuration file is loaded, WebScraper continues with default settings.
