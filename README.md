@@ -95,7 +95,7 @@ Make sure you have the following python packages installed before running the ap
 * scikit_learn
 * tldextract
 
-You may run the bash script ``install`` in folder build/ which will install all necessary modules for WebScraper. install script allows installing modules in a virtual environment or not. Use the -d option to specify a directory to create the virtual environment and install webScraper in this context.  **TODO: Make default dir EMPTY!**
+You may run the bash script ``install`` in folder build/ which will install all necessary modules for WebScraper. ``install`` script allows installing modules in a virtual environment or not. Use the -d option to specify a directory to create the virtual environment and install webScraper in this context.  **TODO: Make default dir EMPTY!**
 
 ** NOTE: 
 
@@ -463,7 +463,12 @@ Subdirectory rule/drafts contains unfinished, untested exr files that may be add
 # Running WebScraper 
 
 WebScraper's main module is WebScraper.py which must be loaded and executed in your development environment. WebScraper has been developed and tested on IDLE.
+You may also execute the bash script ``run`` script in build/ folder to execute WebScraper. ``run`` script offers the following arguments:
 
+- ``-d <virtual environment directory``: allows specifying the virtual environment context in which WebScraper should be executed.
+- ``-I``: executes WebScraper in interactive mode. A trivial shell is shown through which basic commands can be issued towards WebScraper
+- ``-B``: executes WebScraper in batch mode. No shell interface is shown and scraping starts with the default .exr files immediately.
+- ``-W``: executes WebScraper in web mode. Allows controlling and monitoring execution of WebScraper via a web application (which is included in the distribution).
 
 ## WebScraper configuration file
 
