@@ -1,0 +1,93 @@
+
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "Crawling eap.gr storing title of postgraduate program",
+
+"renderPages":False,
+
+# The data extracted from these rules will be stored in csv files
+"csvLineFormat":["postgraduateProgramTitle"],
+
+
+
+
+"library": [
+
+
+
+{
+"ruleName": "postgraduateProgramTitle",
+"ruleDescription": "Gets title of postgraduate programs",
+
+"ruleURLActivationCondition": ["www\.eap\.gr/education/postgraduate/(annual|biannual)/.*$"],
+"ruleCSSSelector": ".kingster-page-title",
+
+"ruleTargetAttribute": "text",
+"ruleContentCondition": "",
+
+"ruleReturnsMore": False,
+
+"ruleReturnedMatchPos": -1,
+
+"ruleReturningMoreIsError": False,
+"ruleRemoveChars": [],
+
+},
+
+
+
+
+
+
+
+
+{
+
+ 
+ 
+ "ruleName": "getLinks",
+ 
+ 
+ "ruleDescription": "Extracts links.",
+ 
+ 
+ "ruleURLActivationCondition": ["www\.eap\.gr/education/postgraduate/.*$"],
+ 
+ # A CSS selector specifying the element on the page to scrape. 
+ # Title of the categories are all h3 elements inside a div with id destinations_list1
+ # (this was valid 04/09/2022 and might change) 
+ # NOTE: the CSS selector may return more than one mathing element.
+ "ruleCSSSelector": "a[href]",
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "href",
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "\.eap\.gr/education/postgraduate/(annual|biannual)/.*$",
+ 
+ # Does this rule return more than one result?
+ "ruleReturnsMore": True,
+ 
+ #"ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+
+}
+
+]
+
+
+}

@@ -52,6 +52,7 @@ import clrprint
 
 import pyppdf.patch_pyppeteer
 
+import ssl
 
 
 # We define constants in this file
@@ -790,7 +791,8 @@ class commandImpl:
              
              #print( utils.toString('\t[DEBUG] Using as HEADER:', h, '\n' ) if cfg.getboolean('DEBUG', 'debugging', fallback=False) else '', sep='', end='' )
              #cks = utils.cookieJarFromDict(rCookies, dUrl)
-                
+             session.verify = False
+             session.trust_env = False   
              response = session.get(dUrl, cookies = {}, headers=h  )
              
              # The cookies will be separated by a comma ,. Hence we normalize these by replacing
@@ -904,7 +906,8 @@ class commandImpl:
       
      
       def crawl(self, a):
-                
+          #import ssl
+          #ssl._create_default_https_context = ssl._create_unverified_context      
           try:
              # Supported arguments of crawl commans    
              cmdArgs = ThrowingArgumentParser()
