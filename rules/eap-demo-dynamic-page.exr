@@ -1,0 +1,110 @@
+
+
+#################################################################################################################
+# 
+# How to use this rule:
+#
+# crawl -M -n -1 -r rules/eap-demo-dynamic-page.exr -o csv/eap-demo-dynamic-page.csv -G https://www.google.com/
+#
+#################################################################################################################
+
+
+
+{
+
+
+"libraryDescription": "Library to submit forms by clicking on submit button.",
+
+"csvLineFormat":[],
+
+"requiredFilledFields": [],
+
+"allowedMinimumFilled" : 0.8
+
+"renderPages":True,
+
+
+"requestCookies": {
+                                      
+},
+
+
+"ruleDynamicElements": [ 
+
+         {
+		     "dpcURLActivationCondition" : "google\.com/?$",
+		     "dpcType":"click",
+		     "dpcPageElement":"#L2AGLb",
+		     "dpcScrolldown":-1,
+		     "dpcWaitFor":"img.lnXdpd",
+		     "dpcFillContent": ""		     
+		 },
+       
+         {
+		     "dpcURLActivationCondition" : "google\.com/?$",
+		     "dpcType":"click",
+		     "dpcPageElement":"#L2AGLb .sy4vM",
+		     "dpcScrolldown":-1,
+		     "dpcWaitFor":"img.lnXdpd",
+		     "dpcFillContent": ""		     
+		 },
+		 
+      
+		 {
+		     "dpcURLActivationCondition" : "google\.com/?$",
+		     "dpcType":"fill",
+		     "dpcPageElement":".SDkEP",  
+		     "dpcScrolldown":-1,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "eap.gr"		     
+		 },
+		 
+      
+		 {
+		     "dpcURLActivationCondition" : "google\.com/?$",
+		     "dpcType":"click",
+		     "dpcPageElement":".gNO89b",
+		     "dpcScrolldown":-1,
+		     "dpcWaitFor":"",
+		     "dpcFillContent": "",
+		     "dpcRedirects": False		     
+		 },
+		 
+
+		 
+],
+
+
+
+
+"library": [
+
+{
+ 
+ "ruleName": "getLinks",
+ 
+ "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
+ 
+ "ruleURLActivationCondition": ["google\.com/?$"],
+ 
+ "ruleCSSSelector": "a[href]",
+ 
+ "ruleTargetAttribute": "href",
+ 
+ "ruleContentCondition": "",
+ 
+ "ruleReturnsMore": True,
+ 
+ "ruleReturnedMatchPos": -1,
+ 
+ "ruleReturningMoreIsError": False,
+ 
+ "ruleRemoveChars": [],
+
+}
+
+
+]
+
+
+}
