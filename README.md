@@ -11,6 +11,7 @@ If you don't have the patience to go through the entire Reame.md and want the ba
 # Table of contents
 
 - [About WebScraper](#about-webscraper)
+- [Table of contents](#table-of-contents)
 - [Required python modules](#required-python-modules)
 - [.exr files](#exr-files)
 - [Overview of .exr files](#overview-of-exr-files)
@@ -63,9 +64,14 @@ If you don't have the patience to go through the entire Reame.md and want the ba
     + [web mode](#web-mode)
       - [Installing required libraries](#installing-required-libraries)
       - [Execute WebScraper in web mode](#execute-webscraper-in-web-mode)
+        * [Configuration file for Web mode](#configuration-file-for-web-mode)
+- [Issues](#issues)
 - [Useful tools/projects](#useful-tools-projects)
 - [Related projects](#related-projects)
 - [References](#references)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
