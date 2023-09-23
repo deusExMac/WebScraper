@@ -1040,7 +1040,20 @@ Websockets are used to facilitate communication between the Web browser and the 
 ##### Configuration file for Web mode
 Web mode has its own configuaration file that configures the Web application (but not webScraper which has its own configuration file). The default configuration file for the Web application is webApp.conf . It configures session timeout, flask related settings like the paths of template and static folders as well as settings 
 	
-	
+
+# Issues 
+
+Executing WebScraper may result in displaying the following warning related to HTTPS requests:
+
+```
+Warning (from warnings module):
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/urllib3/connectionpool.py", line 1043
+    warnings.warn(
+InsecureRequestWarning: Unverified HTTPS request is being made to host 'www.eap.gr'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+```
+This is due to the fact that WebScraper ignores verifying the SSL certificates. This has been chosen since on some platforms, certificates cannot be updated. 
+
+ 
 # Useful tools/projects
 
 To make life easier, you may use the following browser extensions that may help you in specifying the  relevant css selectors that are required when authoring an .exr file:
