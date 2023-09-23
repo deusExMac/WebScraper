@@ -578,7 +578,7 @@ Command line options supported:
 
 -s amount: amount of time to sleep between consecutive requests to the same server. Has effect only if  ``delayModel`` is set to c .
 
--o output csv file: will store all extracted data from pages in the csv file <output csv file>.
+-o output csv file: path to file <output csv file> where extracted data will be stored as csv.
 
 -q queue file: will use file <queue file> as the file to store the URL queue when WebScraper terminates or saves periodically the queue. If no -q option if present, default URL queue file is .queue . Whenevr WebScraper starts, the queue file is reinitialized except when the -C option is specified.
 
