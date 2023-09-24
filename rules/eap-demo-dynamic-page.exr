@@ -23,6 +23,7 @@
 
 "renderPages":True,
 
+"launchParameters" : { "executablePath":"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "userDataDir" : "" },
 
 "requestCookies": {
                                       
