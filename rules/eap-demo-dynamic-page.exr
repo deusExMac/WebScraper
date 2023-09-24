@@ -79,13 +79,13 @@
  
  "ruleDescription": "Extracts the team name that has won the UCL more than 2 times",
  
- "ruleURLActivationCondition": ["google\.com/?$"],
+ "ruleURLActivationCondition": ["google\.com"],
  
  "ruleCSSSelector": "a[href]",
  
  "ruleTargetAttribute": "href",
  
- "ruleContentCondition": "",
+ "ruleContentCondition": "^((?!google).)*$",
  
  "ruleReturnsMore": True,
  
