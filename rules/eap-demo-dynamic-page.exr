@@ -41,20 +41,13 @@
 		     "dpcFillContent": ""		     
 		 },
        
-         {
-		     "dpcURLActivationCondition" : "google\.com/?$",
-		     "dpcType":"click",
-		     "dpcPageElement":"#L2AGLb .sy4vM",
-		     "dpcScrolldown":-1,
-		     "dpcWaitFor":"img.lnXdpd",
-		     "dpcFillContent": ""		     
-		 },
+         
 		 
       
 		 {
 		     "dpcURLActivationCondition" : "google\.com/?$",
 		     "dpcType":"fill",
-		     "dpcPageElement":".SDkEP",  
+		     "dpcPageElement":"#APjFqb",  
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"",
 		     "dpcFillContent": "eap.gr"		     
@@ -68,7 +61,7 @@
 		     "dpcScrolldown":-1,
 		     "dpcWaitFor":"",
 		     "dpcFillContent": "",
-		     "dpcRedirects": False		     
+		     "dpcRedirects": True		     
 		 },
 		 
 
