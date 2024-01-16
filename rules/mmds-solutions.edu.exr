@@ -1,0 +1,48 @@
+########################################################################################################################################################
+#
+# Example library 1.1: 
+#                  
+#
+# Related fields: ruleCSSSelector, ruleReturnsMore, ruleReturnedMatchPos, library
+#
+#
+# This library is used to crawl and download locally the pages on the site www.stanford.edu. Crawling is carried our with the following settings:
+# 1) crawling remains within site/domain (ruleContentCondition)
+# 2) downloads pages locally (-M option)
+# 3) downloads mimetypes specified in configuration option allowedContentTypes in the configuration file
+# 4) No HitRate limit is introduced (-HR -1)
+# json format of 
+# 
+# crawl -M -n -1 -r rules/example1.1-stanford.edu.exr -HR -1 https://www.stanford.edu/
+#
+# version 0.01@18/05/2022
+#
+#
+########################################################################################################################################################
+
+
+{
+"libraryDescription": "Library to crawl pages to get mmds solution pages.",
+
+"renderPages": True,
+"launchParameters" : { "executablePath":"F:\\ProgramFiles\\Programs\\Google\\Chrome\\Application\\chrome.exe", "userDataDir" : "C:\\Users\\Manolis\\AppData\\Local\\Google\\Chrome\\User Data" }
+
+"library": [
+
+{
+ "ruleName": "getLinks",
+ "ruleDescription": "Extracting ",
+ "ruleURLActivationCondition": ["mining-of-massive-datasets-2nd-edition\.edu.*$"],
+ "ruleCSSSelector": "a[href]",
+ "ruleTargetAttribute": "href",
+ "ruleContentCondition": "mining-of-massive-datasets-2nd-edition\.edu.*$",
+ "ruleReturnsMore": True,
+ "ruleReturnedMatchPos": -1,
+ "ruleReturningMoreIsError": False
+ 
+}
+
+] # End of library
+
+
+}
