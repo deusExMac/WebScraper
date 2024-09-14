@@ -1,6 +1,19 @@
+"""
+  The Web Application where requests are routed to, to control execution of WebScraper and support
+  all the web interface's operations. 
 
+  * Updates:
+      - 14/09/2024: Minor bug fix in listing exr files
+      - 03/09/2024: Updated /connected route
+      - 11/07/2024: Created /connected route
+      - 03/12/2023: Fixed bugs in /status and /authstaus routes
+      - 30/10/2023: Created /editexr route
+      
+      ... previous updates archived...
+      
+  v0.4.1/mmt/Dec 2022
 
-
+"""
 
 
 
