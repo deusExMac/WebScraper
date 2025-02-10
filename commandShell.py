@@ -50,7 +50,7 @@ import csv
 
 import clrprint
 
-import pyppdf.patch_pyppeteer
+#import pyppdf.patch_pyppeteer
 
 import ssl
 
