@@ -129,38 +129,15 @@
  # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
  # Special regular expression metacharacters (.) are escaped.
  
- "ruleURLActivationCondition": ["economics\.harvard"],
+ "ruleURLActivationCondition": ["economics\.mit\.edu"],
  
  
- "rulePreconditions" : [ 
-                           {
-                              # The precondition selector i.e. the element on the downloaded 
-                              # page to be checked.
-                             
-                             "ecCSSSelector" : "#page-title", 
-                            
-                            
-                             # Regular expression the text property of the element 
-                             # in ecCSSSelector must match. Only text property is currently 
-                             # supported. If element matches regular expression, the 
-                             # precondition holds and the ruleCSSSelector is applied.
-                             #
-                             # Some premier league pages on wikipedia may not use "Manager"
-                             # in the infobox, but "Head coach" instead. Hence this regular
-                             # expression. 
-                             # Specified regular expression is by default case sensitive.
-                             # If you would like to specify a case INsensitive match,
-                             # you may add the (?i) flag i.e.
-                             # "(?i)(Manager|Head coach)".                             
-                            
-                             "ecTextCondition" : ""
-                           }
-  ],
+ 
  
  # A CSS selector specifying the element on the page to scrape.
  # NOTE: the CSS selector may return more than one mathing element.
  
- "ruleCSSSelector": ".node-title",
+ "ruleCSSSelector": ".profile-teaser__name",
  
  # List of match preconditions that will be applied
  # to each and every result returned by ruleCSSSelector. Elements
