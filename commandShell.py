@@ -72,6 +72,22 @@ import osPlatform
 from wwwInterface import transportIF
 
 
+# The next gets rid of the following warning
+# InsecureRequestWarning: Unverified HTTPS request is being made to host
+# 'www.economics.harvard.edu'. Adding certificate verification is strongly advised.
+# See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+import warnings
+from urllib3.exceptions import InsecureRequestWarning
+
+warnings.simplefilter("ignore", InsecureRequestWarning)
+
+
+
+
+
+
+
+
 # The following two classes are used to parse
 # arguments on the shell 'scommand line
 class ArgumentParserError(Exception): pass
