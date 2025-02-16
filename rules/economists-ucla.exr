@@ -1,0 +1,229 @@
+
+########################################################################################################################################################
+#
+# Example library 5: Demonstrating the use of (post) match preconditions i.e. preconditions that are applied to the elements returned after applying
+#                    ruleCSSSelector (or page precondition's ecRuleCSSSelector) and before returning the (final) results. This allows a single rule to return 
+#                    more than one value. Elements that meet the match 
+#                    precondition are kept in the result, while those who do not are removed. Match preconditions have exactly the same fields
+#                    as page preconditions (see e.g. example4.1-en.wikipedia.exr and example4.2-en.wikipedia.exr).
+#                    Match preconditions may also specify css seslectors that are applied to the already extracted results.
+#                    If a match precondition has specified the ecRuleCSSSelector field, this means that if this match precondition is true
+#                    for the element being examined, the selector in ecRuleCSSSelector is applied to the element and the result replaces 
+#                    the examined element. In this example, the extracted data by the rule is returned as strings in a list.
+# 
+# Related fields: ruleMatchPreconditions, ecCSSSelector, ecTextCondition, ecRuleCSSSelector, ruleCSSSelector  
+#
+# When to use match preconditions:
+#      1) When you want to apply more checks to all the elements returned by ruleCSSSelector although this can also be
+#         effected by carefullt authoring CSS selector for ruleCSSSelector.
+#      2) When you want to extract subdata from each element based on the conditions on the values of the extracted data returned by ruleCSSSelector
+#         You may for example achieve behaviors like: for each result, extract/return the value of the 3rd td only
+#         if the the 5th td matches a specific regular expression (=post match precondition).
+#      3) When you want to change the sub-selector based on which match precondition is true.
+#         
+#
+# The example rule below extracts the name of football teams that have won the Champions league more than three times (>3) in their club history. 
+# It returns the teams as values in a list, which list is the value of the rule name.
+#
+# It does this by downloading the wikipedia page 
+#
+#    https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+#
+# and extracting data from the table with caption "Performances in the European Cup and UEFA Champions League by club".
+#
+# To achieve this, the rule does the following once the above wikipedia page has been downloaded:
+#
+# 1) Extracts all table rows of a specific table (tr) containing club names and the times they have won the Champions League
+# 2) Applies a match precondition on EACH tr element extracted in 1) that checks i) if a specific td, containing data on the number of times a 
+#    team has won, has value greater than 3 and ii) if i) holds, it returns the name of the team which is in a different part (a th) of the same table row (tr) by applying
+#    ecRuleCSSSelector on the tr element currently processed. 
+#
+# More than one match preconditions can be defined in the context of the same rule. Currently, only operator ANY is supported for these match preconditions.
+# If multiple match preconditions match, the first matching precondition's ecRuleCSSSelector is applied, if specified.
+# 
+# How to use this rule:
+#
+#(v0.3.6a){2}WebScraper>>crawl -n 1 -r rules/example5-en.wikipedia.exr -o csv/example5.csv  https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+#
+#
+# 
+# v0.1@09/09/2022
+#
+########################################################################################################################################################
+
+
+
+{
+
+# Description of the library
+
+"libraryDescription": "Library to extract names of economists from harvard pages",
+
+
+
+# List of rule names, whose extracted data should be stored in the csv file. 
+# IMPORTANT: date the url was accessed (dateaccessed) and the url are always automatically added to the csv file
+
+"csvLineFormat":["facultyName"],
+
+# The list of ruleNames that must return non-empty values
+# to consider the extraction successful and the data be written to the csv file. 
+
+"requiredFilledFields": ["facultyName"],
+
+# Minimum percentage of ruleName that must return non-empty
+# data during their application in order to consider the extraction process
+# a success and hence add the extracted data to the csv file.
+
+"allowedMinimumFilled" : 0.8
+
+
+# How should the downloaded html page be rendered.
+# WebScraper supports two modes of URL downloads:
+# static: meaning that the web page does not load its content dynamically (via js or ajax) and one http request is enough to get
+#         the entire page content. 
+# dynamic: meaning the athe web page has dynamic content that is loaded via js or ajax once the web page has
+#          been downloaded or is scrolled. Example of such dynamic pages are e.g. youtube pages where comments are only displayed
+#          when the user scrolls down. Scraping such dynamic pages is also supported by WebScraper. Dynamic pages load slower though.
+# 
+# If renderPages has a value of False, this means the no page rendering is carried out and should be used only in case of pages that
+# do not load content dynamicaly.
+# If renderPages has a value of True, this means the page rendering is done and should be used only in case of pages that load content
+# dynamically. 
+# 
+# Since we access wikipedia articles with no dynamic content, we will statically load these pages. Hence renderPages is set to False. This
+# will make page loading faster. If renderPages is missing, it defaults to False.
+
+"renderPages":False,
+
+
+
+# List of individual rules comprising this library and that will be applied to each page downloaded follows. 
+# This library consists of one rule only, named teamNamesWithMoreThan3UCLTitles. 
+# There is no rule named getLinks to extract and consequently follow links.
+
+"library": [
+
+
+
+# Rule to extract/scrape the title of the downloaded article. The title
+# is assumed to be the teams name, not it's full name (or formal name)
+
+{
+
+ # If no ruleName is specified, the extracted data of this rule cannot be used
+ # in  the csvLineFormat attribute.
+ 
+ "ruleName": "facultyName",
+ 
+ 
+ # Short description
+ 
+ "ruleDescription": "Extracts the faculty name only",
+ 
+ 
+ 
+ # Regular expression specifying which URL pattern will trigger the
+ # execution of this rule. 
+ # This is a list ([]) meaning you may add many disjunctive regular expressions
+ # Here we specify that this rule is to be activated when the URL contains en.wikipedia.org/wiki.
+ # Special regular expression metacharacters (.) are escaped.
+ 
+ "ruleURLActivationCondition": ["economics\.ucla\.edu"],
+ 
+ 
+ 
+ 
+ # A CSS selector specifying the element on the page to scrape.
+ # NOTE: the CSS selector may return more than one mathing element.
+ 
+ "ruleCSSSelector": "h3",
+ 
+ # List of match preconditions that will be applied
+ # to each and every result returned by ruleCSSSelector. Elements
+ # matching preconditions will be kept in result list, elements that
+ # don't match will be removed from the result set. The match precondition
+ # in this example specifies the ecRuleCSSSelector field which means that
+ # if the precondition holds for an element, a different part of the examined element is 
+ # extracted and returned. 
+ # If more than one match precondition is specified, these are
+ # combined using ANY operator.
+ # Currently, only ANY operator is supported.
+ #
+ # NOTE: Match preconditions without ecRuleCSSSelector field have not been tested.
+ 
+ "ruleMatchPreconditions": [],
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, or data has been
+ # extracted by ecRuleCSSSelector, what 
+ # exactly to extract from this element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ #
+ # In ruleMatchPreconditions, ruleTargetAttribute will be applied to the newly extracted
+ # elements.
+ "ruleTargetAttribute": "text",
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "",
+ 
+ # Does this rule return more than one result?
+ "ruleReturnsMore": True,
+ 
+ # If the rule returns more than one result, which result to return. Negative means all elements. 
+ # This takes only effect if ruleReturnsMore is set to True.
+ "ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+},
+
+
+{
+ 
+ "ruleName": "getLinks",
+ 
+ 
+ "ruleDescription": "Extracts links.",
+ 
+ 
+ "ruleURLActivationCondition": ["economics\.stanford\.edu"],
+ 
+ # A CSS selector specifying the element on the page to scrape. 
+ # Title of the categories are all h3 elements inside a div with id destinations_list1
+ # (this was valid 04/09/2022 and might change) 
+ # NOTE: the CSS selector may return more than one mathing element.
+ "ruleCSSSelector": "a[href]",
+ 
+ # Once the CSS selector element in  ruleCSSSelector has been found, what 
+ # exactly to extract from element: the text or some other attribute. 
+ # text means simply return the text of the scraped element.
+ "ruleTargetAttribute": "href",
+ 
+ # Regular expression that specifies the condition the extracted text or attribute value has to
+ # fulfill. Empty string here means no condition. If condition is not met, nothing is returned.
+ "ruleContentCondition": "emeritus|affiliated|lecturers",
+ 
+ # Does this rule return more than one result?
+ "ruleReturnsMore": True,
+ 
+ #"ruleReturnedMatchPos": -1,
+ 
+ # NOT YET SUPPORTED. How strict should the extraction be? If rule returns more than one result, should this be considered
+ # an error?
+ "ruleReturningMoreIsError": False,
+ 
+ # List of characters to remove from the extracted value (text or attribute)
+ "ruleRemoveChars": [],
+
+}
+
+
+]
+
+
+}
