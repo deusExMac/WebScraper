@@ -92,7 +92,7 @@
 		     "dpcType":"click",
 		     "dpcPageElement":"#L2AGLb",
 		     "dpcScrolldown":-1,
-		     "dpcWaitFor":"img.lnXdpd",
+		     "dpcWaitFor":"#L2AGLb",
 		     "dpcFillContent": ""		     
 		 },
 		 
